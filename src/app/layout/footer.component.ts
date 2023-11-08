@@ -6,6 +6,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: true,
   imports: [CommonModule],
   template: `
+    <hr />
     <footer>
       <nav>
         <section>
@@ -30,7 +31,7 @@ export class FooterComponent {
     homepage: 'https://albertobasalo.dev',
   };
   solution = {
-    name: '🅰️ Angular 1️⃣7️⃣ - Sample',
+    name: 'AlbertoBasalo/ng17',
     repository: 'https://github.com/AlbertoBasalo/ng17',
   };
   year = new Date().getFullYear();
