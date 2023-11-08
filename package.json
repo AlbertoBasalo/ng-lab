@@ -1,6 +1,11 @@
 {
   "name": "ng17",
-  "version": "0.0.0",
+  "version": "17.0.0",
+  "description": "Sample code for Angular 17 development courses",
+  "author": {
+    "name": "Alberto Basalo",
+    "url": "https://albertobasalo.dev"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
