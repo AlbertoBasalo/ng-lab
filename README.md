@@ -1,8 +1,13 @@
 # Alberto Basalo Ng17
 
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
+
 ```bash
-# This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
+# install angular cli
+npm install -g @angular/cli@17.0.0
+# command to create this project
 ng new ng17 -s -t -p=ab -S --ssr --style=css
+
 # you can clone it from github
 git clone https://github.com/AlbertoBasalo/ng17.git
 # install and run
