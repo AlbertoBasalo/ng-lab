@@ -8,16 +8,16 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   template: `
     <footer>
       <nav>
-        <div>
+        <section>
           <a [href]="author.homepage" target="_blank"
             >© {{ year }} {{ author.name }}</a
           >
-        </div>
-        <div>
+        </section>
+        <section>
           <a [href]="solution.repository" target="_blank" class="secondary">
             <u>{{ solution.name }}</u>
           </a>
-        </div>
+        </section>
       </nav>
     </footer>
   `,

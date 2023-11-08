@@ -16,5 +16,5 @@ import { FooterComponent } from './layout/footer.component';
   styles: [],
 })
 export class AppComponent {
-  title = 'ng17';
+  title = 'AlbertoBasalo/ng17';
 }
