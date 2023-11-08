@@ -1,17 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'ab-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   template: `
     <header>
       <nav>
         <a routerLink="home">Home</a>
         <a routerLink="about">About</a>
       </nav>
-      <h1>Welcome to {{ title }}!</h1>
+      <h1>{{ title }}!</h1>
     </header>
   `,
   styles: ``,
