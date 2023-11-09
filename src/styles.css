@@ -19,10 +19,18 @@
   --justify-important: center;
   --justify-normal: left;
   --line-height: 1.5;
-  --width-card: 285px;
+  --width-card: 385px;
   --width-card-medium: 460px;
   --width-card-wide: 800px;
   --width-content: 1080px;
+}
+
+/* do the same for password and email */
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: calc(100% - 1.6rem);
 }
 
 nav {
@@ -32,9 +40,24 @@ nav {
 footer,
 header,
 main {
-  padding: 1rem;
+  padding: 0.8rem;
 }
 
 hr {
   margin: 1rem 0;
+}
+
+span,
+small {
+  margin: 0 0.5rem;
+}
+
+.ng-invalid.ng-pristine {
+  border-color: #33c1ee;
+}
+.ng-invalid.ng-touched {
+  border-color: #ff0000;
+}
+.ng-valid.ng-touched {
+  border-color: #47d469;
 }
