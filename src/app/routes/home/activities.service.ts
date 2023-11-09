@@ -1,6 +1,10 @@
+import { Injectable } from '@angular/core';
 import { Observable, delay, of } from 'rxjs';
 import { Activity } from '../../shared/activity.type';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class ActivitiesService {
   getActivities$(): Observable<Activity[]> {
     return of([

@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Signal,
   inject,
+  signal,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Observable, Subscription } from 'rxjs';
 import { Activity } from '../../shared/activity.type';
 import { ActivitiesList } from './activities.list';
 import { ActivitiesService } from './activities.service';
@@ -13,24 +13,43 @@ import { ActivitiesService } from './activities.service';
 @Component({
   standalone: true,
   imports: [CommonModule, ActivitiesList],
-  providers: [ActivitiesService],
   template: `
     <article name="Published activities">
       <header>
         <h2>Book an activity and enjoy!</h2>
       </header>
-      @if(activities().length>0){
-      <lab-activities [activities]="activities()" />
+      @if(activitiesState().value.length > 0){
+      <lab-activities [activities]="activitiesState().value" />
       } @else {
       <p>No activities available yet</p>
       }
+      <pre>
+        <code>{{ activitiesState() | json }}</code>
+      </pre>
     </article>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class HomePage {
   #activities = inject(ActivitiesService);
-  activities: Signal<Activity[]> = toSignal(this.#activities.getActivities$(), {
-    initialValue: [],
+  activitiesState = signal$<Activity[]>(this.#activities.getActivities$(), []);
+}
+
+type State<T> = {
+  value: T;
+  error?: any;
+  status: 'pending' | 'success' | 'error';
+};
+function signal$<T>(observable$: Observable<T>, value: T) {
+  const theSignal = signal<State<T>>({ value, status: 'pending' });
+  const subscription: Subscription = observable$.subscribe({
+    next: (value) =>
+      theSignal.update((s) => ({ ...s, value, status: 'success' })),
+    error: (error) => {
+      theSignal.update((s) => ({ ...s, error, status: 'error' }));
+      subscription.unsubscribe();
+    },
+    complete: () => subscription.unsubscribe(),
   });
+  return theSignal;
 }
