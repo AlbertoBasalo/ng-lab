@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   template: `
     <article>
       <header>
-        <h2>A demo project made with Angular</h2>
+        <h2>A demo project made with 🅰️ Angular v 1️⃣7️⃣</h2>
         <p>This is a simple reservation web app with the following features:</p>
       </header>
       <main>
@@ -22,7 +22,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </main>
     </article>
   `,
-  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class AboutPage {}

@@ -11,7 +11,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </header>
     </article>
   `,
-  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class HomePage {}

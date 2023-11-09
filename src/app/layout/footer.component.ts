@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     <footer>
       <nav>
         <section>
-          <a [href]="author.homepage" target="_blank"
+          <a [href]="author.homepage" target="_blank" class="secondary"
             >© {{ year }} {{ author.name }}</a
           >
         </section>
@@ -22,6 +22,13 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </nav>
     </footer>
   `,
+  styles: `
+    .secondary {
+      color: var(--color-secondary);
+      font-size: 0.8rem;
+      font-weight: 400;
+    }
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterComponent {
@@ -30,7 +37,7 @@ export class FooterComponent {
     homepage: 'https://albertobasalo.dev',
   };
   solution = {
-    name: '🅰️ Angular 1️⃣7️⃣ - Sample',
+    name: 'Angular 17 - Lab Sample',
     repository: 'https://github.com/AlbertoBasalo/ng-lab',
   };
   year = new Date().getFullYear();
