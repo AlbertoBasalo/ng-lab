@@ -9,7 +9,7 @@ import { HeaderComponent } from './layout/header.component';
   standalone: true,
   imports: [CommonModule, RouterOutlet, FooterComponent, HeaderComponent],
   template: `
-    <lab-header title="🅰️ Angular 1️⃣7️⃣ - Sample" />
+    <lab-header title="Activity Bookings" />
     <router-outlet></router-outlet>
     <lab-footer />
   `,

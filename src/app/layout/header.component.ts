@@ -12,10 +12,9 @@ import { RouterLink } from '@angular/router';
         <a routerLink="home">Home</a>
         <a routerLink="about">About</a>
       </nav>
-      <h1>{{ title }}!</h1>
+      <h1>{{ title }}</h1>
     </header>
   `,
-  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {

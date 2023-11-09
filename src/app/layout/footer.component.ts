@@ -22,7 +22,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </nav>
     </footer>
   `,
-  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterComponent {
@@ -31,7 +30,7 @@ export class FooterComponent {
     homepage: 'https://albertobasalo.dev',
   };
   solution = {
-    name: 'AlbertoBasalo/ng-lab',
+    name: '🅰️ Angular 1️⃣7️⃣ - Sample',
     repository: 'https://github.com/AlbertoBasalo/ng-lab',
   };
   year = new Date().getFullYear();

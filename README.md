@@ -1,20 +1,17 @@
-# Alberto Basalo Ng17
+# Alberto Basalo Ng Lab v17
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
 
 ```bash
-# install angular cli
-npm install -g @angular/cli@17.0.0
-# command to create this project
-ng new ng-lab -s -t -p=lab -S --ssr --style=css
-
-# you can clone it from github
+# clone lab from github
 git clone https://github.com/AlbertoBasalo/ng-lab.git
 # install and run
 cd ng-lab
 npm install
 npm start
 ```
+
+Find detailed instructions in [CLI.md](CLI.md)
 
 ---
 
