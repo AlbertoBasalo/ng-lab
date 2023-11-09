@@ -44,13 +44,20 @@ ng g c layout/footer
 ## Main pages
 
 ```bash
-ng g c routes/home --type=page
-ng g c routes/about --type=page
+ng g c routes/home/home --type=page
+ng g c routes/about/about --type=page
 ```
 
 ## Security pages
 
 ```bash
-ng g c routes/auth/login --type=page
 ng g c routes/auth/register --type=page
+ng g c routes/auth/register --type=form
+```
+
+## Home page
+
+```bash
+ng g c routes/home/activities --type=list
+ng g s routes/home/activities
 ```
