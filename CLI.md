@@ -39,3 +39,17 @@ npm start
 ng g c layout/header
 ng g c layout/footer
 ```
+
+## Main pages
+
+```bash
+ng g c routes/home --type=page
+ng g c routes/about --type=page
+```
+
+## Security pages
+
+```bash
+ng g c routes/auth/login --type=page
+ng g c routes/auth/register --type=page
+```

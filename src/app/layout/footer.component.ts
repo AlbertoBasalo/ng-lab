@@ -37,7 +37,7 @@ export class FooterComponent {
     homepage: 'https://albertobasalo.dev',
   };
   solution = {
-    name: 'Angular 17 - Lab Sample',
+    name: 'Angular 17 - Lab sample',
     repository: 'https://github.com/AlbertoBasalo/ng-lab',
   };
   year = new Date().getFullYear();

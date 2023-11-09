@@ -10,7 +10,10 @@ import { RouterLink } from '@angular/router';
     <header>
       <nav>
         <a routerLink="home">Home</a>
-        <a routerLink="about">About</a>
+        <ul>
+          <li><a routerLink="about">About</a></li>
+          <li><a routerLink="auth/register" id="registerLink">Register</a></li>
+        </ul>
       </nav>
       <h1>{{ title }}</h1>
     </header>
