@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   imports: [CommonModule],
   template: `
     <hr />
-    <footer>
+    <footer class="pico-background-pink-600">
       <nav>
         <section>
           <a [href]="author.homepage" target="_blank" class="secondary"
@@ -24,7 +24,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   `,
   styles: `
     .secondary {
-      color: var(--color-secondary);
+      color: var(--secondary);
       font-size: 0.8rem;
       font-weight: 400;
     }

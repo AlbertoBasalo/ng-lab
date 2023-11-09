@@ -8,11 +8,9 @@ import { RegisterForm } from './register.form';
   template: `
     <article>
       <header>
-        <h2>Register</h2>
+        <h2>Register to create your account.</h2>
       </header>
-      <main>
-        <lab-register />
-      </main>
+      <lab-register />
     </article>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

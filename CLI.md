@@ -36,6 +36,7 @@ npm start
 ## Layout
 
 ```bash
+npm i @picocss/pico
 ng g c layout/header
 ng g c layout/footer
 ```

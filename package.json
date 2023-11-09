@@ -25,6 +25,7 @@
     "@angular/platform-server": "^17.0.0",
     "@angular/router": "^17.0.0",
     "@angular/ssr": "^17.0.0",
+    "@picocss/pico": "^1.5.10",
     "express": "^4.18.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

@@ -49,7 +49,10 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
+            "styles": [
+              "node_modules/@picocss/pico/css/pico.min.css",
+              "src/styles.css"
+            ],
             "scripts": [],
             "server": "src/main.server.ts",
             "prerender": true,
