@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'ab-header',
+  selector: 'lab-header',
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `

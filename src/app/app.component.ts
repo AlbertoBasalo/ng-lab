@@ -5,13 +5,13 @@ import { FooterComponent } from './layout/footer.component';
 import { HeaderComponent } from './layout/header.component';
 
 @Component({
-  selector: 'ab-root',
+  selector: 'lab-root',
   standalone: true,
   imports: [CommonModule, RouterOutlet, FooterComponent, HeaderComponent],
   template: `
-    <ab-header title="🅰️ Angular 1️⃣7️⃣ - Sample" />
+    <lab-header title="🅰️ Angular 1️⃣7️⃣ - Sample" />
     <router-outlet></router-outlet>
-    <ab-footer />
+    <lab-footer />
   `,
   styles: [],
 })

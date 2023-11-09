@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ng17": {
+    "ng-lab": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -37,12 +37,12 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "ab",
+      "prefix": "lab",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/ng17",
+            "outputPath": "dist/ng-lab",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -84,10 +84,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ng17:build:production"
+              "buildTarget": "ng-lab:build:production"
             },
             "development": {
-              "buildTarget": "ng17:build:development"
+              "buildTarget": "ng-lab:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -95,7 +95,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "ng17:build"
+            "buildTarget": "ng-lab:build"
           }
         },
         "test": {

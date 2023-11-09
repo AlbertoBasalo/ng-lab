@@ -6,12 +6,12 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 # install angular cli
 npm install -g @angular/cli@17.0.0
 # command to create this project
-ng new ng17 -s -t -p=ab -S --ssr --style=css
+ng new ng-lab -s -t -p=lab -S --ssr --style=css
 
 # you can clone it from github
-git clone https://github.com/AlbertoBasalo/ng17.git
+git clone https://github.com/AlbertoBasalo/ng-lab.git
 # install and run
-cd ng17
+cd ng-lab
 npm install
 npm start
 ```

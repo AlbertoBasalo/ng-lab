@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'ab-footer',
+  selector: 'lab-footer',
   standalone: true,
   imports: [CommonModule],
   template: `
