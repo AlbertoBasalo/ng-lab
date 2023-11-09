@@ -5,9 +5,22 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section>
-      <h2>Just a demo project</h2>
-    </section>
+    <article>
+      <header>
+        <h2>A demo project made with Angular</h2>
+        <p>This is a simple reservation web app with the following features:</p>
+      </header>
+      <main>
+        <ul>
+          <li>List of available activities</li>
+          <li>Search by text</li>
+          <li>View details of any activity</li>
+          <li>Register / Login / Logout</li>
+          <li>Book a reservation for an activity</li>
+          <li>View your bookings</li>
+        </ul>
+      </main>
+    </article>
   `,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
