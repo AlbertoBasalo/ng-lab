@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -16,7 +17,9 @@ import {
       <fieldset>
         <label for="username">
           <span>User name</span>
-          <small id="username-error"> We need your name</small>
+          @if (showError('username')){
+          <small id="username-error">We need your name</small>
+          }
           <input
             type="text"
             id="username"
@@ -27,7 +30,9 @@ import {
         </label>
         <label for="email">
           <span>Email</span>
-          <small id="email-error"> We need your email</small>
+          @if (form.controls['email'].invalid){
+          <small id="email-error">We need your email</small>
+          }
           <input
             type="email"
             id="email"
@@ -38,7 +43,9 @@ import {
         </label>
         <label for="password">
           <span>Password</span>
-          <small id="password-error"> At least 4 chars long</small>
+          @if (form.controls['password'].invalid){
+          <small id="password-error">We need your password</small>
+          }
           <input
             type="password"
             id="password"
@@ -49,7 +56,9 @@ import {
         </label>
         <label for="repeatPassword">
           <span>Repeat your Password</span>
-          <small id="repeatPassword-error"> Must match</small>
+          @if (form.controls['repeatPassword'].invalid){
+          <small id="repeatPassword-error">We need your password</small>
+          }
           <input
             type="password"
             id="repeatPassword"
@@ -68,9 +77,17 @@ export class RegisterForm {
   readonly #passwordValidators = [Validators.required, Validators.minLength(4)];
 
   form = new FormGroup({
-    username: new FormControl('', [Validators.required]),
+    username: new FormControl('', [
+      Validators.required,
+      Validators.minLength(2),
+    ]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', this.#passwordValidators),
     repeatPassword: new FormControl('', this.#passwordValidators),
   });
+
+  showError(controlName: string) {
+    const control: AbstractControl | null = this.form.get(controlName);
+    return control && control.invalid && control.touched;
+  }
 }
