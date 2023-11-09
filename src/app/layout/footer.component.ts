@@ -31,8 +31,8 @@ export class FooterComponent {
     homepage: 'https://albertobasalo.dev',
   };
   solution = {
-    name: 'AlbertoBasalo/ng17',
-    repository: 'https://github.com/AlbertoBasalo/ng17',
+    name: 'AlbertoBasalo/ng-lab',
+    repository: 'https://github.com/AlbertoBasalo/ng-lab',
   };
   year = new Date().getFullYear();
 }
