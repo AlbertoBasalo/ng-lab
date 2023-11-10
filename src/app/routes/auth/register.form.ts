@@ -23,6 +23,7 @@ import {
           <input
             type="text"
             id="username"
+            name="username"
             formControlName="username"
            autocomplete="off"
             [attr.aria-invalid]="markError('username')"
@@ -36,6 +37,7 @@ import {
           <input
             type="email"
             id="email"
+            name="email"
             formControlName="email"
             autocomplete="off"
             [attr.aria-invalid]="markError('email')"
@@ -49,6 +51,7 @@ import {
           <input
             type="password"
             id="password"
+            name="password"
             formControlName="password"
             autocomplete="new-password"
             [attr.aria-invalid]="markError('password')"

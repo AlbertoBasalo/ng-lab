@@ -6,13 +6,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <hr />
-    <footer class="pico-background-pink-600">
+    <footer>
       <nav>
         <section>
-          <a [href]="author.homepage" target="_blank" class="secondary"
-            >© {{ year }} {{ author.name }}</a
-          >
+          <a [href]="author.homepage" target="_blank" class="secondary">
+            © {{ year }} {{ author.name }}
+          </a>
         </section>
         <section>
           <a [href]="solution.repository" target="_blank" class="secondary">
@@ -21,13 +20,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         </section>
       </nav>
     </footer>
-  `,
-  styles: `
-    .secondary {
-      color: var(--secondary);
-      font-size: 0.8rem;
-      font-weight: 400;
-    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

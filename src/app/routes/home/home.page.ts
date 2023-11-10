@@ -15,12 +15,12 @@ import { ActivitiesService } from './activities.service';
       </header>
       @switch (state().status) {
         @case ('pending') {
-          <aside name="loading">
+          <aside id="loading">
             <p aria-busy="true">Loading activities...</p>
           </aside>
         }
         @case ('error') {
-          <aside name="error">
+          <aside id="error">
             <p>Failed to load activities</p>
             <small>{{ state().error }}</small>
           </aside>
