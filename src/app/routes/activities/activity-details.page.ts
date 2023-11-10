@@ -31,9 +31,9 @@ import { ActivityDetailsService } from './activity-details.service';
 export default class ActivityDetailsPage {
   #slug!: string;
   @Input({ required: true })
-  set slug(value: string) {
-    this.#slug = value;
-    this.state = toState<Activity>(this.#service.getActivity$(value), NULL_ACTIVITY);
+  set slug(slug: string) {
+    this.#slug = slug;
+    this.state = toState<Activity>(this.#service.getActivity$(slug), NULL_ACTIVITY);
   }
   get slug() {
     return this.#slug;

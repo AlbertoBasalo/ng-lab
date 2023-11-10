@@ -9,10 +9,7 @@ import { ActivitiesService } from './activities.service';
   standalone: true,
   imports: [CommonModule, ActivitiesList],
   template: `
-    <article name="Published activities">
-      <header>
-        <h2>Book an activity and enjoy!</h2>
-      </header>
+
       @switch (state().status) {
         @case ('pending') {
           <aside id="loading">
@@ -26,10 +23,14 @@ import { ActivitiesService } from './activities.service';
           </aside>
         }
         @default {
-          <lab-activities [activities]="state().value"/>
+          <article name="Published activities">
+            <header>
+              <h2>Book an activity and enjoy!</h2>
+            </header>
+            <lab-activities [activities]="state().value"/>
+          </article>
         }
       }
-    </article>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
