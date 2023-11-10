@@ -19,10 +19,10 @@ export type State<T> = {
 };
 
 /**
- * Converst an observable to a state signal
+ * Converts an observable to a state signal
  * @param source$ The observable emitting the value
- * @param value THe initial value
- * @returns A signal of the state wrapping the value and error
+ * @param value The initial value
+ * @returns A signal with the state wrapping the value and error of a command
  * @see State
  */
 export function toState<T>(source$: Observable<T>, value: T) {
