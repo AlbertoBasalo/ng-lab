@@ -8,7 +8,7 @@ import { Activity } from '../../shared/activity.type';
   imports: [CommonModule],
   template: `
     @if (activities.length >= 0) {
-      <h3>Listing <span id='activities-count'>{{ activities.length }}</span> activities</h3>
+      <h3>Listing <span id='activities-count'>{{ activities.length }}</span>activities</h3>
       <ul id="activities-list">
         @for(activity of activities; track activity.id){
           <li itemscope itemtype="http://schema.org/Product" [id]="activity.id">

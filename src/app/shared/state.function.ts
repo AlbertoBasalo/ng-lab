@@ -39,5 +39,5 @@ export function toState<T>(source$: Observable<T>, value: T) {
       subscription.unsubscribe();
     }
   });
-  return state;
+  return state.asReadonly();
 }

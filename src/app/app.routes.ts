@@ -7,5 +7,9 @@ export const routes: Routes = [
     path: 'auth/register',
     loadComponent: () => import('./routes/auth/register.page'),
   },
+  {
+    path: 'activities/:slug',
+    loadComponent: () => import('./routes/activities/activity-details.page'),
+  },
   { path: '**', redirectTo: 'home' },
 ];

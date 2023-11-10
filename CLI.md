@@ -61,3 +61,10 @@ ng g c routes/auth/register --type=form
 ng g c routes/home/activities --type=list
 ng g s routes/home/activities
 ```
+## Activity details page
+
+```bash
+ng g c routes/activities/activity-details --type=page
+ng g c routes/activities/activity-details 
+ng g s routes/activities/activity-details
+```
