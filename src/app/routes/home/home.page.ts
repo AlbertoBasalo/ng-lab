@@ -15,11 +15,15 @@ import { ActivitiesService } from './activities.service';
       </header>
       @switch (state().status) {
         @case ('pending') {
-          <p aria-busy="true">Loading activities...</p>
+          <aside name="loading">
+            <p aria-busy="true">Loading activities...</p>
+          </aside>
         }
         @case ('error') {
-          <p>Failed to load activities</p>
-          <small>{{ state().error }}</small>
+          <aside name="error">
+            <p>Failed to load activities</p>
+            <small>{{ state().error }}</small>
+          </aside>
         }
         @default {
           <lab-activities [activities]="state().value"/>

@@ -8,7 +8,7 @@ import { Activity } from '../../shared/activity.type';
   imports: [CommonModule],
   template: `
     @if (activities.length >= 0) {
-      <ul>
+      <ul name="activities-list">
         @for(activity of activities; track activity.id){
           <li>
             <a href="/activities/{activity.id}">{{ activity.name }}</a>
