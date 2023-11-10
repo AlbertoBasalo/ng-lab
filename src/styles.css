@@ -12,10 +12,31 @@
 :root {
   --form-element-spacing-vertical: 0.25rem;
   --form-element-spacing-horizontal: 0.25rem;
+  --typography-spacing-vertical: 0.5rem;
 }
 
 body {
   padding: 0.8rem;
+}
+h1 {
+  --font-size:1.75rem;
+  --typography-spacing-vertical:2.625rem;
+}
+h2 {
+  --font-size:1.5rem;
+  --typography-spacing-vertical:2.25rem;
+}
+h3 {
+  --font-size:1.25rem;
+  --typography-spacing-vertical:1.874rem;
+}
+h4 {
+  --font-size:1.125rem;
+  --typography-spacing-vertical:1.6875rem;
+}
+h5 {
+  --font-size:1.0625rem;
+  --typography-spacing-vertical:1.519rem;
 }
 span {
   display: inline-block;

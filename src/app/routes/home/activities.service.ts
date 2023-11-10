@@ -20,7 +20,7 @@ export class ActivitiesService {
       .pipe(
         delay(2000),
         tap(() => {
-          if (Math.random() > 0.5) throw new Error('Randomly generated');
+          if (Math.random() > 0.99) throw new Error('Randomly generated');
         }));
   }
 }

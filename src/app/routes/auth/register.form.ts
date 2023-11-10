@@ -18,52 +18,52 @@ import {
         <label for="username">
           <span>User name</span>
           @if (showError('username')){
-          <small id="username-error">We need your name</small>
+            <small id="username-error">We need your name</small>
           }
           <input
             type="text"
             id="username"
             formControlName="username"
-            autocomplete="cc-name"
-            [attr.aria-invalid]="form.controls['username'].invalid"
+           autocomplete="off"
+            [attr.aria-invalid]="markError('username')"
           />
         </label>
         <label for="email">
           <span>Email</span>
           @if (form.controls['email'].invalid){
-          <small id="email-error">We need your email</small>
+            <small id="email-error">We need your email</small>
           }
           <input
             type="email"
             id="email"
             formControlName="email"
             autocomplete="off"
-            [attr.aria-invalid]="form.controls['email'].invalid"
+            [attr.aria-invalid]="markError('email')"
           />
         </label>
         <label for="password">
           <span>Password</span>
           @if (form.controls['password'].invalid){
-          <small id="password-error">We need your password</small>
+            <small id="password-error">We need your password</small>
           }
           <input
             type="password"
             id="password"
             formControlName="password"
             autocomplete="new-password"
-            [attr.aria-invalid]="form.controls['password'].invalid"
+            [attr.aria-invalid]="markError('password')"
           />
         </label>
         <label for="repeatPassword">
           <span>Repeat your Password</span>
           @if (form.controls['repeatPassword'].invalid){
-          <small id="repeatPassword-error">We need your password</small>
+            <small id="repeatPassword-error">We need your password</small>
           }
           <input
             type="password"
             id="repeatPassword"
             formControlName="repeatPassword"
-            [attr.aria-invalid]="form.controls['repeatPassword'].invalid"
+            [attr.aria-invalid]="markError('repeatPassword')"
           />
         </label>
       </fieldset>
@@ -86,8 +86,16 @@ export class RegisterForm {
     repeatPassword: new FormControl('', this.#passwordValidators),
   });
 
+  markError(controlName: string) {
+    const control: AbstractControl | null = this.form.get(controlName);
+    if (!control) return null;
+    if (!control.touched) return null;
+    return control.invalid;
+  }
+
   showError(controlName: string) {
     const control: AbstractControl | null = this.form.get(controlName);
-    return control && control.invalid && control.touched;
+    if (!control) return false;
+    return control.invalid;
   }
 }
