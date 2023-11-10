@@ -1,16 +1,12 @@
-[data-theme="light"],
 :root:not([data-theme="dark"]) {
-  --pico-color: #0783d8;
+  --color: #30363d;
   --primary: #33c1ee;
   --secondary: #0e4d90;
-  --pico-primary: #33c1ee;
-  --pico-secondary: #0e4d90;
-  --pico-contrast: #47d469;
-  --pico-code-color: #646b79;
-  --pico-form-element-invalid-active-border-color: #f85149;
-  --pico-form-element-invalid-border-color: #b86a6b;
-  --pico-form-element-valid-active-border-color: #279977;
-  --pico-form-element-valid-border-color: #47d469;
+  --contrast: #47d469;
+  --mark-color: #0783d8;
+  --ins-color: #47d469;
+  --del-color: #c62828;
+
 }
 
 :root {

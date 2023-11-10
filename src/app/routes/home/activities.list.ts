@@ -7,13 +7,17 @@ import { Activity } from '../../shared/activity.type';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <ul>
-      @for(activity of activities; track activity.id){
-      <li>
-        <a href="/activities/{activity.id}">{{ activity.name }}</a>
-      </li>
-      }
-    </ul>
+    @if (activities.length >= 0) {
+      <ul>
+        @for(activity of activities; track activity.id){
+          <li>
+            <a href="/activities/{activity.id}">{{ activity.name }}</a>
+          </li>
+        }
+      </ul>
+    } @else {
+      <p>No activities found</p>
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

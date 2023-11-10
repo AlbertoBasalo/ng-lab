@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Activity } from '../../shared/activity.type';
 import { toState } from '../../shared/state.function';
+import { ActivitiesList } from './activities.list';
 import { ActivitiesService } from './activities.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ActivitiesList],
   template: `
     <article name="Published activities">
       <header>
@@ -18,19 +19,10 @@ import { ActivitiesService } from './activities.service';
         }
         @case ('error') {
           <p>Failed to load activities</p>
+          <small>{{ state().error }}</small>
         }
         @default {
-          @if (state().value.length === 0) {
-            <ul>
-              @for(activity of state().value; track activity.id){
-                <li>
-                  <a href="/activities/{activity.id}">{{ activity.name }}</a>
-                </li>
-              }
-            </ul>
-          } @else {
-            <p>No activities found</p>
-          }
+          <lab-activities [activities]="state().value"/>
         }
       }
     </article>
