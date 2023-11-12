@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Activity } from '../../shared/activity.type';
 
 @Component({
   selector: 'lab-activity-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CurrencyPipe, DatePipe],
   template: `
     <article name="Activity details">
       <header>

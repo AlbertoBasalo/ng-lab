@@ -1,10 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RegisterForm } from './register.form';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RegisterForm],
+  imports: [RegisterForm],
   template: `
     <article>
       <header>
@@ -15,4 +14,4 @@ import { RegisterForm } from './register.form';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class RegisterPage {}
+export default class RegisterPage { }

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Activity } from '../../shared/activity.type';
 import { toState } from '../../shared/state.function';
@@ -7,9 +6,8 @@ import { ActivitiesService } from './activities.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, ActivitiesList],
+  imports: [ActivitiesList],
   template: `
-
       @switch (state().status) {
         @case ('pending') {
           <aside id="loading">
