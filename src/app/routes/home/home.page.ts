@@ -5,7 +5,7 @@ import { SearchComponent } from '../../shared/search.component';
 import { toState } from '../../shared/state.function';
 import { ActivitiesList } from './activities.list';
 import { ActivitiesService } from './activities.service';
-type EventArg = { target: { value: string } };
+
 @Component({
   standalone: true,
   imports: [SearchComponent, ActivitiesList],
@@ -42,9 +42,9 @@ export default class HomePage {
   #activitiesByFilter$ = this.#filterTerm$.pipe(
     switchMap((filter) => this.#service.getActivitiesByFilter$(filter)),
   );
-
+  /** Signal with current state of an async command being issued */
   state = toState<Activity[]>(this.#activitiesByFilter$, []);
-
+  /** Notify the filter term to search for */
   onSearch(value: string): void {
     this.#filterTerm$.next(value);
   }
