@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, delay, of, tap } from 'rxjs';
+import { Observable, delay, map, of, tap } from 'rxjs';
 import { Activity } from '../../shared/activity.type';
 
 @Injectable({
@@ -57,12 +57,28 @@ export class ActivitiesService {
       ].map((activity) => ({
         ...activity,
         slug: activity.name.toLowerCase().replace(/ /g, '-'),
-      }))
+      })),
     ).pipe(
       delay(1000),
       tap(() => {
         if (Math.random() > 0.99) throw new Error('Randomly generated');
-      })
+      }),
+    );
+  }
+
+  /**
+   * Get the list of activities filtered by a query
+   * @param query The query to filter the activities
+   * @returns An observable with a list of activities
+   * @throws An error randomly
+   */
+  getActivitiesByFilter$(query: string): Observable<Activity[]> {
+    return this.getActivities$().pipe(
+      map((activities) =>
+        activities.filter((activity) =>
+          activity.name.toLowerCase().includes(query.toLowerCase()),
+        ),
+      ),
     );
   }
 }

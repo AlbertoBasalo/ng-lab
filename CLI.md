@@ -16,7 +16,11 @@ ng new ng-lab -s -t -p=lab -S --ssr --style=css
 npm install
 # run project
 npm start
+# add eslint and prettier
+npm i -D @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint eslint-config-prettier prettier typescript
 ```
+
+````
 
 ### Configure project schematics
 
@@ -31,7 +35,7 @@ npm start
     "style": "none"
   }
 }
-```
+````
 
 ## Layout
 
@@ -61,10 +65,17 @@ ng g c routes/auth/register --type=form
 ng g c routes/home/activities --type=list
 ng g s routes/home/activities
 ```
+
 ## Activity details page
 
 ```bash
 ng g c routes/activities/activity-details --type=page
-ng g c routes/activities/activity-details 
+ng g c routes/activities/activity-details
 ng g s routes/activities/activity-details
+```
+
+## Search Component
+
+```bash
+ng g c shared/search
 ```

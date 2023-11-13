@@ -1,38 +1,51 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { BehaviorSubject, switchMap } from 'rxjs';
 import { Activity } from '../../shared/activity.type';
+import { SearchComponent } from '../../shared/search.component';
 import { toState } from '../../shared/state.function';
 import { ActivitiesList } from './activities.list';
 import { ActivitiesService } from './activities.service';
-
+type EventArg = { target: { value: string } };
 @Component({
   standalone: true,
-  imports: [ActivitiesList],
+  imports: [SearchComponent, ActivitiesList],
   template: `
-      @switch (state().status) {
-        @case ('pending') {
-          <aside id="loading">
-            <p aria-busy="true">Loading activities...</p>
-          </aside>
-        }
-        @case ('error') {
-          <aside id="error">
-            <p>Failed to load activities</p>
-            <small>{{ state().error }}</small>
-          </aside>
-        }
-        @default {
-          <article name="Published activities">
-            <header>
-              <h2>Book an activity and enjoy!</h2>
-            </header>
-            <lab-activities [activities]="state().value"/>
-          </article>
-        }
+    <lab-search (search)="onSearch($event)" />
+    @switch (state().status) {
+      @case ('pending') {
+        <aside id="loading">
+          <p aria-busy="true">Loading activities...</p>
+        </aside>
       }
+      @case ('error') {
+        <aside id="error">
+          <small>Failed to load activities : {{ state().error }}</small>
+        </aside>
+      }
+      @default {
+        <article name="Published activities">
+          <header>
+            <h2>Book an activity and enjoy!</h2>
+          </header>
+          <lab-activities [activities]="state().value" />
+        </article>
+      }
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class HomePage {
   #service = inject(ActivitiesService);
-  state = toState<Activity[]>(this.#service.getActivities$(), []);
+  /** Observable of filter terms */
+  #filterTerm$ = new BehaviorSubject<string>('');
+  /** For any term received discard the current query and start a new one  */
+  #activitiesByFilter$ = this.#filterTerm$.pipe(
+    switchMap((filter) => this.#service.getActivitiesByFilter$(filter)),
+  );
+
+  state = toState<Activity[]>(this.#activitiesByFilter$, []);
+
+  onSearch(value: string): void {
+    this.#filterTerm$.next(value);
+  }
 }
