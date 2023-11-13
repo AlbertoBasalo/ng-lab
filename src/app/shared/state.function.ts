@@ -2,7 +2,7 @@ import { signal } from '@angular/core';
 import { Observable } from 'rxjs';
 
 /**
- * The possible status of an observable
+ * The possible status of an observable command
  */
 export type Status = 'pending' | 'success' | 'error';
 
@@ -12,7 +12,7 @@ export type Status = 'pending' | 'success' | 'error';
 export type State<T> = {
   /** The value (initial or produced by the observable) */
   value: T;
-  /** The error if produced by the observable */
+  /** The error, if any, produced by the observable */
   error?: any;
   /** The status of the observable */
   status: Status;
@@ -22,7 +22,7 @@ export type State<T> = {
  * Converts an observable to a state signal
  * @param source$ The observable emitting the value
  * @param value The initial value
- * @returns A signal with the state wrapping the value and error of a command
+ * @returns A read-only signal with the state changes
  * @see State
  */
 export function toState<T>(source$: Observable<T>, value: T) {
@@ -37,7 +37,7 @@ export function toState<T>(source$: Observable<T>, value: T) {
     },
     complete: () => {
       subscription.unsubscribe();
-    }
+    },
   });
   return state.asReadonly();
 }
