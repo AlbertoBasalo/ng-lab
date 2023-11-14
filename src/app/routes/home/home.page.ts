@@ -9,6 +9,7 @@ import { ActivitiesService } from './activities.service';
 @Component({
   standalone: true,
   imports: [SearchComponent, ActivitiesList],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <lab-search (search)="onSearch($event)" />
     @switch (state().status) {
@@ -25,28 +26,26 @@ import { ActivitiesService } from './activities.service';
       @default {
         <article name="Published activities">
           <header>
-            <h2>Book an activity and enjoy!</h2>
+            <h2>Select an activity to book... and enjoy!</h2>
           </header>
           <lab-activities [activities]="state().value" />
         </article>
       }
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class HomePage {
   #service = inject(ActivitiesService);
   /** Observable of filter terms */
-  #filterTerm$ = new BehaviorSubject<string>('');
+  #searchTerm$ = new BehaviorSubject<string>('');
   /** For any term received discard the current query and start a new one  */
-  #activitiesByFilter$ = this.#filterTerm$.pipe(
+  #activitiesByFilter$ = this.#searchTerm$.pipe(
     switchMap((filter) => this.#service.getActivitiesByFilter$(filter)),
   );
   /** Signal with current state of an async command being issued */
   state = toState<Activity[]>(this.#activitiesByFilter$, []);
   /** Notify the filter term to search for */
-  onSearch(value: string): void {
-    console.log('onSearch', value);
-    this.#filterTerm$.next(value);
+  onSearch(searchTerm: string): void {
+    this.#searchTerm$.next(searchTerm);
   }
 }

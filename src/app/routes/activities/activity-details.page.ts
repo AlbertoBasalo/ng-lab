@@ -13,6 +13,7 @@ import { ActivityDetailsService } from './activity-details.service';
 
 @Component({
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ActivityDetailsComponent],
   template: `
     @switch (state().status) {
@@ -23,8 +24,7 @@ import { ActivityDetailsService } from './activity-details.service';
       }
       @case ('error') {
         <aside id="error">
-          <p>Failed to load activity</p>
-          <small>{{ state().error }}</small>
+          <small>Failed to load {{ state().error }}</small>
         </aside>
       }
       @default {
@@ -32,18 +32,22 @@ import { ActivityDetailsService } from './activity-details.service';
       }
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ActivityDetailsPage {
+  /** The activity slug received from a router param */
   @Input({ required: true })
   set slug(slug: string) {
+    // With this paradigm, we are not leveraging the observable router
+    // Every time the slug changes, we need to reset the state
     this.state = toState<Activity>(
-      this.#service.getActivityBySlug$(slug),
-      NULL_ACTIVITY,
-      this.injector,
+      this.#service.getActivityBySlug$(slug), // the observable
+      NULL_ACTIVITY, // the initial value
+      this.injector, // here we are not in an injection context
     );
   }
-  constructor(private readonly injector: Injector) {}
+  constructor(private readonly injector: Injector) {
+    // We need our current injector to be able pass it to the `toState` function
+  }
 
   #service = inject(ActivityDetailsService);
   state!: Signal<State<Activity>>;
