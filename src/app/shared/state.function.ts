@@ -1,4 +1,10 @@
-import { signal } from '@angular/core';
+import {
+  DestroyRef,
+  Injector,
+  assertInInjectionContext,
+  inject,
+  signal,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 
 /**
@@ -20,9 +26,10 @@ export type State<T> = {
 
 const counter = {
   subscriptions: 0,
-  unsubscriptions: 0,
-  errors: 0,
   nexts: 0,
+  errors: 0,
+  completes: 0,
+  unsubscriptions: 0,
 };
 
 /**
@@ -32,7 +39,15 @@ const counter = {
  * @returns A read-only signal with the state changes
  * @see State
  */
-export function toState<T>(source$: Observable<T>, value: T) {
+export function toState<T>(
+  source$: Observable<T>,
+  value: T,
+  injector?: Injector,
+) {
+  console.log('asserting toState');
+  injector || assertInInjectionContext(toState);
+  console.log('asserted toState');
+  const destroyRef = injector?.get(DestroyRef) || inject(DestroyRef);
   const state = signal<State<T>>({ value, status: 'pending' });
   const subscription = source$.subscribe({
     next: (value) => {
@@ -42,17 +57,18 @@ export function toState<T>(source$: Observable<T>, value: T) {
     error: (error) => {
       state.update((s) => ({ ...s, error, status: 'error' }));
       logError();
-      subscription.unsubscribe();
-      logUnsubscription();
     },
     complete: () => {
-      if (subscription && !subscription.closed) {
-        subscription.unsubscribe();
-        logUnsubscription();
-      }
+      logComplete();
     },
   });
   logSubscription();
+  destroyRef.onDestroy(() => {
+    if (subscription) {
+      subscription.unsubscribe();
+      logUnsubscription();
+    }
+  });
   return state.asReadonly();
 }
 
@@ -71,4 +87,8 @@ function logError() {
 function logNext() {
   counter.nexts++;
   console.log('nexts', counter);
+}
+function logComplete() {
+  counter.completes++;
+  console.log('completes', counter);
 }

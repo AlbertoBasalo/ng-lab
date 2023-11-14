@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Injector,
   Input,
   Signal,
   inject,
@@ -39,8 +40,10 @@ export default class ActivityDetailsPage {
     this.state = toState<Activity>(
       this.#service.getActivityBySlug$(slug),
       NULL_ACTIVITY,
+      this.injector,
     );
   }
+  constructor(public injector: Injector) {}
 
   #service = inject(ActivityDetailsService);
   state!: Signal<State<Activity>>;
