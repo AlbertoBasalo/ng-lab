@@ -7,6 +7,7 @@
     "url": "https://albertobasalo.dev"
   },
   "scripts": {
+    "api": "json-server-auth ./db/d.json -r ./db/r.json",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -43,6 +44,8 @@
     "eslint": "^8.53.0",
     "eslint-config-prettier": "^9.0.0",
     "jasmine-core": "~5.1.0",
+    "json-server": "^0.17.4",
+    "json-server-auth": "^2.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",

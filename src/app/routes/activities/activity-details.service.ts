@@ -1,20 +1,23 @@
-import { Injectable } from '@angular/core';
-import { delay, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { Observable, map, tap } from 'rxjs';
+import { Activity } from '../../shared/activity.type';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ActivityDetailsService {
-
-  getActivity$(slug: string) {
-    return of({
-      id: '1',
-      name: slug,
-      price: 100,
-      date: new Date('2024-07-14'),
-      maxParticipants: 6,
-      minParticipants: 4,
-      slug,
-    }).pipe(delay(1000));
+  #http$ = inject(HttpClient);
+  #apiUrl = 'http://localhost:3000/activities';
+  getActivityBySlug$(slug: string): Observable<Activity> {
+    console.log('getActivityBySlug$', slug);
+    const url = `${this.#apiUrl}?slug=${slug}`;
+    return this.#http$.get<Activity[]>(url).pipe(
+      tap((activities) => {
+        if (activities.length == 0)
+          throw new Error(`Activity not found: ${slug}`);
+      }),
+      map((activities) => activities[0]),
+    );
   }
 }

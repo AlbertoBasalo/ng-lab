@@ -14,6 +14,7 @@ import {
   filter,
   fromEvent,
   map,
+  tap,
 } from 'rxjs';
 type EventArg = { target: { value: string } };
 @Component({
@@ -39,8 +40,9 @@ export class SearchComponent implements AfterViewInit {
       .pipe(
         debounceTime(300),
         map((event) => event.target.value),
-        filter((value: string) => value.length >= 2),
+        filter((value: string) => value.length == 0 || value.length >= 2),
         distinctUntilChanged(),
+        tap((value) => console.log('search_input', value)),
       )
       .subscribe((value) => this.search.emit(value));
   }

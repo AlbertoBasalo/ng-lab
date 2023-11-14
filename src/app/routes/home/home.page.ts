@@ -46,6 +46,7 @@ export default class HomePage {
   state = toState<Activity[]>(this.#activitiesByFilter$, []);
   /** Notify the filter term to search for */
   onSearch(value: string): void {
+    console.log('onSearch', value);
     this.#filterTerm$.next(value);
   }
 }

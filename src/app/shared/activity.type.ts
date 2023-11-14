@@ -4,6 +4,8 @@ export type Activity = {
   slug: string;
   price: number;
   date: Date;
+  duration: number;
+  location: string;
   minParticipants: number;
   maxParticipants: number;
 };
@@ -14,6 +16,8 @@ export const NULL_ACTIVITY: Activity = {
   slug: '',
   price: 0,
   date: new Date(),
+  duration: 0,
+  location: '',
   minParticipants: 0,
   maxParticipants: 0,
 };
