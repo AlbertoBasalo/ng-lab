@@ -47,6 +47,10 @@ export function toState<T>(
   destroyRef.onDestroy(() => subscription?.unsubscribe());
   return state.asReadonly();
 
+  /**
+   * Gets the `DestroyRef` from the received or current injection context
+   * @throws If not receiving or if not running in an injection context
+   */
   function getDestroyRef() {
     injector || assertInInjectionContext(toState);
     const destroyRef = injector?.get(DestroyRef) || inject(DestroyRef);
