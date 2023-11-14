@@ -43,7 +43,7 @@ export default class ActivityDetailsPage {
       this.injector,
     );
   }
-  constructor(public injector: Injector) {}
+  constructor(private readonly injector: Injector) {}
 
   #service = inject(ActivityDetailsService);
   state!: Signal<State<Activity>>;

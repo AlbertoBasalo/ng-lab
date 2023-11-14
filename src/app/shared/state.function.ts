@@ -1,6 +1,7 @@
 import {
   DestroyRef,
   Injector,
+  Signal,
   assertInInjectionContext,
   inject,
   signal,
@@ -24,18 +25,11 @@ export type State<T> = {
   status: Status;
 };
 
-const counter = {
-  subscriptions: 0,
-  nexts: 0,
-  errors: 0,
-  completes: 0,
-  unsubscriptions: 0,
-};
-
 /**
  * Converts an observable to a state signal
  * @param source$ The observable emitting the value
  * @param value The initial value
+ * @param injector Optional injector context to use to get the `DestroyRef`
  * @returns A read-only signal with the state changes
  * @see State
  */
@@ -43,52 +37,19 @@ export function toState<T>(
   source$: Observable<T>,
   value: T,
   injector?: Injector,
-) {
-  console.log('asserting toState');
-  injector || assertInInjectionContext(toState);
-  console.log('asserted toState');
-  const destroyRef = injector?.get(DestroyRef) || inject(DestroyRef);
+): Signal<State<T>> {
+  const destroyRef = getDestroyRef();
   const state = signal<State<T>>({ value, status: 'pending' });
   const subscription = source$.subscribe({
-    next: (value) => {
-      state.update((s) => ({ ...s, value, status: 'success' }));
-      logNext();
-    },
-    error: (error) => {
-      state.update((s) => ({ ...s, error, status: 'error' }));
-      logError();
-    },
-    complete: () => {
-      logComplete();
-    },
+    next: (value) => state.update((s) => ({ ...s, value, status: 'success' })),
+    error: (error) => state.update((s) => ({ ...s, error, status: 'error' })),
   });
-  logSubscription();
-  destroyRef.onDestroy(() => {
-    if (subscription) {
-      subscription.unsubscribe();
-      logUnsubscription();
-    }
-  });
+  destroyRef.onDestroy(() => subscription?.unsubscribe());
   return state.asReadonly();
-}
 
-function logSubscription() {
-  counter.subscriptions++;
-  console.log('subscriptions', counter);
-}
-function logUnsubscription() {
-  counter.unsubscriptions++;
-  console.log('unsubscriptions', counter);
-}
-function logError() {
-  counter.errors++;
-  console.log('errors', counter);
-}
-function logNext() {
-  counter.nexts++;
-  console.log('nexts', counter);
-}
-function logComplete() {
-  counter.completes++;
-  console.log('completes', counter);
+  function getDestroyRef() {
+    injector || assertInInjectionContext(toState);
+    const destroyRef = injector?.get(DestroyRef) || inject(DestroyRef);
+    return destroyRef;
+  }
 }
