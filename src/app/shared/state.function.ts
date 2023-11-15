@@ -6,8 +6,8 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
-
 /**
  * The possible status of an observable command
  */
@@ -40,11 +40,10 @@ export function toState<T>(
 ): Signal<State<T>> {
   const destroyRef = getDestroyRef();
   const state = signal<State<T>>({ value, status: 'pending' });
-  const subscription = source$.subscribe({
+  source$.pipe(takeUntilDestroyed(destroyRef)).subscribe({
     next: (value) => state.update((s) => ({ ...s, value, status: 'success' })),
     error: (error) => state.update((s) => ({ ...s, error, status: 'error' })),
   });
-  destroyRef.onDestroy(() => subscription?.unsubscribe());
   return state.asReadonly();
 
   /**
