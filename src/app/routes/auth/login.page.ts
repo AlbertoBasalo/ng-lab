@@ -1,12 +1,12 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { AuthService } from './auth.service';
 import { LoginForm } from './login.form';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, LoginForm],
+  imports: [RouterLink, LoginForm],
   template: `
     <article>
       <header>
@@ -19,7 +19,7 @@ import { LoginForm } from './login.form';
     </article>
   `,
 })
-export class LoginPage {
+export default class LoginPage {
   #service$ = inject(AuthService);
   title = 'Login with your credentials.';
   onLogin(event: any) {

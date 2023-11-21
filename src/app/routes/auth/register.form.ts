@@ -78,7 +78,9 @@ import {
           />
         </label>
       </fieldset>
-      <button type="submit" [disabled]="form.invalid">Register</button>
+      <button type="submit" [disabled]="form.invalid" (click)="onSubmit()">
+        Register
+      </button>
       <input type="reset" value="Reset form" />
     </form>
   `,

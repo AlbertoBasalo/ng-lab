@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { AuthService } from './auth.service';
 import { RegisterForm } from './register.form';
 
 @Component({
   standalone: true,
-  imports: [RegisterForm],
+  imports: [RegisterForm, RouterLink],
   template: `
     <article>
       <header>
