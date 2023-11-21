@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SearchComponent } from '../../shared/search.component';
-import { ActivitiesList } from '../activities/activities.list';
 
 @Component({
   standalone: true,
-  imports: [SearchComponent, ActivitiesList],
+  imports: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <article>

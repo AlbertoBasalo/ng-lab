@@ -7,10 +7,11 @@ import {
   computed,
   inject,
 } from '@angular/core';
-import { Activity, NULL_ACTIVITY } from '../../../shared/activity.type';
-import { ErrorComponent } from '../../../shared/error.component';
-import { PendingComponent } from '../../../shared/pending.component';
-import { State, toState } from '../../../shared/state.function';
+
+import { Activity, NULL_ACTIVITY } from '@shared/activity.type';
+import { ErrorComponent } from '@shared/error.component';
+import { PendingComponent } from '@shared/pending.component';
+import { State, toState } from '@shared/state.function';
 import { ActivitySlugComponent } from './activity-slug.component';
 import { ActivitySlugService } from './activity-slug.service';
 

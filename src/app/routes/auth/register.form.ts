@@ -16,7 +16,7 @@ import {
       <fieldset>
         <label for="username">
           <span>User name</span>
-          @if (showError('username')){
+          @if (showError('username')) {
             <small id="username-error">We need your name</small>
           }
           <input
@@ -24,13 +24,13 @@ import {
             id="username"
             name="username"
             formControlName="username"
-           autocomplete="off"
+            autocomplete="off"
             [attr.aria-invalid]="markError('username')"
           />
         </label>
         <label for="email">
           <span>Email</span>
-          @if (form.controls['email'].invalid){
+          @if (form.controls['email'].invalid) {
             <small id="email-error">We need your email</small>
           }
           <input
@@ -44,7 +44,7 @@ import {
         </label>
         <label for="password">
           <span>Password</span>
-          @if (form.controls['password'].invalid){
+          @if (form.controls['password'].invalid) {
             <small id="password-error">We need your password</small>
           }
           <input
@@ -58,7 +58,7 @@ import {
         </label>
         <label for="repeatPassword">
           <span>Repeat your Password</span>
-          @if (form.controls['repeatPassword'].invalid){
+          @if (form.controls['repeatPassword'].invalid) {
             <small id="repeatPassword-error">We need your password</small>
           }
           <input
@@ -78,6 +78,9 @@ import {
 export class RegisterForm {
   readonly #passwordValidators = [Validators.required, Validators.minLength(4)];
 
+  /**
+   * The form group with all the controls (initial values and validators)
+   */
   form = new FormGroup({
     username: new FormControl('', [
       Validators.required,
@@ -88,16 +91,26 @@ export class RegisterForm {
     repeatPassword: new FormControl('', this.#passwordValidators),
   });
 
+  /**
+   * Checks if the control is invalid
+   * @param controlName The name of the control to check
+   * @returns True if the control is invalid, false otherwise
+   */
+  showError(controlName: string) {
+    const control: AbstractControl | null = this.form.get(controlName);
+    if (!control) return false;
+    return control.invalid;
+  }
+
+  /**
+   * Marks the control after it has been touched
+   * @param controlName The name of the control to check
+   * @returns True if the control is invalid, false otherwise
+   */
   markError(controlName: string) {
     const control: AbstractControl | null = this.form.get(controlName);
     if (!control) return null;
     if (!control.touched) return null;
-    return control.invalid;
-  }
-
-  showError(controlName: string) {
-    const control: AbstractControl | null = this.form.get(controlName);
-    if (!control) return false;
     return control.invalid;
   }
 }

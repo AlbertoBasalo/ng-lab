@@ -6,13 +6,18 @@ import {
   computed,
   signal,
 } from '@angular/core';
-import { Activity, NULL_ACTIVITY } from '../../../shared/activity.type';
+import { Activity, NULL_ACTIVITY } from '@shared/activity.type';
 
 @Component({
   selector: 'lab-activity-slug',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CurrencyPipe, DatePipe, TitleCasePipe],
+  styles: `
+    .data {
+      font-weight: bold;
+    }
+  `,
   template: `
     <article name="Activity details">
       <header>
@@ -39,11 +44,6 @@ import { Activity, NULL_ACTIVITY } from '../../../shared/activity.type';
         <button>Book</button>
       </footer>
     </article>
-  `,
-  styles: `
-    .data {
-      font-weight: bold;
-    }
   `,
 })
 export class ActivitySlugComponent {
