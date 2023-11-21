@@ -99,13 +99,13 @@
   ],
   "users": [
     {
-      "email": "sam@musk.org",
+      "email": "sam@musk.ia",
       "password": "$2a$10$5xpv6BPDUKq5sYpSH0NTremt9JLrBNjEKrPkSvEMmOLaPIGFCcke6",
       "username": "Sam Musk",
       "id": 1
     },
     {
-      "email": "jeff@gates.org",
+      "email": "jeff@gat.es",
       "password": "$2a$10$dR9QIKy5zi0iQu9/f8sBeeP11wMeOAks9tjBX5nBhLdQJjw/ZUS9C",
       "username": "Jeff Gates",
       "id": 2

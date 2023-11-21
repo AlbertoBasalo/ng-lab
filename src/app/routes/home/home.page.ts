@@ -23,7 +23,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 })
 export default class HomePage {
   title = 'Welcome to the 🅰️ Angular v 1️⃣7️⃣ demo project';
-  subtitle = 'This is a simple reservation web app';
+  subtitle = 'This is a simple web app for activity booking';
   section = 'Features:';
   featureList = [
     'List of available activities',
@@ -31,6 +31,6 @@ export default class HomePage {
     'View details of any activity',
     'Register / Login / Logout',
     'Book a reservation for an activity',
-    'View your bookings',
+    'View your activities / bookings',
   ];
 }

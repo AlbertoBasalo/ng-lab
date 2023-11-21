@@ -9,7 +9,9 @@ import { NULL_USER_TOKEN, UserToken } from './user-token.dto';
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
   #userToken = signal<UserToken>(NULL_USER_TOKEN);
-
+  getUserToken() {
+    return this.#userToken();
+  }
   /**
    * Signal with the current access token
    * @description TO be used on HTTP Interceptors

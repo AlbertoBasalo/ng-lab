@@ -58,8 +58,10 @@ ng g c routes/auth/register --type=page
 ng g c routes/auth/register --type=form
 ng g c routes/auth/login --type=page
 ng g c routes/auth/login --type=form
-ng g c routes/auth/logout --type=page
+ng g c routes/auth/profile --type=page
+ng g c routes/auth/profile
 ng g s routes/auth/auth
+ng g s routes/auth/profile
 ```
 
 ## Activities page

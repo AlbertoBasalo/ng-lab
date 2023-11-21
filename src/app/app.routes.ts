@@ -7,8 +7,8 @@ export const routes: Routes = [
     loadComponent: () => import('./routes/auth/login.page'),
   },
   {
-    path: 'auth/logout',
-    loadComponent: () => import('./routes/auth/logout.page'),
+    path: 'auth/profile',
+    loadComponent: () => import('./routes/auth/profile.page'),
   },
   {
     path: 'auth/register',
