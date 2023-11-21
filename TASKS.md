@@ -2,8 +2,8 @@
 - [x] Move About content to Home
 - [x] Path tsconfig
 - [x] Pending and Error components
+- [x] Make Auth KISS
 
-- [ ] Make Auth pages KISS
 - [ ] Have a Redux store for activities or bookings
 - [ ] Interceptors
 - [ ] Guards
