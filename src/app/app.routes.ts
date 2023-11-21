@@ -7,6 +7,10 @@ export const routes: Routes = [
     loadComponent: () => import('./routes/auth/login.page'),
   },
   {
+    path: 'auth/logout',
+    loadComponent: () => import('./routes/auth/logout.page'),
+  },
+  {
     path: 'auth/register',
     loadComponent: () => import('./routes/auth/register.page'),
   },

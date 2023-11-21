@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from './auth.service';
+import { Login } from './login.dto';
 import { LoginForm } from './login.form';
 
 @Component({
@@ -20,11 +21,12 @@ import { LoginForm } from './login.form';
   `,
 })
 export default class LoginPage {
+  #router = inject(Router);
   #service$ = inject(AuthService);
   title = 'Login with your credentials.';
-  onLogin(event: any) {
-    this.#service$.login$(event).subscribe((response) => {
-      console.log(response);
+  onLogin(login: Login) {
+    this.#service$.login$(login).subscribe({
+      next: () => this.#router.navigate(['/']),
     });
   }
 }

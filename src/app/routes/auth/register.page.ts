@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from './auth.service';
+import { Register } from './register.dto';
 import { RegisterForm } from './register.form';
 
 @Component({
@@ -20,11 +21,13 @@ import { RegisterForm } from './register.form';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class RegisterPage {
+  #router = inject(Router);
   #service$ = inject(AuthService);
   title = 'Register to create your account.';
-  onRegister(event: any) {
-    this.#service$.register$(event).subscribe((response) => {
-      console.log(response);
+
+  onRegister(register: Register) {
+    this.#service$.register$(register).subscribe({
+      next: () => this.#router.navigate(['/']),
     });
   }
 }
