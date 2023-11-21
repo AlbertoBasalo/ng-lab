@@ -6,15 +6,15 @@ import {
   Signal,
   inject,
 } from '@angular/core';
-import { Activity, NULL_ACTIVITY } from '../../shared/activity.type';
-import { State, toState } from '../../shared/state.function';
-import { ActivityDetailsComponent } from './activity-details.component';
-import { ActivityDetailsService } from './activity-details.service';
+import { Activity, NULL_ACTIVITY } from '../../../shared/activity.type';
+import { State, toState } from '../../../shared/state.function';
+import { ActivitySlugComponent } from './activity-slug.component';
+import { ActivitySlugService } from './activity-slug.service';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ActivityDetailsComponent],
+  imports: [ActivitySlugComponent],
   template: `
     @switch (state().status) {
       @case ('pending') {
@@ -28,12 +28,15 @@ import { ActivityDetailsService } from './activity-details.service';
         </aside>
       }
       @default {
-        <lab-activity-details [activity]="state().value" />
+        <lab-activity-slug [activity]="state().value" />
       }
     }
   `,
 })
-export default class ActivityDetailsPage {
+export default class ActivitySlugPage {
+  #service = inject(ActivitySlugService);
+  // ToDo: use router params$ instead of @Input
+
   /** The activity slug received from a router param */
   @Input({ required: true })
   set slug(slug: string) {
@@ -45,10 +48,10 @@ export default class ActivityDetailsPage {
       this.injector, // here we are not in an injection context
     );
   }
+
+  state!: Signal<State<Activity>>;
+
   constructor(private readonly injector: Injector) {
     // We need our current injector to be able pass it to the `toState` function
   }
-
-  #service = inject(ActivityDetailsService);
-  state!: Signal<State<Activity>>;
 }

@@ -8,10 +8,12 @@ import { HeaderComponent } from './layout/header.component';
   standalone: true,
   imports: [RouterOutlet, FooterComponent, HeaderComponent],
   template: `
-    <lab-header title="Activity Bookings" />
+    <lab-header [title]="appTitle" />
     <router-outlet></router-outlet>
     <lab-footer />
   `,
   styles: [],
 })
-export class AppComponent { }
+export class AppComponent {
+  appTitle = 'Activity Bookings';
+}

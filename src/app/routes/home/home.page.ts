@@ -1,51 +1,38 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { BehaviorSubject, switchMap } from 'rxjs';
-import { Activity } from '../../shared/activity.type';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SearchComponent } from '../../shared/search.component';
-import { toState } from '../../shared/state.function';
-import { ActivitiesList } from './activities.list';
-import { ActivitiesService } from './activities.service';
+import { ActivitiesList } from '../activities/activities.list';
 
 @Component({
   standalone: true,
   imports: [SearchComponent, ActivitiesList],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <lab-search (search)="onSearch($event)" />
-    @switch (state().status) {
-      @case ('pending') {
-        <aside id="loading">
-          <p aria-busy="true">Loading activities...</p>
-        </aside>
-      }
-      @case ('error') {
-        <aside id="error">
-          <small>Failed to load activities : {{ state().error }}</small>
-        </aside>
-      }
-      @default {
-        <article name="Published activities">
-          <header>
-            <h2>Select an activity to book... and enjoy!</h2>
-          </header>
-          <lab-activities [activities]="state().value" />
-        </article>
-      }
-    }
+    <article>
+      <header>
+        <h2>{{ title }}</h2>
+        <p>{{ subtitle }}</p>
+      </header>
+      <main>
+        <h3>{{ section }}</h3>
+        <ul>
+          @for (feature of featureList; track feature) {
+            <li>{{ feature }}</li>
+          }
+        </ul>
+      </main>
+    </article>
   `,
 })
 export default class HomePage {
-  #service = inject(ActivitiesService);
-  /** Observable of filter terms */
-  #searchTerm$ = new BehaviorSubject<string>('');
-  /** For any term received discard the current query and start a new one  */
-  #activitiesByFilter$ = this.#searchTerm$.pipe(
-    switchMap((filter) => this.#service.getActivitiesByFilter$(filter)),
-  );
-  /** Signal with current state of an async command being issued */
-  state = toState<Activity[]>(this.#activitiesByFilter$, []);
-  /** Notify the filter term to search for */
-  onSearch(searchTerm: string): void {
-    this.#searchTerm$.next(searchTerm);
-  }
+  title = 'Welcome to the 🅰️ Angular v 1️⃣7️⃣ demo project';
+  subtitle = 'This is a simple reservation web app';
+  section = 'Features:';
+  featureList = [
+    'List of available activities',
+    'Search by text',
+    'View details of any activity',
+    'Register / Login / Logout',
+    'Book a reservation for an activity',
+    'View your bookings',
+  ];
 }

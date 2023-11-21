@@ -8,10 +8,13 @@ import { RouterLink } from '@angular/router';
   template: `
     <header>
       <nav>
-        <a routerLink="home">Home</a>
+        <a [routerLink]="homeLink.path">{{ homeLink.label }}</a>
         <ul>
-          <li><a routerLink="about">About</a></li>
-          <li><a routerLink="auth/register" id="registerLink">Register</a></li>
+          @for (link of appLinks; track link.path) {
+            <li>
+              <a [routerLink]="link.path">{{ link.label }}</a>
+            </li>
+          }
         </ul>
       </nav>
       <h1>{{ title }}</h1>
@@ -21,4 +24,9 @@ import { RouterLink } from '@angular/router';
 })
 export class HeaderComponent {
   @Input({ required: true }) title!: string;
+  homeLink = { path: 'home', label: 'Home' };
+  appLinks = [
+    { path: 'activities', label: 'Activities' },
+    { path: 'auth/register', label: 'Register' },
+  ];
 }

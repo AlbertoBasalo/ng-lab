@@ -1,9 +1,9 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Activity } from '../../shared/activity.type';
+import { Activity } from '../../../shared/activity.type';
 
 @Component({
-  selector: 'lab-activity-details',
+  selector: 'lab-activity-slug',
   standalone: true,
   imports: [CurrencyPipe, DatePipe],
   template: `
@@ -13,17 +13,20 @@ import { Activity } from '../../shared/activity.type';
         <p>Book your activity now!</p>
       </header>
       <section>
-        <p>Price: {{ activity.price | currency:'EUR' }}</p>
-        <p>Date: {{ activity.date | date:'fullDate' }}</p>
-        <p>Participants: min: {{ activity.minParticipants }} max: {{ activity.maxParticipants }}</p>
+        <p>Price: {{ activity.price | currency: 'EUR' }}</p>
+        <p>Date: {{ activity.date | date: 'fullDate' }}</p>
+        <p>
+          Participants: min: {{ activity.minParticipants }} max:
+          {{ activity.maxParticipants }}
+        </p>
       </section>
       <footer>
         <button>Book</button>
       </footer>
     </article>
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ActivityDetailsComponent {
+export class ActivitySlugComponent {
   @Input({ required: true }) activity!: Activity;
 }

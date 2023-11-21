@@ -45,33 +45,32 @@ ng g c layout/header
 ng g c layout/footer
 ```
 
-## Main pages
+## Home page
 
 ```bash
 ng g c routes/home/home --type=page
-ng g c routes/about/about --type=page
 ```
 
-## Security pages
+## Auth pages
 
 ```bash
 ng g c routes/auth/register --type=page
 ng g c routes/auth/register --type=form
 ```
 
-## Home page
+## Activities page
 
 ```bash
-ng g c routes/home/activities --type=list
-ng g s routes/home/activities
+ng g c routes/activities/activities --type=list
+ng g s routes/activities/activities
 ```
 
-## Activity details page
+## Activity/slug details page
 
 ```bash
-ng g c routes/activities/activity-details --type=page
-ng g c routes/activities/activity-details
-ng g s routes/activities/activity-details
+ng g c routes/activities/slug/activity-slug --type=page
+ng g c routes/activities/slug/activity-slug
+ng g s routes/activities/slug/activity-slug
 ```
 
 ## Search Component

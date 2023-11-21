@@ -7,11 +7,13 @@ import { RegisterForm } from './register.form';
   template: `
     <article>
       <header>
-        <h2>Register to create your account.</h2>
+        <h2>{{ title }}</h2>
       </header>
       <lab-register />
     </article>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class RegisterPage { }
+export default class RegisterPage {
+  title = 'Register to create your account.';
+}
