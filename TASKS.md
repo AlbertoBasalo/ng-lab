@@ -7,3 +7,4 @@
 - [ ] Have a Redux store for activities or bookings
 - [ ] Interceptors
 - [ ] Guards
+- [ ] TypeName for functions file

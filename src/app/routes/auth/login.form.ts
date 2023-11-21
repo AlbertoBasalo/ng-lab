@@ -17,26 +17,12 @@ import {
 } from '@shared/form.function';
 
 @Component({
-  selector: 'lab-register',
+  selector: 'lab-login',
   standalone: true,
   imports: [ReactiveFormsModule],
   template: `
     <form [formGroup]="form">
       <fieldset>
-        <label for="username">
-          <span>User name</span>
-          @if (showError('username')) {
-            <small id="username-error">We need your name</small>
-          }
-          <input
-            type="text"
-            id="username"
-            name="username"
-            formControlName="username"
-            autocomplete="off"
-            [attr.aria-invalid]="markError('username')"
-          />
-        </label>
         <label for="email">
           <span>Email</span>
           @if (form.controls['email'].invalid) {
@@ -65,39 +51,22 @@ import {
             [attr.aria-invalid]="markError('password')"
           />
         </label>
-        <label for="repeatPassword">
-          <span>Repeat your Password</span>
-          @if (form.controls['repeatPassword'].invalid) {
-            <small id="repeatPassword-error">We need your password</small>
-          }
-          <input
-            type="password"
-            id="repeatPassword"
-            formControlName="repeatPassword"
-            [attr.aria-invalid]="markError('repeatPassword')"
-          />
-        </label>
       </fieldset>
-      <button type="submit" [disabled]="form.invalid">Register</button>
+      <button type="submit" [disabled]="form.invalid">Login</button>
       <input type="reset" value="Reset form" />
     </form>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterForm {
-  @Output() register = new EventEmitter<any>();
+export class LoginForm {
+  @Output() login = new EventEmitter<any>();
 
   /**
    * The form group with all the controls (initial values and validators)
    */
   form = new FormGroup({
-    username: new FormControl('', [
-      Validators.required,
-      Validators.minLength(2),
-    ]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', passwordValidators),
-    repeatPassword: new FormControl('', passwordValidators),
   });
 
   showError(controlName: string) {
@@ -109,8 +78,6 @@ export class RegisterForm {
   }
 
   onSubmit() {
-    // remove repeatPassword from the form value
-    const { repeatPassword, ...value } = this.form.value;
-    this.register.emit(value);
+    this.login.emit(this.form.value);
   }
 }

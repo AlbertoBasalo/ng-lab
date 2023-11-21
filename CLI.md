@@ -56,6 +56,9 @@ ng g c routes/home/home --type=page
 ```bash
 ng g c routes/auth/register --type=page
 ng g c routes/auth/register --type=form
+ng g c routes/auth/login --type=page
+ng g c routes/auth/login --type=form
+ng g s routes/auth/auth
 ```
 
 ## Activities page
