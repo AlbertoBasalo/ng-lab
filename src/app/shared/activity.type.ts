@@ -8,6 +8,7 @@ export type Activity = {
   location: string;
   minParticipants: number;
   maxParticipants: number;
+  userId: number;
 };
 
 export const NULL_ACTIVITY: Activity = {
@@ -20,4 +21,5 @@ export const NULL_ACTIVITY: Activity = {
   location: '',
   minParticipants: 0,
   maxParticipants: 0,
+  userId: 0,
 };
