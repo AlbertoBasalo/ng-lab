@@ -78,3 +78,10 @@ ng g s routes/activities/slug/activity-slug
 ```bash
 ng g c shared/search
 ```
+
+## Pending and Error Components
+
+```bash
+ng g c shared/pending
+ng g c shared/error
+```

@@ -4,9 +4,12 @@ import {
   Injector,
   Input,
   Signal,
+  computed,
   inject,
 } from '@angular/core';
 import { Activity, NULL_ACTIVITY } from '../../../shared/activity.type';
+import { ErrorComponent } from '../../../shared/error.component';
+import { PendingComponent } from '../../../shared/pending.component';
 import { State, toState } from '../../../shared/state.function';
 import { ActivitySlugComponent } from './activity-slug.component';
 import { ActivitySlugService } from './activity-slug.service';
@@ -14,18 +17,14 @@ import { ActivitySlugService } from './activity-slug.service';
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ActivitySlugComponent],
+  imports: [ActivitySlugComponent, PendingComponent, ErrorComponent],
   template: `
     @switch (state().status) {
       @case ('pending') {
-        <aside id="loading">
-          <p aria-busy="true">Loading activity...</p>
-        </aside>
+        <lab-pending message="Loading activity {{ slug }}" />
       }
       @case ('error') {
-        <aside id="error">
-          <small>Failed to load {{ state().error }}</small>
-        </aside>
+        <lab-error [message]="errorMessage()" />
       }
       @default {
         <lab-activity-slug [activity]="state().value" />
@@ -54,4 +53,5 @@ export default class ActivitySlugPage {
   constructor(private readonly injector: Injector) {
     // We need our current injector to be able pass it to the `toState` function
   }
+  errorMessage = computed(() => `Failed to load ${this.state().error}`);
 }

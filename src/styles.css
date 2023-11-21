@@ -6,12 +6,11 @@
   --mark-color: #0783d8;
   --ins-color: #47d469;
   --del-color: #c62828;
-
 }
 
 :root {
   --form-element-spacing-vertical: 0.25rem;
-  --form-element-spacing-horizontal: 0.25rem;
+  --form-element-spacing-horizontal: 0.5rem;
   --typography-spacing-vertical: 0.5rem;
 }
 
@@ -20,24 +19,28 @@ body {
 }
 
 h1 {
-  --font-size:1.5rem;
-  --typography-spacing-vertical:2.25rem;
+  --font-size: 1.5rem;
+  --typography-spacing-vertical: 2.25rem;
 }
 h2 {
-  --font-size:1.25rem;
-  --typography-spacing-vertical:1.874rem;
+  --font-size: 1.25rem;
+  --typography-spacing-vertical: 1.874rem;
 }
 h3 {
-  --font-size:1.125rem;
-  --typography-spacing-vertical:1.6875rem;
+  --font-size: 1.125rem;
+  --typography-spacing-vertical: 1.6875rem;
 }
 h4 {
-  --font-size:1.0625rem;
-  --typography-spacing-vertical:1.519rem;
+  --font-size: 1.0625rem;
+  --typography-spacing-vertical: 1.519rem;
 }
 span {
   display: inline-block;
   margin-right: 0.5rem;
+}
+
+input[type="search"] {
+  padding-left: 1rem;
 }
 
 .grid.two {

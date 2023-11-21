@@ -1,6 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+} from '@angular/core';
 import { BehaviorSubject, switchMap } from 'rxjs';
 import { Activity } from '../../shared/activity.type';
+import { ErrorComponent } from '../../shared/error.component';
+import { PendingComponent } from '../../shared/pending.component';
 import { SearchComponent } from '../../shared/search.component';
 import { toState } from '../../shared/state.function';
 import { ActivitiesList } from './activities.list';
@@ -8,20 +15,16 @@ import { ActivitiesService } from './activities.service';
 
 @Component({
   standalone: true,
-  imports: [SearchComponent, ActivitiesList],
+  imports: [SearchComponent, ActivitiesList, PendingComponent, ErrorComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <lab-search (search)="onSearch($event)" />
     @switch (state().status) {
       @case ('pending') {
-        <aside id="loading">
-          <p aria-busy="true">Loading activities...</p>
-        </aside>
+        <lab-pending message="Loading activities" />
       }
       @case ('error') {
-        <aside id="error">
-          <small>Failed to load activities : {{ state().error }}</small>
-        </aside>
+        <lab-error [message]="errorMessage()" />
       }
       @default {
         <article name="Published activities">
@@ -50,4 +53,6 @@ export default class HomePage {
   onSearch(searchTerm: string): void {
     this.#searchTerm$.next(searchTerm);
   }
+
+  errorMessage = computed(() => `Failed to load ${this.state().error}`);
 }
