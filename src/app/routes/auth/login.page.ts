@@ -27,6 +27,7 @@ export default class LoginPage {
   onLogin(login: Login) {
     this.#service$.login$(login).subscribe({
       next: () => this.#router.navigate(['/']),
+      error: () => this.#router.navigate(['/']),
     });
   }
 }

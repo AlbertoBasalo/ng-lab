@@ -11,7 +11,7 @@ import { Activity } from '@shared/activity.type';
     <h2>These are the activities you organize</h2>
     <div class="grid">
       @for (activity of activities; track activity.id) {
-        <article [id]="activity.id">
+        <article [id]="activity.id" class="activity">
           <header>
             <h3>{{ activity.name }}</h3>
           </header>
