@@ -43,7 +43,7 @@ export class HeaderComponent {
 
   homeLink = { path: 'home', label: 'Home' };
   authLinks = computed(() => {
-    const userName = this.authStore.user().username.split(' ')[0];
+    const userName = this.authStore.user().username?.split(' ')[0] || '?';
     return [
       { path: 'activities', label: 'Activities' },
       { path: 'auth/profile', label: userName },
