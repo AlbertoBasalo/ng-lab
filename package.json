@@ -1,6 +1,6 @@
 {
   "name": "ng-lab",
-  "version": "17.1.3",
+  "version": "17.2.0",
   "description": "Sample code for Angular 17 development courses",
   "author": {
     "name": "Alberto Basalo",
@@ -17,7 +17,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "update": "ncu -u",
-    "release": "release-it"
+    "prerelease": "standard-version ",
+    "release": "git push --follow-tags origin main"
   },
   "private": true,
   "dependencies": {
@@ -41,7 +42,6 @@
     "@angular-devkit/build-angular": "^17.0.3",
     "@angular/cli": "^17.0.3",
     "@angular/compiler-cli": "^17.0.4",
-    "@release-it/conventional-changelog": "^8.0.1",
     "@types/express": "^4.17.21",
     "@types/jasmine": "~5.1.4",
     "@types/node": "^20.9.4",
@@ -60,8 +60,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "npm-check-updates": "^16.14.11",
     "prettier": "^3.1.0",
-    "release-it": "^17.0.0",
+    "standard-version": "^9.5.0",
     "typescript": "^5.2.2"
-  },
-  "release-it": {}
+  }
 }
