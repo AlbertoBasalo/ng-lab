@@ -18,14 +18,11 @@ import { AuthStore } from '@shared/auth.store';
         <a [routerLink]="homeLink.path">{{ homeLink.label }}</a>
         <ul>
           @if (authStore.isAuthenticated()) {
-            @for (link of authLinks; track link.path) {
+            @for (link of authLinks(); track link.path) {
               <li>
                 <a [routerLink]="link.path">{{ link.label }}</a>
               </li>
             }
-            <li>
-              <a [routerLink]="['auth', 'profile']">{{ userName() }}</a>
-            </li>
           } @else {
             @for (link of anonymLinks; track link.path) {
               <li>
@@ -43,9 +40,17 @@ import { AuthStore } from '@shared/auth.store';
 export class HeaderComponent {
   @Input({ required: true }) title!: string;
   authStore = inject(AuthStore);
-  userName = computed(() => `${this.authStore.user().username.split(' ')[0]}`);
 
   homeLink = { path: 'home', label: 'Home' };
-  authLinks = [{ path: 'activities', label: 'Activities' }];
-  anonymLinks = [{ path: 'auth/login', label: 'Login' }];
+  authLinks = computed(() => {
+    const userName = this.authStore.user().username.split(' ')[0];
+    return [
+      { path: 'activities', label: 'Activities' },
+      { path: 'auth/profile', label: userName },
+    ];
+  });
+  anonymLinks = [
+    { path: 'activities', label: 'Activities' },
+    { path: 'auth/login', label: 'Login' },
+  ];
 }
