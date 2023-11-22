@@ -7,7 +7,7 @@ import {
 import { Router } from '@angular/router';
 import { Activity } from '@shared/activity.type';
 import { AuthStore } from '@shared/auth.store';
-import { toState } from '@shared/state.function';
+import { toState } from '@shared/state.signal';
 import { ProfileComponent } from './profile.component';
 import { ProfileService } from './profile.service';
 
