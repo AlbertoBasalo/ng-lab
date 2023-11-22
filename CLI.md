@@ -7,6 +7,8 @@
 npm install -g @angular/cli@17.0.0
 # command to create this project
 ng new ng-lab -s -t -p=lab -S --ssr --style=css
+# add eslint and prettier
+npm i -D @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint eslint-config-prettier prettier typescript
 ```
 
 ### Run project
@@ -16,8 +18,6 @@ ng new ng-lab -s -t -p=lab -S --ssr --style=css
 npm install
 # run project
 npm start
-# add eslint and prettier
-npm i -D @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint eslint-config-prettier prettier typescript
 ```
 
 ````
@@ -62,6 +62,13 @@ ng g c routes/auth/profile --type=page
 ng g c routes/auth/profile
 ng g s routes/auth/auth
 ng g s routes/auth/profile
+```
+
+## API
+
+```bash
+npm i -D json-server json-server-auth
+npm i -D copyfiles
 ```
 
 ## Activities page

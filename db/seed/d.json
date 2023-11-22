@@ -97,6 +97,7 @@
       "userId": 2
     }
   ],
+  "bookings": [],
   "users": [
     {
       "email": "sam@musk.org",
