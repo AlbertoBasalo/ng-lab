@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [17.3.0](https://github.com/AlbertoBasalo/ng-lab/compare/v17.2.0...v17.3.0) (2023-11-22)
+
+
+### Features
+
+* add error handling in login page ([a413262](https://github.com/AlbertoBasalo/ng-lab/commit/a4132620e64b1d28088e8580cea01f186d23a944))
+
 ## 17.2.0 (2023-11-22)
 
 
