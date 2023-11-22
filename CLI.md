@@ -8,7 +8,7 @@ npm install -g @angular/cli@17.0.0
 # command to create this project
 ng new ng-lab -s -t -p=lab -S --ssr --style=css
 # add eslint and prettier
-npm i -D @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint eslint-config-prettier prettier typescript
+npm i -D @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint eslint-config-prettier prettier typescript npm-check-updates
 ```
 
 ### Run project
