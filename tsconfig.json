@@ -22,6 +22,8 @@
     "lib": ["ES2022", "dom"],
     "baseUrl": ".",
     "paths": {
+      "@routes/*": ["src/app/routes/*"],
+      "@core/*": ["src/app/core/*"],
       "@shared/*": ["src/app/shared/*"]
     }
   },
