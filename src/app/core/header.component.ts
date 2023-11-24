@@ -33,7 +33,6 @@ import { AuthStore } from '@shared/auth.store';
         </ul>
       </nav>
       <h1>{{ title }}</h1>
-      <a [routerLink]="['auth', 'profile']">test</a>
     </header>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,6 +46,7 @@ export class HeaderComponent {
     const userName = this.authStore.user().username?.split(' ')[0] || '?';
     return [
       { path: 'activities', label: 'Activities' },
+      { path: 'activities/new', label: 'New Activity' },
       { path: 'auth/profile', label: userName },
     ];
   });

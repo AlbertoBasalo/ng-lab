@@ -1,11 +1,11 @@
 export type User = {
-  id: string;
+  id: number;
   username: string;
   email: string;
 };
 
 export const NULL_USER: User = {
-  id: '',
+  id: 0,
   username: '',
   email: '',
 } as const;

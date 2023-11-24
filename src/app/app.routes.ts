@@ -21,6 +21,12 @@ export const routes: Routes = [
     loadComponent: () => import('@routes/activities/activities.page'),
   },
   {
+    path: 'activities/new',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('@routes/activities/new-activity/new-activity.page'),
+  },
+  {
     path: 'activities/:slug',
     loadComponent: () => import('@routes/activities/slug/activity-slug.page'),
   },

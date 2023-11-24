@@ -9,7 +9,7 @@ export class ProfileService {
   #http$ = inject(HttpClient);
   #apiUrl = 'http://localhost:3000/';
 
-  getActivities$(userId: string) {
+  getActivities$(userId: number) {
     const url = `${this.#apiUrl}activities?userId=${userId}`;
     return this.#http$.get<Activity[]>(url);
   }

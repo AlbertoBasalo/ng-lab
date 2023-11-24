@@ -112,3 +112,11 @@ ng g interceptor core/auth
 ng g s shared/window
 ng g g shared/auth
 ```
+
+## Create a new activity
+
+```bash
+ng g c routes/activities/new-activity --flat=false --skip-selector --style=none --type=page
+ng g c routes/activities/new-activity --flat=false --type=form
+ng g s routes/activities/new-activity
+```
