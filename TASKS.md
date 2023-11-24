@@ -5,6 +5,6 @@
 - [x] Make Auth KISS
 
 - [ ] Have a Redux store for activities or bookings
-- [ ] Interceptors (auth and security)
+- [x] Interceptors (auth and security)
 - [ ] Guards
 - [ ] TypeName for functions file

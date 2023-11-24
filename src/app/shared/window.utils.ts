@@ -1,17 +1,27 @@
 export function setLocalStorage(key: string, value: object) {
-  if (!window) return;
+  if (window === undefined) return;
   window.localStorage.setItem(key, JSON.stringify(value));
 }
 export function getLocalStorage(key: string) {
-  if (!window) return null;
-  const value = window.localStorage.getItem(key);
-  return value ? JSON.parse(value) : null;
+  try {
+    const value = window.localStorage.getItem(key);
+    return value ? JSON.parse(value) : null;
+  } catch (error) {
+    return null;
+  }
 }
 export function removeLocalStorage(key: string) {
-  if (!window) return;
-  window.localStorage.removeItem(key);
+  try {
+    window.localStorage.removeItem(key);
+    return true;
+  } catch (error) {
+    return null;
+  }
 }
 export function displayAlert(alert: { title: string; message: string }) {
-  if (!window) return;
-  window.alert(`${alert.title}\n${alert.message}`);
+  try {
+    window.alert(`${alert.title}\n${alert.message}`);
+  } catch (error) {
+    console.error('unhandled error', alert);
+  }
 }

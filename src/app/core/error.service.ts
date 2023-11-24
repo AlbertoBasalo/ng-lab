@@ -6,6 +6,7 @@ import { displayAlert } from '@shared/window.utils';
  * Log any non handled error and alert user
  */
 export class ErrorService implements ErrorHandler {
+  // #window = inject(WindowService);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleError(error: any) {
     if (error instanceof HttpErrorResponse) {

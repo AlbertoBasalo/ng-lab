@@ -33,6 +33,7 @@ import { AuthStore } from '@shared/auth.store';
         </ul>
       </nav>
       <h1>{{ title }}</h1>
+      <a [routerLink]="['auth', 'profile']">test</a>
     </header>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

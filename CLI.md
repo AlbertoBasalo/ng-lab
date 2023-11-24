@@ -98,3 +98,17 @@ ng g c shared/search
 ng g c shared/pending
 ng g c shared/error
 ```
+
+## Core services
+
+```bash
+ng g s core/error
+ng g interceptor core/auth
+```
+
+## Shared services
+
+```bash
+ng g s shared/window
+ng g g shared/auth
+```
