@@ -19,6 +19,7 @@ import { ActivitySlugService } from './activity-slug.service';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ActivitySlugComponent, PendingComponent, ErrorComponent],
+  providers: [ActivitySlugService],
   template: `
     @switch (state().status) {
       @case ('pending') {

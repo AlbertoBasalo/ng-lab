@@ -27,6 +27,7 @@ export default class NewActivityPage {
   #router = inject(Router);
   title = 'Create a new activity';
   error = '';
+
   onCreate(activity: Partial<Activity>) {
     this.#service.postActivity$(activity).subscribe({
       next: () => this.#router.navigate(['/activities']),

@@ -16,6 +16,7 @@ import { ActivitiesService } from './activities.service';
 @Component({
   standalone: true,
   imports: [SearchComponent, ActivitiesList, PendingComponent, ErrorComponent],
+  providers: [ActivitiesService],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <lab-search (search)="onSearch($event)" />

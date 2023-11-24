@@ -1,11 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { inject } from '@angular/core';
 import { Activity } from '@shared/activity.type';
 import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
 export class ActivitiesService {
   #http$ = inject(HttpClient);
   #apiUrl = 'http://localhost:3000/activities';
