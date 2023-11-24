@@ -1,6 +1,6 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { NULL_USER_TOKEN, UserToken } from './user-token.dto';
-import { getLocalStorage, setLocalStorage } from './window.utils';
+import { WindowService } from './window.service';
 
 /**
  * A store to manage all state related to authentication
@@ -9,7 +9,7 @@ import { getLocalStorage, setLocalStorage } from './window.utils';
  */
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
-  //#window = inject(WindowService);
+  #window = inject(WindowService);
   #userToken = signal<UserToken>(NULL_USER_TOKEN);
   #key = 'lab_user-token';
   getUserToken() {
@@ -34,8 +34,7 @@ export class AuthStore {
   readonly isAuthenticated = computed(() => !!this.accessToken());
 
   constructor() {
-    // const userToken = this.#window.getLocalStorage(this.#key);
-    const userToken = getLocalStorage(this.#key);
+    const userToken = this.#window.getLocalStorage(this.#key);
     if (!userToken) return;
     this.#userToken.set(userToken);
   }
@@ -45,8 +44,7 @@ export class AuthStore {
    */
   saveUserToken(userToken: UserToken) {
     this.#userToken.set(userToken);
-    // this.#window.setLocalStorage(this.#key, userToken);
-    setLocalStorage(this.#key, userToken);
+    this.#window.setLocalStorage(this.#key, userToken);
   }
 
   /**
@@ -54,7 +52,6 @@ export class AuthStore {
    */
   clearUserToken() {
     this.#userToken.set(NULL_USER_TOKEN);
-    //this.#window.setLocalStorage(this.#key, NULL_USER_TOKEN);
-    setLocalStorage(this.#key, NULL_USER_TOKEN);
+    this.#window.setLocalStorage(this.#key, NULL_USER_TOKEN);
   }
 }

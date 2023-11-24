@@ -3,8 +3,10 @@
 - [x] Path tsconfig
 - [x] Pending and Error components
 - [x] Make Auth KISS
-
-- [ ] Have a Redux store for activities or bookings
 - [x] Interceptors (auth and security)
-- [ ] Guards
-- [ ] TypeName for functions file
+- [x] Guards
+- [x] TypeName for functions file
+- [ ] Have a Redux store for activities or bookings
+- [ ] Create activity feature
+- [ ] Create booking feature
+- [ ] View proper auth bookings and activities

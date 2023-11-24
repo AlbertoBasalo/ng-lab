@@ -1,7 +1,7 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthStore } from '@shared/auth.store';
-import { Router } from 'express';
 import { Observable, catchError, throwError } from 'rxjs';
 
 /**
