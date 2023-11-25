@@ -6,7 +6,7 @@
 - [x] Interceptors (auth and security)
 - [x] Guards
 - [x] TypeName for functions file
+- [x] Create activity feature
 - [ ] Have a Redux store for activities or bookings
-- [ ] Create activity feature
 - [ ] Create booking feature
 - [ ] View proper auth bookings and activities

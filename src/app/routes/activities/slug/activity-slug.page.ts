@@ -29,13 +29,14 @@ import { ActivitySlugService } from './activity-slug.service';
         <lab-error [message]="errorMessage()" />
       }
       @default {
-        <lab-activity-slug [activity]="state().value" />
+        <lab-activity-slug [activity]="state().value" (booking)="onBooking()" />
       }
     }
   `,
 })
 export default class ActivitySlugPage {
   #service = inject(ActivitySlugService);
+
   // ToDo: use router params$ instead of @Input
 
   /** The activity slug received from a router param */
@@ -56,4 +57,9 @@ export default class ActivitySlugPage {
     // We need our current injector to be able pass it to the `toState` function
   }
   errorMessage = computed(() => `Failed to load ${this.state().error}`);
+
+  onBooking() {
+    const activity = this.state().value;
+    if (activity) this.#service.postBookActivity$(activity).subscribe();
+  }
 }

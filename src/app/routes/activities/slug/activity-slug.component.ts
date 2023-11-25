@@ -2,7 +2,9 @@ import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
+  Output,
   computed,
   signal,
 } from '@angular/core';
@@ -41,16 +43,21 @@ import { Activity, NULL_ACTIVITY } from '@shared/activity.type';
         </p>
       </section>
       <footer>
-        <button>Book</button>
+        <button (click)="booking.emit()">Book</button>
       </footer>
     </article>
   `,
 })
 export class ActivitySlugComponent {
+  // ToDo: output booking event
+  @Output() booking = new EventEmitter<void>();
+
+  // ToDo: use transformer
   @Input({ required: true })
   set activity(activity: Activity) {
     this.state.set(activity);
   }
+
   state = signal<Activity>(NULL_ACTIVITY);
   title = computed(() => this.state().name);
   subtitle = 'Book your activity now!';
