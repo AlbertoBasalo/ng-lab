@@ -1,8 +1,8 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { CanMatchFn, Router } from '@angular/router';
 import { AuthStore } from './auth.store';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const authGuard: CanMatchFn = (route, segments) => {
   const authStore = inject(AuthStore);
   if (authStore.isAuthenticated()) {
     return true;

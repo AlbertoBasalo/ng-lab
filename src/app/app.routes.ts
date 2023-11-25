@@ -9,7 +9,7 @@ export const routes: Routes = [
   },
   {
     path: 'auth/profile',
-    canActivate: [authGuard],
+    canMatch: [authGuard],
     loadComponent: () => import('@routes/auth/profile.page'),
   },
   {
@@ -22,7 +22,7 @@ export const routes: Routes = [
   },
   {
     path: 'activities/new',
-    canActivate: [authGuard],
+    canMatch: [authGuard],
     loadComponent: () =>
       import('@routes/activities/new-activity/new-activity.page'),
   },
