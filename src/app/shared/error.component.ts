@@ -1,13 +1,13 @@
-import { CommonModule } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'lab-error',
   standalone: true,
-  imports: [CommonModule],
+  imports: [JsonPipe],
   template: `
     <aside id="error">
-      <small>{{ message }}</small>
+      <small>{{ message | json }}</small>
     </aside>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

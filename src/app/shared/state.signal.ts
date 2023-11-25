@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 /**
  * The possible status of an observable command
  */
-export type Status = 'pending' | 'success' | 'error';
+export type Status = 'pending' | 'success' | 'error' | 'idle';
 
 /**
  * A structure representing the state of an observable

@@ -6,9 +6,11 @@ import {
   Signal,
   computed,
   inject,
+  signal,
 } from '@angular/core';
 
 import { Activity, NULL_ACTIVITY } from '@shared/activity.type';
+import { Booking, NULL_BOOKING } from '@shared/booking.type';
 import { ErrorComponent } from '@shared/error.component';
 import { PendingComponent } from '@shared/pending.component';
 import { State, toState } from '@shared/state.signal';
@@ -21,7 +23,7 @@ import { ActivitySlugService } from './activity-slug.service';
   imports: [ActivitySlugComponent, PendingComponent, ErrorComponent],
   providers: [ActivitySlugService],
   template: `
-    @switch (state().status) {
+    @switch (getState().status) {
       @case ('pending') {
         <lab-pending message="Loading activity {{ slug }}" />
       }
@@ -29,7 +31,15 @@ import { ActivitySlugService } from './activity-slug.service';
         <lab-error [message]="errorMessage()" />
       }
       @default {
-        <lab-activity-slug [activity]="state().value" (booking)="onBooking()" />
+        <lab-activity-slug
+          [activity]="getState().value"
+          (booking)="onBooking()"
+        />
+        @if (postState().status == 'success') {
+          <p>Booking successful!</p>
+        } @else if (postState().error) {
+          <lab-error [message]="postState().error" />
+        }
       }
     }
   `,
@@ -44,22 +54,32 @@ export default class ActivitySlugPage {
   set slug(slug: string) {
     // With this paradigm, we are not leveraging the observable router
     // Every time the slug changes, we need to reset the state
-    this.state = toState<Activity>(
+    this.getState = toState<Activity>(
       this.#service.getActivityBySlug$(slug), // the observable
       NULL_ACTIVITY, // the initial value
       this.injector, // here we are not in an injection context
     );
   }
 
-  state!: Signal<State<Activity>>;
+  // ToDo: improve to act as a component store
+  getState!: Signal<State<Activity>>;
+  postState: Signal<State<Booking>> = signal({
+    status: 'idle',
+    value: NULL_BOOKING,
+  });
 
   constructor(private readonly injector: Injector) {
     // We need our current injector to be able pass it to the `toState` function
   }
-  errorMessage = computed(() => `Failed to load ${this.state().error}`);
+  errorMessage = computed(() => `Failed to load ${this.getState().error}`);
 
   onBooking() {
-    const activity = this.state().value;
-    if (activity) this.#service.postBookActivity$(activity).subscribe();
+    const activity = this.getState().value;
+    if (activity)
+      this.postState = toState(
+        this.#service.postBookActivity$(activity),
+        NULL_BOOKING,
+        this.injector,
+      );
   }
 }

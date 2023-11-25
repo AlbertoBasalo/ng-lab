@@ -33,7 +33,7 @@ export class ActivitySlugService {
     const booking: Partial<Booking> = {
       activityId: activity.id,
       userId: this.#authStore.user().id,
-      date: activity.date,
+      date: new Date(),
       participants: 1,
     };
     return this.#http$.post<Booking>(url, booking);

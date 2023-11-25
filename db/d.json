@@ -97,15 +97,7 @@
       "userId": 2
     }
   ],
-  "bookings": [
-    {
-      "activityId": 7,
-      "userId": 1,
-      "date": "2024-04-21",
-      "participants": 1,
-      "id": 1
-    }
-  ],
+  "bookings": [],
   "users": [
     {
       "email": "sam@musk.org",
