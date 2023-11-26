@@ -49,7 +49,6 @@ import { Activity, NULL_ACTIVITY } from '@shared/activity.type';
   `,
 })
 export class ActivitySlugComponent {
-  // ToDo: output booking event
   @Output() booking = new EventEmitter<void>();
 
   // ToDo: use transformer

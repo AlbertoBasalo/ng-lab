@@ -47,7 +47,7 @@ import { ActivitySlugService } from './activity-slug.service';
 export default class ActivitySlugPage {
   #service = inject(ActivitySlugService);
 
-  // ToDo: use router params$ instead of @Input
+  // ?: use router params$ instead of @Input
 
   /** The activity slug received from a router param */
   @Input({ required: true })
@@ -61,7 +61,9 @@ export default class ActivitySlugPage {
     );
   }
 
-  // ToDo: improve to act as a component store
+  // ToDo: improve to act as a component store (multi-command)
+  // ? : ngrx/signals
+  // https://dev.to/ngrx/announcing-ngrx-v17-introducing-ngrx-signals-operators-performance-improvements-workshops-and-more-55e4
   getState!: Signal<State<Activity>>;
   postState: Signal<State<Booking>> = signal({
     status: 'idle',
