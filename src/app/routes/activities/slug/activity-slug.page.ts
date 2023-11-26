@@ -9,6 +9,7 @@ import {
   signal,
 } from '@angular/core';
 
+import { JsonPipe } from '@angular/common';
 import { Activity, NULL_ACTIVITY } from '@shared/activity.type';
 import { Booking, NULL_BOOKING } from '@shared/booking.type';
 import { ErrorComponent } from '@shared/error.component';
@@ -20,7 +21,7 @@ import { ActivitySlugService } from './activity-slug.service';
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ActivitySlugComponent, PendingComponent, ErrorComponent],
+  imports: [ActivitySlugComponent, PendingComponent, ErrorComponent, JsonPipe],
   providers: [ActivitySlugService],
   template: `
     @switch (getState().status) {
@@ -35,10 +36,17 @@ import { ActivitySlugService } from './activity-slug.service';
           [activity]="getState().value"
           (booking)="onBooking()"
         />
-        @if (postState().status == 'success') {
-          <p>Booking successful!</p>
-        } @else if (postState().error) {
-          <lab-error [message]="postState().error" />
+        @switch (postState().status) {
+          @case ('pending') {
+            <lab-pending message="Posting booking {{ slug }}" />
+          }
+          @case ('error') {
+            <lab-error [message]="errorMessage()" />
+          }
+          @case ('success') {
+            <h3>Booking successfully done</h3>
+            <pre>{{ postState() | json }}</pre>
+          }
         }
       }
     }
@@ -61,9 +69,6 @@ export default class ActivitySlugPage {
     );
   }
 
-  // ToDo: improve to act as a component store (multi-command)
-  // ? : ngrx/signals
-  // https://dev.to/ngrx/announcing-ngrx-v17-introducing-ngrx-signals-operators-performance-improvements-workshops-and-more-55e4
   getState!: Signal<State<Activity>>;
   postState: Signal<State<Booking>> = signal({
     status: 'idle',
@@ -73,15 +78,20 @@ export default class ActivitySlugPage {
   constructor(private readonly injector: Injector) {
     // We need our current injector to be able pass it to the `toState` function
   }
-  errorMessage = computed(() => `Failed to load ${this.getState().error}`);
+  errorMessage = computed(() => {
+    const getError = this.getState().error;
+    if (getError) return `Failed loading: ${getError}`;
+    const postError = this.postState().error;
+    if (postError) return `Failed booking ${postError}`;
+    return '';
+  });
 
   onBooking() {
     const activity = this.getState().value;
-    if (activity)
-      this.postState = toState(
-        this.#service.postBookActivity$(activity),
-        NULL_BOOKING,
-        this.injector,
-      );
+    this.postState = toState(
+      this.#service.postBookActivity$(activity),
+      NULL_BOOKING,
+      this.injector,
+    );
   }
 }
