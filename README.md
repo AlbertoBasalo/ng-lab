@@ -24,7 +24,9 @@ Find detailed journal of instructions in [CLI.md](CLI.md)
 
 ### Testing
 
-This project is being e2e tested with **Cypress**. Find the testing code at my repository [**cy-lab**](https://github.com/AlbertoBasalo/cy-lab)
+This project is being e2e tested with **Cypress**. Find the testing code at my repository
+
+- [**cy-lab**](https://github.com/AlbertoBasalo/cy-lab)
 
 ---
 
