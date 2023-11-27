@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Activity } from '@shared/activity.type';
-import { AuthStore } from '@shared/auth.store';
+import { AuthStore } from '@shared/auth/auth.store';
 import { Booking } from '@shared/booking.type';
 import { Observable, map, tap } from 'rxjs';
 

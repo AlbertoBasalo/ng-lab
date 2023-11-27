@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from './auth.service';
+import { AuthService } from '../auth.service';
 import { Login } from './login.dto';
 import { LoginForm } from './login.form';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [AuthService],
   imports: [RouterLink, LoginForm],
   template: `
     <article>

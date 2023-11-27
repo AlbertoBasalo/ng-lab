@@ -1,6 +1,6 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
+import { WindowService } from '../window.service';
 import { NULL_USER_TOKEN, UserToken } from './user-token.dto';
-import { WindowService } from './window.service';
 
 /**
  * A store to manage all state related to authentication

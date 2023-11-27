@@ -1,14 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
-import { AuthStore } from '@shared/auth.store';
-import { UserToken } from '@shared/user-token.dto';
+import { inject } from '@angular/core';
+import { AuthStore } from '@shared/auth/auth.store';
+import { UserToken } from '@shared/auth/user-token.dto';
 import { tap } from 'rxjs';
-import { Login } from './login.dto';
-import { Register } from './register.dto';
+import { Login } from './login/login.dto';
+import { Register } from './register/register.dto';
 
-@Injectable({
-  providedIn: 'root',
-})
 export class AuthService {
   #store$ = inject(AuthStore);
   #http$ = inject(HttpClient);

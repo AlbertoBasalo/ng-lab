@@ -12,9 +12,9 @@ import {
 import { JsonPipe } from '@angular/common';
 import { Activity, NULL_ACTIVITY } from '@shared/activity.type';
 import { Booking, NULL_BOOKING } from '@shared/booking.type';
-import { ErrorComponent } from '@shared/error.component';
-import { PendingComponent } from '@shared/pending.component';
-import { State, toState } from '@shared/state.signal';
+import { ErrorComponent } from '@shared/state/error.component';
+import { PendingComponent } from '@shared/state/pending.component';
+import { State, toState } from '@shared/state/state.signal';
 import { ActivitySlugComponent } from './activity-slug.component';
 import { ActivitySlugService } from './activity-slug.service';
 

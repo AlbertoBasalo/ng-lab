@@ -5,10 +5,10 @@ import {
   inject,
 } from '@angular/core';
 import { Activity } from '@shared/activity.type';
-import { ErrorComponent } from '@shared/error.component';
-import { PendingComponent } from '@shared/pending.component';
 import { SearchComponent } from '@shared/search.component';
-import { toState } from '@shared/state.signal';
+import { ErrorComponent } from '@shared/state/error.component';
+import { PendingComponent } from '@shared/state/pending.component';
+import { toState } from '@shared/state/state.signal';
 import { BehaviorSubject, switchMap } from 'rxjs';
 import { ActivitiesList } from './activities.list';
 import { ActivitiesService } from './activities.service';

@@ -1,20 +1,20 @@
 import { Routes } from '@angular/router';
-import { authGuard } from '@shared/auth.guard';
+import { authGuard } from '@shared/auth/auth.guard';
 
 export const routes: Routes = [
   { path: 'home', loadComponent: () => import('@routes/home/home.page') },
   {
     path: 'auth/login',
-    loadComponent: () => import('@routes/auth/login.page'),
+    loadComponent: () => import('@routes/auth/login/login.page'),
   },
   {
     path: 'auth/profile',
     canMatch: [authGuard],
-    loadComponent: () => import('@routes/auth/profile.page'),
+    loadComponent: () => import('@routes/auth/profile/profile.page'),
   },
   {
     path: 'auth/register',
-    loadComponent: () => import('@routes/auth/register.page'),
+    loadComponent: () => import('@routes/auth/register/register.page'),
   },
   {
     path: 'activities',
