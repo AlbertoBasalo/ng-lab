@@ -8,10 +8,13 @@ git clone https://github.com/AlbertoBasalo/ng-lab.git
 # install and run
 cd ng-lab
 npm install
+# start Angular server (with SSR)
 npm start
+# start a fake API server (with json-server)
+npm run seedapi
 ```
 
-Find detailed instructions in [CLI.md](CLI.md)
+Find detailed journal of instructions in [CLI.md](CLI.md)
 
 ---
 
