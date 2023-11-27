@@ -2,8 +2,8 @@
   "activities": [
     {
       "id": 1,
-      "name": "Standup Surf",
-      "slug": "standup-surf",
+      "name": "Standup Surfing",
+      "slug": "standup-surfing",
       "price": 30,
       "duration": 120,
       "location": "Laco di Como",
@@ -14,8 +14,8 @@
     },
     {
       "id": 2,
-      "name": "Kayak",
-      "slug": "kayak",
+      "name": "Kayaking",
+      "slug": "kayaking",
       "price": 50,
       "duration": 180,
       "location": "Grand Canyon",
@@ -26,8 +26,8 @@
     },
     {
       "id": 3,
-      "name": "Surf",
-      "slug": "surf",
+      "name": "Surfing",
+      "slug": "surfing",
       "price": 40,
       "duration": 90,
       "location": "Hawaii",
@@ -62,8 +62,8 @@
     },
     {
       "id": 6,
-      "name": "Wind Surf",
-      "slug": "wind-surf",
+      "name": "Wind Surfing",
+      "slug": "wind-surfing",
       "price": 140,
       "duration": 120,
       "location": "Canary Islands",
@@ -74,11 +74,11 @@
     },
     {
       "id": 7,
-      "name": "Snorkel diving",
-      "slug": "snorkel-diving",
+      "name": "Snorkeling diving",
+      "slug": "snorkeling-diving",
       "price": 80,
       "duration": 120,
-      "location": "Riviera Maya",
+      "location": "Rivièra Maya",
       "date": "2024-04-21",
       "maxParticipants": 8,
       "minParticipants": 4,
