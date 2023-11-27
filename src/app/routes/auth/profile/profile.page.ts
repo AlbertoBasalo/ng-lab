@@ -7,6 +7,7 @@ import {
 import { Router } from '@angular/router';
 import { AuthStore } from '@core/auth/auth.store';
 import { Activity } from '@shared/activity/activity.type';
+import { Booking } from '@shared/booking/booking.type';
 import { toState } from '@shared/state/state.signal';
 import { ProfileComponent } from './profile.component';
 import { ProfileService } from './profile.service';
@@ -21,7 +22,10 @@ import { ProfileService } from './profile.service';
       <header>
         <h2>{{ userName() }}</h2>
       </header>
-      <lab-profile [activities]="activitiesState().value" />
+      <lab-profile
+        [activities]="activitiesState().value"
+        [bookings]="bookingsState().value"
+      />
       <footer>
         <button (click)="onLogout()">Logout</button>
       </footer>
@@ -35,6 +39,10 @@ export default class ProfilePage {
   userName = computed(() => `Hi, ${this.#authStore.user().username}`);
   activitiesState = toState<Activity[]>(
     this.#service.getActivities$(this.#authStore.getUserToken().user.id),
+    [],
+  );
+  bookingsState = toState<Booking[]>(
+    this.#service.getBookings$(this.#authStore.getUserToken().user.id),
     [],
   );
   onLogout() {
