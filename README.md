@@ -1,4 +1,6 @@
-# NgLab, Angular Laboratory for Alberto Basalo courses and workshops
+# NgLab,
+
+> Angular Laboratory for Alberto Basalo courses and workshops
 
 [![GitHub license](https://img.shields.io/github/license/AlbertoBasalo/cy-lab?style=for-the-badge)](https://albertobasalo.dev)
 
@@ -22,7 +24,7 @@ Find detailed journal of instructions in [CLI.md](CLI.md)
 
 ### Testing
 
-This project is being e2e tested with **Cypress**. Find the testing code at my repository [cy-lab](https://github.com/AlbertoBasalo/cy-lab)
+This project is being e2e tested with **Cypress**. Find the testing code at my repository [**cy-lab**](https://github.com/AlbertoBasalo/cy-lab)
 
 ---
 
