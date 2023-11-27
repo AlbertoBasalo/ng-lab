@@ -1,5 +1,5 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
-import { WindowService } from '../window.service';
+import { WindowService } from '../../shared/window.service';
 import { NULL_USER_TOKEN, UserToken } from './user-token.dto';
 
 /**

@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from '@shared/auth/auth.guard';
+import { authGuard } from '@core/auth/auth.guard';
 
 export const routes: Routes = [
   { path: 'home', loadComponent: () => import('@routes/home/home.page') },

@@ -5,8 +5,8 @@ import {
   inject,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthStore } from '@core/auth/auth.store';
 import { Activity } from '@shared/activity.type';
-import { AuthStore } from '@shared/auth/auth.store';
 import { toState } from '@shared/state/state.signal';
 import { ProfileComponent } from './profile.component';
 import { ProfileService } from './profile.service';

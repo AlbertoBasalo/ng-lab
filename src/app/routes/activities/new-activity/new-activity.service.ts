@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { AuthStore } from '@core/auth/auth.store';
 import { Activity } from '@shared/activity.type';
-import { AuthStore } from '@shared/auth/auth.store';
 import { Observable } from 'rxjs';
 
 export class NewActivityService {

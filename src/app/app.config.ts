@@ -7,7 +7,7 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { provideClientHydration } from '@angular/platform-browser';
-import { AuthInterceptor } from '@core/auth.interceptor';
+import { AuthInterceptor } from '@core/auth/auth.interceptor';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
