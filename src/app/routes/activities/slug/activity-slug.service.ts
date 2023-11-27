@@ -28,6 +28,11 @@ export class ActivitySlugService {
     );
   }
 
+  /**
+   * Posts a booking for the given activity
+   * @param activity the activity to book
+   * @returns An observable booking
+   */
   postBookActivity$(activity: Activity): Observable<Booking> {
     const url = `${this.#apiBookingsUrl}`;
     const booking: Partial<Booking> = {

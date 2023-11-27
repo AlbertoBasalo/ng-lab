@@ -43,7 +43,7 @@ import { Activity, NULL_ACTIVITY } from '@shared/activity/activity.type';
         </p>
       </section>
       <footer>
-        <button (click)="booking.emit()">Book</button>
+        <button id="bookingActivity" (click)="booking.emit()">Book</button>
       </footer>
     </article>
   `,

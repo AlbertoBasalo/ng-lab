@@ -69,6 +69,7 @@ export default class ActivitySlugPage {
     );
   }
 
+  // two state signals, one for the activity, one for the booking
   getState!: Signal<State<Activity>>;
   postState: Signal<State<Booking>> = signal({
     status: 'idle',
@@ -78,6 +79,8 @@ export default class ActivitySlugPage {
   constructor(private readonly injector: Injector) {
     // We need our current injector to be able pass it to the `toState` function
   }
+
+  /** A computed signal getting the last error, either from get or post states */
   errorMessage = computed(() => {
     const getError = this.getState().error;
     if (getError) return `Failed loading: ${getError}`;
@@ -86,12 +89,13 @@ export default class ActivitySlugPage {
     return '';
   });
 
+  /** Calls a service that pos a new booking and wires its observable to a signal */
   onBooking() {
     const activity = this.getState().value;
     this.postState = toState(
-      this.#service.postBookActivity$(activity),
-      NULL_BOOKING,
-      this.injector,
+      this.#service.postBookActivity$(activity), // the observable
+      NULL_BOOKING, // the initial value
+      this.injector, // here we are not in an injection context
     );
   }
 }
