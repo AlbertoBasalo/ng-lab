@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, inject } from '@angular/core';
-import { WindowService } from '@shared/window.service';
+import { WindowService } from '@core/window.service';
 
 /**
  * Log any non handled error and alert user
