@@ -1,4 +1,6 @@
-# Alberto Basalo Ng Lab v17
+# NgLab, Angular Laboratory for Alberto Basalo courses and workshops
+
+[![GitHub license](https://img.shields.io/github/license/AlbertoBasalo/cy-lab?style=for-the-badge)](https://albertobasalo.dev)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
 
@@ -14,7 +16,13 @@ npm start
 npm run seedapi
 ```
 
+### Documentation
+
 Find detailed journal of instructions in [CLI.md](CLI.md)
+
+### Testing
+
+This project is being e2e tested with **Cypress**. Find the testing code at my repository [cy-lab](https://github.com/AlbertoBasalo/cy-lab)
 
 ---
 

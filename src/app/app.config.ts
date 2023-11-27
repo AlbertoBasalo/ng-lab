@@ -15,7 +15,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     { provide: ErrorHandler, useClass: ErrorService },
     provideHttpClient(withFetch(), withInterceptors([AuthInterceptor])),
-
     provideRouter(routes, withComponentInputBinding()),
     provideClientHydration(),
   ],
