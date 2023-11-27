@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [17.4.0](https://github.com/AlbertoBasalo/ng-lab/compare/v17.3.0...v17.4.0) (2023-11-27)
+
+
+### Features
+
+* canMatch ([ef10d8b](https://github.com/AlbertoBasalo/ng-lab/commit/ef10d8be720b2dfd1a77db9b7040e9bc78d81938))
+* core folder and tsconfig paths ([355b68a](https://github.com/AlbertoBasalo/ng-lab/commit/355b68a3b52464c90e31c28ef98d52f5da18ca26))
+* error and auth providers ([d02e569](https://github.com/AlbertoBasalo/ng-lab/commit/d02e5690b3051ee4b9b2ac5d724a3e338d857504))
+* lazy load routes ([c712b3f](https://github.com/AlbertoBasalo/ng-lab/commit/c712b3f63c81220fedc52f0314bb8457aeef8075))
+* new activity ([d62daea](https://github.com/AlbertoBasalo/ng-lab/commit/d62daea3a504508f21c858d73321499c456258e0))
+* post booking ([6c63905](https://github.com/AlbertoBasalo/ng-lab/commit/6c639058d8c48913f2843fc977a254e79677830e))
+* postbooking state ([fac68b7](https://github.com/AlbertoBasalo/ng-lab/commit/fac68b70cfee51c13e92d0ae3d2670704246e8be))
+* profile ([3b37379](https://github.com/AlbertoBasalo/ng-lab/commit/3b37379b4ba92547d1e18cf3c5f0121478ad70da))
+* two states at the same component ([17b2a84](https://github.com/AlbertoBasalo/ng-lab/commit/17b2a842f8e59bda4e7ae058888fb2e2f6914c1d))
+
+
+### Bug Fixes
+
+* booking type file name ([51a9960](https://github.com/AlbertoBasalo/ng-lab/commit/51a996075f043408f242a5b9624d8c8c506cac8d))
+* guard and interceptor ([f318c46](https://github.com/AlbertoBasalo/ng-lab/commit/f318c46fe0a3e069a823013b80865d70bb2c8830))
+
 ## [17.3.0](https://github.com/AlbertoBasalo/ng-lab/compare/v17.2.0...v17.3.0) (2023-11-22)
 
 
