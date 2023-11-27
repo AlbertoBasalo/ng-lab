@@ -10,8 +10,8 @@ import {
 } from '@angular/core';
 
 import { JsonPipe } from '@angular/common';
-import { Activity, NULL_ACTIVITY } from '@shared/activity.type';
-import { Booking, NULL_BOOKING } from '@shared/booking.type';
+import { Activity, NULL_ACTIVITY } from '@shared/activity/activity.type';
+import { Booking, NULL_BOOKING } from '@shared/booking/booking.type';
 import { ErrorComponent } from '@shared/state/error.component';
 import { PendingComponent } from '@shared/state/pending.component';
 import { State, toState } from '@shared/state/state.signal';

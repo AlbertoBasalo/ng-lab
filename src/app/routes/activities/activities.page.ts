@@ -4,7 +4,7 @@ import {
   computed,
   inject,
 } from '@angular/core';
-import { Activity } from '@shared/activity.type';
+import { Activity } from '@shared/activity/activity.type';
 import { SearchComponent } from '@shared/search.component';
 import { ErrorComponent } from '@shared/state/error.component';
 import { PendingComponent } from '@shared/state/pending.component';

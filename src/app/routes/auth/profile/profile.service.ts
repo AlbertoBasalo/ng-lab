@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Activity } from '@shared/activity.type';
+import { Activity } from '@shared/activity/activity.type';
 
 export class ProfileService {
   #http$ = inject(HttpClient);

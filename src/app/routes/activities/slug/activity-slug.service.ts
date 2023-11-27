@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthStore } from '@core/auth/auth.store';
-import { Activity } from '@shared/activity.type';
-import { Booking } from '@shared/booking.type';
+import { Activity } from '@shared/activity/activity.type';
+import { Booking } from '@shared/booking/booking.type';
 import { Observable, map, tap } from 'rxjs';
 
 export class ActivitySlugService {

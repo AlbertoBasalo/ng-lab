@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Activity } from '@shared/activity.type';
+import { Activity } from '@shared/activity/activity.type';
 import { NewActivityForm } from './new-activity.form';
 import { NewActivityService } from './new-activity.service';
 

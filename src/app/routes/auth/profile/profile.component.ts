@@ -1,7 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Activity } from '@shared/activity.type';
+import { Activity } from '@shared/activity/activity.type';
 
 @Component({
   selector: 'lab-profile',

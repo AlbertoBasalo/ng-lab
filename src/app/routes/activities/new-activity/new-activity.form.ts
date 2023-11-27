@@ -10,7 +10,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Activity } from '@shared/activity.type';
+import { Activity } from '@shared/activity/activity.type';
 import { markError, showError } from '@shared/form.utils';
 
 @Component({
