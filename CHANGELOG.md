@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [17.5.0](https://github.com/AlbertoBasalo/ng-lab/compare/v17.4.0...v17.5.0) (2023-12-01)
+
+
+### Features
+
+* organize ([e62ef5e](https://github.com/AlbertoBasalo/ng-lab/commit/e62ef5ed18479b8a194ddde20097e435162e30dd))
+
 ## [17.4.0](https://github.com/AlbertoBasalo/ng-lab/compare/v17.3.0...v17.4.0) (2023-11-27)
 
 
