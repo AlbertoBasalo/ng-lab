@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Activity } from '@shared/activity/activity.type';
+import { ActivityListItem } from '@routes/activities/activity.list-item';
+import { Activity } from '@shared/domain/activity.type';
 
 @Component({
   selector: 'lab-activities',
   standalone: true,
-  imports: [CommonModule],
+  imports: [ActivityListItem],
   template: `
     @if (activities.length >= 0) {
       <h3>
@@ -14,18 +14,7 @@ import { Activity } from '@shared/activity/activity.type';
       </h3>
       <ul id="activities-list">
         @for (activity of activities; track activity.id) {
-          <li itemscope itemtype="http://schema.org/Product" [id]="activity.id">
-            <span itemprop="name">
-              <a href="/activities/{{ activity.slug }}">{{ activity.name }}</a>
-            </span>
-            <time itemprop="date" [attr.datetime]="activity.date">
-              on {{ activity.date | date: 'EEEE dd-MMM' }}
-            </time>
-            <span itemprop="price" [attr.content]="activity.price">
-              for only
-              {{ activity.price | currency: 'EUR' : 'symbol' : '1.0-0' }}.
-            </span>
-          </li>
+          <lab-activity-list-item [activity]="activity" />
         }
       </ul>
     } @else {

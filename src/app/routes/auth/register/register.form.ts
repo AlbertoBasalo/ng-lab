@@ -10,7 +10,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { markError, passwordValidators, showError } from '@shared/form.utils';
+import {
+  markError,
+  passwordValidators,
+  showError,
+} from '@shared/ui/form.utils';
 
 @Component({
   selector: 'lab-register',

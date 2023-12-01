@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Activity } from '@shared/activity/activity.type';
+import { Activity } from '@shared/domain/activity.type';
 import { Observable } from 'rxjs';
 
 export class ActivitiesService {
   #http$ = inject(HttpClient);
-  #apiUrl = 'http://localhost:3000/activities';
+  #apiUrl = 'activities';
 
   /**
    * Get the list of activities filtered by a query

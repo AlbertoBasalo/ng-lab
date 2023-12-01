@@ -6,7 +6,7 @@ import {
   inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AuthStore } from '@core/auth/auth.store';
+import { AuthStore } from '@shared/services/auth.store';
 
 @Component({
   selector: 'lab-header',

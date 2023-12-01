@@ -5,27 +5,36 @@ import {
   inject,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthStore } from '@core/auth/auth.store';
-import { Activity } from '@shared/activity/activity.type';
-import { Booking } from '@shared/booking/booking.type';
-import { toState } from '@shared/state/state.signal';
-import { ProfileComponent } from './profile.component';
+import { ActivityCard } from '@routes/auth/profile/activity.card';
+import { BookingCard } from '@routes/auth/profile/booking.card';
+import { Activity } from '@shared/domain/activity.type';
+import { Booking } from '@shared/domain/booking.type';
+import { AuthStore } from '@shared/services/auth.store';
+import { toState } from '@shared/services/state.signal';
 import { ProfileService } from './profile.service';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ProfileService],
-  imports: [ProfileComponent],
+  imports: [BookingCard, ActivityCard],
   template: `
     <article name="Profile">
       <header>
         <h2>{{ userName() }}</h2>
       </header>
-      <lab-profile
-        [activities]="activitiesState().value"
-        [bookings]="bookingsState().value"
-      />
+      <h2>These are the activities you organize</h2>
+      <div class="grid">
+        @for (activity of activitiesState().value; track activity.id) {
+          <lab-activity-card [activity]="activity" />
+        }
+      </div>
+      <h2>These are the activities you booked</h2>
+      <div class="grid">
+        @for (booking of bookingsState().value; track booking.id) {
+          <lab-booking-card [booking]="booking" />
+        }
+      </div>
       <footer>
         <button (click)="onLogout()">Logout</button>
       </footer>

@@ -1,15 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthStore } from '@core/auth/auth.store';
-import { Activity } from '@shared/activity/activity.type';
-import { Booking } from '@shared/booking/booking.type';
+import { Activity } from '@shared/domain/activity.type';
+import { Booking } from '@shared/domain/booking.type';
+import { AuthStore } from '@shared/services/auth.store';
 import { Observable, map, tap } from 'rxjs';
 
 export class ActivitySlugService {
   #http$ = inject(HttpClient);
   #authStore = inject(AuthStore);
-  #apiActivitiesUrl = 'http://localhost:3000/activities';
-  #apiBookingsUrl = 'http://localhost:3000/bookings';
+  #apiActivitiesUrl = 'activities';
+  #apiBookingsUrl = 'bookings';
 
   /**
    * Gets an activity by its slug

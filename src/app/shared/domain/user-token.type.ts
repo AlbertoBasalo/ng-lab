@@ -1,4 +1,4 @@
-import { NULL_USER, User } from './user.dto';
+import { NULL_USER, User } from './user.type';
 
 /**
  * API User Token including the access token and the user profile

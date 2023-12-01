@@ -4,11 +4,11 @@ import {
   computed,
   inject,
 } from '@angular/core';
-import { Activity } from '@shared/activity/activity.type';
-import { SearchComponent } from '@shared/search.component';
-import { ErrorComponent } from '@shared/state/error.component';
-import { PendingComponent } from '@shared/state/pending.component';
-import { toState } from '@shared/state/state.signal';
+import { Activity } from '@shared/domain/activity.type';
+import { toState } from '@shared/services/state.signal';
+import { ErrorComponent } from '@shared/ui/error.component';
+import { PendingComponent } from '@shared/ui/pending.component';
+import { SearchComponent } from '@shared/ui/search.component';
 import { BehaviorSubject, switchMap } from 'rxjs';
 import { ActivitiesList } from './activities.list';
 import { ActivitiesService } from './activities.service';
@@ -38,7 +38,7 @@ import { ActivitiesService } from './activities.service';
     }
   `,
 })
-export default class HomePage {
+export default class ActivitiesPage {
   #service = inject(ActivitiesService);
   /** Observable of filter terms */
   #searchTerm$ = new BehaviorSubject<string>('');

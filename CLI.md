@@ -120,3 +120,11 @@ ng g c routes/activities/new-activity --flat=false --skip-selector --style=none 
 ng g c routes/activities/new-activity --flat=false --type=form
 ng g s routes/activities/new-activity
 ```
+
+## Shared components
+
+```bash
+ng g c shared/activity/activity --type=list-item
+ng g c shared/activity/activity --type=card
+ng g c shared/booking/booking --type=card
+```

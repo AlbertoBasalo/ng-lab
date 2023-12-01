@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { Register } from './register.dto';
 import { RegisterForm } from './register.form';
+import { Register } from './register.type';
 
 @Component({
   standalone: true,

@@ -8,7 +8,7 @@ import {
   computed,
   signal,
 } from '@angular/core';
-import { Activity, NULL_ACTIVITY } from '@shared/activity/activity.type';
+import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
 
 @Component({
   selector: 'lab-activity-slug',
