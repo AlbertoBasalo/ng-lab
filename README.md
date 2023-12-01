@@ -22,6 +22,10 @@ npm run seedapi
 
 Find detailed journal of instructions in [CLI.md](CLI.md)
 
+Have an outlook of the project folders structure
+
+![Folders](docs/folders.png)
+
 ### Testing
 
 This project is being e2e tested with **Cypress**. Find the testing code at my repository
