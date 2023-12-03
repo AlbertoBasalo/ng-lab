@@ -4,7 +4,7 @@ import {
   computed,
   inject,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ActivityCard } from '@routes/auth/profile/activity.card';
 import { BookingCard } from '@routes/auth/profile/booking.card';
 import { Activity } from '@shared/domain/activity.type';
@@ -17,24 +17,36 @@ import { ProfileService } from './profile.service';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ProfileService],
-  imports: [BookingCard, ActivityCard],
+  imports: [BookingCard, ActivityCard, RouterLink],
   template: `
     <article name="Profile">
       <header>
         <h2>{{ userName() }}</h2>
       </header>
-      <h2>These are the activities you organize</h2>
-      <div class="grid">
-        @for (activity of activitiesState().value; track activity.id) {
-          <lab-activity-card [activity]="activity" />
+      @switch (role()) {
+        @case ('organizer') {
+          <h2>These are your organized activities</h2>
+          <div class="grid">
+            @for (activity of activitiesState().value; track activity.id) {
+              <lab-activity-card [activity]="activity" />
+            } @empty {
+              <p>You don't have any activities yet.</p>
+              <a routerLink="/activities/new">Create one</a>
+            }
+          </div>
         }
-      </div>
-      <h2>These are the activities you booked</h2>
-      <div class="grid">
-        @for (booking of bookingsState().value; track booking.id) {
-          <lab-booking-card [booking]="booking" />
+        @case ('participant') {
+          <h2>These are your booked activities</h2>
+          <div class="grid">
+            @for (booking of bookingsState().value; track booking.id) {
+              <lab-booking-card [booking]="booking" />
+            } @empty {
+              <p>You don't have any bookings yet.</p>
+              <a routerLink="/activities">Book one</a>
+            }
+          </div>
         }
-      </div>
+      }
       <footer>
         <button (click)="onLogout()">Logout</button>
       </footer>
@@ -42,18 +54,20 @@ import { ProfileService } from './profile.service';
   `,
 })
 export default class ProfilePage {
-  #service = inject(ProfileService);
-  #authStore = inject(AuthStore);
-  #router = inject(Router);
-  userName = computed(() => `Hi, ${this.#authStore.user().username}`);
-  activitiesState = toState<Activity[]>(
-    this.#service.getActivities$(this.#authStore.getUserToken().user.id),
-    [],
-  );
-  bookingsState = toState<Booking[]>(
-    this.#service.getBookings$(this.#authStore.getUserToken().user.id),
-    [],
-  );
+  // injection division
+  readonly #router = inject(Router);
+  readonly #authStore = inject(AuthStore);
+  readonly #service = inject(ProfileService);
+  // data division
+  readonly #userId = this.#authStore.user().id;
+  readonly #activities$ = this.#service.getActivities$(this.#userId);
+  readonly #bookings$ = this.#service.getBookings$(this.#userId);
+  // template signals division
+  readonly userName = computed(() => `Hi, ${this.#authStore.user().username}`);
+  readonly role = computed(() => this.#authStore.user().role);
+  readonly activitiesState = toState<Activity[]>(this.#activities$, []);
+  readonly bookingsState = toState<Booking[]>(this.#bookings$, []);
+  // template events division
   onLogout() {
     this.#authStore.clearUserToken();
     this.#router.navigate(['/']);

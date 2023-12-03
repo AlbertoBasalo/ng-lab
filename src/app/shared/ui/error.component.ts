@@ -5,9 +5,14 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   selector: 'lab-error',
   standalone: true,
   imports: [JsonPipe],
+  styles: `
+    :host {
+      color: var(--del-color)
+    }
+  `,
   template: `
     <aside id="error">
-      <small>{{ message | json }}</small>
+      <small> {{ message | json }}</small>
     </aside>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -12,9 +12,7 @@ export class AuthStore {
   #window = inject(WindowService);
   #userToken = signal<UserToken>(NULL_USER_TOKEN);
   #key = 'lab_user-token';
-  getUserToken() {
-    return this.#userToken();
-  }
+
   /**
    * Signal with the current access token
    * @description TO be used on HTTP Interceptors

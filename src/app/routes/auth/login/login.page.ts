@@ -1,5 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { ErrorComponent } from '@shared/ui/error.component';
 import { AuthService } from '../auth.service';
 import { LoginForm } from './login.form';
 import { Login } from './login.type';
@@ -8,13 +14,16 @@ import { Login } from './login.type';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [AuthService],
-  imports: [RouterLink, LoginForm],
+  imports: [RouterLink, LoginForm, ErrorComponent],
   template: `
     <article>
       <header>
         <h2>{{ title }}</h2>
       </header>
       <lab-login (login)="onLogin($event)" />
+      @if (error()) {
+        <lab-error [message]="error()" />
+      }
       <footer>
         <a routerLink="/auth/register">Register if you don't have an account</a>
       </footer>
@@ -25,10 +34,11 @@ export default class LoginPage {
   #router = inject(Router);
   #service$ = inject(AuthService);
   title = 'Login with your credentials.';
+  error = signal<string>('');
   onLogin(login: Login) {
     this.#service$.login$(login).subscribe({
-      next: () => this.#router.navigate(['/']),
-      error: () => this.#router.navigate(['/']),
+      next: () => this.#router.navigate(['/', 'auth', 'profile']),
+      error: (httpError) => this.error.set(httpError.error),
     });
   }
 }
