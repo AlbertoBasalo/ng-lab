@@ -9,5 +9,6 @@
 - [x] Create activity feature
 - [x] View proper auth bookings and activities
 - [x] Register with role and accept terms
-- [ ] Have a Redux store for activities or bookings
+- [x] Have a Redux store for auth
+- [ ] Error Handler, global and local
 - [ ] Create booking feature
