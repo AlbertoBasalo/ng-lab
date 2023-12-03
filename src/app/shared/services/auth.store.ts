@@ -1,6 +1,7 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { WindowService } from '../../core/window.service';
 import { NULL_USER_TOKEN, UserToken } from '../domain/user-token.type';
+import { AuthNavigationEffect } from './auth.effect';
 
 /**
  * A store to manage all state related to authentication
@@ -31,10 +32,10 @@ export class AuthStore {
    */
   readonly isAuthenticated = computed(() => !!this.accessToken());
 
-  constructor() {
+  constructor(authEffect: AuthNavigationEffect) {
+    effect(() => authEffect.execute(this.accessToken()));
     const userToken = this.#window.getLocalStorage(this.#key);
-    if (!userToken) return;
-    this.#userToken.set(userToken);
+    if (userToken) this.#userToken.set(userToken);
   }
 
   /**
@@ -51,5 +52,12 @@ export class AuthStore {
   clearUserToken() {
     this.#userToken.set(NULL_USER_TOKEN);
     this.#window.setLocalStorage(this.#key, NULL_USER_TOKEN);
+  }
+
+  /*
+   * Sets the error and navigates to login
+   */
+  setApiAuthError(error: string) {
+    this.#userToken.set(NULL_USER_TOKEN);
   }
 }

@@ -4,7 +4,7 @@ import {
   computed,
   inject,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { ActivityCard } from '@routes/auth/profile/activity.card';
 import { BookingCard } from '@routes/auth/profile/booking.card';
 import { Activity } from '@shared/domain/activity.type';
@@ -55,7 +55,6 @@ import { ProfileService } from './profile.service';
 })
 export default class ProfilePage {
   // injection division
-  readonly #router = inject(Router);
   readonly #authStore = inject(AuthStore);
   readonly #service = inject(ProfileService);
   // data division
@@ -70,6 +69,5 @@ export default class ProfilePage {
   // template events division
   onLogout() {
     this.#authStore.clearUserToken();
-    this.#router.navigate(['/']);
   }
 }

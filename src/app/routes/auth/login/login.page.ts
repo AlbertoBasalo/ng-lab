@@ -4,7 +4,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { AuthService } from '../auth.service';
 import { LoginForm } from './login.form';
@@ -31,13 +31,11 @@ import { Login } from './login.type';
   `,
 })
 export default class LoginPage {
-  #router = inject(Router);
   #service$ = inject(AuthService);
   title = 'Login with your credentials.';
   error = signal<string>('');
   onLogin(login: Login) {
     this.#service$.login$(login).subscribe({
-      next: () => this.#router.navigate(['/', 'auth', 'profile']),
       error: (httpError) => this.error.set(httpError.error),
     });
   }

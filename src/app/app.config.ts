@@ -10,6 +10,7 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { AuthInterceptor } from '@core/auth.interceptor';
 import { BaseInterceptor } from '@core/base.interceptor';
 import { ErrorService } from '@core/error.service';
+
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
