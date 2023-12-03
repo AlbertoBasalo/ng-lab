@@ -3,18 +3,20 @@ import {
   Component,
   EventEmitter,
   Output,
+  inject,
 } from '@angular/core';
 import {
-  FormControl,
-  FormGroup,
+  NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { Role } from '@shared/domain/user.type';
 import {
   markError,
   passwordValidators,
   showError,
 } from '@shared/ui/form.utils';
+import { Register } from './register.type';
 
 @Component({
   selector: 'lab-register',
@@ -77,6 +79,22 @@ import {
             [attr.aria-invalid]="markError('repeatPassword')"
           />
         </label>
+        <label for="role">
+          <span>Role</span>
+          <select id="role" name="role" formControlName="role">
+            <option value="participant">Participant</option>
+            <option value="organizer">Organizer</option>
+          </select>
+        </label>
+        <label for="acceptedTerms">
+          <input
+            type="checkbox"
+            id="acceptedTerms"
+            name="acceptedTerms"
+            formControlName="acceptedTerms"
+          />
+          <span>I accept the terms and conditions</span>
+        </label>
       </fieldset>
       <button type="submit" [disabled]="form.invalid" (click)="onSubmit()">
         Register
@@ -87,19 +105,21 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterForm {
-  @Output() register = new EventEmitter<any>();
-
+  @Output() register = new EventEmitter<Partial<Register>>();
+  fb = inject(NonNullableFormBuilder);
   /**
    * The form group with all the controls (initial values and validators)
    */
-  form = new FormGroup({
-    username: new FormControl('', [
+  form = this.fb.group({
+    username: this.fb.control('', [
       Validators.required,
       Validators.minLength(2),
     ]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', passwordValidators),
-    repeatPassword: new FormControl('', passwordValidators),
+    email: this.fb.control('', [Validators.required, Validators.email]),
+    password: this.fb.control('', passwordValidators),
+    repeatPassword: this.fb.control('', passwordValidators),
+    role: this.fb.control<Role>('participant', Validators.required),
+    acceptedTerms: this.fb.control(false, Validators.requiredTrue),
   });
 
   showError(controlName: string) {
@@ -111,8 +131,8 @@ export class RegisterForm {
   }
 
   onSubmit() {
-    // remove repeatPassword from the form value
-    const { repeatPassword, ...value } = this.form.value;
-    this.register.emit(value);
+    // remove repeated password from the form value
+    const { repeatPassword, ...user } = this.form.value;
+    this.register.emit(user);
   }
 }

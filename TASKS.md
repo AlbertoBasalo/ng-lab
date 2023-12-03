@@ -7,6 +7,7 @@
 - [x] Guards
 - [x] TypeName for functions file
 - [x] Create activity feature
+- [ ] View proper auth bookings and activities
+- [ ] Register with role and accept terms
 - [ ] Have a Redux store for activities or bookings
 - [ ] Create booking feature
-- [ ] View proper auth bookings and activities

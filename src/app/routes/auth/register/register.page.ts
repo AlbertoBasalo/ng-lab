@@ -26,7 +26,7 @@ export default class RegisterPage {
   #service$ = inject(AuthService);
   title = 'Register to create your account.';
 
-  onRegister(register: Register) {
+  onRegister(register: Partial<Register>) {
     this.#service$.register$(register).subscribe({
       next: () => this.#router.navigate(['/']),
     });

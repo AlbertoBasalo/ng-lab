@@ -9,6 +9,7 @@
 }
 
 :root {
+  --block-spacing-vertical: 0.25rem;
   --form-element-spacing-vertical: 0.25rem;
   --form-element-spacing-horizontal: 0.5rem;
   --typography-spacing-vertical: 0.5rem;

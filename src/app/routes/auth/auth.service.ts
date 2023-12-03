@@ -10,7 +10,7 @@ export class AuthService {
   #store$ = inject(AuthStore);
   #http$ = inject(HttpClient);
 
-  register$(register: Register) {
+  register$(register: Partial<Register>) {
     const url = `register`;
     return this.#http$
       .post<UserToken>(url, register)
