@@ -12,6 +12,7 @@
 - [x] Have a Redux store for auth
 - [x] Log service
 - [x] Error Handler
-- [ ] Global and local user notifications
+- [x] View, and cancel bookings
 - [ ] Ui atomic components (pageTitle, labelData, etc)
 - [ ] Create booking feature (modal with form)
+- [ ] Global and local user notifications

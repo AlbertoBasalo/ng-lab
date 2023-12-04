@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Activity } from '../../../shared/domain/activity.type';
+import { Activity } from '../../shared/domain/activity.type';
 
 @Component({
   selector: 'lab-activity-card',

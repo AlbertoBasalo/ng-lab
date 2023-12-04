@@ -10,5 +10,9 @@ export const routes: Routes = [
     path: 'activities',
     loadChildren: () => import('@routes/activities/activities.routes'),
   },
+  {
+    path: 'bookings',
+    loadComponent: () => import('@routes/bookings/bookings.page'),
+  },
   { path: '**', redirectTo: 'home' },
 ];

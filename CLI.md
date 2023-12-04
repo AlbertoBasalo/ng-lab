@@ -74,6 +74,7 @@ npm i -D copyfiles
 ## Activities page
 
 ```bash
+ng g c routes/activities/activities --type=page
 ng g c routes/activities/activities --type=list
 ng g s routes/activities/activities
 ```
@@ -130,4 +131,12 @@ ng g s routes/activities/new-activity
 ng g c shared/activity/activity --type=list-item
 ng g c shared/activity/activity --type=card
 ng g c shared/booking/booking --type=card
+```
+
+## Bookings page
+
+```bash
+ng g c routes/bookings/bookings --type=page
+ng g c routes/bookings/bookings --type=list
+ng g s routes/bookings/bookings
 ```

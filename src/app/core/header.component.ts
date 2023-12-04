@@ -47,6 +47,7 @@ export class HeaderComponent {
     return [
       { path: 'activities', label: 'Activities' },
       { path: 'activities/new', label: 'New Activity' },
+      { path: 'bookings', label: 'Bookings' },
       { path: 'auth/profile', label: userName },
     ];
   });
