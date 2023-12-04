@@ -1,24 +1,5 @@
 {
-  "activities": [
-    {
-      "name": "Surf",
-      "date": "2023-12-23",
-      "location": "Baiona",
-      "price": 0,
-      "maxParticipants": 0,
-      "minParticipants": 0,
-      "userId": 1,
-      "slug": "surf",
-      "id": 1
-    }
-  ],
+  "activities": [],
   "bookings": [],
-  "users": [
-    {
-      "email": "jane@acme.com",
-      "password": "$2a$10$tOGyvjfR.cBZ661goB3cee6ed9EB3nIcT1yZUBUKmSBbRJwE5BWsy",
-      "username": "Jane Doe",
-      "id": 1
-    }
-  ]
+  "users": []
 }
