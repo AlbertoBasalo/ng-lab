@@ -1,15 +1,23 @@
-import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Injector,
+  WritableSignal,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { Router } from '@angular/router';
-import { Activity } from '@shared/domain/activity.type';
-import { AuthStore } from '@shared/services/auth.store';
+import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
+import { State, connect } from '@shared/services/state.signal';
 import { NewActivityForm } from './new-activity.form';
 import { NewActivityService } from './new-activity.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, NewActivityForm],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NewActivityForm],
   providers: [NewActivityService],
   template: `
     <article>
@@ -18,23 +26,41 @@ import { NewActivityService } from './new-activity.service';
       </header>
       <lab-new-activity (create)="onCreate($event)" />
       <footer>
-        <p>{{ error }}</p>
+        <p>{{ error() }}</p>
       </footer>
     </article>
   `,
 })
 export default class NewActivityPage {
+  // injection division
+
   #service = inject(NewActivityService);
-  #authStore = inject(AuthStore);
   #router = inject(Router);
+  #injector = inject(Injector);
+
+  // component data division
+
+  #postActivityState: WritableSignal<State<Activity>> = signal({
+    status: 'idle',
+    value: NULL_ACTIVITY,
+  });
+
+  // template data division
+
   title = 'Create a new activity';
-  error = '';
+  error = computed(() => this.#postActivityState().error);
+
+  constructor() {
+    effect(() => {
+      if (this.#postActivityState().status === 'success')
+        this.#router.navigate(['/activities']);
+    });
+  }
+
+  // template event handlers division
 
   onCreate(activity: Partial<Activity>) {
-    activity.userId = this.#authStore.user().id;
-    this.#service.postActivity$(activity).subscribe({
-      next: () => this.#router.navigate(['/activities']),
-      error: (err) => (this.error = err.message),
-    });
+    const source$ = this.#service.postActivity$(activity);
+    connect(source$, this.#postActivityState, this.#injector);
   }
 }

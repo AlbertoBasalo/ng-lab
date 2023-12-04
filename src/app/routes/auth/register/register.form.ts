@@ -10,7 +10,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Role } from '@shared/domain/user.type';
 import {
   markError,
   passwordValidators,
@@ -79,13 +78,6 @@ import { Register } from './register.type';
             [attr.aria-invalid]="markError('repeatPassword')"
           />
         </label>
-        <label for="role">
-          <span>Role</span>
-          <select id="role" name="role" formControlName="role">
-            <option value="participant">Participant</option>
-            <option value="organizer">Organizer</option>
-          </select>
-        </label>
         <label for="acceptedTerms">
           <input
             type="checkbox"
@@ -118,7 +110,6 @@ export class RegisterForm {
     email: this.fb.control('', [Validators.required, Validators.email]),
     password: this.fb.control('', passwordValidators),
     repeatPassword: this.fb.control('', passwordValidators),
-    role: this.fb.control<Role>('organizer', Validators.required),
     acceptedTerms: this.fb.control(false, Validators.requiredTrue),
   });
 
@@ -132,7 +123,7 @@ export class RegisterForm {
 
   onSubmit() {
     // remove repeated password from the form value
-    const { repeatPassword, ...user } = this.form.value;
+    const { repeatPassword, acceptedTerms, ...user } = this.form.value;
     this.register.emit(user);
   }
 }

@@ -19,7 +19,6 @@ export class ActivitySlugService {
    */
   getActivityBySlug$(slug: string): Observable<Activity> {
     const url = `${this.#apiActivitiesUrl}?slug=${slug}`;
-    console.log(url);
     return this.#http$.get<Activity[]>(url).pipe(
       tap((activities) => {
         if (activities.length == 0)
@@ -38,7 +37,7 @@ export class ActivitySlugService {
     const url = `${this.#apiBookingsUrl}`;
     const booking: Partial<Booking> = {
       activityId: activity.id,
-      userId: this.#authStore.user().id,
+      userId: this.#authStore.userId(),
       date: new Date(),
       participants: 1,
     };

@@ -5,14 +5,16 @@ import { Booking } from '@shared/domain/booking.type';
 
 export class ProfileService {
   #http$ = inject(HttpClient);
+  #apiActivitiesUrl = 'activities';
+  #apiBookingsUrl = 'bookings';
 
   getActivities$(userId: number) {
-    const url = `activities?userId=${userId}`;
+    const url = `${this.#apiActivitiesUrl}?userId=${userId}`;
     return this.#http$.get<Activity[]>(url);
   }
 
   getBookings$(userId: number) {
-    const url = `bookings?userId=${userId}`;
+    const url = `${this.#apiBookingsUrl}?userId=${userId}`;
     return this.#http$.get<Booking[]>(url);
   }
 }

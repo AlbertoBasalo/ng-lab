@@ -3,7 +3,8 @@ import {
   Component,
   Injector,
   Input,
-  Signal,
+  OnInit,
+  WritableSignal,
   computed,
   inject,
   signal,
@@ -12,7 +13,7 @@ import {
 import { JsonPipe } from '@angular/common';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
 import { Booking, NULL_BOOKING } from '@shared/domain/booking.type';
-import { State, toState } from '@shared/services/state.signal';
+import { State, connect } from '@shared/services/state.signal';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { PendingComponent } from '@shared/ui/pending.component';
 import { ActivitySlugComponent } from './activity-slug.component';
@@ -24,80 +25,85 @@ import { ActivitySlugService } from './activity-slug.service';
   imports: [ActivitySlugComponent, PendingComponent, ErrorComponent, JsonPipe],
   providers: [ActivitySlugService],
   template: `
-    @switch (getState().status) {
+    @switch (getActivityStatus()) {
       @case ('pending') {
         <lab-pending message="Loading activity {{ slug }}" />
       }
       @case ('error') {
-        <lab-error [message]="errorMessage()" />
+        <lab-error [message]="getActivityError()" />
       }
       @default {
-        <lab-activity-slug
-          [activity]="getState().value"
-          (booking)="onBooking()"
-        />
-        @switch (postState().status) {
+        <lab-activity-slug [activity]="getActivity()" (booking)="onBooking()" />
+        @switch (postBookingStatus()) {
           @case ('pending') {
             <lab-pending message="Posting booking {{ slug }}" />
           }
           @case ('error') {
-            <lab-error [message]="errorMessage()" />
+            <lab-error [message]="postBookingError()" />
           }
           @case ('success') {
             <h3>Booking successfully done</h3>
-            <pre>{{ postState() | json }}</pre>
+            <pre>{{ postBooking() | json }}</pre>
           }
         }
       }
     }
   `,
 })
-export default class ActivitySlugPage {
+export default class ActivitySlugPage implements OnInit {
+  // injection division
+
   #service = inject(ActivitySlugService);
+  #injector = inject(Injector);
+
+  // component inputs division
 
   // ?: use router params$ instead of @Input
-
   /** The activity slug received from a router param */
-  @Input({ required: true })
-  set slug(slug: string) {
-    console.log('ActivitySlugPage.slug', slug);
-    // With this paradigm, we are not leveraging the observable router
-    // Every time the slug changes, we need to reset the state
-    this.getState = toState<Activity>(
-      this.#service.getActivityBySlug$(slug), // the observable
-      NULL_ACTIVITY, // the initial value
-      this.injector, // here we are not in an injection context
-    );
-  }
+  @Input({ required: true }) slug!: string;
 
-  // two state signals, one for the activity, one for the booking
-  getState!: Signal<State<Activity>>;
-  postState: Signal<State<Booking>> = signal({
+  // component signals division
+
+  #getActivityState: WritableSignal<State<Activity>> = signal({
+    status: 'idle',
+    value: NULL_ACTIVITY,
+  });
+  #postBookingState: WritableSignal<State<Booking>> = signal({
     status: 'idle',
     value: NULL_BOOKING,
   });
 
-  constructor(private readonly injector: Injector) {
-    // We need our current injector to be able pass it to the `toState` function
-    console.log('ActivitySlugPage created');
+  // template signals division
+
+  /** Current state of the activity */
+  getActivityStatus = computed(() => this.#getActivityState().status);
+  postBookingStatus = computed(() => this.#postBookingState().status);
+  getActivityError = computed(() => this.#getActivityState().error);
+  postBookingError = computed(() => this.#postBookingState().error);
+  getActivity = computed(() => this.#getActivityState().value);
+  postBooking = computed(() => this.#postBookingState().value);
+
+  // component life-cycle division
+
+  /** Load the activity on init */
+  ngOnInit() {
+    // ?: use router params$ instead of ngOnInit
+    connect<Activity>(
+      this.#service.getActivityBySlug$(this.slug), // the observable
+      this.#getActivityState, // the signal
+      this.#injector, // here we are not in an injection context
+    );
   }
 
-  /** A computed signal getting the last error, either from get or post states */
-  errorMessage = computed(() => {
-    const getError = this.getState().error;
-    if (getError) return `Failed loading: ${getError}`;
-    const postError = this.postState().error;
-    if (postError) return `Failed booking ${postError}`;
-    return '';
-  });
+  // template event handlers division
 
-  /** Calls a service that pos a new booking and wires its observable to a signal */
+  /** Post a new booking */
   onBooking() {
-    const activity = this.getState().value;
-    this.postState = toState(
+    const activity = this.#getActivityState().value;
+    connect(
       this.#service.postBookActivity$(activity), // the observable
-      NULL_BOOKING, // the initial value
-      this.injector, // here we are not in an injection context
+      this.#postBookingState, // the signal
+      this.#injector, // here we are not in an injection context
     );
   }
 }

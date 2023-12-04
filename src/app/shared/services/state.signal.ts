@@ -2,6 +2,7 @@ import {
   DestroyRef,
   Injector,
   Signal,
+  WritableSignal,
   assertInInjectionContext,
   inject,
   signal,
@@ -45,6 +46,34 @@ export function toState<T>(
     error: (error) => state.update((s) => ({ ...s, error, status: 'error' })),
   });
   return state.asReadonly();
+
+  /**
+   * Gets the `DestroyRef` from the received or current injection context
+   * @throws If not receiving or if not running in an injection context
+   */
+  function getDestroyRef() {
+    injector || assertInInjectionContext(toState);
+    const destroyRef = injector?.get(DestroyRef) || inject(DestroyRef);
+    return destroyRef;
+  }
+}
+
+/**
+ * Connects a source observable to a signal
+ * @param source$
+ * @param signal
+ * @param injector
+ */
+export function connect<T>(
+  source$: Observable<T>,
+  state: WritableSignal<State<T>>,
+  injector?: Injector,
+) {
+  const destroyRef = getDestroyRef();
+  source$.pipe(takeUntilDestroyed(destroyRef)).subscribe({
+    next: (value) => state.update((s) => ({ ...s, value, status: 'success' })),
+    error: (error) => state.update((s) => ({ ...s, error, status: 'error' })),
+  });
 
   /**
    * Gets the `DestroyRef` from the received or current injection context
