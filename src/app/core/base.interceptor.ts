@@ -1,16 +1,30 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { Observable, catchError, throwError } from 'rxjs';
+import { APP_CONFIG } from './config.provider';
+import { LogLevel, LogService } from './log.service';
 
 /**
  * Interceptor to ensure a common base for all the requests
- * @description clones the request and prepends the base url
+ * @description prepends the base url and logs the errors
  */
 export function BaseInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
-  const baseUrl = 'http://localhost:3000'; // ToDo: move to environment
-  const url = `${baseUrl}/${req.url}`;
+  const appConfig = inject(APP_CONFIG);
+  const logger = inject(LogService);
+  const url = `${appConfig.apiBaseUrl}/${req.url}`;
   const clonedRequest = req.clone({ url });
-  return next(clonedRequest);
+  return next(clonedRequest).pipe(
+    catchError((err) => {
+      logger.log({
+        level: LogLevel.warn,
+        message: err.error || err.message,
+        source: '👮🏼‍♀️ Base Interceptor',
+        payload: err,
+      });
+      return throwError(() => err);
+    }),
+  );
 }

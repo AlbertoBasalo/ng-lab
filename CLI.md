@@ -104,13 +104,16 @@ ng g c shared/error
 ```bash
 ng g s core/error
 ng g interceptor core/auth
+ng g s core/window
+ng g s core/log
+ng g g core/auth
 ```
 
 ## Shared services
 
 ```bash
-ng g s shared/window
-ng g g shared/auth
+ng g s shared/services/navigation-effect
+ng g s shared/services/storage-effect
 ```
 
 ## Create a new activity

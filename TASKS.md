@@ -10,5 +10,6 @@
 - [x] View proper auth bookings and activities
 - [x] Register with role and accept terms
 - [x] Have a Redux store for auth
+- [ ] Log service
 - [ ] Error Handler, global and local
 - [ ] Create booking feature

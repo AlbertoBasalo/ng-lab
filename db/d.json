@@ -1,5 +1,12 @@
 {
   "activities": [],
   "bookings": [],
-  "users": []
+  "users": [
+    {
+      "email": "test3@email.es",
+      "password": "$2a$10$ZbBLgdPq4Vzc5bSjTTCAz.0EsNC2tFhOpIYng4A1p.95k6cS0n5gK",
+      "username": "Test",
+      "id": 1
+    }
+  ]
 }

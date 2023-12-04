@@ -6,7 +6,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 
 /**
  * Interceptor to deal with the authentication
- * @description Adds the authorization header to every request and navigates the user to authenticate if the request fails with a 401
+ * @description Adds the authorization header and notifies if the request fails with a 401
  */
 export function AuthInterceptor(
   req: HttpRequest<unknown>,
