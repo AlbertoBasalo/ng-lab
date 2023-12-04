@@ -1,5 +1,5 @@
 export type Activity = {
-  id: string;
+  id: number;
   name: string;
   slug: string;
   price: number;
@@ -12,7 +12,7 @@ export type Activity = {
 };
 
 export const NULL_ACTIVITY: Activity = {
-  id: '',
+  id: 0,
   name: '',
   slug: '',
   price: 0,

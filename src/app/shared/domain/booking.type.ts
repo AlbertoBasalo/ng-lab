@@ -1,6 +1,6 @@
 export type Booking = {
   id: number;
-  activityId: string;
+  activityId: number;
   userId: number;
   date: Date;
   participants: number;
@@ -8,7 +8,7 @@ export type Booking = {
 
 export const NULL_BOOKING: Booking = {
   id: 0,
-  activityId: '',
+  activityId: 0,
   userId: 0,
   date: new Date(),
   participants: 0,

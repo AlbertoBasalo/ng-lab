@@ -20,8 +20,6 @@ npm install
 npm start
 ```
 
-````
-
 ### Configure project schematics
 
 ```json
@@ -35,7 +33,7 @@ npm start
     "style": "none"
   }
 }
-````
+```
 
 ## Layout
 
@@ -128,9 +126,7 @@ ng g s routes/activities/new-activity
 ## Shared components
 
 ```bash
-ng g c shared/activity/activity --type=list-item
-ng g c shared/activity/activity --type=card
-ng g c shared/booking/booking --type=card
+ng g c shared/ui/label-data
 ```
 
 ## Bookings page

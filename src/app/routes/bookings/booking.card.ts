@@ -6,22 +6,30 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { LabelDataComponent } from '@shared/ui/label-data.component';
 import { ActivityBooking } from './activity-booking.type';
 
 @Component({
   selector: 'lab-booking-card',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DatePipe],
+  imports: [DatePipe, LabelDataComponent],
   template: `
     <article class="booking">
       <header>
         <h3>{{ booking.activity.name }}</h3>
       </header>
-      <p>{{ booking.activity.date }}</p>
-      <p>{{ booking.participants }}</p>
-      <p>{{ booking.activity.price }}</p>
-      <p>{{ booking.participants * booking.activity.price }}</p>
+      <lab-label-data
+        label="Date"
+        [data]="booking.activity.date | date: 'dd-MMM-yyyy'"
+      />
+      <lab-label-data label="Participants" [data]="booking.participants" />
+      <lab-label-data label="Price" [data]="booking.activity.price" unit="€" />
+      <lab-label-data
+        label="Total"
+        [data]="booking.participants * booking.activity.price"
+        unit="€"
+      />
       <footer>
         <button (click)="onCancelClick(booking.id)">Cancel</button>
       </footer>

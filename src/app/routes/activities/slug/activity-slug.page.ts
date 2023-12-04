@@ -52,18 +52,15 @@ import { ActivitySlugService } from './activity-slug.service';
 })
 export default class ActivitySlugPage implements OnInit {
   // injection division
-
   #service = inject(ActivitySlugService);
   #injector = inject(Injector);
 
   // component inputs division
-
   // ?: use router params$ instead of @Input
   /** The activity slug received from a router param */
   @Input({ required: true }) slug!: string;
 
   // component signals division
-
   #getActivityState: WritableSignal<State<Activity>> = signal({
     status: 'idle',
     value: NULL_ACTIVITY,

@@ -27,6 +27,15 @@ export type State<T> = {
 };
 
 /**
+ * Creates a state signal for a given type
+ * @param value initial value
+ * @returns A writable signal with the state changes
+ */
+export function createState<T>(value: T): WritableSignal<State<T>> {
+  return signal<State<T>>({ value, status: 'idle' });
+}
+
+/**
  * Converts an observable to a state signal
  * @param source$ The observable emitting the value
  * @param value The initial value
@@ -39,23 +48,9 @@ export function toState<T>(
   value: T,
   injector?: Injector,
 ): Signal<State<T>> {
-  const destroyRef = getDestroyRef();
-  const state = signal<State<T>>({ value, status: 'pending' });
-  source$.pipe(takeUntilDestroyed(destroyRef)).subscribe({
-    next: (value) => state.update((s) => ({ ...s, value, status: 'success' })),
-    error: (error) => state.update((s) => ({ ...s, error, status: 'error' })),
-  });
+  const state = createState<T>(value);
+  connect(source$, state, injector);
   return state.asReadonly();
-
-  /**
-   * Gets the `DestroyRef` from the received or current injection context
-   * @throws If not receiving or if not running in an injection context
-   */
-  function getDestroyRef() {
-    injector || assertInInjectionContext(toState);
-    const destroyRef = injector?.get(DestroyRef) || inject(DestroyRef);
-    return destroyRef;
-  }
 }
 
 /**

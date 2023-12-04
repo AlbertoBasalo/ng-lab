@@ -5,6 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ActivityBooking } from './activity-booking.type';
 import { BookingCard } from './booking.card';
 
@@ -12,13 +13,18 @@ import { BookingCard } from './booking.card';
   selector: 'lab-bookings',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BookingCard],
+  imports: [BookingCard, RouterLink],
   template: `
     <div class="grid">
       @for (booking of bookings; track booking.id) {
         <lab-booking-card [booking]="booking" (cancel)="cancel.next($event)" />
       } @empty {
-        <p>No bookings yet</p>
+        <p>You dont have any booking</p>
+        <p>
+          Go to the
+          <a [routerLink]="['/', 'activities']">activities page</a> and book
+          one!
+        </p>
       }
     </div>
   `,
