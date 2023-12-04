@@ -10,6 +10,8 @@
 - [x] View proper auth bookings and activities
 - [x] Register with role and accept terms
 - [x] Have a Redux store for auth
-- [ ] Log service
-- [ ] Error Handler, global and local
-- [ ] Create booking feature
+- [x] Log service
+- [x] Error Handler
+- [ ] Global and local user notifications
+- [ ] Ui atomic components (pageTitle, labelData, etc)
+- [ ] Create booking feature (modal with form)
