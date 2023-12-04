@@ -59,10 +59,11 @@ export function toState<T>(
 }
 
 /**
- * Connects a source observable to a signal
- * @param source$
- * @param signal
- * @param injector
+ * Connects a source observable to a state signal
+ * @param source$ The observable emitting the value
+ * @param state The state signal to update
+ * @param injector Optional injector context to use to get the `DestroyRef`
+ * @see State
  */
 export function connect<T>(
   source$: Observable<T>,
@@ -70,6 +71,7 @@ export function connect<T>(
   injector?: Injector,
 ) {
   const destroyRef = getDestroyRef();
+  state.update((s) => ({ ...s, status: 'pending' }));
   source$.pipe(takeUntilDestroyed(destroyRef)).subscribe({
     next: (value) => state.update((s) => ({ ...s, value, status: 'success' })),
     error: (error) => state.update((s) => ({ ...s, error, status: 'error' })),
@@ -80,7 +82,7 @@ export function connect<T>(
    * @throws If not receiving or if not running in an injection context
    */
   function getDestroyRef() {
-    injector || assertInInjectionContext(toState);
+    injector || assertInInjectionContext(connect);
     const destroyRef = injector?.get(DestroyRef) || inject(DestroyRef);
     return destroyRef;
   }

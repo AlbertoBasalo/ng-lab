@@ -56,10 +56,14 @@ export default class ProfilePage {
   // component data division
 
   readonly #user = this.#authStore.user();
-  readonly #getActivities$ = this.#service.getActivities$(this.#user.id);
-  readonly #getBookings$ = this.#service.getBookings$(this.#user.id);
-  readonly #getActivitiesState = toState<Activity[]>(this.#getActivities$, []);
-  readonly #getBookingsState = toState<Booking[]>(this.#getBookings$, []);
+  readonly #getActivitiesState = toState<Activity[]>(
+    this.#service.getActivities$(this.#user.id),
+    [],
+  );
+  readonly #getBookingsState = toState<Booking[]>(
+    this.#service.getBookings$(this.#user.id),
+    [],
+  );
 
   // template data division
 

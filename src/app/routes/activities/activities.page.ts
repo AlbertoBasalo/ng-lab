@@ -51,7 +51,6 @@ export default class ActivitiesPage {
   #activitiesByFilter$ = this.#searchTerm$.pipe(
     switchMap((filter) => this.#service.getActivitiesByFilter$(filter)),
   );
-
   /** Signal with current state of an async command being issued */
   #getActivitiesState = toState<Activity[]>(this.#activitiesByFilter$, []);
 
