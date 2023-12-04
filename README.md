@@ -6,6 +6,13 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
 
+Folder structure 
+
+[English version](https://medium.com/@albertobasalo/file-and-folder-structure-for-angular-applications-3130efc582e3)
+
+[Versión en Español](https://www.linkedin.com/pulse/estructura-de-archivos-y-carpetas-para-aplicaciones-angular-basalo-3vcff)
+
+
 ```bash
 # clone lab from github
 git clone https://github.com/AlbertoBasalo/ng-lab.git
