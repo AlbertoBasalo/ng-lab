@@ -60,6 +60,7 @@ export default class ActivitySlugPage {
   /** The activity slug received from a router param */
   @Input({ required: true })
   set slug(slug: string) {
+    console.log('ActivitySlugPage.slug', slug);
     // With this paradigm, we are not leveraging the observable router
     // Every time the slug changes, we need to reset the state
     this.getState = toState<Activity>(
@@ -78,6 +79,7 @@ export default class ActivitySlugPage {
 
   constructor(private readonly injector: Injector) {
     // We need our current injector to be able pass it to the `toState` function
+    console.log('ActivitySlugPage created');
   }
 
   /** A computed signal getting the last error, either from get or post states */

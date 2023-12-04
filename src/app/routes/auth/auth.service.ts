@@ -7,20 +7,20 @@ import { Login } from './login/login.type';
 import { Register } from './register/register.type';
 
 export class AuthService {
-  #store$ = inject(AuthStore);
+  #store = inject(AuthStore);
   #http$ = inject(HttpClient);
 
   register$(register: Partial<Register>) {
     const url = `register`;
     return this.#http$
       .post<UserToken>(url, register)
-      .pipe(tap((userToken) => this.#store$.saveUserToken(userToken)));
+      .pipe(tap((userToken) => this.#store.login(userToken)));
   }
 
   login$(login: Login) {
     const url = `login`;
     return this.#http$
       .post<UserToken>(url, login)
-      .pipe(tap((userToken) => this.#store$.saveUserToken(userToken)));
+      .pipe(tap((userToken) => this.#store.login(userToken)));
   }
 }

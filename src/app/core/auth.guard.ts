@@ -8,6 +8,8 @@ export const authGuard: CanMatchFn = (route, segments) => {
     return true;
   }
   const router = inject(Router);
+  const returnUrl = router.url;
+  authStore.mustLogin(returnUrl);
   const urlTree = router.parseUrl('/auth/login');
   return urlTree;
 };

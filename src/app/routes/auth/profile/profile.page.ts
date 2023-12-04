@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ActivityCard } from '@routes/auth/profile/activity.card';
 import { BookingCard } from '@routes/auth/profile/booking.card';
@@ -21,9 +16,9 @@ import { ProfileService } from './profile.service';
   template: `
     <article name="Profile">
       <header>
-        <h2>{{ userName() }}</h2>
+        <h2>{{ userName }}</h2>
       </header>
-      @switch (role()) {
+      @switch (role) {
         @case ('organizer') {
           <h2>These are your organized activities</h2>
           <div class="grid">
@@ -58,16 +53,16 @@ export default class ProfilePage {
   readonly #authStore = inject(AuthStore);
   readonly #service = inject(ProfileService);
   // data division
-  readonly #userId = this.#authStore.user().id;
-  readonly #activities$ = this.#service.getActivities$(this.#userId);
-  readonly #bookings$ = this.#service.getBookings$(this.#userId);
-  // template signals division
-  readonly userName = computed(() => `Hi, ${this.#authStore.user().username}`);
-  readonly role = computed(() => this.#authStore.user().role);
+  readonly #user = this.#authStore.user();
+  readonly #activities$ = this.#service.getActivities$(this.#user.id);
+  readonly #bookings$ = this.#service.getBookings$(this.#user.id);
+  // template data division
+  readonly userName = `Hi, ${this.#user.username}`;
+  readonly role = this.#user.role;
   readonly activitiesState = toState<Activity[]>(this.#activities$, []);
   readonly bookingsState = toState<Booking[]>(this.#bookings$, []);
   // template events division
   onLogout() {
-    this.#authStore.clearUserToken();
+    this.#authStore.logout();
   }
 }

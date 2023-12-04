@@ -118,7 +118,7 @@ export class RegisterForm {
     email: this.fb.control('', [Validators.required, Validators.email]),
     password: this.fb.control('', passwordValidators),
     repeatPassword: this.fb.control('', passwordValidators),
-    role: this.fb.control<Role>('participant', Validators.required),
+    role: this.fb.control<Role>('organizer', Validators.required),
     acceptedTerms: this.fb.control(false, Validators.requiredTrue),
   });
 

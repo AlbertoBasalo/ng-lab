@@ -1,7 +1,18 @@
-import { Injectable, computed, effect, inject, signal } from '@angular/core';
-import { WindowService } from '../../core/window.service';
+import { Injectable, computed, effect, signal } from '@angular/core';
 import { NULL_USER_TOKEN, UserToken } from '../domain/user-token.type';
-import { AuthNavigationEffect } from './auth.effect';
+import { NavigationEffect } from './navigation.effect';
+import { StorageEffect } from './storage.effect';
+
+export type AuthProcess = {
+  interactive: boolean;
+  url: string;
+  mustLogin?: boolean;
+};
+
+export type AuthState = {
+  userToken: UserToken;
+  authProcess: AuthProcess;
+};
 
 /**
  * A store to manage all state related to authentication
@@ -10,21 +21,33 @@ import { AuthNavigationEffect } from './auth.effect';
  */
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
-  #window = inject(WindowService);
-  #userToken = signal<UserToken>(NULL_USER_TOKEN);
-  #key = 'lab_user-token';
+  #authState = signal<AuthState>({
+    userToken: NULL_USER_TOKEN,
+    authProcess: { interactive: false, url: '' },
+  });
+
+  /**
+   * Signal with the current user and access token
+   */
+  readonly userToken = computed(() => this.#authState().userToken);
 
   /**
    * Signal with the current access token
    * @description TO be used on HTTP Interceptors
    */
-  readonly accessToken = computed(() => this.#userToken().accessToken);
+  readonly accessToken = computed(() => this.userToken().accessToken);
 
   /**
    * Signal with the current user profile
    * @description To be used on components
    */
-  readonly user = computed(() => this.#userToken().user);
+  readonly user = computed(() => this.userToken().user);
+
+  /**
+   * Signal with the current user id
+   * @description To be used to appeend to DTOs or url...
+   */
+  readonly userId = computed(() => this.user().id);
 
   /**
    * Signal with the current authentication status
@@ -32,32 +55,53 @@ export class AuthStore {
    */
   readonly isAuthenticated = computed(() => !!this.accessToken());
 
-  constructor(authEffect: AuthNavigationEffect) {
-    effect(() => authEffect.execute(this.accessToken()));
-    const userToken = this.#window.getLocalStorage(this.#key);
-    if (userToken) this.#userToken.set(userToken);
+  /**
+   * Stroe to manage all state related to authentication
+   * @param navigation Service to navigate the user as a side effect
+   * @param storage Service to save the user token as a side effect
+   */
+  constructor(navigation: NavigationEffect, storage: StorageEffect) {
+    this.#authState.update((state) => ({
+      ...state,
+      userToken: storage.userToken,
+    }));
+    effect(() => (storage.userToken = this.userToken()));
+    effect(() => navigation.navigate(this.#authState()));
   }
 
   /**
    * Saves and emits the user token
    */
-  saveUserToken(userToken: UserToken) {
-    this.#userToken.set(userToken);
-    this.#window.setLocalStorage(this.#key, userToken);
+  login(userToken: UserToken) {
+    this.#authState.update((state) => ({
+      authProcess: {
+        ...state.authProcess,
+        interactive: true,
+        mustLogin: false,
+      },
+      userToken: userToken,
+    }));
   }
 
   /**
    * Clears and emits the null user token
    */
-  clearUserToken() {
-    this.#userToken.set(NULL_USER_TOKEN);
-    this.#window.setLocalStorage(this.#key, NULL_USER_TOKEN);
+  logout() {
+    this.#authState.update((state) => ({
+      authProcess: { interactive: true, mustLogin: true, url: '' },
+      userToken: NULL_USER_TOKEN,
+    }));
   }
 
-  /*
-   * Sets the error and navigates to login
+  /**
+   * Sets an auth detecte error
+   * @description To be used from guards and interceptors
+   * @param url The url to redirect to after login
    */
-  setApiAuthError(error: string) {
-    this.#userToken.set(NULL_USER_TOKEN);
+  mustLogin(url: string = '') {
+    this.#authState.update((state) => ({
+      ...state,
+      authProcess: { interactive: true, mustLogin: true, url },
+    }));
   }
 }

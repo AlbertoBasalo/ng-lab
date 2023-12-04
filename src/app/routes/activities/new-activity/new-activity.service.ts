@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 export class NewActivityService {
   #http$ = inject(HttpClient);
-  #apiUrl = '/activities';
+  #apiUrl = 'activities';
 
   postActivity$(activity: Partial<Activity>): Observable<Activity> {
     activity.slug = slugify(activity.name);

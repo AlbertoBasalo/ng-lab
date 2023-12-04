@@ -1,5 +1,6 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthStore } from '@shared/services/auth.store';
 import { Observable, catchError, throwError } from 'rxjs';
 
@@ -21,7 +22,9 @@ export function AuthInterceptor(
   return next(clonedRequest).pipe(
     catchError((err) => {
       if (err.status === 401) {
-        authStore.setApiAuthError(err.error);
+        const router = inject(Router);
+        const returnUrl = router.url;
+        authStore.mustLogin(returnUrl);
       }
       return throwError(() => err);
     }),

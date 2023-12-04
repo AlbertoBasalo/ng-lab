@@ -1,5 +1,14 @@
 {
   "activities": [],
   "bookings": [],
-  "users": []
+  "users": [
+    {
+      "email": "a@b.c",
+      "password": "$2a$10$HxbqYP6nkLDUj2SwR4S3P.9ZIZS/2wbaLJ2Ntj6UwiEXyNbK9SEZa",
+      "username": "a b c",
+      "role": "participant",
+      "acceptedTerms": true,
+      "id": 1
+    }
+  ]
 }
