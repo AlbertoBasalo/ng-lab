@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [17.6.0](https://github.com/AlbertoBasalo/ng-lab/compare/v17.5.0...v17.6.0) (2023-12-05)
+
+
+### Features
+
+* auth store ([d948df5](https://github.com/AlbertoBasalo/ng-lab/commit/d948df5792508b6aaae23fa18b4cfb59d2c1d5ba))
+* auth stroe with effects ([8d51e1c](https://github.com/AlbertoBasalo/ng-lab/commit/8d51e1c00925588cee5bb310ec7a5e990057871c))
+* bookings reload ([6278d39](https://github.com/AlbertoBasalo/ng-lab/commit/6278d39953eaea74d79fcb69bcc126bd8ad4a233))
+* connect rxJs to signal function ([43b1b00](https://github.com/AlbertoBasalo/ng-lab/commit/43b1b00d3af16f1243404b59e5aef697cba7e57a))
+* core log and error handling ([0f723ad](https://github.com/AlbertoBasalo/ng-lab/commit/0f723ad4aeba9550b781de6cb96669a1323ba6ea))
+* effect after cancel ([fef12b2](https://github.com/AlbertoBasalo/ng-lab/commit/fef12b22df11f602c9d5398257b55a3faa851b0d))
+* login register pages ([ca9e89a](https://github.com/AlbertoBasalo/ng-lab/commit/ca9e89a3f33d9f5dd1903cfb47cad06bcbfcf446))
+* register user role ([fa81586](https://github.com/AlbertoBasalo/ng-lab/commit/fa81586050385850d2fbb96536a773253a4c5f50))
+* view and cancel bookings ([f21bc5e](https://github.com/AlbertoBasalo/ng-lab/commit/f21bc5e4e1952256855f0b43b61649bf01175a74))
+
 ## [17.5.0](https://github.com/AlbertoBasalo/ng-lab/compare/v17.4.0...v17.5.0) (2023-12-01)
 
 
