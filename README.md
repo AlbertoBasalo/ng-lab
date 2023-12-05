@@ -6,13 +6,6 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
 
-Folder structure 
-
-[English version](https://medium.com/@albertobasalo/file-and-folder-structure-for-angular-applications-3130efc582e3)
-
-[Versión en Español](https://www.linkedin.com/pulse/estructura-de-archivos-y-carpetas-para-aplicaciones-angular-basalo-3vcff)
-
-
 ```bash
 # clone lab from github
 git clone https://github.com/AlbertoBasalo/ng-lab.git
@@ -25,17 +18,25 @@ npm start
 npm run seedapi
 ```
 
-### Documentation
+## Documentation
 
 Find detailed journal of instructions in [CLI.md](CLI.md)
+
+### Folder structure
 
 Have an outlook of the project folders structure
 
 ![Folders](docs/folders.png)
 
-### Testing
+Companion article:
 
-This project is being e2e tested with **Cypress**. Find the testing code at my repository
+- [English version](https://medium.com/@albertobasalo/file-and-folder-structure-for-angular-applications-3130efc582e3)
+
+- [Versión en Español](https://www.linkedin.com/pulse/estructura-de-archivos-y-carpetas-para-aplicaciones-angular-basalo-3vcff)
+
+## Testing
+
+This project is being _e2e_ tested with **Cypress**. Find the testing code at this repository
 
 - [**cy-lab**](https://github.com/AlbertoBasalo/cy-lab)
 
