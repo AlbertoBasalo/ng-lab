@@ -1,8 +1,6 @@
 # NgLab,
 
-> Angular Laboratory for Alberto Basalo courses and workshops
-
-[![GitHub license](https://img.shields.io/github/license/AlbertoBasalo/cy-lab?style=for-the-badge)](https://albertobasalo.dev)
+> Angular Laboratory for courses and workshops by [Alberto Basalo](https://albertobasalo.dev) [![GitHub license](https://img.shields.io/github/license/AlbertoBasalo/cy-lab?style=for-the-badge)](https://albertobasalo.dev)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
 
