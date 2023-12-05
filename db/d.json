@@ -1,5 +1,130 @@
 {
-  "activities": [],
-  "bookings": [],
-  "users": []
+  "activities": [
+    {
+      "id": 1,
+      "name": "Standup Surfing",
+      "slug": "standup-surfing",
+      "price": 30,
+      "duration": 120,
+      "location": "Laco di Como",
+      "date": "2027-08-01",
+      "maxParticipants": 10,
+      "minParticipants": 2,
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "name": "Kayaking",
+      "slug": "kayaking",
+      "price": 50,
+      "duration": 180,
+      "location": "Grand Canyon",
+      "date": "2024-07-14",
+      "maxParticipants": 12,
+      "minParticipants": 6,
+      "userId": 1
+    },
+    {
+      "id": 3,
+      "name": "Surfing",
+      "slug": "surfing",
+      "price": 40,
+      "duration": 90,
+      "location": "Hawaii",
+      "date": "2024-03-08",
+      "maxParticipants": 8,
+      "minParticipants": 4,
+      "userId": 2
+    },
+    {
+      "id": 4,
+      "name": "Sailing",
+      "slug": "sailing",
+      "price": 160,
+      "duration": 120,
+      "location": "Mediteranean Sea",
+      "date": "2024-09-28",
+      "maxParticipants": 8,
+      "minParticipants": 4,
+      "userId": 1
+    },
+    {
+      "id": 5,
+      "name": "Hiking",
+      "slug": "hiking",
+      "price": 20,
+      "duration": 240,
+      "location": "Alps",
+      "date": "2024-07-28",
+      "maxParticipants": 20,
+      "minParticipants": 10,
+      "userId": 2
+    },
+    {
+      "id": 6,
+      "name": "Wind Surfing",
+      "slug": "wind-surfing",
+      "price": 140,
+      "duration": 120,
+      "location": "Canary Islands",
+      "date": "2024-11-15",
+      "maxParticipants": 4,
+      "minParticipants": 2,
+      "userId": 1
+    },
+    {
+      "id": 7,
+      "name": "Snorkeling diving",
+      "slug": "snorkeling-diving",
+      "price": 80,
+      "duration": 120,
+      "location": "Rivièra Maya",
+      "date": "2024-04-21",
+      "maxParticipants": 8,
+      "minParticipants": 4,
+      "userId": 1
+    },
+    {
+      "id": 8,
+      "name": "Scuba diving",
+      "slug": "scuba-diving",
+      "price": 120,
+      "duration": 120,
+      "location": "Punta Cana",
+      "date": "2024-05-11",
+      "maxParticipants": 8,
+      "minParticipants": 4,
+      "userId": 2
+    }
+  ],
+  "bookings": [
+    {
+      "activityId": 6,
+      "userId": 1,
+      "date": "2023-12-05T08:47:42.059Z",
+      "participants": 1,
+      "id": 1
+    },
+    {
+      "activityId": 5,
+      "userId": 1,
+      "date": "2023-12-05T08:48:13.940Z",
+      "participants": 1,
+      "id": 2
+    }
+  ],
+  "users": [
+    {
+      "email": "sam@musk.org",
+      "password": "$2a$10$5xpv6BPDUKq5sYpSH0NTremt9JLrBNjEKrPkSvEMmOLaPIGFCcke6",
+      "username": "Sam Musk",
+      "id": 1
+    },
+    {
+      "email": "jeff@gates.org",
+      "password": "$2a$10$dR9QIKy5zi0iQu9/f8sBeeP11wMeOAks9tjBX5nBhLdQJjw/ZUS9C",
+      "username": "Jeff Gates",
+      "id": 2
+    }
+  ]
 }

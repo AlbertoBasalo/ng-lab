@@ -20,15 +20,13 @@ export class BookingsService {
     const bookingsUrl = `${
       this.#apiBookingsUrl
     }?userId=${this.#authStore$.userId()}`;
-    return this.#http$.get<Booking[]>(bookingsUrl).pipe(
-      switchMap((bookings) =>
-        // if bookings is empty, emit empty array
-        bookings.length === 0 ? of([]) : this.newMethod(bookings),
-      ),
-    );
+    return this.#http$
+      .get<Booking[]>(bookingsUrl)
+      .pipe(switchMap((bookings) => this.#fillBookings(bookings)));
   }
 
-  private newMethod(bookings: Booking[]): Observable<ActivityBooking[]> {
+  #fillBookings(bookings: Booking[]): Observable<ActivityBooking[]> {
+    if (bookings.length === 0) return of([]);
     return forkJoin(
       bookings.map((booking) => this.#getBookingWithActivity$(booking)),
     );
@@ -40,9 +38,11 @@ export class BookingsService {
       .pipe(map((activity) => ({ ...booking, activity })));
   }
 
-  cancelBooking$(id: number): Observable<ActivityBooking[]> {
-    return this.#http$
-      .delete<void>(`${this.#apiBookingsUrl}/${id}`)
-      .pipe(switchMap(() => this.getBookings$()));
+  /**
+   * Removes a booking
+   * @param id Booking id
+   */
+  cancelBooking$(id: number): Observable<unknown> {
+    return this.#http$.delete<unknown>(`${this.#apiBookingsUrl}/${id}`);
   }
 }

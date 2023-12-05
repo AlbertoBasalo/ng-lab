@@ -19,12 +19,14 @@ import { BookingCard } from './booking.card';
       @for (booking of bookings; track booking.id) {
         <lab-booking-card [booking]="booking" (cancel)="cancel.next($event)" />
       } @empty {
-        <p>You dont have any booking</p>
-        <p>
-          Go to the
-          <a [routerLink]="['/', 'activities']">activities page</a> and book
-          one!
-        </p>
+        <section>
+          <p>You don't have any booking</p>
+          <p>
+            Go to the
+            <a [routerLink]="['/', 'activities']">activities page</a> and choose
+            one!
+          </p>
+        </section>
       }
     </div>
   `,

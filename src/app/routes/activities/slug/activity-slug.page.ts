@@ -10,7 +10,7 @@ import {
   signal,
 } from '@angular/core';
 
-import { JsonPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
 import { Booking, NULL_BOOKING } from '@shared/domain/booking.type';
 import { State, connect } from '@shared/services/state.signal';
@@ -22,7 +22,12 @@ import { ActivitySlugService } from './activity-slug.service';
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ActivitySlugComponent, PendingComponent, ErrorComponent, JsonPipe],
+  imports: [
+    ActivitySlugComponent,
+    PendingComponent,
+    ErrorComponent,
+    RouterLink,
+  ],
   providers: [ActivitySlugService],
   template: `
     @switch (getActivityStatus()) {
@@ -42,8 +47,10 @@ import { ActivitySlugService } from './activity-slug.service';
             <lab-error [message]="postBookingError()" />
           }
           @case ('success') {
-            <h3>Booking successfully done</h3>
-            <pre>{{ postBooking() | json }}</pre>
+            <h4>
+              Booking successfully done.
+              <a [routerLink]="['/', 'bookings']">Go to bookings</a>
+            </h4>
           }
         }
       }
