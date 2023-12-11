@@ -1,10 +1,8 @@
 import { isPlatformServer } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
-import { LogLevel, LogService } from './log.service';
 
 @Injectable({ providedIn: 'root' })
 export class WindowService {
-  #log = inject(LogService);
   #isServer = isPlatformServer(inject(PLATFORM_ID));
 
   get isServer() {
@@ -16,36 +14,18 @@ export class WindowService {
   }
 
   constructor() {
-    this.overrideConsoleLog();
+    if (this.#isServer) this.overrideConsoleLog();
   }
 
   private overrideConsoleLog() {
     console.log = (message?: any, ...optionalParams: any[]) => {
-      if (this.#isServer) return;
-      this.#log.log({
-        level: LogLevel.info,
-        message: message,
-        source: '👷🏼 Application',
-        payload: optionalParams,
-      });
+      return;
     };
     console.error = (message?: any, ...optionalParams: any[]) => {
-      if (this.#isServer) return;
-      this.#log.log({
-        level: LogLevel.error,
-        message: message,
-        source: '👷🏼 Application',
-        payload: optionalParams,
-      });
+      return;
     };
     console.warn = (message?: any, ...optionalParams: any[]) => {
-      if (this.#isServer) return;
-      this.#log.log({
-        level: LogLevel.warn,
-        message: message,
-        source: '👷🏼 Application',
-        payload: optionalParams,
-      });
+      return;
     };
   }
 

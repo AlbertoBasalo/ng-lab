@@ -1,8 +1,10 @@
 import { ErrorHandler, inject } from '@angular/core';
+import { NotificationsStore } from '@shared/services/notifications.store';
 import { LogLevel, LogService } from '../shared/services/log.service';
 
 class ErrorService implements ErrorHandler {
   #log = inject(LogService);
+  #notifications = inject(NotificationsStore);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleError(error: any) {
     this.#log.log({
@@ -11,11 +13,10 @@ class ErrorService implements ErrorHandler {
       source: '🪖 Error Service Handler',
       payload: error,
     });
-    // ToDo: use dialog service
-    // this.#window.displayAlert({
-    //   title: 'Application Failed',
-    //   message: 'We will work on it, please try again later.',
-    // });
+    this.#notifications.showFailure({
+      title: 'Application Failed',
+      message: 'We will work on it, please try again later.',
+    });
   }
 }
 

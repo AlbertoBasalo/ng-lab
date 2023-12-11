@@ -7,11 +7,12 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthStore } from '@shared/services/auth.store';
+import { NotificationsComponent } from './notifications.component';
 
 @Component({
   selector: 'lab-header',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, NotificationsComponent],
   template: `
     <header>
       <nav>
@@ -33,6 +34,7 @@ import { AuthStore } from '@shared/services/auth.store';
         </ul>
       </nav>
       <h1>{{ title }}</h1>
+      <lab-notifications />
     </header>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

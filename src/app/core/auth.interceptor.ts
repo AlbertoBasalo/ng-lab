@@ -2,6 +2,7 @@ import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthStore } from '@shared/services/auth.store';
+import { NotificationsStore } from '@shared/services/notifications.store';
 import { Observable, catchError, throwError } from 'rxjs';
 
 /**
@@ -13,6 +14,7 @@ export function AuthInterceptor(
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
   const authStore = inject(AuthStore);
+  const notificationsStore = inject(NotificationsStore);
   const router = inject(Router);
   const accessToken = authStore.accessToken();
   const clonedRequest = req.clone({
@@ -23,6 +25,10 @@ export function AuthInterceptor(
   return next(clonedRequest).pipe(
     catchError((err) => {
       if (err.status === 401) {
+        notificationsStore.showFailure({
+          title: 'Authentication Failed',
+          message: 'Please login to continue.',
+        });
         const returnUrl = router.url;
         authStore.mustLogin(returnUrl);
       }
