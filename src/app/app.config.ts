@@ -7,7 +7,7 @@ import { AuthInterceptor } from '@core/auth.interceptor';
 import { BaseInterceptor } from '@core/base.interceptor';
 import { provideErrorHandler } from '@core/error.service';
 
-import { provideAppConfig } from '@core/app-config.provider';
+import { provideAppConfig } from '@shared/services/app-config.provider';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {

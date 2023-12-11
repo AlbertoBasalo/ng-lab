@@ -32,6 +32,10 @@ export class AuthStore {
   readonly userToken = computed(() => this.#authState().userToken);
 
   /**
+   * Signal with the current user and access token
+   */
+  readonly authProcess = computed(() => this.#authState().authProcess);
+  /**
    * Signal with the current access token
    * @description TO be used on HTTP Interceptors
    */
@@ -66,7 +70,7 @@ export class AuthStore {
       userToken: storage.userToken,
     }));
     effect(() => (storage.userToken = this.userToken()));
-    effect(() => navigation.navigate(this.#authState()));
+    effect(() => navigation.navigate(this.authProcess()));
   }
 
   /**

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { AuthService } from '../auth.service';
@@ -34,6 +29,7 @@ export default class RegisterPage {
   #service$ = inject(AuthService);
   title = 'Register to create your account.';
   error = signal<string>('');
+
   onRegister(register: Partial<Register>) {
     this.#service$.register$(register).subscribe({
       error: (httpError) => this.error.set(httpError.error),

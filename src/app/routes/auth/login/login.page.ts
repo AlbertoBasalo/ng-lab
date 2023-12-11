@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { AuthService } from '../auth.service';
@@ -34,6 +29,7 @@ export default class LoginPage {
   #service$ = inject(AuthService);
   title = 'Login with your credentials.';
   error = signal<string>('');
+
   onLogin(login: Login) {
     this.#service$.login$(login).subscribe({
       error: (httpError) => this.error.set(httpError.error),

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { APP_CONFIG } from '../../core/app-config.provider';
+import { APP_CONFIG } from './app-config.provider';
 
 export enum LogLevel {
   debug = 0,

@@ -1,20 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
-} from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import {
-  markError,
-  passwordValidators,
-  showError,
-} from '@shared/ui/form.utils';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { markError, passwordValidators, showError } from '@shared/ui/form.utils';
 
 @Component({
   selector: 'lab-login',
@@ -52,9 +38,7 @@ import {
           />
         </label>
       </fieldset>
-      <button type="submit" [disabled]="form.invalid" (click)="onSubmit()">
-        Login
-      </button>
+      <button type="submit" [disabled]="form.invalid" (click)="onSubmit()">Login</button>
       <input type="reset" value="Reset form" />
     </form>
   `,
