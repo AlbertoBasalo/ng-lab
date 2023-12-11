@@ -6,13 +6,13 @@ import { NotificationsStore } from '@shared/services/notifications.store';
   standalone: true,
   imports: [],
   template: `
-    @if (notifications.pending()) {
+    @if (notifications.hasPending()) {
       <dialog open>
         <article>
           <h2>{{ notifications.pending().title }}</h2>
           <p>{{ notifications.pending().message }}</p>
           <footer>
-            <button (click)="notifications.removePending()">OK</button>
+            <button (click)="close()" class="secondary outline">OK</button>
           </footer>
         </article>
       </dialog>
@@ -22,4 +22,8 @@ import { NotificationsStore } from '@shared/services/notifications.store';
 })
 export class NotificationsComponent {
   notifications = inject(NotificationsStore);
+  close() {
+    this.notifications.remove(this.notifications.pending());
+  }
+  // ToDo: add presentation and logic for question notifications
 }

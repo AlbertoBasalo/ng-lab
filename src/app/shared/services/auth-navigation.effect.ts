@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthState } from './auth.store';
 
 @Injectable({ providedIn: 'root' })
-export class NavigationEffect {
+export class AuthNavigationEffect {
   constructor(private router: Router) {}
   navigate(authState: AuthState): void {
     if (!authState.authProcess.interactive) return;

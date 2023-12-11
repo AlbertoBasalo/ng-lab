@@ -3,7 +3,7 @@ import { NULL_USER_TOKEN, UserToken } from '@shared/domain/user-token.type';
 import { WindowService } from '@shared/services/window.service';
 
 @Injectable({ providedIn: 'root' })
-export class StorageEffect {
+export class AuthStorageEffect {
   #key = 'lab_user-token';
   get userToken(): UserToken {
     return this.#load();

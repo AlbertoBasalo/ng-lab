@@ -9,6 +9,9 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
+
+// ToDo: naming...
+
 /**
  * The possible status of an observable command
  */

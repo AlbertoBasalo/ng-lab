@@ -1,7 +1,7 @@
 import { Injectable, computed, effect, signal } from '@angular/core';
 import { NULL_USER_TOKEN, UserToken } from '../domain/user-token.type';
-import { NavigationEffect } from './navigation.effect';
-import { StorageEffect } from './storage.effect';
+import { AuthNavigationEffect } from './auth-navigation.effect';
+import { AuthStorageEffect } from './auth-storage.effect';
 
 export type AuthProcess = {
   interactive: boolean;
@@ -60,7 +60,7 @@ export class AuthStore {
    * @param navigation Service to navigate the user as a side effect
    * @param storage Service to save the user token as a side effect
    */
-  constructor(navigation: NavigationEffect, storage: StorageEffect) {
+  constructor(navigation: AuthNavigationEffect, storage: AuthStorageEffect) {
     this.#authState.update((state) => ({
       ...state,
       userToken: storage.userToken,

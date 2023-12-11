@@ -21,7 +21,9 @@ export type Notification = {
 export class NotificationsStore {
   #notificationsQueue = signal<Notification[]>([]);
 
-  pending = computed(() => this.#notificationsQueue()[0] ?? null);
+  hasPending = computed(() => this.#notificationsQueue().length > 0);
+
+  pending = computed(() => this.#notificationsQueue()[0]);
 
   ask(question: NotificationQuestion) {
     const notification: Notification = {
@@ -45,13 +47,7 @@ export class NotificationsStore {
     this.#addNotification(notification);
   }
 
-  removePending() {
-    const pending = this.pending();
-    if (!pending) return;
-    this.removeNotification(pending);
-  }
-
-  removeNotification(notification: Notification) {
+  remove(notification: Notification) {
     this.#notificationsQueue.update((notifications) =>
       notifications.filter((n) => n !== notification),
     );
