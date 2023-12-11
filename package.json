@@ -7,10 +7,10 @@
     "url": "https://albertobasalo.dev"
   },
   "scripts": {
-    "api": "json-server-auth ./db/d.json -r ./db/r.json",
-    "preapi": "copyfiles -f ./db/reset/d.json ./db ",
-    "seedapi": "json-server-auth ./db/d.json -r ./db/r.json",
-    "preseedapi": "copyfiles -f ./db/seed/d.json ./db ",
+    "api": "json-server-auth ./db/prod/d.json -r ./db/r.json",
+    "preapi": "copyfiles -f ./db/reset/d.json ./db/prod ",
+    "seedapi": "json-server-auth ./db/prod/d.json -r ./db/r.json",
+    "preseedapi": "copyfiles -f ./db/seed/d.json ./db/prod ",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
