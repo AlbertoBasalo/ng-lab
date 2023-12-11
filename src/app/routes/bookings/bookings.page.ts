@@ -1,12 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Injector,
-  computed,
-  effect,
-  inject,
-} from '@angular/core';
-import { connect, createState } from '@shared/services/state.signal';
+import { ChangeDetectionStrategy, Component, Injector, computed, effect, inject } from '@angular/core';
+import { connect, createSignal } from '@shared/services/command.signal';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { PendingComponent } from '@shared/ui/pending.component';
 import { ActivityBooking } from './activity-booking.type';
@@ -19,7 +12,7 @@ import { BookingsService } from './bookings.service';
   imports: [BookingsList, PendingComponent, ErrorComponent],
   providers: [BookingsService],
   template: `
-    @switch (bookingsStatus()) {
+    @switch (getBookingsStatus()) {
       @case ('pending') {
         <lab-pending message="Loading bookings" />
       }
@@ -27,7 +20,7 @@ import { BookingsService } from './bookings.service';
         <lab-error message="Could not load bookings" />
       }
       @default {
-        <lab-bookings [bookings]="bookings()" (cancel)="onCancel($event)" />
+        <lab-bookings [bookings]="getBookingsResult()" (cancel)="onCancel($event)" />
         @switch (cancelBookingStatus()) {
           @case ('pending') {
             <lab-pending message="Canceling booking" />
@@ -42,37 +35,37 @@ import { BookingsService } from './bookings.service';
 })
 export default class BookingsPage {
   // injection division
+
   #service = inject(BookingsService);
   #injector = inject(Injector);
+
   // component data division
-  #getBookingsState = createState<ActivityBooking[]>([]);
-  #cancelBookingState = createState<unknown>(null);
+
+  #getBookings = createSignal<ActivityBooking[]>([]);
+  #cancelBooking = createSignal<unknown>(null);
+
   // template division
-  bookings = computed(() => this.#getBookingsState().value);
-  bookingsStatus = computed(() => this.#getBookingsState().status);
-  cancelBookingStatus = computed(() => this.#cancelBookingState().status);
+
+  getBookingsResult = computed(() => this.#getBookings().result);
+  getBookingsStatus = computed(() => this.#getBookings().status);
+  cancelBookingStatus = computed(() => this.#cancelBooking().status);
+
   constructor() {
-    connect(this.#service.getBookings$(), this.#getBookingsState);
+    connect(this.#service.getBookings$(), this.#getBookings);
     effect(() => this.reloadAfterCancel(), { allowSignalWrites: true });
   }
 
   // template event handlers
+
   onCancel(id: number) {
-    connect(
-      this.#service.cancelBooking$(id),
-      this.#cancelBookingState,
-      this.#injector,
-    );
+    connect(this.#service.cancelBooking$(id), this.#cancelBooking, this.#injector);
   }
 
   // effect handlers
+
   reloadAfterCancel() {
-    if (this.#cancelBookingState().status === 'success') {
-      connect(
-        this.#service.getBookings$(),
-        this.#getBookingsState,
-        this.#injector,
-      );
+    if (this.#cancelBooking().status === 'success') {
+      connect(this.#service.getBookings$(), this.#getBookings, this.#injector);
     }
   }
 }

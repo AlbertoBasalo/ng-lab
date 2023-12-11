@@ -11,13 +11,11 @@ export const APP_CONFIG = new InjectionToken<AppConfig>('app.config');
 
 /**
  * Provides the application configuration
+ * @description This is a factory function with predefined values
  * @param logLevel Minimum log level to display
  * @param apiBaseUrl Base url for the api
  */
-export const provideAppConfig = (
-  logLevel = LogLevel.debug,
-  apiBaseUrl = 'http://localhost:3000',
-) => {
+export const provideAppConfig = (logLevel = LogLevel.debug, apiBaseUrl = 'http://localhost:3000') => {
   return {
     provide: APP_CONFIG,
     useValue: {

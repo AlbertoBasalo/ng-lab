@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
-import { State, connect } from '@shared/services/state.signal';
+import { Command, connect } from '@shared/services/command.signal';
 import { NewActivityForm } from './new-activity.form';
 import { NewActivityService } from './new-activity.service';
 
@@ -26,7 +26,7 @@ import { NewActivityService } from './new-activity.service';
       </header>
       <lab-new-activity (create)="onCreate($event)" />
       <footer>
-        <p>{{ error() }}</p>
+        <p>{{ postActivityError() }}</p>
       </footer>
     </article>
   `,
@@ -40,20 +40,19 @@ export default class NewActivityPage {
 
   // component data division
 
-  #postActivityState: WritableSignal<State<Activity>> = signal({
+  #postActivity: WritableSignal<Command<Activity>> = signal({
     status: 'idle',
-    value: NULL_ACTIVITY,
+    result: NULL_ACTIVITY,
   });
 
   // template data division
 
   title = 'Create a new activity';
-  error = computed(() => this.#postActivityState().error);
+  postActivityError = computed(() => this.#postActivity().error);
 
   constructor() {
     effect(() => {
-      if (this.#postActivityState().status === 'success')
-        this.#router.navigate(['/activities']);
+      if (this.#postActivity().status === 'success') this.#router.navigate(['/activities']);
     });
   }
 
@@ -61,6 +60,6 @@ export default class NewActivityPage {
 
   onCreate(activity: Partial<Activity>) {
     const source$ = this.#service.postActivity$(activity);
-    connect(source$, this.#postActivityState, this.#injector);
+    connect(source$, this.#postActivity, this.#injector);
   }
 }

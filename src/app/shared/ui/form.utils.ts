@@ -1,9 +1,9 @@
 import { AbstractControl, FormGroup, Validators } from '@angular/forms';
 
-export const passwordValidators = [
-  Validators.required,
-  Validators.minLength(4),
-];
+/**
+ * Validators for a password control
+ */
+export const passwordValidators = [Validators.required, Validators.minLength(4)];
 
 /**
  * Checks if the control is invalid

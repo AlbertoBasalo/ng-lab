@@ -1,6 +1,10 @@
 import { isPlatformServer } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 
+/**
+ * Service to access the window object
+ * @description Avoids errors when running the app on the server
+ */
 @Injectable({ providedIn: 'root' })
 export class WindowService {
   #isServer = isPlatformServer(inject(PLATFORM_ID));
@@ -14,19 +18,7 @@ export class WindowService {
   }
 
   constructor() {
-    if (this.#isServer) this.overrideConsoleLog();
-  }
-
-  private overrideConsoleLog() {
-    console.log = (message?: any, ...optionalParams: any[]) => {
-      return;
-    };
-    console.error = (message?: any, ...optionalParams: any[]) => {
-      return;
-    };
-    console.warn = (message?: any, ...optionalParams: any[]) => {
-      return;
-    };
+    if (this.#isServer) this.#overrideConsoleLog();
   }
 
   setLocalStorage(key: string, value: object) {
@@ -42,8 +34,16 @@ export class WindowService {
     if (this.#isServer) return;
     window.localStorage.removeItem(key);
   }
-  // displayAlert(alert: { title: string; message: string }) {
-  //   if (this.#isServer) return;
-  //   window.alert(`${alert.title}\n${alert.message}`);
-  // }
+
+  #overrideConsoleLog() {
+    console.log = (message?: any, ...optionalParams: any[]) => {
+      return;
+    };
+    console.error = (message?: any, ...optionalParams: any[]) => {
+      return;
+    };
+    console.warn = (message?: any, ...optionalParams: any[]) => {
+      return;
+    };
+  }
 }

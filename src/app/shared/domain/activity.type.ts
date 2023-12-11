@@ -1,3 +1,7 @@
+/**
+ * Activity type definition
+ * @description This is a DTO for the activity entity
+ */
 export type Activity = {
   id: number;
   name: string;

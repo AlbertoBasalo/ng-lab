@@ -1,3 +1,7 @@
+/**
+ * Booking type definition
+ * @description This is a DTO for the booking entity
+ */
 export type Booking = {
   id: number;
   activityId: number;

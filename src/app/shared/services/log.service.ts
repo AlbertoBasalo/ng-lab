@@ -14,15 +14,21 @@ export type LogEntry = {
   source?: string;
 };
 
+/**
+ * Service to log messages for tracing and debugging purposes
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class LogService {
   #level: LogLevel = inject(APP_CONFIG).logLevel;
+
+  /**
+   * Write a log entry
+   * @param entry A log entry
+   */
   log(entry: LogEntry): void {
-    if (LogLevel[entry.level] < LogLevel[this.#level]) {
-      return;
-    }
+    if (LogLevel[entry.level] < LogLevel[this.#level]) return;
     const entryMessage = `${entry.message} @ ${entry.source}`;
     switch (entry.level) {
       case LogLevel.debug:

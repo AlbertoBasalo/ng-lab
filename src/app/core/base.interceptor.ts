@@ -8,10 +8,7 @@ import { APP_CONFIG } from './app-config.provider';
  * Interceptor to ensure a common base for all the requests
  * @description prepends the base url and logs the errors
  */
-export function BaseInterceptor(
-  req: HttpRequest<unknown>,
-  next: HttpHandlerFn,
-): Observable<HttpEvent<unknown>> {
+export function BaseInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   const appConfig = inject(APP_CONFIG);
   const logger = inject(LogService);
   const url = `${appConfig.apiBaseUrl}/${req.url}`;

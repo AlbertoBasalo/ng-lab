@@ -8,9 +8,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     <footer>
       <nav>
         <section>
-          <a [href]="author.homepage" target="_blank" class="secondary">
-            © {{ year }} {{ author.name }}
-          </a>
+          <a [href]="author.homepage" target="_blank" class="secondary"> © {{ year }} {{ author.name }} </a>
         </section>
         <section>
           <a [href]="solution.repository" target="_blank" class="secondary">

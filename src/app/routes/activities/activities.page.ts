@@ -1,11 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { Activity } from '@shared/domain/activity.type';
-import { toState } from '@shared/services/state.signal';
+import { toSignal } from '@shared/services/command.signal';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { PendingComponent } from '@shared/ui/pending.component';
 import { SearchComponent } from '@shared/ui/search.component';
@@ -32,7 +27,7 @@ import { ActivitiesService } from './activities.service';
           <header>
             <h2>Select an activity to book... and enjoy!</h2>
           </header>
-          <lab-activities [activities]="getActivities()" />
+          <lab-activities [activities]="getActivitiesResult()" />
         </article>
       }
     }
@@ -48,19 +43,15 @@ export default class ActivitiesPage {
   /** Observable of filter terms */
   #searchTerm$ = new BehaviorSubject<string>('');
   /** For any term received discard the current query and start a new one  */
-  #activitiesByFilter$ = this.#searchTerm$.pipe(
-    switchMap((filter) => this.#service.getActivitiesByFilter$(filter)),
-  );
+  #activitiesByFilter$ = this.#searchTerm$.pipe(switchMap((filter) => this.#service.getActivitiesByFilter$(filter)));
   /** Signal with current state of an async command being issued */
-  #getActivitiesState = toState<Activity[]>(this.#activitiesByFilter$, []);
+  #getActivities = toSignal<Activity[]>(this.#activitiesByFilter$, []);
 
   // template data division
 
-  getActivities = computed(() => this.#getActivitiesState().value);
-  getActivitiesStatus = computed(() => this.#getActivitiesState().status);
-  getActivitiesError = computed(
-    () => `Failed to load ${this.#getActivitiesState().error}`,
-  );
+  getActivitiesResult = computed(() => this.#getActivities().result);
+  getActivitiesStatus = computed(() => this.#getActivities().status);
+  getActivitiesError = computed(() => `Failed to load ${this.#getActivities().error}`);
 
   // template event handlers division
 

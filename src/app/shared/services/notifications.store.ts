@@ -17,14 +17,27 @@ export type Notification = {
 } & NotificationInfo &
   Partial<NotificationQuestion>;
 
+/**
+ * Store to manage user notifications
+ */
 @Injectable({ providedIn: 'root' })
 export class NotificationsStore {
   #notificationsQueue = signal<Notification[]>([]);
 
+  /**
+   * Signal indicating if there are pending notifications
+   */
   hasPending = computed(() => this.#notificationsQueue().length > 0);
 
+  /**
+   * Signal with the current notification
+   */
   pending = computed(() => this.#notificationsQueue()[0]);
 
+  /**
+   * To ask the user a question
+   * @param question Configured question
+   */
   ask(question: NotificationQuestion) {
     const notification: Notification = {
       type: 'question',
@@ -32,6 +45,10 @@ export class NotificationsStore {
     };
     this.#addNotification(notification);
   }
+  /**
+   * To show a success message
+   * @param alert Configured alert
+   */
   showSuccess(alert: NotificationInfo) {
     const notification: Notification = {
       type: 'success',
@@ -39,6 +56,10 @@ export class NotificationsStore {
     };
     this.#addNotification(notification);
   }
+  /**
+   * To show a failure message
+   * @param alert Configured alert
+   */
   showFailure(alert: NotificationInfo) {
     const notification: Notification = {
       type: 'failure',
@@ -47,16 +68,16 @@ export class NotificationsStore {
     this.#addNotification(notification);
   }
 
+  /**
+   * Remove a notification from the queue
+   * @description To be used after the user has read the notification
+   * @param notification Notification to remove
+   */
   remove(notification: Notification) {
-    this.#notificationsQueue.update((notifications) =>
-      notifications.filter((n) => n !== notification),
-    );
+    this.#notificationsQueue.update((notifications) => notifications.filter((n) => n !== notification));
   }
 
   #addNotification(notification: Notification) {
-    this.#notificationsQueue.update((notifications) => [
-      ...notifications,
-      notification,
-    ]);
+    this.#notificationsQueue.update((notifications) => [...notifications, notification]);
   }
 }
