@@ -13,6 +13,7 @@ export function AuthInterceptor(
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
   const authStore = inject(AuthStore);
+  const router = inject(Router);
   const accessToken = authStore.accessToken();
   const clonedRequest = req.clone({
     setHeaders: {
@@ -22,7 +23,6 @@ export function AuthInterceptor(
   return next(clonedRequest).pipe(
     catchError((err) => {
       if (err.status === 401) {
-        const router = inject(Router);
         const returnUrl = router.url;
         authStore.mustLogin(returnUrl);
       }

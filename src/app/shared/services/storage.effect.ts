@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { WindowService } from '@core/window.service';
 import { NULL_USER_TOKEN, UserToken } from '@shared/domain/user-token.type';
+import { WindowService } from '@shared/services/window.service';
 
 @Injectable({ providedIn: 'root' })
 export class StorageEffect {

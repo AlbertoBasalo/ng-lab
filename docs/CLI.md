@@ -136,3 +136,10 @@ ng g c routes/bookings/bookings --type=page
 ng g c routes/bookings/bookings --type=list
 ng g s routes/bookings/bookings
 ```
+
+## Notifications feature
+
+```bash
+ng g c core/notifications
+ng g class shared/services/notifications --type=store
+```

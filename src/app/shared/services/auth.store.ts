@@ -56,7 +56,7 @@ export class AuthStore {
   readonly isAuthenticated = computed(() => !!this.accessToken());
 
   /**
-   * Stroe to manage all state related to authentication
+   * Store to manage all state related to authentication
    * @param navigation Service to navigate the user as a side effect
    * @param storage Service to save the user token as a side effect
    */

@@ -1,9 +1,7 @@
 import { ErrorHandler, inject } from '@angular/core';
-import { WindowService } from '@core/window.service';
-import { LogLevel, LogService } from './log.service';
+import { LogLevel, LogService } from '../shared/services/log.service';
 
 class ErrorService implements ErrorHandler {
-  #window = inject(WindowService);
   #log = inject(LogService);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleError(error: any) {
@@ -13,10 +11,11 @@ class ErrorService implements ErrorHandler {
       source: '🪖 Error Service Handler',
       payload: error,
     });
-    this.#window.displayAlert({
-      title: 'Application Failed',
-      message: 'We will work on it, please try again later.',
-    });
+    // ToDo: use dialog service
+    // this.#window.displayAlert({
+    //   title: 'Application Failed',
+    //   message: 'We will work on it, please try again later.',
+    // });
   }
 }
 
