@@ -13,12 +13,9 @@ import { AuthStore } from '@shared/services/auth.store';
       <header>
         <h2>{{ userName }}</h2>
       </header>
-      <p>You can organize your own activities.</p>
-      <a routerLink="/activities/new">Create one</a>
-      <p>Or participate in any published activity.</p>
-      <a routerLink="/activities">Book one</a>
-      <p>If you have already book one.</p>
-      <a routerLink="/bookings">Check your bookings</a>
+      <p>You can <a routerLink="/activities/new">organize</a> your own activities, .</p>
+      <p><a routerLink="/activities">Book an activity</a> to participate.</p>
+      <p>If you have already book one <a routerLink="/bookings">check your bookings.</a></p>
       <footer>
         <button (click)="onLogout()">Logout</button>
       </footer>
