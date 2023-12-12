@@ -1,15 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { PageTemplate } from '@shared/ui/page.template';
 
 @Component({
   standalone: true,
-  imports: [],
+  imports: [PageTemplate],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <article>
-      <header>
-        <h2>{{ title }}</h2>
-        <p>{{ subtitle }}</p>
-      </header>
+    <lab-page [title]="title" [subtitle]="subtitle">
       <main>
         <h3>{{ section }}</h3>
         <ul>
@@ -18,7 +15,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
           }
         </ul>
       </main>
-    </article>
+    </lab-page>
   `,
 })
 export default class HomePage {

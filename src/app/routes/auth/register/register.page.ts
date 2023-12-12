@@ -1,27 +1,27 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ErrorComponent } from '@shared/ui/error.component';
+import { PageTemplate } from '@shared/ui/page.template';
 import { AuthService } from '../auth.service';
 import { RegisterForm } from './register.form';
 import { Register } from './register.type';
 
 @Component({
   standalone: true,
-  imports: [RegisterForm, RouterLink, ErrorComponent],
+  imports: [RegisterForm, RouterLink, ErrorComponent, PageTemplate],
   providers: [AuthService],
   template: `
-    <article>
-      <header>
-        <h2>{{ title }}</h2>
-      </header>
-      <lab-register (register)="onRegister($event)" />
-      @if (error()) {
-        <lab-error [message]="error()" />
-      }
+    <lab-page [title]="title">
+      <main>
+        <lab-register (register)="onRegister($event)" />
+      </main>
       <footer>
+        @if (error()) {
+          <lab-error [message]="error()" />
+        }
         <a routerLink="/auth/login">Login if you already have an account</a>
       </footer>
-    </article>
+    </lab-page>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

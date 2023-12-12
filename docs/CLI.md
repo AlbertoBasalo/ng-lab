@@ -143,3 +143,9 @@ ng g s routes/bookings/bookings
 ng g c core/notifications
 ng g class shared/services/notifications --type=store
 ```
+
+## Page template component
+
+```bash
+ng g c shared/ui/page --type=template
+```

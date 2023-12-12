@@ -1,13 +1,5 @@
 import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  computed,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, computed, signal } from '@angular/core';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
 
 @Component({
@@ -23,7 +15,7 @@ import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
   template: `
     <article name="Activity details">
       <header>
-        <h2>{{ title() | titlecase }}</h2>
+        <h3>{{ title() | titlecase }}</h3>
         <p>{{ subtitle }}</p>
       </header>
       <section>

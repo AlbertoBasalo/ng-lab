@@ -15,6 +15,7 @@ import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
 import { Booking, NULL_BOOKING } from '@shared/domain/booking.type';
 import { Command, connect } from '@shared/services/command.signal';
 import { ErrorComponent } from '@shared/ui/error.component';
+import { PageTemplate } from '@shared/ui/page.template';
 import { PendingComponent } from '@shared/ui/pending.component';
 import { ActivitySlugComponent } from './activity-slug.component';
 import { ActivitySlugService } from './activity-slug.service';
@@ -22,18 +23,25 @@ import { ActivitySlugService } from './activity-slug.service';
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ActivitySlugComponent, PendingComponent, ErrorComponent, RouterLink],
+  imports: [PageTemplate, ActivitySlugComponent, PendingComponent, ErrorComponent, RouterLink],
   providers: [ActivitySlugService],
   template: `
-    @switch (getActivityStatus()) {
-      @case ('pending') {
-        <lab-pending message="Loading activity {{ slug }}" />
+    <lab-page title="To be a computed signal">
+      @if (getActivityStatus() === 'success') {
+        <main>
+          <lab-activity-slug [activity]="getActivityResult()" (booking)="onBooking()" />
+        </main>
       }
-      @case ('error') {
-        <lab-error [message]="getActivityError()" />
-      }
-      @default {
-        <lab-activity-slug [activity]="getActivityResult()" (booking)="onBooking()" />
+      <footer>
+        <p>to be another computed signal</p>
+        @switch (getActivityStatus()) {
+          @case ('pending') {
+            <lab-pending message="Loading activity {{ slug }}" />
+          }
+          @case ('error') {
+            <lab-error [message]="getActivityError()" />
+          }
+        }
         @switch (postBookingStatus()) {
           @case ('pending') {
             <lab-pending message="Posting booking {{ slug }}" />
@@ -48,8 +56,8 @@ import { ActivitySlugService } from './activity-slug.service';
             </h4>
           }
         }
-      }
-    }
+      </footer>
+    </lab-page>
   `,
 })
 export default class ActivitySlugPage implements OnInit {

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ErrorComponent } from '@shared/ui/error.component';
+import { PageTemplate } from '@shared/ui/page.template';
 import { AuthService } from '../auth.service';
 import { LoginForm } from './login.form';
 import { Login } from './login.type';
@@ -9,20 +10,19 @@ import { Login } from './login.type';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [AuthService],
-  imports: [RouterLink, LoginForm, ErrorComponent],
+  imports: [PageTemplate, RouterLink, LoginForm, ErrorComponent],
   template: `
-    <article>
-      <header>
-        <h2>{{ title }}</h2>
-      </header>
-      <lab-login (login)="onLogin($event)" />
-      @if (error()) {
-        <lab-error [message]="error()" />
-      }
+    <lab-page [title]="title">
+      <main>
+        <lab-login (login)="onLogin($event)" />
+      </main>
       <footer>
+        @if (error()) {
+          <lab-error [message]="error()" />
+        }
         <a routerLink="/auth/register">Register if you don't have an account</a>
       </footer>
-    </article>
+    </lab-page>
   `,
 })
 export default class LoginPage {

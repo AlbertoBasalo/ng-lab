@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { Activity } from '@shared/domain/activity.type';
 import { toSignal } from '@shared/services/command.signal';
 import { ErrorComponent } from '@shared/ui/error.component';
+import { PageTemplate } from '@shared/ui/page.template';
 import { PendingComponent } from '@shared/ui/pending.component';
 import { SearchComponent } from '@shared/ui/search.component';
 import { BehaviorSubject, switchMap } from 'rxjs';
@@ -11,26 +12,32 @@ import { ActivitiesService } from './activities.service';
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SearchComponent, ActivitiesList, PendingComponent, ErrorComponent],
+  imports: [PageTemplate, SearchComponent, ActivitiesList, PendingComponent, ErrorComponent],
   providers: [ActivitiesService],
   template: `
-    <lab-search (search)="onSearch($event)" />
-    @switch (getActivitiesStatus()) {
-      @case ('pending') {
-        <lab-pending message="Loading activities" />
-      }
-      @case ('error') {
-        <lab-error [message]="getActivitiesError()" />
-      }
-      @default {
-        <article name="activities">
-          <header>
-            <h2>Select an activity to book... and enjoy!</h2>
-          </header>
-          <lab-activities [activities]="getActivitiesResult()" />
-        </article>
-      }
-    }
+    <lab-page title="Published activities">
+      <main>
+        <lab-search (search)="onSearch($event)" />
+        @if (getActivitiesStatus() === 'success') {
+          <article name="activities">
+            <header>
+              <h3>Select an activity to book... and enjoy!</h3>
+            </header>
+            <lab-activities [activities]="getActivitiesResult()" />
+          </article>
+        }
+      </main>
+      <footer>
+        @switch (getActivitiesStatus()) {
+          @case ('pending') {
+            <lab-pending message="Loading activities" />
+          }
+          @case ('error') {
+            <lab-error [message]="getActivitiesError()" />
+          }
+        }
+      </footer>
+    </lab-page>
   `,
 })
 export default class ActivitiesPage {

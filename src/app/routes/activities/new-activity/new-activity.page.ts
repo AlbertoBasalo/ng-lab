@@ -11,24 +11,24 @@ import {
 import { Router } from '@angular/router';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
 import { Command, connect } from '@shared/services/command.signal';
+import { PageTemplate } from '@shared/ui/page.template';
 import { NewActivityForm } from './new-activity.form';
 import { NewActivityService } from './new-activity.service';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NewActivityForm],
+  imports: [PageTemplate, NewActivityForm],
   providers: [NewActivityService],
   template: `
-    <article>
-      <header>
-        <h2>{{ title }}</h2>
-      </header>
-      <lab-new-activity (create)="onCreate($event)" />
+    <lab-page [title]="title">
+      <main>
+        <lab-new-activity (create)="onCreate($event)" />
+      </main>
       <footer>
         <p>{{ postActivityError() }}</p>
       </footer>
-    </article>
+    </lab-page>
   `,
 })
 export default class NewActivityPage {

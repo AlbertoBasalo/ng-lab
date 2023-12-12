@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Injector, computed, effect, inject } from '@angular/core';
 import { connect, createSignal } from '@shared/services/command.signal';
 import { ErrorComponent } from '@shared/ui/error.component';
+import { PageTemplate } from '@shared/ui/page.template';
 import { PendingComponent } from '@shared/ui/pending.component';
 import { ActivityBooking } from './activity-booking.type';
 import { BookingsList } from './bookings.list';
@@ -9,18 +10,24 @@ import { BookingsService } from './bookings.service';
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [BookingsList, PendingComponent, ErrorComponent],
+  imports: [PageTemplate, BookingsList, PendingComponent, ErrorComponent],
   providers: [BookingsService],
   template: `
-    @switch (getBookingsStatus()) {
-      @case ('pending') {
-        <lab-pending message="Loading bookings" />
+    <lab-page title="To be a computed signal with bookings count">
+      @if (getBookingsStatus() === 'success') {
+        <main>
+          <lab-bookings [bookings]="getBookingsResult()" (cancel)="onCancel($event)" />
+        </main>
       }
-      @case ('error') {
-        <lab-error message="Could not load bookings" />
-      }
-      @default {
-        <lab-bookings [bookings]="getBookingsResult()" (cancel)="onCancel($event)" />
+      <footer>
+        @switch (getBookingsStatus()) {
+          @case ('pending') {
+            <lab-pending message="Loading bookings" />
+          }
+          @case ('error') {
+            <lab-error message="Could not load bookings" />
+          }
+        }
         @switch (cancelBookingStatus()) {
           @case ('pending') {
             <lab-pending message="Canceling booking" />
@@ -29,8 +36,8 @@ import { BookingsService } from './bookings.service';
             <lab-error message="Could not cancel booking" />
           }
         }
-      }
-    }
+      </footer>
+    </lab-page>
   `,
 })
 export default class BookingsPage {

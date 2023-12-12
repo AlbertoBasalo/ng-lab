@@ -8,10 +8,10 @@ import { Activity } from '@shared/domain/activity.type';
   imports: [ActivityListItemComponent],
   template: `
     @if (activities.length >= 0) {
-      <h3>
+      <h4>
         Listing <span id="activities-count">{{ activities.length }}</span
         >activities
-      </h3>
+      </h4>
       <ul id="activities-list">
         @for (activity of activities; track activity.id) {
           <lab-activity-list-item [activity]="activity" />
