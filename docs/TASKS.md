@@ -13,6 +13,8 @@
 - [x] Log service
 - [x] Error Handler
 - [x] View, and cancel bookings
+- [x] Global user notifications
 - [ ] Ui atomic components (pageTitle, labelData, etc)
 - [ ] Create booking feature (modal with form)
-- [ ] Global and local user notifications
+- [ ] Activity status (draft, published, etc) management
+- [ ] Defer and lazy loading

@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ActivityListItem } from '@routes/activities/activity.list-item';
+import { ActivityListItemComponent } from '@routes/activities/activity-list-item.component';
 import { Activity } from '@shared/domain/activity.type';
 
 @Component({
   selector: 'lab-activities',
   standalone: true,
-  imports: [ActivityListItem],
+  imports: [ActivityListItemComponent],
   template: `
     @if (activities.length >= 0) {
       <h3>
