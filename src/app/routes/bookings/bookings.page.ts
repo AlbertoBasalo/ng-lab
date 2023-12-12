@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, Injector, computed, effect, inject } from '@angular/core';
 import { connect, createSignal } from '@shared/services/command.signal';
-import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
-import { PendingComponent } from '@shared/ui/pending.component';
+import { StatusComponent } from '@shared/ui/status.component';
 import { ActivityBooking } from './activity-booking.type';
 import { BookingsList } from './bookings.list';
 import { BookingsService } from './bookings.service';
@@ -10,31 +9,16 @@ import { BookingsService } from './bookings.service';
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PageTemplate, BookingsList, PendingComponent, ErrorComponent],
+  imports: [PageTemplate, BookingsList, StatusComponent],
   providers: [BookingsService],
   template: `
-    <lab-page title="Your activity bookings">
-      @if (getBookingsStatus() === 'success') {
+    <lab-page title="Your activity bookings" [callStatus]="getBookingsStatus()">
+      @if (getBookingsStatus().status === 'success') {
         <lab-bookings [bookings]="getBookingsResult()" (cancel)="onCancel($event)" />
+        <footer>
+          <lab-status [callStatus]="cancelBookingStatus()" />
+        </footer>
       }
-      <footer>
-        @switch (getBookingsStatus()) {
-          @case ('pending') {
-            <lab-pending message="Loading bookings" />
-          }
-          @case ('error') {
-            <lab-error message="Could not load bookings" />
-          }
-        }
-        @switch (cancelBookingStatus()) {
-          @case ('pending') {
-            <lab-pending message="Canceling booking" />
-          }
-          @case ('error') {
-            <lab-error message="Could not cancel booking" />
-          }
-        }
-      </footer>
     </lab-page>
   `,
 })
@@ -52,8 +36,8 @@ export default class BookingsPage {
   // template division
 
   getBookingsResult = computed(() => this.#getBookings().result);
-  getBookingsStatus = computed(() => this.#getBookings().status);
-  cancelBookingStatus = computed(() => this.#cancelBooking().status);
+  getBookingsStatus = computed(() => this.#getBookings());
+  cancelBookingStatus = computed(() => this.#cancelBooking());
 
   constructor() {
     connect(this.#service.getBookings$(), this.#getBookings);

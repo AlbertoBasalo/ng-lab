@@ -5,7 +5,14 @@ import { Observable } from 'rxjs';
 /**
  * The possible status of an observable command
  */
-export type CommandStatus = 'pending' | 'success' | 'error' | 'idle';
+export type Status = 'working' | 'success' | 'error' | 'idle';
+
+export type CallStatus = {
+  /** The status of the observable command*/
+  status: Status;
+  /** The error, if any, produced by the observable command*/
+  error?: any;
+};
 
 /**
  * A structure representing the state of an observable command
@@ -13,11 +20,7 @@ export type CommandStatus = 'pending' | 'success' | 'error' | 'idle';
 export type Command<T> = {
   /** The result value (initial or produced by the observable) command*/
   result: T;
-  /** The error, if any, produced by the observable command*/
-  error?: any;
-  /** The status of the observable command*/
-  status: CommandStatus;
-};
+} & CallStatus;
 
 /**
  * Creates a state signal for a given type
@@ -37,7 +40,7 @@ export function createSignal<T>(initial: T): WritableSignal<Command<T>> {
  */
 export function connect<T>(source$: Observable<T>, signal: WritableSignal<Command<T>>, injector?: Injector) {
   const destroyRef = getDestroyRef();
-  signal.update((s) => ({ ...s, status: 'pending' }));
+  signal.update((s) => ({ ...s, status: 'working' }));
   source$.pipe(takeUntilDestroyed(destroyRef)).subscribe({
     next: (result) => signal.update((s) => ({ ...s, result, status: 'success' })),
     error: (error) => signal.update((s) => ({ ...s, error, status: 'error' })),

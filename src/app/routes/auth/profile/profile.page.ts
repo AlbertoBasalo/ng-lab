@@ -1,14 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ActivityCard } from '@routes/bookings/activity.card';
-import { BookingCard } from '@routes/bookings/booking.card';
 import { AuthStore } from '@shared/services/auth.store';
 import { PageTemplate } from '@shared/ui/page.template';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PageTemplate, BookingCard, ActivityCard, RouterLink],
+  imports: [PageTemplate, RouterLink],
   template: `
     <lab-page [title]="userName">
       <nav>

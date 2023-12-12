@@ -3,8 +3,8 @@ import { Activity } from '@shared/domain/activity.type';
 import { toSignal } from '@shared/services/command.signal';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
-import { PendingComponent } from '@shared/ui/pending.component';
 import { SearchComponent } from '@shared/ui/search.component';
+import { WorkingComponent } from '@shared/ui/working.component';
 import { BehaviorSubject, switchMap } from 'rxjs';
 import { ActivitiesList } from './activities.list';
 import { ActivitiesService } from './activities.service';
@@ -12,24 +12,14 @@ import { ActivitiesService } from './activities.service';
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PageTemplate, SearchComponent, ActivitiesList, PendingComponent, ErrorComponent],
+  imports: [PageTemplate, SearchComponent, ActivitiesList, WorkingComponent, ErrorComponent],
   providers: [ActivitiesService],
   template: `
-    <lab-page title="Find and book an activity">
+    <lab-page title="Find and book an activity" [callStatus]="getActivities()">
       <lab-search (search)="onSearch($event)" />
-      @if (getActivitiesStatus() === 'success') {
+      @if (getActivities().status === 'success') {
         <lab-activities [activities]="getActivitiesResult" />
       }
-      <footer>
-        @switch (getActivitiesStatus()) {
-          @case ('pending') {
-            <lab-pending message="Loading activities" />
-          }
-          @case ('error') {
-            <lab-error [message]="getActivitiesError()" />
-          }
-        }
-      </footer>
     </lab-page>
   `,
 })
@@ -49,9 +39,8 @@ export default class ActivitiesPage {
 
   // template data division
 
+  getActivities = computed(() => this.#getActivities());
   getActivitiesResult = computed(() => this.#getActivities().result);
-  getActivitiesStatus = computed(() => this.#getActivities().status);
-  getActivitiesError = computed(() => `Failed to load ${this.#getActivities().error}`);
 
   // template event handlers division
 

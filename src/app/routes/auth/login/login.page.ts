@@ -16,7 +16,7 @@ import { Login } from './login.type';
       <lab-login (login)="onLogin($event)" />
       <footer>
         @if (error()) {
-          <lab-error [message]="error()" />
+          <lab-error [error]="error()" />
         }
         <a routerLink="/auth/register">Register if you don't have an account</a>
       </footer>

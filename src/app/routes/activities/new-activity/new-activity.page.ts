@@ -11,6 +11,7 @@ import {
 import { Router } from '@angular/router';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
 import { Command, connect } from '@shared/services/command.signal';
+import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
 import { NewActivityForm } from './new-activity.form';
 import { NewActivityService } from './new-activity.service';
@@ -18,14 +19,11 @@ import { NewActivityService } from './new-activity.service';
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PageTemplate, NewActivityForm],
+  imports: [PageTemplate, NewActivityForm, ErrorComponent],
   providers: [NewActivityService],
   template: `
-    <lab-page [title]="title">
+    <lab-page [title]="title" [callStatus]="postActivity()">
       <lab-new-activity (create)="onCreate($event)" />
-      <footer>
-        <p>{{ postActivityError() }}</p>
-      </footer>
     </lab-page>
   `,
 })
@@ -46,7 +44,7 @@ export default class NewActivityPage {
   // template data division
 
   title = 'Create a new activity';
-  postActivityError = computed(() => this.#postActivity().error);
+  postActivity = computed(() => this.#postActivity());
 
   constructor() {
     effect(() => {
