@@ -15,10 +15,10 @@ import { ActivitiesService } from './activities.service';
   imports: [PageTemplate, SearchComponent, ActivitiesList, PendingComponent, ErrorComponent],
   providers: [ActivitiesService],
   template: `
-    <lab-page title="Published activities">
+    <lab-page title="Find and book an activity">
       <lab-search (search)="onSearch($event)" />
       @if (getActivitiesStatus() === 'success') {
-        <lab-activities [activities]="getActivitiesResult()" />
+        <lab-activities [activities]="getActivitiesResult" />
       }
       <footer>
         @switch (getActivitiesStatus()) {

@@ -12,9 +12,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
           <p>{{ subtitle }}</p>
         }
       </header>
-      <main>
-        <ng-content></ng-content>
-      </main>
+      <ng-content></ng-content>
       <footer>
         <ng-content select="footer"></ng-content>
       </footer>
@@ -24,4 +22,5 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 export class PageTemplate {
   @Input() title = '';
   @Input() subtitle = '';
+  // ToDo: status (loading, error...) signal for the page footer
 }

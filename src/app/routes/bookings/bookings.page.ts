@@ -13,7 +13,7 @@ import { BookingsService } from './bookings.service';
   imports: [PageTemplate, BookingsList, PendingComponent, ErrorComponent],
   providers: [BookingsService],
   template: `
-    <lab-page title="To be a computed signal with bookings count">
+    <lab-page title="Your activity bookings">
       @if (getBookingsStatus() === 'success') {
         <lab-bookings [bookings]="getBookingsResult()" (cancel)="onCancel($event)" />
       }

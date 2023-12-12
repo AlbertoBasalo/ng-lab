@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ActivityBooking } from './activity-booking.type';
 import { BookingCard } from './booking.card';
@@ -23,8 +17,7 @@ import { BookingCard } from './booking.card';
           <p>You don't have any booking</p>
           <p>
             Go to the
-            <a [routerLink]="['/', 'activities']">activities page</a> and choose
-            one!
+            <a [routerLink]="['/', 'activities']">activities page</a> and choose one!
           </p>
         </section>
       }

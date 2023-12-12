@@ -13,7 +13,12 @@ type EventArg = { target: { value: string } };
   selector: 'lab-search',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: ` <input #searchInput id="search" type="search" placeholder="Type fo find..." /> `,
+  template: `
+    <form>
+      <label>Search activities</label>
+      <input #searchInput id="search" type="search" placeholder=" Start typing..." />
+    </form>
+  `,
 })
 export class SearchComponent implements AfterViewInit {
   @ViewChild('searchInput') searchInput!: ElementRef;

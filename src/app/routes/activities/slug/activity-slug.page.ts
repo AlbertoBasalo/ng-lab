@@ -26,7 +26,7 @@ import { ActivitySlugService } from './activity-slug.service';
   imports: [PageTemplate, ActivitySlugComponent, PendingComponent, ErrorComponent, RouterLink],
   providers: [ActivitySlugService],
   template: `
-    <lab-page title="To be a computed signal">
+    <lab-page [title]="title()">
       @if (getActivityStatus() === 'success') {
         <lab-activity-slug [activity]="getActivityResult()" (booking)="onBooking()" />
       }
@@ -89,7 +89,13 @@ export default class ActivitySlugPage implements OnInit {
   postBookingStatus = computed(() => this.#postBooking().status);
   postBookingError = computed(() => this.#postBooking().error);
   postBookingResult = computed(() => this.#postBooking().result);
-
+  title = computed(() => {
+    if (this.#getActivity().status === 'success') {
+      return this.#getActivity().result.name;
+    } else {
+      return 'Loading...';
+    }
+  });
   // component life-cycle division
 
   /** Load the activity on init */
