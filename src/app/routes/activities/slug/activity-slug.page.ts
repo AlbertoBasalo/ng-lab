@@ -1,19 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Injector,
-  Input,
-  OnInit,
-  WritableSignal,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, Input, OnInit, computed, inject } from '@angular/core';
 
 import { RouterLink } from '@angular/router';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
 import { Booking, NULL_BOOKING } from '@shared/domain/booking.type';
-import { Command, connect } from '@shared/services/command.signal';
+import { connect, createSignal } from '@shared/services/command.signal';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
 import { PendingComponent } from '@shared/ui/pending.component';
@@ -72,14 +62,9 @@ export default class ActivitySlugPage implements OnInit {
 
   // component signals division
 
-  #getActivity: WritableSignal<Command<Activity>> = signal({
-    status: 'idle',
-    result: NULL_ACTIVITY,
-  });
-  #postBooking: WritableSignal<Command<Booking>> = signal({
-    status: 'idle',
-    result: NULL_BOOKING,
-  });
+  #getActivity = createSignal<Activity>(NULL_ACTIVITY);
+
+  #postBooking = createSignal<Booking>(NULL_BOOKING);
 
   // template signals division
 
