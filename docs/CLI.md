@@ -148,4 +148,5 @@ ng g class shared/services/notifications --type=store
 
 ```bash
 ng g c shared/ui/page --type=template
+ng g c shared/ui/section --type=template
 ```

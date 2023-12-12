@@ -15,9 +15,7 @@ import { BookingsService } from './bookings.service';
   template: `
     <lab-page title="To be a computed signal with bookings count">
       @if (getBookingsStatus() === 'success') {
-        <main>
-          <lab-bookings [bookings]="getBookingsResult()" (cancel)="onCancel($event)" />
-        </main>
+        <lab-bookings [bookings]="getBookingsResult()" (cancel)="onCancel($event)" />
       }
       <footer>
         @switch (getBookingsStatus()) {

@@ -1,20 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
-  inject,
-} from '@angular/core';
-import {
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import {
-  markError,
-  passwordValidators,
-  showError,
-} from '@shared/ui/form.utils';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output, inject } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { markError, passwordValidators, showError } from '@shared/ui/form.utils';
 import { Register } from './register.type';
 
 @Component({
@@ -52,46 +38,43 @@ import { Register } from './register.type';
             [attr.aria-invalid]="markError('email')"
           />
         </label>
-        <label for="password">
-          <span>Password</span>
-          @if (form.controls['password'].invalid) {
-            <small id="password-error">We need your password</small>
-          }
-          <input
-            type="password"
-            id="password"
-            name="password"
-            formControlName="password"
-            autocomplete="new-password"
-            [attr.aria-invalid]="markError('password')"
-          />
-        </label>
-        <label for="repeatPassword">
-          <span>Repeat your Password</span>
-          @if (form.controls['repeatPassword'].invalid) {
-            <small id="repeatPassword-error">We need your password</small>
-          }
-          <input
-            type="password"
-            id="repeatPassword"
-            formControlName="repeatPassword"
-            [attr.aria-invalid]="markError('repeatPassword')"
-          />
-        </label>
+        <section class="grid">
+          <label for="password">
+            <span>Password</span>
+            @if (form.controls['password'].invalid) {
+              <small id="password-error">We need your password</small>
+            }
+            <input
+              type="password"
+              id="password"
+              name="password"
+              formControlName="password"
+              autocomplete="new-password"
+              [attr.aria-invalid]="markError('password')"
+            />
+          </label>
+          <label for="repeatPassword">
+            <span>Repeat your Password</span>
+            @if (form.controls['repeatPassword'].invalid) {
+              <small id="repeatPassword-error">Ensure your password</small>
+            }
+            <input
+              type="password"
+              id="repeatPassword"
+              formControlName="repeatPassword"
+              [attr.aria-invalid]="markError('repeatPassword')"
+            />
+          </label>
+        </section>
         <label for="acceptedTerms">
-          <input
-            type="checkbox"
-            id="acceptedTerms"
-            name="acceptedTerms"
-            formControlName="acceptedTerms"
-          />
+          <input type="checkbox" id="acceptedTerms" name="acceptedTerms" formControlName="acceptedTerms" />
           <span>I accept the terms and conditions</span>
         </label>
       </fieldset>
-      <button type="submit" [disabled]="form.invalid" (click)="onSubmit()">
-        Register
-      </button>
-      <input type="reset" value="Reset form" />
+      <section class="grid">
+        <input type="reset" value="Reset form" class="outline" />
+        <button type="submit" [disabled]="form.invalid" (click)="onSubmit()">Register</button>
+      </section>
     </form>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -103,10 +86,7 @@ export class RegisterForm {
    * The form group with all the controls (initial values and validators)
    */
   form = this.fb.group({
-    username: this.fb.control('', [
-      Validators.required,
-      Validators.minLength(2),
-    ]),
+    username: this.fb.control('', [Validators.required, Validators.minLength(2)]),
     email: this.fb.control('', [Validators.required, Validators.email]),
     password: this.fb.control('', passwordValidators),
     repeatPassword: this.fb.control('', passwordValidators),

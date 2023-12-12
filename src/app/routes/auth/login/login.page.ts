@@ -13,9 +13,7 @@ import { Login } from './login.type';
   imports: [PageTemplate, RouterLink, LoginForm, ErrorComponent],
   template: `
     <lab-page [title]="title">
-      <main>
-        <lab-login (login)="onLogin($event)" />
-      </main>
+      <lab-login (login)="onLogin($event)" />
       <footer>
         @if (error()) {
           <lab-error [message]="error()" />

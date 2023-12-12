@@ -12,9 +12,7 @@ import { Register } from './register.type';
   providers: [AuthService],
   template: `
     <lab-page [title]="title">
-      <main>
-        <lab-register (register)="onRegister($event)" />
-      </main>
+      <lab-register (register)="onRegister($event)" />
       <footer>
         @if (error()) {
           <lab-error [message]="error()" />

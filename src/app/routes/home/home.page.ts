@@ -7,14 +7,12 @@ import { PageTemplate } from '@shared/ui/page.template';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <lab-page [title]="title" [subtitle]="subtitle">
-      <main>
-        <h3>{{ section }}</h3>
-        <ul>
-          @for (feature of featureList; track feature) {
-            <li>{{ feature }}</li>
-          }
-        </ul>
-      </main>
+      <h3>{{ section }}</h3>
+      <ul>
+        @for (feature of featureList; track feature) {
+          <li>{{ feature }}</li>
+        }
+      </ul>
     </lab-page>
   `,
 })

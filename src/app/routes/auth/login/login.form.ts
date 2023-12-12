@@ -38,8 +38,10 @@ import { markError, passwordValidators, showError } from '@shared/ui/form.utils'
           />
         </label>
       </fieldset>
-      <button type="submit" [disabled]="form.invalid" (click)="onSubmit()">Login</button>
-      <input type="reset" value="Reset form" />
+      <section class="grid">
+        <input type="reset" value="Reset form" class="outline" />
+        <button type="submit" [disabled]="form.invalid" (click)="onSubmit()">Login</button>
+      </section>
     </form>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

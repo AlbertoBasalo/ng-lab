@@ -13,7 +13,7 @@ import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
     }
   `,
   template: `
-    <article name="Activity details">
+    <article name="ActivityDetails">
       <header>
         <h3>{{ title() | titlecase }}</h3>
         <p>{{ subtitle }}</p>

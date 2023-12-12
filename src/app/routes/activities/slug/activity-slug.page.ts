@@ -28,9 +28,7 @@ import { ActivitySlugService } from './activity-slug.service';
   template: `
     <lab-page title="To be a computed signal">
       @if (getActivityStatus() === 'success') {
-        <main>
-          <lab-activity-slug [activity]="getActivityResult()" (booking)="onBooking()" />
-        </main>
+        <lab-activity-slug [activity]="getActivityResult()" (booking)="onBooking()" />
       }
       <footer>
         <p>to be another computed signal</p>

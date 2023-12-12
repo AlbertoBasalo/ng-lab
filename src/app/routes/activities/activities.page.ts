@@ -16,17 +16,10 @@ import { ActivitiesService } from './activities.service';
   providers: [ActivitiesService],
   template: `
     <lab-page title="Published activities">
-      <main>
-        <lab-search (search)="onSearch($event)" />
-        @if (getActivitiesStatus() === 'success') {
-          <article name="activities">
-            <header>
-              <h3>Select an activity to book... and enjoy!</h3>
-            </header>
-            <lab-activities [activities]="getActivitiesResult()" />
-          </article>
-        }
-      </main>
+      <lab-search (search)="onSearch($event)" />
+      @if (getActivitiesStatus() === 'success') {
+        <lab-activities [activities]="getActivitiesResult()" />
+      }
       <footer>
         @switch (getActivitiesStatus()) {
           @case ('pending') {

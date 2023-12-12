@@ -22,9 +22,7 @@ import { NewActivityService } from './new-activity.service';
   providers: [NewActivityService],
   template: `
     <lab-page [title]="title">
-      <main>
-        <lab-new-activity (create)="onCreate($event)" />
-      </main>
+      <lab-new-activity (create)="onCreate($event)" />
       <footer>
         <p>{{ postActivityError() }}</p>
       </footer>

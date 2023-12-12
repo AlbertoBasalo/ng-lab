@@ -7,10 +7,10 @@ import { Activity } from '@shared/domain/activity.type';
   standalone: true,
   imports: [ActivityListItemComponent],
   template: `
-    @if (activities.length >= 0) {
+    @if (activities.length > 0) {
       <h4>
-        Listing <span id="activities-count">{{ activities.length }}</span
-        >activities
+        <span id="activities-count">{{ activities.length }}</span>
+        <span>activities found.</span>
       </h4>
       <ul id="activities-list">
         @for (activity of activities; track activity.id) {
@@ -18,7 +18,7 @@ import { Activity } from '@shared/domain/activity.type';
         }
       </ul>
     } @else {
-      <p>No activities found</p>
+      <h4>No activities found</h4>
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

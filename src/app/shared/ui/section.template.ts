@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'lab-page',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'lab-section',
   standalone: true,
+  imports: [],
   template: `
     <article>
       <header>
-        <h2>{{ title }}</h2>
+        <h3>{{ title }}</h3>
         @if (subtitle) {
           <p>{{ subtitle }}</p>
         }
@@ -20,8 +20,9 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
       </footer>
     </article>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PageTemplate {
+export class SectionTemplate {
   @Input() title = '';
   @Input() subtitle = '';
 }
