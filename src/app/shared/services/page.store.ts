@@ -1,39 +1,43 @@
-import { Injectable, Injector, Signal, computed, effect } from '@angular/core';
+import { Injectable, Injector, Signal, computed, effect, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CommandStatus, createSignal, toSignal } from './command.signal';
+import { CommandStatus, convertToSignal, createSignal } from './command.signal';
 
 @Injectable({ providedIn: 'root' })
 export class PageStore {
-  // ToDo: title, subtitle
+  #title = signal<string>('');
+  #subtitle = signal<string>('');
+  #status = createSignal({ status: 'idle', error: null });
 
-  #commandStatus = createSignal({ status: 'idle', error: null });
-
-  commandStatus = computed(() => this.#commandStatus());
+  title = computed(() => this.#title());
+  subtitle = computed(() => this.#subtitle());
+  status = computed(() => this.#status());
 
   constructor(private injector: Injector) {}
 
-  createSignal<T>(initialValue: T) {
+  setTitle(title: string) {
+    this.#title.set(title);
+  }
+  setSubtitle(subtitle: string) {
+    this.#subtitle.set(subtitle);
+  }
+
+  addNewStatusSignal<T>(initialValue: T) {
     const signal = createSignal(initialValue);
-    this.#connectCommandSignal(signal);
+    this.#connectStatus(signal);
     return signal;
   }
 
-  convert<T>(source$: Observable<T>, initial: T) {
-    const signal = toSignal(source$, initial, this.injector);
-    this.#connectCommandSignal(signal);
+  addSourceToStatusSignal<T>(source$: Observable<T>, initial: T) {
+    const signal = convertToSignal(source$, initial, this.injector);
+    this.#connectStatus(signal);
     return signal;
   }
 
-  #connectCommandSignal(signal: Signal<CommandStatus>) {
-    effect(
-      () => {
-        this.#updateCommandStatus(signal());
-      },
-      { allowSignalWrites: true },
-    );
+  #connectStatus(signal: Signal<CommandStatus>) {
+    effect(() => this.#updateStatus(signal()), { allowSignalWrites: true });
   }
 
-  #updateCommandStatus(commandStatus: CommandStatus) {
-    this.#commandStatus.update((s) => ({ ...s, ...commandStatus }));
+  #updateStatus(commandStatus: CommandStatus) {
+    this.#status.update((s) => ({ ...s, ...commandStatus }));
   }
 }

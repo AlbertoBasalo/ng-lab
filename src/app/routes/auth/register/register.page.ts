@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Injector, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NULL_USER_TOKEN, UserToken } from '@shared/domain/user-token.type';
-import { connect } from '@shared/services/command.signal';
+import { connectSignal } from '@shared/services/command.signal';
 import { PageStore } from '@shared/services/page.store';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
@@ -14,7 +14,7 @@ import { Register } from './register.type';
   imports: [RegisterForm, RouterLink, ErrorComponent, PageTemplate],
   providers: [AuthService],
   template: `
-    <lab-page [title]="title" [status]="status">
+    <lab-page [store]="store">
       <lab-register (register)="onRegister($event)" />
       <a routerLink="/auth/login">Login if you already have an account</a>
     </lab-page>
@@ -22,16 +22,22 @@ import { Register } from './register.type';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class RegisterPage {
-  #service$ = inject(AuthService);
-  #store = inject(PageStore);
-  #injector = inject(Injector);
-  title = 'Register to create your account.';
-  error = signal<string>('');
-  status = this.#store.commandStatus;
-  #postRegister = this.#store.createSignal<UserToken>(NULL_USER_TOKEN);
+  // Injection division
+  readonly #injector = inject(Injector);
+  readonly #service$ = inject(AuthService);
+  readonly store = inject(PageStore);
 
+  // Data division
+  #postRegister = this.store.addNewStatusSignal<UserToken>(NULL_USER_TOKEN);
+
+  // Life-cycle division
+  constructor() {
+    this.store.setTitle('Register to create your account.');
+  }
+
+  // Event handlers division
   onRegister(register: Partial<Register>) {
     const source$ = this.#service$.register$(register);
-    connect(source$, this.#postRegister, this.#injector);
+    connectSignal(source$, this.#postRegister, this.#injector);
   }
 }

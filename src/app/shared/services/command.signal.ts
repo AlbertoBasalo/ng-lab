@@ -38,7 +38,7 @@ export function createSignal<T>(initial: T): WritableSignal<Command<T>> {
  * @param injector Optional injector context to use to get the `DestroyRef`
  * @see Command
  */
-export function connect<T>(source$: Observable<T>, signal: WritableSignal<Command<T>>, injector?: Injector) {
+export function connectSignal<T>(source$: Observable<T>, signal: WritableSignal<Command<T>>, injector?: Injector) {
   const destroyRef = getDestroyRef();
   signal.update((s) => ({ ...s, status: 'working' }));
   source$.pipe(takeUntilDestroyed(destroyRef)).subscribe({
@@ -51,7 +51,7 @@ export function connect<T>(source$: Observable<T>, signal: WritableSignal<Comman
    */
   function getDestroyRef() {
     if (injector) return injector.get(DestroyRef);
-    assertInInjectionContext(connect);
+    assertInInjectionContext(connectSignal);
     return inject(DestroyRef);
   }
 }
@@ -64,8 +64,8 @@ export function connect<T>(source$: Observable<T>, signal: WritableSignal<Comman
  * @returns A read-only signal with the command changes
  * @see Command
  */
-export function toSignal<T>(source$: Observable<T>, initial: T, injector?: Injector): Signal<Command<T>> {
+export function convertToSignal<T>(source$: Observable<T>, initial: T, injector?: Injector): Signal<Command<T>> {
   const signal = createSignal<T>(initial);
-  connect(source$, signal, injector);
+  connectSignal(source$, signal, injector);
   return signal.asReadonly();
 }

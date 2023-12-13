@@ -17,6 +17,7 @@ import { PageTemplate } from '@shared/ui/page.template';
   `,
 })
 export default class HomePage {
+  // Data division
   title = 'Welcome to the 🅰️ Angular v 1️⃣7️⃣ demo project';
   subtitle = 'This is a simple web app for activity booking';
   section = 'Features:';

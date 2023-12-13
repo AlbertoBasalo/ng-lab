@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthStore } from '@shared/services/auth.store';
+import { PageStore } from '@shared/services/page.store';
 import { PageTemplate } from '@shared/ui/page.template';
 
 @Component({
@@ -8,7 +9,7 @@ import { PageTemplate } from '@shared/ui/page.template';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageTemplate, RouterLink],
   template: `
-    <lab-page [title]="userName">
+    <lab-page [store]="store">
       <nav>
         <p>You can <a routerLink="/activities/new">organize</a> your own activities, .</p>
         <p><a routerLink="/activities">Book an activity</a> to participate.</p>
@@ -21,17 +22,22 @@ import { PageTemplate } from '@shared/ui/page.template';
   `,
 })
 export default class ProfilePage {
-  // injection division
+  // Injection division
   readonly #authStore = inject(AuthStore);
+  readonly store = inject(PageStore);
 
-  // component data division
-  readonly #user = this.#authStore.user();
+  // Life-cycle division
+  constructor() {
+    effect(() => this.#setPageTitle(), { allowSignalWrites: true });
+  }
 
-  // template data division
-  readonly userName = `Hi, ${this.#user.username}`;
-
-  // template events division
+  // Event handlers division
   onLogout() {
     this.#authStore.logout();
+  }
+
+  // Effect handlers division
+  #setPageTitle() {
+    this.store.setTitle(`Hi, ${this.#authStore.user().username}`);
   }
 }

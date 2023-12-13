@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Injector, computed, effect, inject } from '@angular/core';
-import { connect } from '@shared/services/command.signal';
+import { connectSignal } from '@shared/services/command.signal';
 import { PageStore } from '@shared/services/page.store';
 import { PageTemplate } from '@shared/ui/page.template';
 import { StatusComponent } from '@shared/ui/status.component';
@@ -13,47 +13,41 @@ import { BookingsService } from './bookings.service';
   imports: [PageTemplate, BookingsList, StatusComponent],
   providers: [BookingsService],
   template: `
-    <lab-page title="Your activity bookings" [status]="status">
-      @if (getBookingsStatus().status === 'success') {
+    <lab-page [store]="store">
+      @if (getBookingsStatus() === 'success') {
         <lab-bookings [bookings]="getBookingsResult()" (cancel)="onCancel($event)" />
       }
     </lab-page>
   `,
 })
 export default class BookingsPage {
-  // injection division
+  // Injection division
+  readonly #injector = inject(Injector);
+  readonly #service = inject(BookingsService);
+  readonly store = inject(PageStore);
 
-  #service = inject(BookingsService);
-  #injector = inject(Injector);
-  #store = inject(PageStore);
-
-  // component data division
-
-  #getBookings = this.#store.createSignal<ActivityBooking[]>([]);
-  #cancelBooking = this.#store.createSignal<unknown>(null);
-
-  // template division
-
+  // Data division
+  #getBookings = this.store.addNewStatusSignal<ActivityBooking[]>([]);
   getBookingsResult = computed(() => this.#getBookings().result);
-  getBookingsStatus = computed(() => this.#getBookings());
-  status = this.#store.commandStatus;
+  getBookingsStatus = computed(() => this.#getBookings().status);
+  #cancelBooking = this.store.addNewStatusSignal<unknown>(null);
 
+  // Life-cycle division
   constructor() {
-    connect(this.#service.getBookings$(), this.#getBookings);
-    effect(() => this.reloadAfterCancel(), { allowSignalWrites: true });
+    this.store.setTitle('Your activity bookings');
+    connectSignal(this.#service.getBookings$(), this.#getBookings);
+    effect(() => this.#reloadAfterCancel(), { allowSignalWrites: true });
   }
 
-  // template event handlers
-
+  // Event handlers division
   onCancel(id: number) {
-    connect(this.#service.cancelBooking$(id), this.#cancelBooking, this.#injector);
+    connectSignal(this.#service.cancelBooking$(id), this.#cancelBooking, this.#injector);
   }
 
-  // effect handlers
-
-  reloadAfterCancel() {
+  // Effect handlers division
+  #reloadAfterCancel() {
     if (this.#cancelBooking().status === 'success') {
-      connect(this.#service.getBookings$(), this.#getBookings, this.#injector);
+      connectSignal(this.#service.getBookings$(), this.#getBookings, this.#injector);
     }
   }
 }

@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Injector, Input, OnInit, computed, 
 import { Router, RouterLink } from '@angular/router';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
 import { Booking, NULL_BOOKING } from '@shared/domain/booking.type';
-import { connect } from '@shared/services/command.signal';
+import { connectSignal } from '@shared/services/command.signal';
 import { PageStore } from '@shared/services/page.store';
 import { PageTemplate } from '@shared/ui/page.template';
 import { StatusComponent } from '@shared/ui/status.component';
@@ -16,75 +16,59 @@ import { ActivitySlugService } from './activity-slug.service';
   imports: [PageTemplate, ActivitySlugComponent, StatusComponent, RouterLink],
   providers: [ActivitySlugService],
   template: `
-    <lab-page [title]="title()" [status]="status">
-      @if (getActivityStatus().status === 'success') {
+    <lab-page [store]="store">
+      @if (getActivityStatus() === 'success') {
         <lab-activity-slug [activity]="getActivityResult()" (booking)="onBooking()" />
       }
     </lab-page>
   `,
 })
 export default class ActivitySlugPage implements OnInit {
-  // injection division
-
-  #service = inject(ActivitySlugService);
-  #router = inject(Router);
-  #injector = inject(Injector);
-  #store = inject(PageStore);
-
-  // component inputs division
-
+  // I/O division
   // ?: use router params$ instead of @Input
   /** The activity slug received from a router param */
   @Input({ required: true }) slug!: string;
 
-  // component signals division
+  // Injection division
+  #injector = inject(Injector);
+  #router = inject(Router);
+  #service = inject(ActivitySlugService);
+  store = inject(PageStore);
 
-  #getActivity = this.#store.createSignal<Activity>(NULL_ACTIVITY);
-  #postBooking = this.#store.createSignal<Booking>(NULL_BOOKING);
-
-  // template signals division
-
-  getActivityStatus = computed(() => this.#getActivity());
+  // Data division
+  #getActivity = this.store.addNewStatusSignal<Activity>(NULL_ACTIVITY);
+  getActivityStatus = computed(() => this.#getActivity().status);
   getActivityResult = computed(() => this.#getActivity().result);
-  status = this.#store.commandStatus;
+  #postBooking = this.store.addNewStatusSignal<Booking>(NULL_BOOKING);
 
-  title = computed(() => {
-    if (this.#getActivity().status === 'success') {
-      return this.#getActivity().result.name;
-    } else {
-      return 'Loading...';
-    }
-  });
-
-  // component life-cycle division
-
+  // Life-cycle division
   constructor() {
-    effect(() => {
-      if (this.#postBooking().status === 'success') {
-        this.#router.navigate(['/', 'bookings']);
-      }
-    });
+    effect(() => this.#navigateAfterCreate());
+    effect(() => this.#setPageTitle(), { allowSignalWrites: true });
   }
 
-  /** Load the activity on init */
   ngOnInit() {
     // ?: use router params$ instead of ngOnInit
-    connect<Activity>(
-      this.#service.getActivityBySlug$(this.slug), // the observable
-      this.#getActivity, // the signal
-      this.#injector, // here we are not in an injection context
-    );
+    connectSignal<Activity>(this.#service.getActivityBySlug$(this.slug), this.#getActivity, this.#injector);
   }
 
-  // template event handlers division
-
-  /** Post a new booking */
+  // Event handlers division
   onBooking() {
     const activity = this.#getActivity().result;
-    connect(
-      this.#service.postBookActivity$(activity), // the observable
-      this.#postBooking, // the signal
-      this.#injector, // here we are not in an injection context
-    );
+    connectSignal(this.#service.postBookActivity$(activity), this.#postBooking, this.#injector);
+  }
+
+  // Effect handlers
+  #navigateAfterCreate() {
+    if (this.#postBooking().status === 'success') {
+      this.#router.navigate(['/', 'bookings']);
+    }
+  }
+  #setPageTitle() {
+    if (this.#getActivity().status === 'success') {
+      this.store.setTitle(this.#getActivity().result.name);
+    } else {
+      this.store.setTitle('Loading...');
+    }
   }
 }

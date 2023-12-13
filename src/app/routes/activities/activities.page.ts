@@ -15,9 +15,9 @@ import { ActivitiesService } from './activities.service';
   imports: [PageTemplate, SearchComponent, ActivitiesList, WorkingComponent, ErrorComponent],
   providers: [ActivitiesService],
   template: `
-    <lab-page title="Find and book an activity" [status]="status">
+    <lab-page [store]="store">
       <lab-search (search)="onSearch($event)" />
-      @if (getActivities().status === 'success') {
+      @if (getActivitiesStatus() === 'success') {
         <lab-activities [activities]="getActivitiesResult" />
       }
     </lab-page>
@@ -25,27 +25,26 @@ import { ActivitiesService } from './activities.service';
 })
 export default class ActivitiesPage {
   // injection division
-
   #service = inject(ActivitiesService);
-  #store = inject(PageStore);
+  store = inject(PageStore);
 
-  // component data division
-
+  // Data division
   /** Observable of filter terms */
   #searchTerm$ = new BehaviorSubject<string>('');
   /** For any term received discard the current query and start a new one  */
   #activitiesByFilter$ = this.#searchTerm$.pipe(switchMap((filter) => this.#service.getActivitiesByFilter$(filter)));
   /** Signal with current state of an async command being issued */
-  #getActivities = this.#store.convert<Activity[]>(this.#activitiesByFilter$, []);
+  #getActivities = this.store.addSourceToStatusSignal<Activity[]>(this.#activitiesByFilter$, []);
 
-  // template data division
-
-  getActivities = computed(() => this.#getActivities());
+  getActivitiesStatus = computed(() => this.#getActivities().status);
   getActivitiesResult = computed(() => this.#getActivities().result);
-  status = this.#store.commandStatus;
 
-  // template event handlers division
+  // Life-cycle division
+  constructor() {
+    this.store.setTitle('Find and book an activity');
+  }
 
+  // Event handlers division
   /** Notify the filter term to search for */
   onSearch(searchTerm: string): void {
     this.#searchTerm$.next(searchTerm);

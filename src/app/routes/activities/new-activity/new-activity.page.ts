@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Injector, computed, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
-import { connect } from '@shared/services/command.signal';
+import { connectSignal } from '@shared/services/command.signal';
 import { PageStore } from '@shared/services/page.store';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
@@ -14,38 +14,37 @@ import { NewActivityService } from './new-activity.service';
   imports: [PageTemplate, NewActivityForm, ErrorComponent],
   providers: [NewActivityService],
   template: `
-    <lab-page [title]="title" [status]="status">
+    <lab-page [store]="store">
       <lab-new-activity (create)="onCreate($event)" />
     </lab-page>
   `,
 })
 export default class NewActivityPage {
-  // injection division
+  // Injection division
+  readonly #injector = inject(Injector);
+  readonly #router = inject(Router);
+  readonly #service = inject(NewActivityService);
+  readonly store = inject(PageStore);
 
-  #service = inject(NewActivityService);
-  #router = inject(Router);
-  #injector = inject(Injector);
-  #store = inject(PageStore);
+  // Data division
+  #postActivity = this.store.addNewStatusSignal<Activity>(NULL_ACTIVITY);
 
-  // component data division
-
-  #postActivity = this.#store.createSignal<Activity>(NULL_ACTIVITY);
-
-  // template data division
-
-  title = 'Create a new activity';
-  postActivity = computed(() => this.#postActivity());
-  status = this.#store.commandStatus;
+  // Life-cycle division
   constructor() {
-    effect(() => {
-      if (this.#postActivity().status === 'success') this.#router.navigate(['/activities']);
-    });
+    this.store.setTitle('Create a new activity');
+    effect(() => this.#navigateAfterCreate());
   }
 
-  // template event handlers division
-
+  // Event handlers division
   onCreate(activity: Partial<Activity>) {
     const source$ = this.#service.postActivity$(activity);
-    connect(source$, this.#postActivity, this.#injector);
+    connectSignal(source$, this.#postActivity, this.#injector);
+  }
+
+  // Effect handlers division
+  #navigateAfterCreate() {
+    if (this.#postActivity().status === 'success') {
+      this.#router.navigate(['/activities']);
+    }
   }
 }
