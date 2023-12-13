@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CallStatus } from '@shared/services/command.signal';
+import { CommandStatus } from '@shared/services/command.signal';
 import { ErrorComponent } from './error.component';
 import { WorkingComponent } from './working.component';
 
@@ -9,16 +9,16 @@ import { WorkingComponent } from './working.component';
   standalone: true,
   imports: [WorkingComponent, ErrorComponent],
   template: `
-    @switch (callStatus.status) {
+    @switch (commandStatus.status) {
       @case ('working') {
         <lab-working />
       }
       @case ('error') {
-        <lab-error [error]="callStatus.error" />
+        <lab-error [error]="commandStatus.error" />
       }
     }
   `,
 })
 export class StatusComponent {
-  @Input() callStatus: CallStatus = { status: 'idle', error: null };
+  @Input() commandStatus: CommandStatus = { status: 'idle', error: null };
 }

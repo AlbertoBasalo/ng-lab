@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
  */
 export type Status = 'working' | 'success' | 'error' | 'idle';
 
-export type CallStatus = {
+export type CommandStatus = {
   /** The status of the observable command*/
   status: Status;
   /** The error, if any, produced by the observable command*/
@@ -18,9 +18,9 @@ export type CallStatus = {
  * A structure representing the state of an observable command
  */
 export type Command<T> = {
-  /** The result value (initial or produced by the observable) command*/
+  /** The result value (initial or produced by the observable command)*/
   result: T;
-} & CallStatus;
+} & CommandStatus;
 
 /**
  * Creates a state signal for a given type

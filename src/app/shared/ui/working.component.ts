@@ -14,5 +14,5 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   `,
 })
 export class WorkingComponent {
-  @Input() message = 'Working';
+  @Input() message = '';
 }

@@ -5,9 +5,25 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   selector: 'lab-error',
   standalone: true,
   imports: [JsonPipe],
+  styles: [
+    `
+      :host {
+        display: grid;
+        justify-content: end;
+      }
+      input {
+        border: none;
+      }
+      input::placeholder {
+        text-align: right;
+      }
+    `,
+  ],
   template: `
     <aside id="error">
-      <input readonly type="text" aria-invalid="true" [value]="error.statusText || error.message || error" />
+      <span>
+        <input readonly aria-invalid="true" [placeholder]="error.statusText || error.message || error" />
+      </span>
     </aside>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

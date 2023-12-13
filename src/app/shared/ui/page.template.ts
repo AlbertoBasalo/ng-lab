@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CallStatus } from '@shared/services/command.signal';
+import { CommandStatus } from '@shared/services/command.signal';
 import { StatusComponent } from './status.component';
 
 @Component({
@@ -18,8 +18,8 @@ import { StatusComponent } from './status.component';
       <ng-content></ng-content>
       <footer>
         <ng-content select="footer"></ng-content>
-        @if (callStatus) {
-          <lab-status [callStatus]="callStatus" />
+        @if (commandStatus) {
+          <lab-status [commandStatus]="commandStatus" />
         }
       </footer>
     </article>
@@ -28,5 +28,5 @@ import { StatusComponent } from './status.component';
 export class PageTemplate {
   @Input() title = '';
   @Input() subtitle = '';
-  @Input() callStatus?: CallStatus;
+  @Input() commandStatus?: CommandStatus;
 }

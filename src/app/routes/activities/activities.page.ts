@@ -15,7 +15,7 @@ import { ActivitiesService } from './activities.service';
   imports: [PageTemplate, SearchComponent, ActivitiesList, WorkingComponent, ErrorComponent],
   providers: [ActivitiesService],
   template: `
-    <lab-page title="Find and book an activity" [callStatus]="getActivities()">
+    <lab-page title="Find and book an activity" [commandStatus]="getActivities()">
       <lab-search (search)="onSearch($event)" />
       @if (getActivities().status === 'success') {
         <lab-activities [activities]="getActivitiesResult" />

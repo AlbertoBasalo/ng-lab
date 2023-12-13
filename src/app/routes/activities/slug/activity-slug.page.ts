@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Injector, Input, OnInit, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, Input, OnInit, computed, effect, inject } from '@angular/core';
 
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
 import { Booking, NULL_BOOKING } from '@shared/domain/booking.type';
 import { connect, createSignal } from '@shared/services/command.signal';
@@ -15,19 +15,12 @@ import { ActivitySlugService } from './activity-slug.service';
   imports: [PageTemplate, ActivitySlugComponent, StatusComponent, RouterLink],
   providers: [ActivitySlugService],
   template: `
-    <lab-page [title]="title()">
+    <lab-page [title]="title()" [commandStatus]="getActivityStatus()">
       @if (getActivityStatus().status === 'success') {
         <lab-activity-slug [activity]="getActivityResult()" (booking)="onBooking()" />
       }
       <footer>
-        <lab-status [callStatus]="getActivityStatus()" />
-        <lab-status [callStatus]="postBookingStatus()" />
-        @if (postBookingStatus().status === 'success') {
-          <h4>
-            Booking successfully done.
-            <a [routerLink]="['/', 'bookings']">Go to bookings</a>
-          </h4>
-        }
+        <lab-status [commandStatus]="postBookingStatus()" />
       </footer>
     </lab-page>
   `,
@@ -36,6 +29,7 @@ export default class ActivitySlugPage implements OnInit {
   // injection division
 
   #service = inject(ActivitySlugService);
+  #router = inject(Router);
   #injector = inject(Injector);
 
   // component inputs division
@@ -64,7 +58,16 @@ export default class ActivitySlugPage implements OnInit {
       return 'Loading...';
     }
   });
+
   // component life-cycle division
+
+  constructor() {
+    effect(() => {
+      if (this.#postBooking().status === 'success') {
+        this.#router.navigate(['/', 'bookings']);
+      }
+    });
+  }
 
   /** Load the activity on init */
   ngOnInit() {

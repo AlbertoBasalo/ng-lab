@@ -21,18 +21,21 @@ export type LogEntry = {
   providedIn: 'root',
 })
 export class LogService {
-  #level: LogLevel = inject(APP_CONFIG).logLevel;
+  // ToDo: have specific LOG_CONFIG
+  #minLevel: LogLevel = inject(APP_CONFIG).logLevel;
+
+  // ToDo: make use of withFormatters or withLoggers
 
   /**
    * Write a log entry
    * @param entry A log entry
    */
   log(entry: LogEntry): void {
-    if (LogLevel[entry.level] < LogLevel[this.#level]) return;
+    if (entry.level < this.#minLevel) return;
     const entryMessage = `${entry.message} @ ${entry.source}`;
     switch (entry.level) {
       case LogLevel.debug:
-        console.debug('🕵️ ' + entryMessage, entry.payload);
+        console.debug('🐞 ' + entryMessage, entry.payload);
         break;
       case LogLevel.info:
         console.info('📘 ' + entryMessage, entry.payload);

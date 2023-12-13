@@ -12,11 +12,13 @@ import { BookingsService } from './bookings.service';
   imports: [PageTemplate, BookingsList, StatusComponent],
   providers: [BookingsService],
   template: `
-    <lab-page title="Your activity bookings" [callStatus]="getBookingsStatus()">
+    <lab-page title="Your activity bookings" [commandStatus]="getBookingsStatus()">
       @if (getBookingsStatus().status === 'success') {
         <lab-bookings [bookings]="getBookingsResult()" (cancel)="onCancel($event)" />
+      }
+      @if (getBookingsStatus().status === 'success') {
         <footer>
-          <lab-status [callStatus]="cancelBookingStatus()" />
+          <lab-status [commandStatus]="cancelBookingStatus()" />
         </footer>
       }
     </lab-page>
@@ -43,6 +45,10 @@ export default class BookingsPage {
     connect(this.#service.getBookings$(), this.#getBookings);
     effect(() => this.reloadAfterCancel(), { allowSignalWrites: true });
   }
+
+  // ToDo: avoid having two command statuses components
+  // ? mix both command statuses into one page status
+  // ? use a global notification store for command status
 
   // template event handlers
 

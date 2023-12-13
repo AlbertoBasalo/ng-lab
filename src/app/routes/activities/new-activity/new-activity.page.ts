@@ -22,7 +22,7 @@ import { NewActivityService } from './new-activity.service';
   imports: [PageTemplate, NewActivityForm, ErrorComponent],
   providers: [NewActivityService],
   template: `
-    <lab-page [title]="title" [callStatus]="postActivity()">
+    <lab-page [title]="title" [commandStatus]="postActivity()">
       <lab-new-activity (create)="onCreate($event)" />
     </lab-page>
   `,
