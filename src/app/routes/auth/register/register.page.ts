@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
 import { RegisterForm } from './register.form';
 import { RegisterPageStore } from './register.page-store';
@@ -8,7 +7,7 @@ import { Register } from './register.type';
 
 @Component({
   standalone: true,
-  imports: [RegisterForm, RouterLink, ErrorComponent, PageTemplate],
+  imports: [PageTemplate, RegisterForm, RouterLink],
   providers: [RegisterPageStore],
   template: `
     <lab-page [store]="store">

@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Activity } from '@shared/domain/activity.type';
-import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
 import { NewActivityForm } from './new-activity.form';
 import { NewActivityPageStore } from './new-activity.page-store';
@@ -9,7 +8,7 @@ import { NewActivityPageStore } from './new-activity.page-store';
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PageTemplate, NewActivityForm, ErrorComponent],
+  imports: [PageTemplate, NewActivityForm],
   providers: [NewActivityPageStore],
   template: `
     <lab-page [store]="store">

@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
 import { LoginPageStore } from './login-page-store';
 import { LoginForm } from './login.form';
@@ -10,7 +9,7 @@ import { Login } from './login.type';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [LoginPageStore],
-  imports: [PageTemplate, RouterLink, LoginForm, ErrorComponent],
+  imports: [PageTemplate, RouterLink, LoginForm],
   template: `
     <lab-page [store]="store">
       <lab-login (login)="onLogin($event)" />

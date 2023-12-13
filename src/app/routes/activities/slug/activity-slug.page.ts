@@ -1,14 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, effect, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { PageTemplate } from '@shared/ui/page.template';
-import { StatusComponent } from '@shared/ui/status.component';
 import { ActivitySlugComponent } from './activity-slug.component';
 import { ActivitySlugPageStore } from './activity-slug.page-store';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PageTemplate, ActivitySlugComponent, StatusComponent, RouterLink],
+  imports: [PageTemplate, ActivitySlugComponent],
   providers: [ActivitySlugPageStore],
   template: `
     <lab-page [store]="store">

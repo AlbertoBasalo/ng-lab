@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { PageTemplate } from '@shared/ui/page.template';
-import { StatusComponent } from '@shared/ui/status.component';
 import { BookingsList } from './bookings.list';
 import { BookingsPageStore } from './bookings.page-store';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PageTemplate, BookingsList, StatusComponent],
+  imports: [PageTemplate, BookingsList],
   providers: [BookingsPageStore],
   template: `
     <lab-page [store]="store">
@@ -33,8 +32,8 @@ export default class BookingsPage {
   }
 
   // Event handlers division
-  onCancel(id: number) {
-    this.store.cancelBooking(id);
+  onCancel(bookingId: number) {
+    this.store.cancelBooking(bookingId);
   }
 
   // Effects division

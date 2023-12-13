@@ -1,15 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
 import { SearchComponent } from '@shared/ui/search.component';
-import { WorkingComponent } from '@shared/ui/working.component';
 import { ActivitiesList } from './activities.list';
 import { ActivitiesPageStore } from './activities.page-store';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PageTemplate, SearchComponent, ActivitiesList, WorkingComponent, ErrorComponent],
+  imports: [PageTemplate, SearchComponent, ActivitiesList],
   providers: [ActivitiesPageStore],
   template: `
     <lab-page [store]="store">
