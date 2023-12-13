@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [17.7.0](https://github.com/AlbertoBasalo/ng-lab/compare/v17.6.0...v17.7.0) (2023-12-13)
+
+
+### Features
+
+* basic notification system ([f0febc0](https://github.com/AlbertoBasalo/ng-lab/commit/f0febc0ff05821d5e81be8f6bf8d102a5606a96e))
+* basic notifications system ([8fb771e](https://github.com/AlbertoBasalo/ng-lab/commit/8fb771eeeba4799f2c04b95e9ef2e05b5ab0f761))
+* page store ([f666d3d](https://github.com/AlbertoBasalo/ng-lab/commit/f666d3d430e410879baf9271371f4a0ed2024956))
+* page template ([ff6f71a](https://github.com/AlbertoBasalo/ng-lab/commit/ff6f71ada048ff2966f66d99d81929592abfa0e7))
+* page template design ([f0b793f](https://github.com/AlbertoBasalo/ng-lab/commit/f0b793f067f16ac3b85a1828b00da6f492f68bc1))
+* Refactor profile page links ([219475d](https://github.com/AlbertoBasalo/ng-lab/commit/219475d0363ed522531955cc2effbb03b6165113))
+* status component ([bf2f008](https://github.com/AlbertoBasalo/ng-lab/commit/bf2f008a3f26f234ccfaa89269f312ad0d271abc))
+* template components ([e7ef493](https://github.com/AlbertoBasalo/ng-lab/commit/e7ef4938b5d6f615da05f260c8b35c72e29b872e))
+
+
+### Bug Fixes
+
+* logger level error ([6917ce5](https://github.com/AlbertoBasalo/ng-lab/commit/6917ce55a191ba5359a3d7cac2ff5ea007e43d7c))
+
 ## [17.6.0](https://github.com/AlbertoBasalo/ng-lab/compare/v17.5.0...v17.6.0) (2023-12-05)
 
 
