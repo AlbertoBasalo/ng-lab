@@ -1,18 +1,24 @@
-import { Injectable, Injector, Signal, computed, effect, signal } from '@angular/core';
+import { Injectable, Injector, Signal, WritableSignal, computed, effect, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RunningStatus, convertToCommandSignal, createCommandSignal } from './command.signal';
+import {
+  Command,
+  RunningStatus,
+  connectSourceToCommand,
+  convertSourceToCommand,
+  createCommand,
+} from './command.signal';
 
 @Injectable({ providedIn: 'root' })
 export class PageStore {
   #title = signal<string>('');
   #subtitle = signal<string>('');
-  #status = createCommandSignal(null);
+  #status = createCommand(null);
 
   title = computed(() => this.#title());
   subtitle = computed(() => this.#subtitle());
   status = computed(() => this.#status());
 
-  constructor(private injector: Injector) {}
+  constructor(protected injector: Injector) {}
 
   setTitle(title: string) {
     this.#title.set(title);
@@ -21,14 +27,18 @@ export class PageStore {
     this.#subtitle.set(subtitle);
   }
 
-  addNewStatusSignal<T>(initialValue: T) {
-    const signal = createCommandSignal(initialValue);
+  addNewStatus<T>(initialValue: T) {
+    const signal = createCommand(initialValue);
     this.#connectToStatus(signal);
     return signal;
   }
 
-  addSourceToStatusSignal<T>(source$: Observable<T>, initial: T) {
-    const signal = convertToCommandSignal(source$, initial, this.injector);
+  connectSourceToStatus<T>(source$: Observable<T>, status: WritableSignal<Command<T>>) {
+    connectSourceToCommand(source$, status, this.injector);
+  }
+
+  addSourceToStatus<T>(source$: Observable<T>, initial: T) {
+    const signal = convertSourceToCommand(source$, initial, this.injector);
     this.#connectToStatus(signal);
     return signal;
   }

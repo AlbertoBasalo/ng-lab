@@ -28,7 +28,7 @@ export default class ProfilePage {
 
   // Life-cycle division
   constructor() {
-    effect(() => this.#setPageTitle(), { allowSignalWrites: true });
+    effect(() => this.#setPageTitleAfterUser(), { allowSignalWrites: true });
   }
 
   // Event handlers division
@@ -36,8 +36,8 @@ export default class ProfilePage {
     this.#authStore.logout();
   }
 
-  // Effect handlers division
-  #setPageTitle() {
+  // Effects division
+  #setPageTitleAfterUser() {
     this.store.setTitle(`Hi, ${this.#authStore.user().username}`);
   }
 }

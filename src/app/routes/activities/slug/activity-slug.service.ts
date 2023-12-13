@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Activity } from '@shared/domain/activity.type';
 import { Booking } from '@shared/domain/booking.type';
 import { AuthStore } from '@shared/services/auth.store';
 import { Observable, map, tap } from 'rxjs';
 
+@Injectable({ providedIn: 'root' })
 export class ActivitySlugService {
   #http$ = inject(HttpClient);
   #authStore = inject(AuthStore);
@@ -21,8 +22,7 @@ export class ActivitySlugService {
     const url = `${this.#apiActivitiesUrl}?slug=${slug}`;
     return this.#http$.get<Activity[]>(url).pipe(
       tap((activities) => {
-        if (activities.length == 0)
-          throw new Error(`Activity not found: ${slug}`);
+        if (activities.length == 0) throw new Error(`Activity not found: ${slug}`);
       }),
       map((activities) => activities[0]),
     );

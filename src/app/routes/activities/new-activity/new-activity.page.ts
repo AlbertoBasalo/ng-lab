@@ -1,18 +1,16 @@
-import { ChangeDetectionStrategy, Component, Injector, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
-import { connectToCommandSignal } from '@shared/services/command.signal';
-import { PageStore } from '@shared/services/page.store';
+import { Activity } from '@shared/domain/activity.type';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
 import { NewActivityForm } from './new-activity.form';
-import { NewActivityService } from './new-activity.service';
+import { NewActivityPageStore } from './new-activity.page-store';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageTemplate, NewActivityForm, ErrorComponent],
-  providers: [NewActivityService],
+  providers: [NewActivityPageStore],
   template: `
     <lab-page [store]="store">
       <lab-new-activity (create)="onCreate($event)" />
@@ -21,13 +19,8 @@ import { NewActivityService } from './new-activity.service';
 })
 export default class NewActivityPage {
   // Injection division
-  readonly #injector = inject(Injector);
   readonly #router = inject(Router);
-  readonly #service = inject(NewActivityService);
-  readonly store = inject(PageStore);
-
-  // Data division
-  #postActivity = this.store.addNewStatusSignal<Activity>(NULL_ACTIVITY);
+  readonly store = inject(NewActivityPageStore);
 
   // Life-cycle division
   constructor() {
@@ -37,13 +30,12 @@ export default class NewActivityPage {
 
   // Event handlers division
   onCreate(activity: Partial<Activity>) {
-    const source$ = this.#service.postActivity$(activity);
-    connectToCommandSignal(source$, this.#postActivity, this.#injector);
+    this.store.postActivity$(activity);
   }
 
-  // Effect handlers division
+  // Effects division
   #navigateAfterCreate() {
-    if (this.#postActivity().status === 'success') {
+    if (this.store.postActivityStatus() === 'success') {
       this.#router.navigate(['/activities']);
     }
   }

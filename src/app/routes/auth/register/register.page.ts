@@ -1,18 +1,15 @@
-import { ChangeDetectionStrategy, Component, Injector, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NULL_USER_TOKEN, UserToken } from '@shared/domain/user-token.type';
-import { connectToCommandSignal } from '@shared/services/command.signal';
-import { PageStore } from '@shared/services/page.store';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
-import { AuthService } from '../auth.service';
 import { RegisterForm } from './register.form';
+import { RegisterPageStore } from './register.page-store';
 import { Register } from './register.type';
 
 @Component({
   standalone: true,
   imports: [RegisterForm, RouterLink, ErrorComponent, PageTemplate],
-  providers: [AuthService],
+  providers: [RegisterPageStore],
   template: `
     <lab-page [store]="store">
       <lab-register (register)="onRegister($event)" />
@@ -23,21 +20,10 @@ import { Register } from './register.type';
 })
 export default class RegisterPage {
   // Injection division
-  readonly #injector = inject(Injector);
-  readonly #service$ = inject(AuthService);
-  readonly store = inject(PageStore);
-
-  // Data division
-  #postRegister = this.store.addNewStatusSignal<UserToken>(NULL_USER_TOKEN);
-
-  // Life-cycle division
-  constructor() {
-    this.store.setTitle('Register to create your account.');
-  }
+  readonly store = inject(RegisterPageStore);
 
   // Event handlers division
   onRegister(register: Partial<Register>) {
-    const source$ = this.#service$.register$(register);
-    connectToCommandSignal(source$, this.#postRegister, this.#injector);
+    this.store.postRegister(register);
   }
 }

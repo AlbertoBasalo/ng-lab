@@ -17,7 +17,7 @@ export type RunningStatus = {
 /**
  * A structure representing the state of an observable command
  */
-export type CommandState<T> = {
+export type Command<T> = {
   /** The result value (initial or produced by the observable command)*/
   result: T;
 } & RunningStatus;
@@ -27,8 +27,8 @@ export type CommandState<T> = {
  * @param initial initial value
  * @returns A writable signal with the state changes
  */
-export function createCommandSignal<T>(initial: T): WritableSignal<CommandState<T>> {
-  return signal<CommandState<T>>({ result: initial, status: 'idle' });
+export function createCommand<T>(initial: T): WritableSignal<Command<T>> {
+  return signal<Command<T>>({ result: initial, status: 'idle' });
 }
 
 /**
@@ -36,11 +36,11 @@ export function createCommandSignal<T>(initial: T): WritableSignal<CommandState<
  * @param source$ The observable command emitting the value
  * @param signal The command signal to update
  * @param injector Optional injector context to use to get the `DestroyRef`
- * @see CommandState
+ * @see Command
  */
-export function connectToCommandSignal<T>(
+export function connectSourceToCommand<T>(
   source$: Observable<T>,
-  signal: WritableSignal<CommandState<T>>,
+  signal: WritableSignal<Command<T>>,
   injector?: Injector,
 ) {
   const destroyRef = getDestroyRef();
@@ -55,7 +55,7 @@ export function connectToCommandSignal<T>(
    */
   function getDestroyRef() {
     if (injector) return injector.get(DestroyRef);
-    assertInInjectionContext(connectToCommandSignal);
+    assertInInjectionContext(connectSourceToCommand);
     return inject(DestroyRef);
   }
 }
@@ -66,14 +66,10 @@ export function connectToCommandSignal<T>(
  * @param initial The initial value
  * @param injector Optional injector context to use to get the `DestroyRef`
  * @returns A read-only signal with the command changes
- * @see CommandState
+ * @see Command
  */
-export function convertToCommandSignal<T>(
-  source$: Observable<T>,
-  initial: T,
-  injector?: Injector,
-): Signal<CommandState<T>> {
-  const signal = createCommandSignal<T>(initial);
-  connectToCommandSignal(source$, signal, injector);
+export function convertSourceToCommand<T>(source$: Observable<T>, initial: T, injector?: Injector): Signal<Command<T>> {
+  const signal = createCommand<T>(initial);
+  connectSourceToCommand(source$, signal, injector);
   return signal.asReadonly();
 }

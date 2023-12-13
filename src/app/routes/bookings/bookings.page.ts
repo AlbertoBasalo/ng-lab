@@ -1,53 +1,46 @@
-import { ChangeDetectionStrategy, Component, Injector, computed, effect, inject } from '@angular/core';
-import { connectToCommandSignal } from '@shared/services/command.signal';
-import { PageStore } from '@shared/services/page.store';
+import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { PageTemplate } from '@shared/ui/page.template';
 import { StatusComponent } from '@shared/ui/status.component';
-import { ActivityBooking } from './activity-booking.type';
 import { BookingsList } from './bookings.list';
-import { BookingsService } from './bookings.service';
+import { BookingsPageStore } from './bookings.page-store';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageTemplate, BookingsList, StatusComponent],
-  providers: [BookingsService],
+  providers: [BookingsPageStore],
   template: `
     <lab-page [store]="store">
-      @if (getBookingsStatus() === 'success') {
-        <lab-bookings [bookings]="getBookingsResult()" (cancel)="onCancel($event)" />
+      @if (bookingsStatus() === 'success') {
+        <lab-bookings [bookings]="bookings()" (cancel)="onCancel($event)" />
       }
     </lab-page>
   `,
 })
 export default class BookingsPage {
   // Injection division
-  readonly #injector = inject(Injector);
-  readonly #service = inject(BookingsService);
-  readonly store = inject(PageStore);
+  readonly store = inject(BookingsPageStore);
 
   // Data division
-  #getBookings = this.store.addSourceToStatusSignal<ActivityBooking[]>(this.#service.getBookings$(), []);
-  getBookingsResult = computed(() => this.#getBookings().result);
-  getBookingsStatus = computed(() => this.#getBookings().status);
-  #cancelBooking = this.store.addNewStatusSignal<unknown>(null);
+  bookings = this.store.bookings;
+  bookingsStatus = this.store.bookingsStatus;
+  cancelStatus = this.store.cancelBookingStatus;
 
   // Life-cycle division
   constructor() {
-    this.store.setTitle('Your activity bookings');
+    this.store.getBookings();
     effect(() => this.#reloadAfterCancel(), { allowSignalWrites: true });
   }
 
   // Event handlers division
   onCancel(id: number) {
-    connectToCommandSignal(this.#service.cancelBooking$(id), this.#cancelBooking, this.#injector);
+    this.store.cancelBooking(id);
   }
 
-  // Effect handlers division
+  // Effects division
   #reloadAfterCancel() {
-    if (this.#cancelBooking().status === 'success') {
-      //connectToCommandSignal(this.#service.getBookings$(), this.#getBookings, this.#injector);
-      this.#getBookings = this.store.addSourceToStatusSignal<ActivityBooking[]>(this.#service.getBookings$(), []);
+    if (this.cancelStatus() === 'success') {
+      this.store.getBookings();
     }
   }
 }

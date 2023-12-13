@@ -1,18 +1,15 @@
-import { ChangeDetectionStrategy, Component, Injector, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NULL_USER_TOKEN, UserToken } from '@shared/domain/user-token.type';
-import { connectToCommandSignal } from '@shared/services/command.signal';
-import { PageStore } from '@shared/services/page.store';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
-import { AuthService } from '../auth.service';
+import { LoginPageStore } from './login-page-store';
 import { LoginForm } from './login.form';
 import { Login } from './login.type';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [AuthService],
+  providers: [LoginPageStore],
   imports: [PageTemplate, RouterLink, LoginForm, ErrorComponent],
   template: `
     <lab-page [store]="store">
@@ -23,21 +20,10 @@ import { Login } from './login.type';
 })
 export default class LoginPage {
   // Injection division
-  #injector = inject(Injector);
-  #service = inject(AuthService);
-  store = inject(PageStore);
-
-  // Data division
-  #postLogin = this.store.addNewStatusSignal<UserToken>(NULL_USER_TOKEN);
-
-  // Life-cycle division
-  constructor() {
-    this.store.setTitle('Login with your credentials.');
-  }
+  readonly store = inject(LoginPageStore);
 
   // Event handlers division
   onLogin(login: Login) {
-    const source$ = this.#service.login$(login);
-    connectToCommandSignal(source$, this.#postLogin, this.#injector);
+    this.store.postLogin(login);
   }
 }
