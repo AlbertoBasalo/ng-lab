@@ -98,14 +98,14 @@ export class AuthStore {
   }
 
   /**
-   * Sets an auth detecte error
+   * Sets an auth detected error
    * @description To be used from guards and interceptors
    * @param url The url to redirect to after login
    */
   mustLogin(url: string = '') {
     this.#authState.update((state) => ({
-      ...state,
       authProcess: { interactive: true, mustLogin: true, url },
+      userToken: NULL_USER_TOKEN,
     }));
   }
 }

@@ -3,7 +3,8 @@ import { ChangeDetectionStrategy, Component, Injector, Input, OnInit, computed, 
 import { Router, RouterLink } from '@angular/router';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
 import { Booking, NULL_BOOKING } from '@shared/domain/booking.type';
-import { connect, createSignal } from '@shared/services/command.signal';
+import { connect } from '@shared/services/command.signal';
+import { PageStore } from '@shared/services/page.store';
 import { PageTemplate } from '@shared/ui/page.template';
 import { StatusComponent } from '@shared/ui/status.component';
 import { ActivitySlugComponent } from './activity-slug.component';
@@ -15,13 +16,10 @@ import { ActivitySlugService } from './activity-slug.service';
   imports: [PageTemplate, ActivitySlugComponent, StatusComponent, RouterLink],
   providers: [ActivitySlugService],
   template: `
-    <lab-page [title]="title()" [commandStatus]="getActivityStatus()">
+    <lab-page [title]="title()" [status]="status">
       @if (getActivityStatus().status === 'success') {
         <lab-activity-slug [activity]="getActivityResult()" (booking)="onBooking()" />
       }
-      <footer>
-        <lab-status [commandStatus]="postBookingStatus()" />
-      </footer>
     </lab-page>
   `,
 })
@@ -31,6 +29,7 @@ export default class ActivitySlugPage implements OnInit {
   #service = inject(ActivitySlugService);
   #router = inject(Router);
   #injector = inject(Injector);
+  #store = inject(PageStore);
 
   // component inputs division
 
@@ -40,17 +39,15 @@ export default class ActivitySlugPage implements OnInit {
 
   // component signals division
 
-  #getActivity = createSignal<Activity>(NULL_ACTIVITY);
-
-  #postBooking = createSignal<Booking>(NULL_BOOKING);
+  #getActivity = this.#store.createSignal<Activity>(NULL_ACTIVITY);
+  #postBooking = this.#store.createSignal<Booking>(NULL_BOOKING);
 
   // template signals division
 
   getActivityStatus = computed(() => this.#getActivity());
-
   getActivityResult = computed(() => this.#getActivity().result);
-  postBookingStatus = computed(() => this.#postBooking());
-  postBookingResult = computed(() => this.#postBooking().result);
+  status = this.#store.commandStatus;
+
   title = computed(() => {
     if (this.#getActivity().status === 'success') {
       return this.#getActivity().result.name;

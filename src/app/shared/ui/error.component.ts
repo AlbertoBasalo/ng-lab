@@ -22,7 +22,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   template: `
     <aside id="error">
       <span>
-        <input readonly aria-invalid="true" [placeholder]="error.statusText || error.message || error" />
+        <input readonly aria-invalid="true" [placeholder]="error.error || error.statusText || error.message || error" />
       </span>
     </aside>
   `,

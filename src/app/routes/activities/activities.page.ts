@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { Activity } from '@shared/domain/activity.type';
-import { toSignal } from '@shared/services/command.signal';
+import { PageStore } from '@shared/services/page.store';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
 import { SearchComponent } from '@shared/ui/search.component';
@@ -15,7 +15,7 @@ import { ActivitiesService } from './activities.service';
   imports: [PageTemplate, SearchComponent, ActivitiesList, WorkingComponent, ErrorComponent],
   providers: [ActivitiesService],
   template: `
-    <lab-page title="Find and book an activity" [commandStatus]="getActivities()">
+    <lab-page title="Find and book an activity" [status]="status">
       <lab-search (search)="onSearch($event)" />
       @if (getActivities().status === 'success') {
         <lab-activities [activities]="getActivitiesResult" />
@@ -27,6 +27,7 @@ export default class ActivitiesPage {
   // injection division
 
   #service = inject(ActivitiesService);
+  #store = inject(PageStore);
 
   // component data division
 
@@ -35,12 +36,13 @@ export default class ActivitiesPage {
   /** For any term received discard the current query and start a new one  */
   #activitiesByFilter$ = this.#searchTerm$.pipe(switchMap((filter) => this.#service.getActivitiesByFilter$(filter)));
   /** Signal with current state of an async command being issued */
-  #getActivities = toSignal<Activity[]>(this.#activitiesByFilter$, []);
+  #getActivities = this.#store.convert<Activity[]>(this.#activitiesByFilter$, []);
 
   // template data division
 
   getActivities = computed(() => this.#getActivities());
   getActivitiesResult = computed(() => this.#getActivities().result);
+  status = this.#store.commandStatus;
 
   // template event handlers division
 

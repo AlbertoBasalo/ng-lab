@@ -1,16 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Injector,
-  WritableSignal,
-  computed,
-  effect,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, computed, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
-import { Command, connect } from '@shared/services/command.signal';
+import { connect } from '@shared/services/command.signal';
+import { PageStore } from '@shared/services/page.store';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
 import { NewActivityForm } from './new-activity.form';
@@ -22,7 +14,7 @@ import { NewActivityService } from './new-activity.service';
   imports: [PageTemplate, NewActivityForm, ErrorComponent],
   providers: [NewActivityService],
   template: `
-    <lab-page [title]="title" [commandStatus]="postActivity()">
+    <lab-page [title]="title" [status]="status">
       <lab-new-activity (create)="onCreate($event)" />
     </lab-page>
   `,
@@ -33,19 +25,17 @@ export default class NewActivityPage {
   #service = inject(NewActivityService);
   #router = inject(Router);
   #injector = inject(Injector);
+  #store = inject(PageStore);
 
   // component data division
 
-  #postActivity: WritableSignal<Command<Activity>> = signal({
-    status: 'idle',
-    result: NULL_ACTIVITY,
-  });
+  #postActivity = this.#store.createSignal<Activity>(NULL_ACTIVITY);
 
   // template data division
 
   title = 'Create a new activity';
   postActivity = computed(() => this.#postActivity());
-
+  status = this.#store.commandStatus;
   constructor() {
     effect(() => {
       if (this.#postActivity().status === 'success') this.#router.navigate(['/activities']);
