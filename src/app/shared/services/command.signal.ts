@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
  */
 export type Status = 'working' | 'success' | 'error' | 'idle';
 
-export type CommandStatus = {
+export type RunningStatus = {
   /** The status of the observable command*/
   status: Status;
   /** The error, if any, produced by the observable command*/
@@ -17,28 +17,32 @@ export type CommandStatus = {
 /**
  * A structure representing the state of an observable command
  */
-export type Command<T> = {
+export type CommandState<T> = {
   /** The result value (initial or produced by the observable command)*/
   result: T;
-} & CommandStatus;
+} & RunningStatus;
 
 /**
- * Creates a state signal for a given type
+ * Creates a signal for command of a given type
  * @param initial initial value
  * @returns A writable signal with the state changes
  */
-export function createSignal<T>(initial: T): WritableSignal<Command<T>> {
-  return signal<Command<T>>({ result: initial, status: 'idle' });
+export function createCommandSignal<T>(initial: T): WritableSignal<CommandState<T>> {
+  return signal<CommandState<T>>({ result: initial, status: 'idle' });
 }
 
 /**
- * Connects a source observable to a state signal
+ * Connects a source observable to a command signal
  * @param source$ The observable command emitting the value
  * @param signal The command signal to update
  * @param injector Optional injector context to use to get the `DestroyRef`
- * @see Command
+ * @see CommandState
  */
-export function connectSignal<T>(source$: Observable<T>, signal: WritableSignal<Command<T>>, injector?: Injector) {
+export function connectToCommandSignal<T>(
+  source$: Observable<T>,
+  signal: WritableSignal<CommandState<T>>,
+  injector?: Injector,
+) {
   const destroyRef = getDestroyRef();
   signal.update((s) => ({ ...s, status: 'working' }));
   source$.pipe(takeUntilDestroyed(destroyRef)).subscribe({
@@ -51,21 +55,25 @@ export function connectSignal<T>(source$: Observable<T>, signal: WritableSignal<
    */
   function getDestroyRef() {
     if (injector) return injector.get(DestroyRef);
-    assertInInjectionContext(connectSignal);
+    assertInInjectionContext(connectToCommandSignal);
     return inject(DestroyRef);
   }
 }
 
 /**
- * Converts an observable command to a state signal
+ * Converts an observable command to a command signal
  * @param source$ The observable command emitting the value
  * @param initial The initial value
  * @param injector Optional injector context to use to get the `DestroyRef`
  * @returns A read-only signal with the command changes
- * @see Command
+ * @see CommandState
  */
-export function convertToSignal<T>(source$: Observable<T>, initial: T, injector?: Injector): Signal<Command<T>> {
-  const signal = createSignal<T>(initial);
-  connectSignal(source$, signal, injector);
+export function convertToCommandSignal<T>(
+  source$: Observable<T>,
+  initial: T,
+  injector?: Injector,
+): Signal<CommandState<T>> {
+  const signal = createCommandSignal<T>(initial);
+  connectToCommandSignal(source$, signal, injector);
   return signal.asReadonly();
 }

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Injector, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NULL_USER_TOKEN, UserToken } from '@shared/domain/user-token.type';
-import { connectSignal } from '@shared/services/command.signal';
+import { connectToCommandSignal } from '@shared/services/command.signal';
 import { PageStore } from '@shared/services/page.store';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
@@ -38,6 +38,6 @@ export default class LoginPage {
   // Event handlers division
   onLogin(login: Login) {
     const source$ = this.#service.login$(login);
-    connectSignal(source$, this.#postLogin, this.#injector);
+    connectToCommandSignal(source$, this.#postLogin, this.#injector);
   }
 }

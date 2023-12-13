@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Injector, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
-import { connectSignal } from '@shared/services/command.signal';
+import { connectToCommandSignal } from '@shared/services/command.signal';
 import { PageStore } from '@shared/services/page.store';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
@@ -38,7 +38,7 @@ export default class NewActivityPage {
   // Event handlers division
   onCreate(activity: Partial<Activity>) {
     const source$ = this.#service.postActivity$(activity);
-    connectSignal(source$, this.#postActivity, this.#injector);
+    connectToCommandSignal(source$, this.#postActivity, this.#injector);
   }
 
   // Effect handlers division

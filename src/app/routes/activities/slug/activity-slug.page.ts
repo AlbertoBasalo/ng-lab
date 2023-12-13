@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Injector, Input, OnInit, computed, 
 import { Router, RouterLink } from '@angular/router';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
 import { Booking, NULL_BOOKING } from '@shared/domain/booking.type';
-import { connectSignal } from '@shared/services/command.signal';
+import { connectToCommandSignal } from '@shared/services/command.signal';
 import { PageStore } from '@shared/services/page.store';
 import { PageTemplate } from '@shared/ui/page.template';
 import { StatusComponent } from '@shared/ui/status.component';
@@ -49,13 +49,13 @@ export default class ActivitySlugPage implements OnInit {
 
   ngOnInit() {
     // ?: use router params$ instead of ngOnInit
-    connectSignal<Activity>(this.#service.getActivityBySlug$(this.slug), this.#getActivity, this.#injector);
+    connectToCommandSignal<Activity>(this.#service.getActivityBySlug$(this.slug), this.#getActivity, this.#injector);
   }
 
   // Event handlers division
   onBooking() {
     const activity = this.#getActivity().result;
-    connectSignal(this.#service.postBookActivity$(activity), this.#postBooking, this.#injector);
+    connectToCommandSignal(this.#service.postBookActivity$(activity), this.#postBooking, this.#injector);
   }
 
   // Effect handlers

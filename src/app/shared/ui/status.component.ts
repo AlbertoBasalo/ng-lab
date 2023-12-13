@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CommandStatus } from '@shared/services/command.signal';
+import { RunningStatus } from '@shared/services/command.signal';
 import { ErrorComponent } from './error.component';
 import { WorkingComponent } from './working.component';
 
@@ -20,5 +20,5 @@ import { WorkingComponent } from './working.component';
   `,
 })
 export class StatusComponent {
-  @Input() commandStatus: CommandStatus = { status: 'idle', error: null };
+  @Input() commandStatus: RunningStatus = { status: 'idle', error: null };
 }

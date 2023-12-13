@@ -1,12 +1,12 @@
 import { Injectable, Injector, Signal, computed, effect, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CommandStatus, convertToSignal, createSignal } from './command.signal';
+import { RunningStatus, convertToCommandSignal, createCommandSignal } from './command.signal';
 
 @Injectable({ providedIn: 'root' })
 export class PageStore {
   #title = signal<string>('');
   #subtitle = signal<string>('');
-  #status = createSignal({ status: 'idle', error: null });
+  #status = createCommandSignal(null);
 
   title = computed(() => this.#title());
   subtitle = computed(() => this.#subtitle());
@@ -22,22 +22,22 @@ export class PageStore {
   }
 
   addNewStatusSignal<T>(initialValue: T) {
-    const signal = createSignal(initialValue);
-    this.#connectStatus(signal);
+    const signal = createCommandSignal(initialValue);
+    this.#connectToStatus(signal);
     return signal;
   }
 
   addSourceToStatusSignal<T>(source$: Observable<T>, initial: T) {
-    const signal = convertToSignal(source$, initial, this.injector);
-    this.#connectStatus(signal);
+    const signal = convertToCommandSignal(source$, initial, this.injector);
+    this.#connectToStatus(signal);
     return signal;
   }
 
-  #connectStatus(signal: Signal<CommandStatus>) {
+  #connectToStatus(signal: Signal<RunningStatus>) {
     effect(() => this.#updateStatus(signal()), { allowSignalWrites: true });
   }
 
-  #updateStatus(commandStatus: CommandStatus) {
+  #updateStatus(commandStatus: RunningStatus) {
     this.#status.update((s) => ({ ...s, ...commandStatus }));
   }
 }
