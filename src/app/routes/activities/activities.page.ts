@@ -12,7 +12,7 @@ import { ActivitiesPageStore } from './activities.page-store';
   template: `
     <lab-page [store]="store">
       <lab-search (search)="onSearch($event)" />
-      @if (getActivitiesStatus() === 'success') {
+      @if (getActivitiesStage() === 'success') {
         <lab-activities [activities]="activities" />
       }
     </lab-page>
@@ -23,7 +23,7 @@ export default class ActivitiesPage {
   readonly store = inject(ActivitiesPageStore);
 
   // Data division
-  getActivitiesStatus = this.store.getActivitiesStatus;
+  getActivitiesStage = this.store.getActivitiesStage;
   activities = this.store.activities;
 
   // Event handlers division

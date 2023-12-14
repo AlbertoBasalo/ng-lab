@@ -10,11 +10,11 @@ export class ActivitiesPageStore extends PageStore {
   readonly service = inject(ActivitiesService);
 
   // State division
-  #getActivitiesStatus = this.addNewState<Activity[]>([]);
+  #getActivitiesState = this.addNewState<Activity[]>([]);
 
   // Selectors division
-  activities = computed(() => this.#getActivitiesStatus().result);
-  getActivitiesStatus = computed(() => this.#getActivitiesStatus().stage);
+  activities = computed(() => this.#getActivitiesState().result);
+  getActivitiesStage = computed(() => this.#getActivitiesState().stage);
 
   // Data division
   /** Observable of filter terms */
@@ -25,7 +25,7 @@ export class ActivitiesPageStore extends PageStore {
   constructor(injector: Injector) {
     super(injector);
     this.setTitle('Find and book an activity');
-    this.connectCommandToState(this.#activitiesByFilter$, this.#getActivitiesStatus);
+    this.connectCommandToState(this.#activitiesByFilter$, this.#getActivitiesState);
   }
 
   // Commands division

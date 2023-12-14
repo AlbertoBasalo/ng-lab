@@ -19,7 +19,7 @@ import { ChangeDetectionStrategy, Component, Input, Signal, TemplateRef, compute
 })
 export class ListTemplate {
   @Input() name = '';
-  @Input() items!: Signal<{ id: number }[]>;
-  @Input() itemTemplate!: TemplateRef<any>;
+  @Input({ required: true }) items!: Signal<{ id: number }[]>;
+  @Input({ required: true }) itemTemplate!: TemplateRef<any>;
   title = computed(() => (this.items().length > 0 ? `${this.items().length} ${this.name}` : `No ${this.name} found`));
 }

@@ -1,6 +1,6 @@
 import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, computed, signal } from '@angular/core';
-import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, Signal, computed } from '@angular/core';
+import { Activity } from '@shared/domain/activity.type';
 
 @Component({
   selector: 'lab-activity-slug',
@@ -20,36 +20,37 @@ import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
       </header>
       <section>
         <p>
-          Price: <span class="data">{{ state().price | currency: 'EUR' }}</span>
+          Price: <span class="data">{{ activity().price | currency: 'EUR' }}</span>
         </p>
         <p>
-          Date: <span class="data">{{ state().date | date: 'fullDate' }}</span>
+          Date: <span class="data">{{ activity().date | date: 'fullDate' }}</span>
         </p>
         <p>
           Minimum Participants:
-          <span class="data">{{ state().minParticipants }}</span>
+          <span class="data">{{ activity().minParticipants }}</span>
         </p>
         <p>
           Maximum Capacity:
-          <span class="data">{{ state().maxParticipants }}</span>
+          <span class="data">{{ activity().maxParticipants }}</span>
         </p>
       </section>
       <footer>
-        <button id="bookingActivity" (click)="booking.emit()">Book</button>
+        <button id="bookingActivity" (click)="onBookingClick()">Book</button>
       </footer>
     </article>
   `,
 })
 export class ActivitySlugComponent {
+  // I/O division
+  @Input({ required: true }) activity!: Signal<Activity>;
   @Output() booking = new EventEmitter<void>();
 
-  // ToDo: use transformer
-  @Input({ required: true })
-  set activity(activity: Activity) {
-    this.state.set(activity);
-  }
-
-  state = signal<Activity>(NULL_ACTIVITY);
-  title = computed(() => this.state().name);
+  // Data division
+  title = computed(() => this.activity().name);
   subtitle = 'Book your activity now!';
+
+  // Event handlers division
+  onBookingClick() {
+    this.booking.emit();
+  }
 }

@@ -11,7 +11,7 @@ import { BookingsPageStore } from './bookings.page-store';
   template: `
     <lab-page [store]="store">
       @if (getBookingsStage() === 'success') {
-        <lab-bookings [bookings]="bookings()" (cancel)="onCancel($event)" />
+        <lab-bookings [bookings]="bookings" (cancel)="onCancel($event)" />
       }
     </lab-page>
   `,

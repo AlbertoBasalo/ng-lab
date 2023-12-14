@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PageTemplate } from '@shared/ui/page.template';
-import { LoginPageStore } from './login-page-store';
 import { LoginForm } from './login.form';
+import { LoginPageStore } from './login.page-store';
 import { Login } from './login.type';
 
 @Component({

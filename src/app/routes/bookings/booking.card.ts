@@ -24,8 +24,10 @@ import { ActivityBooking } from './activity-booking.type';
   `,
 })
 export class BookingCard {
+  // I/O division
   @Input({ required: true }) booking!: ActivityBooking;
   @Output() cancel = new EventEmitter<number>();
+  // Event handlers division
   onCancelClick(id: number) {
     this.cancel.emit(id);
   }

@@ -34,7 +34,7 @@ export default class NewActivityPage {
 
   // Effects division
   #navigateAfterCreate() {
-    if (this.store.postActivityStatus() === 'success') {
+    if (this.store.postActivityStage() === 'success') {
       this.#router.navigate(['/activities']);
     }
   }

@@ -36,7 +36,7 @@ export function createCommandSignal<T>(initial: T): WritableSignal<CommandState<
 }
 
 /**
- * Connects a source observable to a command state signal
+ * Connects a source observable to an existing command state signal
  * @param command$ The observable command emitting the value
  * @param signal The command state signal to update
  * @param injector Optional injector context to use to get the `DestroyRef`
@@ -65,9 +65,9 @@ export function connectCommandToSignal<T>(
 }
 
 /**
- * Converts an observable command to a command state signal
+ * Converts an observable command to a new command state signal
  * @param command$ The observable command emitting the value
- * @param initial The initial value
+ * @param initial The initial value for the new command state signal
  * @param injector Optional injector context to use to get the `DestroyRef`
  * @returns A read-only signal with the command changes
  * @see CommandState

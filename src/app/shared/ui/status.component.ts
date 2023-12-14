@@ -4,21 +4,21 @@ import { ErrorComponent } from './error.component';
 import { WorkingComponent } from './working.component';
 
 @Component({
-  selector: 'lab-status',
+  selector: 'lab-running-state',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [WorkingComponent, ErrorComponent],
   template: `
-    @switch (commandStatus.status) {
+    @switch (runningState.stage) {
       @case ('working') {
         <lab-working />
       }
       @case ('error') {
-        <lab-error [error]="commandStatus.error" />
+        <lab-error [error]="runningState.error" />
       }
     }
   `,
 })
-export class StatusComponent {
-  @Input() commandStatus: RunningState = { stage: 'idle', error: null };
+export class RunningStateComponent {
+  @Input() runningState: RunningState = { stage: 'idle', error: null };
 }

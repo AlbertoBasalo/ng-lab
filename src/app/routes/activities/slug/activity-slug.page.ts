@@ -11,23 +11,23 @@ import { ActivitySlugPageStore } from './activity-slug.page-store';
   providers: [ActivitySlugPageStore],
   template: `
     <lab-page [store]="store">
-      @if (getActivityStatus() === 'success') {
-        <lab-activity-slug [activity]="getActivity()" (booking)="onBooking()" />
+      @if (getActivityStage() === 'success') {
+        <lab-activity-slug [activity]="activity" (booking)="onBooking()" />
       }
     </lab-page>
   `,
 })
 export default class ActivitySlugPage implements OnInit {
-  // I/O division
-  @Input({ required: true }) slug!: string;
-
   // Injection division
   readonly #router = inject(Router);
   readonly store = inject(ActivitySlugPageStore);
 
+  // I/O division
+  @Input({ required: true }) slug!: string;
+
   // Data division
-  getActivityStatus = this.store.getActivityStatus;
-  getActivity = this.store.getActivity;
+  getActivityStage = this.store.getActivityStage;
+  activity = this.store.activity;
 
   // Life-cycle division
   constructor() {
@@ -41,21 +41,20 @@ export default class ActivitySlugPage implements OnInit {
 
   // Event handlers division
   onBooking() {
-    const activity = this.getActivity();
-    this.store.postBookActivity$(activity);
+    this.store.postBookActivity$(this.activity());
   }
 
   // Effects division
   #navigateAfterCreate() {
-    if (this.store.postBookingStatus() === 'success') {
+    if (this.store.postBookingStage() === 'success') {
       this.#router.navigate(['/', 'bookings']);
     }
   }
   #setPageTitle() {
-    if (this.getActivityStatus() === 'success') {
-      this.store.setTitle(this.getActivity().name);
+    if (this.getActivityStage() === 'success') {
+      this.store.setTitle(this.activity().name);
     } else {
-      this.store.setTitle('Loading...');
+      this.store.setTitle(this.slug);
     }
   }
 }
