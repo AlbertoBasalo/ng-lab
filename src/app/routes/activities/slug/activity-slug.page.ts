@@ -28,10 +28,10 @@ export default class ActivitySlugPage implements OnInit {
   // Data division
   getActivityStage = this.store.getActivityStage;
   activity = this.store.activity;
+  bookedPlaces = 0;
 
   // Life-cycle division
   constructor() {
-    effect(() => this.#navigateAfterCreate());
     effect(() => this.#setPageTitle(), { allowSignalWrites: true });
   }
 
@@ -41,15 +41,17 @@ export default class ActivitySlugPage implements OnInit {
 
   // Event handlers division
   onBooking() {
-    this.store.postBookActivity$(this.activity());
+    this.#router.navigate(['/', 'bookings', 'new'], {
+      queryParams: {
+        activityId: this.activity().id,
+        activityName: this.activity().name,
+        activityPrice: this.activity().price,
+        availablePlaces: this.activity().maxParticipants - this.bookedPlaces,
+      },
+    });
   }
 
   // Effects division
-  #navigateAfterCreate() {
-    if (this.store.postBookingStage() === 'success') {
-      this.#router.navigate(['/', 'bookings']);
-    }
-  }
   #setPageTitle() {
     if (this.getActivityStage() === 'success') {
       this.store.setTitle(this.activity().name);

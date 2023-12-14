@@ -1,3 +1,5 @@
+export type ActivityStatus = 'published' | 'confirmed' | 'done' | 'cancelled' | 'draft';
+
 /**
  * Activity type definition
  * @description This is a DTO for the activity entity
@@ -12,6 +14,7 @@ export type Activity = {
   location: string;
   minParticipants: number;
   maxParticipants: number;
+  status: ActivityStatus;
   userId: number;
 };
 
@@ -25,5 +28,6 @@ export const NULL_ACTIVITY: Activity = {
   location: '',
   minParticipants: 0,
   maxParticipants: 0,
+  status: 'draft',
   userId: 0,
 };

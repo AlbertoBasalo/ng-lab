@@ -91,11 +91,12 @@ ng g s routes/activities/slug/activity-slug
 ng g c shared/search
 ```
 
-## Pending and Error Components
+## Working and Error Components
 
 ```bash
-ng g c shared/pending
-ng g c shared/error
+ng g c shared/ui/working
+ng g c shared/ui/error
+ng g c shared/ui/status
 ```
 
 ## Core services
@@ -103,9 +104,7 @@ ng g c shared/error
 ```bash
 ng g s core/error
 ng g interceptor core/auth
-ng g s core/window
-ng g s core/log
-ng g g core/auth
+ng g interceptor core/base
 ```
 
 ## Shared services
@@ -113,6 +112,9 @@ ng g g core/auth
 ```bash
 ng g s shared/services/navigation-effect
 ng g s shared/services/storage-effect
+ng g s shared/services/window
+ng g s shared/services/log
+ng g g shared/services/auth
 ```
 
 ## Create a new activity
@@ -149,4 +151,13 @@ ng g class shared/services/notifications --type=store
 ```bash
 ng g c shared/ui/page --type=template
 ng g c shared/ui/list --type=template
+```
+
+## New booking feature
+
+```bash
+ng g c routes/bookings/new-booking --flat=false --skip-selector --style=none --type=page
+ng g c routes/bookings/new-booking --flat=false --type=form
+ng g s routes/bookings/new-booking/new-booking
+ng g class routes/bookings/new-booking/new-booking --type=page-store
 ```

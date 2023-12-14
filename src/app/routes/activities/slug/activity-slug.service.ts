@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Activity } from '@shared/domain/activity.type';
-import { Booking } from '@shared/domain/booking.type';
 import { AuthStore } from '@shared/services/auth.store';
 import { Observable, map, tap } from 'rxjs';
 
@@ -26,21 +25,5 @@ export class ActivitySlugService {
       }),
       map((activities) => activities[0]),
     );
-  }
-
-  /**
-   * Posts a booking for the given activity
-   * @param activity the activity to book
-   * @returns An observable booking
-   */
-  postBookActivity$(activity: Activity): Observable<Booking> {
-    const url = `${this.#apiBookingsUrl}`;
-    const booking: Partial<Booking> = {
-      activityId: activity.id,
-      userId: this.#authStore.userId(),
-      date: new Date(),
-      participants: 1,
-    };
-    return this.#http$.post<Booking>(url, booking);
   }
 }

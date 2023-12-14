@@ -14,6 +14,7 @@ export class NewActivityService {
   postActivity$(activity: Partial<Activity>): Observable<Activity> {
     activity.userId = this.#authStore.userId();
     activity.slug = slugify(activity.name);
+    activity.status = 'published';
     return this.#http$.post<Activity>(this.#apiUrl, activity);
   }
 }
