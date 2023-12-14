@@ -10,13 +10,13 @@ export class ActivitySlugPageStore extends PageStore {
   readonly #service = inject(ActivitySlugService);
 
   // State division
-  #getActivityStatus = this.addNewStatus<Activity>(NULL_ACTIVITY);
-  #postBookingStatus = this.addNewStatus<Booking>(NULL_BOOKING);
+  #getActivityStatus = this.addNewState<Activity>(NULL_ACTIVITY);
+  #postBookingStatus = this.addNewState<Booking>(NULL_BOOKING);
 
   // Selectors division
-  getActivityStatus = computed(() => this.#getActivityStatus().status);
+  getActivityStatus = computed(() => this.#getActivityStatus().stage);
   getActivity = computed(() => this.#getActivityStatus().result);
-  postBookingStatus = computed(() => this.#postBookingStatus().status);
+  postBookingStatus = computed(() => this.#postBookingStatus().stage);
 
   constructor(injector: Injector) {
     super(injector);
@@ -24,9 +24,9 @@ export class ActivitySlugPageStore extends PageStore {
 
   // Commands division
   getActivityBySlug(slug: string) {
-    this.connectSourceToStatus(this.#service.getActivityBySlug$(slug), this.#getActivityStatus);
+    this.connectCommandToState(this.#service.getActivityBySlug$(slug), this.#getActivityStatus);
   }
   postBookActivity$(activity: Activity) {
-    this.connectSourceToStatus(this.#service.postBookActivity$(activity), this.#postBookingStatus);
+    this.connectCommandToState(this.#service.postBookActivity$(activity), this.#postBookingStatus);
   }
 }

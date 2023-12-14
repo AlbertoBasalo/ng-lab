@@ -9,13 +9,13 @@ export class BookingsPageStore extends PageStore {
   readonly #service = inject(BookingsService);
 
   // State division
-  #getBookingsStatus = this.addNewStatus<ActivityBooking[]>([]);
-  #cancelBookingStatus = this.addNewStatus<boolean>(false);
+  #getBookingsState = this.addNewState<ActivityBooking[]>([]);
+  #cancelBookingState = this.addNewState<boolean>(false);
 
   // Selectors division
-  bookings = computed(() => this.#getBookingsStatus().result);
-  bookingsStatus = computed(() => this.#getBookingsStatus().status);
-  cancelBookingStatus = computed(() => this.#cancelBookingStatus().status);
+  bookings = computed(() => this.#getBookingsState().result);
+  getBookingsStage = computed(() => this.#getBookingsState().stage);
+  cancelBookingStage = computed(() => this.#cancelBookingState().stage);
 
   constructor(injector: Injector) {
     super(injector);
@@ -24,9 +24,9 @@ export class BookingsPageStore extends PageStore {
 
   // Commands division
   getBookings() {
-    this.connectSourceToStatus(this.#service.getBookings$(), this.#getBookingsStatus);
+    this.connectCommandToState(this.#service.getBookings$(), this.#getBookingsState);
   }
   cancelBooking(id: number) {
-    this.connectSourceToStatus(this.#service.cancelBooking$(id), this.#cancelBookingStatus);
+    this.connectCommandToState(this.#service.cancelBooking$(id), this.#cancelBookingState);
   }
 }

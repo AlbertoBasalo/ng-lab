@@ -1,10 +1,10 @@
 import { Injectable, Injector, Signal, WritableSignal, computed, effect, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Command, RunningStatus, connectSourceToCommand, createCommand } from './command.signal';
+import { CommandState, RunningState, connectCommandToSignal, createCommandSignal } from './command.signal';
 
 /**
  * A store for page state
- * Provides basic state management for page title, subtitle and status (for async commands)
+ * Provides basic state management for page title, subtitle and running state for async commands
  * @description uses the command signal functionality to manage async commands
  * @summary Should be extended by concrete page stores to add specific state and commands
  */
@@ -14,12 +14,12 @@ export class PageStore {
   #title = signal<string>('');
   #subtitle = signal<string>('');
   /** notifies changes on any running async command */
-  #status = createCommand(null);
+  #commandsState = createCommandSignal(null);
 
   // Selectors division
   title = computed(() => this.#title());
   subtitle = computed(() => this.#subtitle());
-  status = computed(() => this.#status());
+  runningState = computed(() => this.#commandsState() as RunningState);
 
   constructor(protected injector: Injector) {}
 
@@ -33,30 +33,29 @@ export class PageStore {
 
   /**
    * Connects a source observable to a command signal
-   * @param source$ An observable command
-   * @param status An status signal to update
+   * @param command$ An observable command
+   * @param state A command state signal to be updated
    */
-  connectSourceToStatus<T>(source$: Observable<T>, status: WritableSignal<Command<T>>) {
-    connectSourceToCommand(source$, status, this.injector);
+  connectCommandToState<T>(command$: Observable<T>, state: WritableSignal<CommandState<T>>) {
+    connectCommandToSignal(command$, state, this.injector);
   }
 
   /**
-   * Creates a new status signal (to be connected to a source observable)
-   * @param initialValue The initial value of the status
+   * Creates a new command state signal (to be connected to a source observable)
+   * @param initialValue The initial value of the state
    * @returns A writable signal with the state changes
    */
-  protected addNewStatus<T>(initialValue: T) {
-    const signal = createCommand(initialValue);
-    this.#connectToStatus(signal);
+  protected addNewState<T>(initialValue: T) {
+    const signal = createCommandSignal(initialValue);
+    this.#connectToRunningState(signal);
     return signal;
   }
 
   // Auxiliary methods division
-  #connectToStatus(signal: Signal<RunningStatus>) {
-    effect(() => this.#updateStatus(signal()), { allowSignalWrites: true });
+  #connectToRunningState(signal: Signal<RunningState>) {
+    effect(() => this.#updateRunningState(signal()), { allowSignalWrites: true });
   }
-
-  #updateStatus(commandStatus: RunningStatus) {
-    this.#status.update((s) => ({ ...s, ...commandStatus }));
+  #updateRunningState(runningState: RunningState) {
+    this.#commandsState.update((s) => ({ ...s, ...runningState }));
   }
 }

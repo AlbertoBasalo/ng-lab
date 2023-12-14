@@ -10,7 +10,7 @@ import { BookingsPageStore } from './bookings.page-store';
   providers: [BookingsPageStore],
   template: `
     <lab-page [store]="store">
-      @if (bookingsStatus() === 'success') {
+      @if (getBookingsStage() === 'success') {
         <lab-bookings [bookings]="bookings()" (cancel)="onCancel($event)" />
       }
     </lab-page>
@@ -22,8 +22,8 @@ export default class BookingsPage {
 
   // Data division
   bookings = this.store.bookings;
-  bookingsStatus = this.store.bookingsStatus;
-  cancelStatus = this.store.cancelBookingStatus;
+  getBookingsStage = this.store.getBookingsStage;
+  cancelBookingStage = this.store.cancelBookingStage;
 
   // Life-cycle division
   constructor() {
@@ -38,7 +38,7 @@ export default class BookingsPage {
 
   // Effects division
   #reloadAfterCancel() {
-    if (this.cancelStatus() === 'success') {
+    if (this.cancelBookingStage() === 'success') {
       this.store.getBookings();
     }
   }
