@@ -51,8 +51,14 @@ export class ActivitySlugComponent {
   // ToDo: improve template without article sections
 
   // Data division
-  title = computed(() => `There are ${this.participants()} participants `);
-  subtitle = computed(() => `There are ${this.availablePlaces()} places available`);
+  title = computed(() =>
+    this.participants() === 0 ? 'Be the first to enroll' : `There are ${this.participants()} participants `,
+  );
+  subtitle = computed(() =>
+    this.availablePlaces() == 0
+      ? 'Activity sold out. Wait for the next.'
+      : `There are ${this.availablePlaces()} places available`,
+  );
   availablePlaces = computed(() => this.activity().maxParticipants - this.participants());
 
   // Event handlers division

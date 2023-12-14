@@ -48,7 +48,7 @@ export type NewBookingFormValue = {
             <option value="paypal">Paypal</option>
           </select>
         </label>
-        <button type="submit">Book</button>
+        <button type="submit" [disabled]="form.invalid">Book</button>
       </fieldset>
     </form>
   `,

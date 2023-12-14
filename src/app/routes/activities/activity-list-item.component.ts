@@ -13,10 +13,15 @@ import { Activity } from '@shared/domain/activity.type';
       <span itemprop="name">
         <a [routerLink]="[activity.slug]">{{ activity.name }}</a>
       </span>
-      <time itemprop="date" [attr.datetime]="activity.date"> on {{ activity.date | date: 'EEEE dd-MMM' }} </time>
+      <span itemprop="location" [attr.content]="activity.location"> at {{ activity.location }} </span>
+      <span>
+        <time itemprop="date" [attr.datetime]="activity.date">
+          on <i>{{ activity.date | date: 'EEEE dd-MMM' }}</i>
+        </time>
+      </span>
       <span itemprop="price" [attr.content]="activity.price">
-        for only
-        {{ activity.price | currency: 'EUR' : 'symbol' : '1.0-0' }}.
+        for only <b>{{ activity.price | currency: 'EUR' : 'symbol' : '1.0-0' }}</b
+        >.
       </span>
     </li>
   `,
