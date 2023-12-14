@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Activity } from '@shared/domain/activity.type';
+import { Booking } from '@shared/domain/booking.type';
 import { AuthStore } from '@shared/services/auth.store';
 import { Observable, map, tap } from 'rxjs';
 
@@ -25,5 +26,17 @@ export class ActivitySlugService {
       }),
       map((activities) => activities[0]),
     );
+  }
+
+  /**
+   * Gets the number of participants for the given activity
+   * @param activityId The id of the activity to retrieve the participants
+   * @returns the number of participants for the given activity
+   */
+  getParticipantsByActivityId$(activityId: number): Observable<number> {
+    const url = `${this.#apiBookingsUrl}?activityId=${activityId}`;
+    return this.#http$
+      .get<Booking[]>(url)
+      .pipe(map((bookings) => bookings.reduce((acc, booking) => acc + booking.participants, 0)));
   }
 }

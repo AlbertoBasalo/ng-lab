@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, computed, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageTemplate } from '@shared/ui/page.template';
 import { ActivitySlugComponent } from './activity-slug.component';
@@ -12,7 +12,7 @@ import { ActivitySlugPageStore } from './activity-slug.page-store';
   template: `
     <lab-page [store]="store">
       @if (getActivityStage() === 'success') {
-        <lab-activity-slug [activity]="activity" (booking)="onBooking()" />
+        <lab-activity-slug [activity]="activity" [participants]="participants" (booking)="onBooking()" />
       }
     </lab-page>
   `,
@@ -28,11 +28,12 @@ export default class ActivitySlugPage implements OnInit {
   // Data division
   getActivityStage = this.store.getActivityStage;
   activity = this.store.activity;
-  bookedPlaces = 0;
-
+  participants = this.store.participants;
+  availablePlaces = computed(() => this.activity().maxParticipants - this.participants());
   // Life-cycle division
   constructor() {
     effect(() => this.#setPageTitle(), { allowSignalWrites: true });
+    effect(() => this.store.getParticipantsByActivityId(this.activity().id), { allowSignalWrites: true });
   }
 
   ngOnInit() {
@@ -46,7 +47,7 @@ export default class ActivitySlugPage implements OnInit {
         activityId: this.activity().id,
         activityName: this.activity().name,
         activityPrice: this.activity().price,
-        availablePlaces: this.activity().maxParticipants - this.bookedPlaces,
+        availablePlaces: this.availablePlaces(),
       },
     });
   }

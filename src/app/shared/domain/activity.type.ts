@@ -1,4 +1,4 @@
-export type ActivityStatus = 'published' | 'confirmed' | 'done' | 'cancelled' | 'draft';
+export type ActivityStatus = 'published' | 'confirmed' | 'sold-out' | 'done' | 'cancelled' | 'draft';
 
 /**
  * Activity type definition

@@ -15,8 +15,8 @@ import { Activity } from '@shared/domain/activity.type';
   template: `
     <article name="ActivityDetails">
       <header>
-        <h3>{{ title() | titlecase }}</h3>
-        <p>{{ subtitle }}</p>
+        <h3>{{ title() }}</h3>
+        <p>{{ subtitle() }}</p>
       </header>
       <section>
         <p>
@@ -35,7 +35,9 @@ import { Activity } from '@shared/domain/activity.type';
         </p>
       </section>
       <footer>
-        <button id="bookingActivity" (click)="onBookingClick()">Book</button>
+        @if (availablePlaces() > 0) {
+          <button id="bookingActivity" (click)="onBookingClick()">Book</button>
+        }
       </footer>
     </article>
   `,
@@ -43,11 +45,15 @@ import { Activity } from '@shared/domain/activity.type';
 export class ActivitySlugComponent {
   // I/O division
   @Input({ required: true }) activity!: Signal<Activity>;
+  @Input({ required: true }) participants!: Signal<number>;
   @Output() booking = new EventEmitter<void>();
 
+  // ToDo: improve template without article sections
+
   // Data division
-  title = computed(() => this.activity().name);
-  subtitle = 'Book your activity now!';
+  title = computed(() => `There are ${this.participants()} participants `);
+  subtitle = computed(() => `There are ${this.availablePlaces()} places available`);
+  availablePlaces = computed(() => this.activity().maxParticipants - this.participants());
 
   // Event handlers division
   onBookingClick() {

@@ -26,6 +26,8 @@ export type NewBookingFormValue = {
             name="participants"
             formControlName="participants"
             autocomplete="off"
+            min="1"
+            max="{{ availablePlaces }}"
             [attr.aria-invalid]="markError('participants')"
           />
         </label>
