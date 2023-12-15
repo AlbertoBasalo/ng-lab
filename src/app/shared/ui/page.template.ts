@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, computed, effect, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { PageStore } from '@shared/services/page.store';
-import { RunningStateComponent } from './status.component';
+import { RunningStateComponent } from './running-state.component';
 
 @Component({
   selector: 'lab-page',

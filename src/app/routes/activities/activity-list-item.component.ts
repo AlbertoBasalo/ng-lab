@@ -11,7 +11,7 @@ import { Activity } from '@shared/domain/activity.type';
   template: `
     <li itemscope itemtype="http://schema.org/Product" [id]="activity.id">
       <span itemprop="name">
-        <a [routerLink]="[activity.slug]">{{ activity.name }}</a>
+        <a [routerLink]="['kk' + activity.slug]">{{ activity.name }}</a>
       </span>
       <span itemprop="location" [attr.content]="activity.location"> at {{ activity.location }} </span>
       <span>

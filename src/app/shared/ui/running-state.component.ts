@@ -1,3 +1,4 @@
+import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RunningState } from '@shared/services/command.signal';
 import { ErrorComponent } from './error.component';
@@ -7,8 +8,9 @@ import { WorkingComponent } from './working.component';
   selector: 'lab-running-state',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [WorkingComponent, ErrorComponent],
+  imports: [WorkingComponent, ErrorComponent, JsonPipe],
   template: `
+    {{ runningState | json }}
     @switch (runningState.stage) {
       @case ('working') {
         <lab-working />

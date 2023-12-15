@@ -33,7 +33,12 @@ export default class ActivitySlugPage implements OnInit {
   // Life-cycle division
   constructor() {
     effect(() => this.#setPageTitle(), { allowSignalWrites: true });
-    effect(() => this.store.getParticipantsByActivityId(this.activity().id), { allowSignalWrites: true });
+    effect(
+      () => {
+        if (this.getActivityStage() === 'success') this.store.getParticipantsByActivityId(this.activity().id);
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   ngOnInit() {

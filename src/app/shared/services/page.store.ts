@@ -56,6 +56,7 @@ export class PageStore {
     effect(() => this.#updateRunningState(signal()), { allowSignalWrites: true });
   }
   #updateRunningState(runningState: RunningState) {
+    console.log('runningState', runningState);
     this.#commandsState.update((s) => ({ ...s, ...runningState }));
   }
 }
