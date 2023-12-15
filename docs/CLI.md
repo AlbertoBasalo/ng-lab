@@ -82,6 +82,7 @@ ng g s routes/activities/activities
 ```bash
 ng g c routes/activities/slug/activity-slug --type=page
 ng g c routes/activities/slug/activity-slug
+ng g c routes/activities/slug/activity-slug-footer
 ng g s routes/activities/slug/activity-slug
 ```
 
@@ -160,4 +161,13 @@ ng g c routes/bookings/new-booking --flat=false --skip-selector --style=none --t
 ng g c routes/bookings/new-booking --flat=false --type=form
 ng g s routes/bookings/new-booking/new-booking
 ng g class routes/bookings/new-booking/new-booking --type=page-store
+```
+
+## Activity/slug admin page
+
+```bash
+ng g c routes/activities/slug/admin/activity-slug-admin --type=page
+ng g c routes/activities/slug/admin/activity-slug-admin
+ng g class routes/activities/slug/admin/activity-slug-admin --type=page-store
+ng g s routes/activities/slug/admin/activity-slug-admin
 ```

@@ -15,6 +15,10 @@ const routes: Routes = [
     path: ':slug',
     loadComponent: () => import('./slug/activity-slug.page'),
   },
+  {
+    path: ':slug/admin',
+    loadComponent: () => import('./slug/admin/activity-slug-admin.page'),
+  },
 ];
 
 export default routes;

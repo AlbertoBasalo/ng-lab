@@ -1,31 +1,32 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageTemplate } from '@shared/ui/page.template';
+import { ActivitySlugFooterComponent } from './activity-slug-footer.component';
 import { ActivitySlugComponent } from './activity-slug.component';
 import { ActivitySlugPageStore } from './activity-slug.page-store';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PageTemplate, ActivitySlugComponent],
+  imports: [PageTemplate, ActivitySlugComponent, ActivitySlugFooterComponent],
   providers: [ActivitySlugPageStore],
   template: `
     <lab-page [store]="store">
       @if (getActivityStage() === 'success') {
-        <lab-activity-slug [activity]="activity" [participants]="participants" [availablePlaces]="availablePlaces" />
+        <lab-activity-slug
+          [activity]="activity"
+          [participants]="store.participants"
+          [availablePlaces]="store.availablePlaces"
+        />
       }
-      <footer>
-        @if (isOwner()) {
-          <button id="editActivity" (click)="onEditClick()">Edit and manage your activity</button>
-        } @else {
-          @if (isBookable()) {
-            <p>{{ availableText() }}</p>
-            @if (availablePlaces() > 0) {
-              <button id="bookingActivity" (click)="onBookingClick()">Book now</button>
-            }
-          }
-        }
-      </footer>
+      <lab-activity-slug-footer
+        [isOwner]="store.isOwner"
+        [availableText]="store.availableText"
+        [isBookable]="store.isBookable"
+        [availablePlaces]="store.availablePlaces"
+        (booking)="onBookingClick()"
+        (edit)="onEditClick()"
+      />
     </lab-page>
   `,
 })
@@ -38,13 +39,8 @@ export default class ActivitySlugPage implements OnInit {
   @Input({ required: true }) slug!: string;
 
   // Data division
-  isOwner = this.store.isOwner;
   getActivityStage = this.store.getActivityStage;
   activity = this.store.activity;
-  participants = this.store.participants;
-  availablePlaces = this.store.availablePlaces;
-  availableText = this.store.availableText;
-  isBookable = this.store.isBookable;
 
   // Life-cycle division
   constructor() {
@@ -63,12 +59,12 @@ export default class ActivitySlugPage implements OnInit {
         activityId: this.activity().id,
         activityName: this.activity().name,
         activityPrice: this.activity().price,
-        availablePlaces: this.availablePlaces(),
+        availablePlaces: this.store.availablePlaces(),
       },
     });
   }
   onEditClick() {
-    this.#router.navigate(['/', 'activities', this.activity().slug, 'edit']);
+    this.#router.navigate(['/', 'activities', this.activity().slug, 'admin']);
   }
 
   // Effects division
