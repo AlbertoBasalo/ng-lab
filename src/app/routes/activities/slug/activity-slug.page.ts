@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, computed, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { PageTemplate } from '@shared/ui/page.template';
 import { ActivitySlugComponent } from './activity-slug.component';
@@ -12,8 +12,20 @@ import { ActivitySlugPageStore } from './activity-slug.page-store';
   template: `
     <lab-page [store]="store">
       @if (getActivityStage() === 'success') {
-        <lab-activity-slug [activity]="activity" [participants]="participants" (booking)="onBooking()" />
+        <lab-activity-slug [activity]="activity" [participants]="participants" [availablePlaces]="availablePlaces" />
       }
+      <footer>
+        @if (isOwner()) {
+          <button id="editActivity" (click)="onEditClick()">Edit and manage your activity</button>
+        } @else {
+          @if (isBookable()) {
+            <p>{{ availableText() }}</p>
+            @if (availablePlaces() > 0) {
+              <button id="bookingActivity" (click)="onBookingClick()">Book now</button>
+            }
+          }
+        }
+      </footer>
     </lab-page>
   `,
 })
@@ -26,19 +38,18 @@ export default class ActivitySlugPage implements OnInit {
   @Input({ required: true }) slug!: string;
 
   // Data division
+  isOwner = this.store.isOwner;
   getActivityStage = this.store.getActivityStage;
   activity = this.store.activity;
   participants = this.store.participants;
-  availablePlaces = computed(() => this.activity().maxParticipants - this.participants());
+  availablePlaces = this.store.availablePlaces;
+  availableText = this.store.availableText;
+  isBookable = this.store.isBookable;
+
   // Life-cycle division
   constructor() {
     effect(() => this.#setPageTitle(), { allowSignalWrites: true });
-    effect(
-      () => {
-        if (this.getActivityStage() === 'success') this.store.getParticipantsByActivityId(this.activity().id);
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => this.#getParticipants(), { allowSignalWrites: true });
   }
 
   ngOnInit() {
@@ -46,7 +57,7 @@ export default class ActivitySlugPage implements OnInit {
   }
 
   // Event handlers division
-  onBooking() {
+  onBookingClick() {
     this.#router.navigate(['/', 'bookings', 'new'], {
       queryParams: {
         activityId: this.activity().id,
@@ -56,6 +67,9 @@ export default class ActivitySlugPage implements OnInit {
       },
     });
   }
+  onEditClick() {
+    this.#router.navigate(['/', 'activities', this.activity().slug, 'edit']);
+  }
 
   // Effects division
   #setPageTitle() {
@@ -63,6 +77,11 @@ export default class ActivitySlugPage implements OnInit {
       this.store.setTitle(this.activity().name);
     } else {
       this.store.setTitle(this.slug);
+    }
+  }
+  #getParticipants() {
+    if (this.getActivityStage() === 'success') {
+      this.store.getParticipantsByActivityId(this.activity().id);
     }
   }
 }

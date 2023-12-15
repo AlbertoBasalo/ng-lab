@@ -1,68 +1,35 @@
-import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, Signal, computed } from '@angular/core';
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input, Signal } from '@angular/core';
 import { Activity } from '@shared/domain/activity.type';
+import { LabelDataComponent } from '@shared/ui/label-data.component';
 
 @Component({
   selector: 'lab-activity-slug',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CurrencyPipe, DatePipe, TitleCasePipe],
+  imports: [CurrencyPipe, DatePipe, LabelDataComponent],
   styles: `
     .data {
       font-weight: bold;
     }
   `,
   template: `
-    <article name="ActivityDetails">
-      <header>
-        <h3>{{ title() }}</h3>
-        <p>{{ subtitle() }}</p>
-      </header>
-      <section>
-        <p>
-          Price: <span class="data">{{ activity().price | currency: 'EUR' }}</span>
-        </p>
-        <p>
-          Date: <span class="data">{{ activity().date | date: 'fullDate' }}</span>
-        </p>
-        <p>
-          Minimum Participants:
-          <span class="data">{{ activity().minParticipants }}</span>
-        </p>
-        <p>
-          Maximum Capacity:
-          <span class="data">{{ activity().maxParticipants }}</span>
-        </p>
-      </section>
-      <footer>
-        @if (availablePlaces() > 0) {
-          <button id="bookingActivity" (click)="onBookingClick()">Book</button>
-        }
-      </footer>
-    </article>
+    <section name="ActivityDetails">
+      <lab-label-data label="State" [data]="activity().status" />
+      <lab-label-data label="Price" [data]="activity().price" unit="€" />
+      <lab-label-data label="Date" [data]="activity().date | date: 'fullDate'" />
+      <lab-label-data label="Minimum" [data]="activity().minParticipants" unit="participants" />
+      <lab-label-data label="Maximum Capacity" [data]="activity().maxParticipants" unit="participants" />
+      <lab-label-data label="Current" [data]="participants()" unit="booked" />
+      <lab-label-data label="Available" [data]="availablePlaces()" unit="places" />
+    </section>
   `,
 })
 export class ActivitySlugComponent {
   // I/O division
   @Input({ required: true }) activity!: Signal<Activity>;
   @Input({ required: true }) participants!: Signal<number>;
-  @Output() booking = new EventEmitter<void>();
-
-  // ToDo: improve template without article sections
+  @Input({ required: true }) availablePlaces!: Signal<number>;
 
   // Data division
-  title = computed(() =>
-    this.participants() === 0 ? 'Be the first to enroll' : `There are ${this.participants()} participants `,
-  );
-  subtitle = computed(() =>
-    this.availablePlaces() == 0
-      ? 'Activity sold out. Wait for the next.'
-      : `There are ${this.availablePlaces()} places available`,
-  );
-  availablePlaces = computed(() => this.activity().maxParticipants - this.participants());
-
-  // Event handlers division
-  onBookingClick() {
-    this.booking.emit();
-  }
 }

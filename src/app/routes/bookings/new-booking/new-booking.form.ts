@@ -16,9 +16,9 @@ export type NewBookingFormValue = {
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <fieldset>
         <label for="participants">
-          <span>Participants</span>
+          <span>Book up to {{ availablePlaces }} participants</span>
           @if (showError('participants')) {
-            <small id="participants-error">We need a valid number of participants</small>
+            <small id="participants-error">Remember, there are only {{ availablePlaces }} places</small>
           }
           <input
             type="number"
@@ -34,7 +34,7 @@ export type NewBookingFormValue = {
         <label for="paymentMethod">
           <span>Payment method</span>
           @if (showError('paymentMethod')) {
-            <small id="paymentMethod-error">We need a valid payment method</small>
+            <small id="paymentMethod-error">Choose a valid payment method</small>
           }
           <select
             id="paymentMethod"
