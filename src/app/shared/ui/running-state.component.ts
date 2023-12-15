@@ -9,18 +9,30 @@ import { WorkingComponent } from './working.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [WorkingComponent, ErrorComponent, JsonPipe],
+  styles: [
+    `
+      :host {
+        display: grid;
+        justify-content: end;
+      }
+    `,
+  ],
   template: `
-    {{ runningState | json }}
-    @switch (runningState.stage) {
-      @case ('working') {
-        <lab-working />
-      }
-      @case ('error') {
-        <lab-error [error]="runningState.error" />
-      }
+    @for (runningState of runningStates; track runningState) {
+      <div>
+        @switch (runningState.stage) {
+          @case ('working') {
+            <lab-working />
+          }
+          @case ('error') {
+            <lab-error [error]="runningState.error" />
+          }
+        }
+      </div>
     }
   `,
 })
 export class RunningStateComponent {
-  @Input() runningState: RunningState = { stage: 'idle', error: null };
+  // @Input() runningState: RunningState = { stage: 'idle', error: null };
+  @Input() runningStates: RunningState[] = [];
 }

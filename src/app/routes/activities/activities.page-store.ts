@@ -10,7 +10,7 @@ export class ActivitiesPageStore extends PageStore {
   readonly service = inject(ActivitiesService);
 
   // State division
-  #getActivitiesState = this.addNewState<Activity[]>([]);
+  #getActivitiesState = this.addState<Activity[]>([]);
 
   // Selectors division
   activities = computed(() => this.#getActivitiesState().result);
@@ -25,7 +25,7 @@ export class ActivitiesPageStore extends PageStore {
   constructor(injector: Injector) {
     super(injector);
     this.setTitle('Find and book an activity');
-    this.connectCommandToState(this.#activitiesByFilter$, this.#getActivitiesState);
+    this.dispatch(this.#activitiesByFilter$, this.#getActivitiesState);
   }
 
   // Commands division

@@ -9,8 +9,8 @@ export class ActivitySlugPageStore extends PageStore {
   readonly #service = inject(ActivitySlugService);
 
   // State division
-  #getActivityState = this.addNewState<Activity>(NULL_ACTIVITY);
-  #getParticipantsState = this.addNewState<number>(0);
+  #getActivityState = this.addState<Activity>(NULL_ACTIVITY);
+  #getParticipantsState = this.addState<number>(0);
 
   // Selectors division
   getActivityStage = computed(() => this.#getActivityState().stage);
@@ -23,9 +23,9 @@ export class ActivitySlugPageStore extends PageStore {
 
   // Commands division
   getActivityBySlug(slug: string) {
-    this.connectCommandToState(this.#service.getActivityBySlug$(slug), this.#getActivityState);
+    this.dispatch(this.#service.getActivityBySlug$(slug), this.#getActivityState);
   }
   getParticipantsByActivityId(activityId: number) {
-    this.connectCommandToState(this.#service.getParticipantsByActivityId$(activityId), this.#getParticipantsState);
+    this.dispatch(this.#service.getParticipantsByActivityId$(activityId), this.#getParticipantsState);
   }
 }

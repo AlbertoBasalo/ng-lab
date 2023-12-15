@@ -10,7 +10,7 @@ export class RegisterPageStore extends PageStore {
   readonly #service$ = inject(AuthService);
 
   // State division
-  #postRegisterState = this.addNewState<UserToken>(NULL_USER_TOKEN);
+  #postRegisterState = this.addState<UserToken>(NULL_USER_TOKEN);
 
   constructor(injector: Injector) {
     super(injector);
@@ -19,6 +19,6 @@ export class RegisterPageStore extends PageStore {
 
   // Commands division
   postRegister(register: Partial<Register>) {
-    return this.connectCommandToState(this.#service$.register$(register), this.#postRegisterState);
+    return this.dispatch(this.#service$.register$(register), this.#postRegisterState);
   }
 }

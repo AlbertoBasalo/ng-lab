@@ -9,7 +9,7 @@ export class NewBookingPageStore extends PageStore {
   readonly #service = inject(NewBookingService);
 
   // State division
-  #postBookingState = this.addNewState<Booking>(NULL_BOOKING);
+  #postBookingState = this.addState<Booking>(NULL_BOOKING);
 
   // Selectors division
   postBookingStage = computed(() => this.#postBookingState().stage);
@@ -19,6 +19,6 @@ export class NewBookingPageStore extends PageStore {
   }
   // Commands division
   postBooking$(booking: Partial<Booking>) {
-    this.connectCommandToState(this.#service.postBooking$(booking), this.#postBookingState);
+    this.dispatch(this.#service.postBooking$(booking), this.#postBookingState);
   }
 }

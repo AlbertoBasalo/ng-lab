@@ -10,7 +10,7 @@ export class LoginPageStore extends PageStore {
   readonly #service = inject(AuthService);
 
   // State division
-  #postLoginState = this.addNewState<UserToken>(NULL_USER_TOKEN);
+  #postLoginState = this.addState<UserToken>(NULL_USER_TOKEN);
 
   constructor(injector: Injector) {
     super(injector);
@@ -19,6 +19,6 @@ export class LoginPageStore extends PageStore {
 
   // Commands division
   postLogin(login: Login) {
-    return this.connectCommandToState(this.#service.login$(login), this.#postLoginState);
+    return this.dispatch(this.#service.login$(login), this.#postLoginState);
   }
 }

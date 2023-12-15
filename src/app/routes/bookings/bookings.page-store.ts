@@ -9,8 +9,8 @@ export class BookingsPageStore extends PageStore {
   readonly #service = inject(BookingsService);
 
   // State division
-  #getBookingsState = this.addNewState<ActivityBooking[]>([]);
-  #cancelBookingState = this.addNewState<boolean>(false);
+  #getBookingsState = this.addState<ActivityBooking[]>([]);
+  #cancelBookingState = this.addState<boolean>(false);
 
   // Selectors division
   bookings = computed(() => this.#getBookingsState().result);
@@ -24,9 +24,9 @@ export class BookingsPageStore extends PageStore {
 
   // Commands division
   getBookings() {
-    this.connectCommandToState(this.#service.getBookings$(), this.#getBookingsState);
+    this.dispatch(this.#service.getBookings$(), this.#getBookingsState);
   }
   cancelBooking(id: number) {
-    this.connectCommandToState(this.#service.cancelBooking$(id), this.#cancelBookingState);
+    this.dispatch(this.#service.cancelBooking$(id), this.#cancelBookingState);
   }
 }

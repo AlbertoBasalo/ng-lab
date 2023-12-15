@@ -9,7 +9,7 @@ export class NewActivityPageStore extends PageStore {
   readonly #service = inject(NewActivityService);
 
   // State division
-  #postActivityState = this.addNewState<Activity>(NULL_ACTIVITY);
+  #postActivityState = this.addState<Activity>(NULL_ACTIVITY);
 
   // Selectors division
   postActivityStage = computed(() => this.#postActivityState().stage);
@@ -21,6 +21,6 @@ export class NewActivityPageStore extends PageStore {
 
   // Commands division
   postActivity$(activity: Partial<Activity>) {
-    return this.connectCommandToState(this.#service.postActivity$(activity), this.#postActivityState);
+    return this.dispatch(this.#service.postActivity$(activity), this.#postActivityState);
   }
 }

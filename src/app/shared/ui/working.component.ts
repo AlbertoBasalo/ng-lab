@@ -8,11 +8,11 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   imports: [CommonModule],
   template: `
     <aside id="working">
-      <p aria-busy="true">{{ message }} ...</p>
+      <small aria-busy="true">{{ message }} ...</small>
       <progress></progress>
     </aside>
   `,
 })
 export class WorkingComponent {
-  @Input() message = '';
+  @Input() message = 'Working';
 }

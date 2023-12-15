@@ -19,7 +19,7 @@ import { RunningStateComponent } from './running-state.component';
       <ng-content></ng-content>
       <footer>
         <ng-content select="footer"></ng-content>
-        <lab-running-state [runningState]="store.runningState()" />
+        <lab-running-state [runningStates]="store.runningStates()" />
       </footer>
     </article>
   `,

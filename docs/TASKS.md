@@ -14,7 +14,7 @@
 - [x] Error Handler
 - [x] View, and cancel bookings
 - [x] Global user notifications
-- [ ] Create booking feature
-- [ ] Ui atomic components (pageTitle, labelData, etc)
+- [x] Create booking feature
+- [x] Ui atomic components (pageTitle, labelData, etc)
 - [ ] Activity status (draft, published, etc) management
 - [ ] Defer and lazy loading

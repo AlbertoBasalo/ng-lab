@@ -7,23 +7,16 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   imports: [JsonPipe],
   styles: [
     `
-      :host {
-        display: grid;
-        justify-content: end;
-      }
-      input {
-        border: none;
-      }
-      input::placeholder {
+      .invalid {
+        background-image: var(--icon-invalid);
         text-align: right;
+        padding-left: 2em;
       }
     `,
   ],
   template: `
-    <aside id="error">
-      <span>
-        <input readonly aria-invalid="true" [placeholder]="error.error || error.statusText || error.message || error" />
-      </span>
+    <aside id="error" class="invalid">
+      <small>{{ error.error || error.statusText || error.message || error }}</small>
     </aside>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

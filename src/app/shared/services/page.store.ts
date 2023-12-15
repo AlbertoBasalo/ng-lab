@@ -1,6 +1,6 @@
-import { Injectable, Injector, Signal, WritableSignal, computed, effect, signal } from '@angular/core';
+import { Injectable, Injector, Signal, WritableSignal, computed, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CommandState, RunningState, connectCommandToSignal, createCommandSignal } from './command.signal';
+import { CommandState, connectCommandToSignal, createCommandSignal } from './command.signal';
 
 /**
  * A store for page state
@@ -13,13 +13,16 @@ export class PageStore {
   // State division
   #title = signal<string>('');
   #subtitle = signal<string>('');
-  /** notifies changes on any running async command */
-  #commandsState = createCommandSignal(null);
+
+  #commandsStates: Signal<CommandState<unknown>>[] = [];
 
   // Selectors division
   title = computed(() => this.#title());
   subtitle = computed(() => this.#subtitle());
-  runningState = computed(() => this.#commandsState() as RunningState);
+  /** notifies changes on any running async command */
+  runningStates = computed(() =>
+    this.#commandsStates.filter((s) => s().stage !== 'idle').map((s) => s() as CommandState<unknown>),
+  );
 
   constructor(protected injector: Injector) {}
 
@@ -32,31 +35,22 @@ export class PageStore {
   }
 
   /**
-   * Connects a source observable to a command signal
-   * @param command$ An observable command
-   * @param state A command state signal to be updated
-   */
-  connectCommandToState<T>(command$: Observable<T>, state: WritableSignal<CommandState<T>>) {
-    connectCommandToSignal(command$, state, this.injector);
-  }
-
-  /**
    * Creates a new command state signal (to be connected to a source observable)
    * @param initialValue The initial value of the state
    * @returns A writable signal with the state changes
    */
-  protected addNewState<T>(initialValue: T) {
+  addState<T>(initialValue: T) {
     const signal = createCommandSignal(initialValue);
-    this.#connectToRunningState(signal);
+    this.#commandsStates.push(signal);
     return signal;
   }
 
-  // Auxiliary methods division
-  #connectToRunningState(signal: Signal<RunningState>) {
-    effect(() => this.#updateRunningState(signal()), { allowSignalWrites: true });
-  }
-  #updateRunningState(runningState: RunningState) {
-    console.log('runningState', runningState);
-    this.#commandsState.update((s) => ({ ...s, ...runningState }));
+  /**
+   * Connects a source observable to a command signal
+   * @param command$ An observable command
+   * @param state A command state signal to be updated
+   */
+  dispatch<T>(command$: Observable<T>, state: WritableSignal<CommandState<T>>) {
+    connectCommandToSignal(command$, state, this.injector);
   }
 }
