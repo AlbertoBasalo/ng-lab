@@ -9,7 +9,6 @@ import { ActivitySlugPageStore } from './activity-slug.page-store';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageTemplate, ActivitySlugComponent, ActivitySlugFooterComponent],
-  providers: [ActivitySlugPageStore],
   template: `
     <lab-page [store]="store">
       @if (getActivityStage() === 'success') {

@@ -1,16 +1,14 @@
-import { Injectable, Injector, computed, effect, inject } from '@angular/core';
+import { Injectable, Injector, computed, inject } from '@angular/core';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
 import { Booking } from '@shared/domain/booking.type';
 import { AuthStore } from '@shared/services/auth.store';
 import { PageStore } from '@shared/services/page.store';
-import { ActivityStore } from './activities.store';
-import { ActivitySlugService } from './activity-slug.service';
+import { ActivityService } from './activity.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ActivitySlugPageStore extends PageStore {
   // Injection division
-  readonly #service = inject(ActivitySlugService);
-  readonly #activityStore = inject(ActivityStore);
+  readonly #service = inject(ActivityService);
   readonly #authStore = inject(AuthStore);
   // State division
   #getActivityState = this.addState<Activity>(NULL_ACTIVITY);
@@ -19,7 +17,7 @@ export class ActivitySlugPageStore extends PageStore {
   // Selectors division
   activity = computed(() => this.#getActivityState().result);
   bookings = computed(() => this.#getBookingsState().result);
-  participants = this.#activityStore.participants;
+  participants = computed(() => this.bookings().reduce((acc, booking) => acc + booking.participants, 0));
   isOwner = computed(() => this.activity().userId === this.#authStore.user().id);
   getActivityStage = computed(() => this.#getActivityState().stage);
   availablePlaces = computed(() => this.activity().maxParticipants - this.participants());
@@ -38,32 +36,15 @@ export class ActivitySlugPageStore extends PageStore {
 
   constructor(injector: Injector) {
     super(injector);
-    effect(
-      () => {
-        if (this.getActivityStage() === 'success') {
-          this.#activityStore.setActivity(this.activity());
-        }
-      },
-      { allowSignalWrites: true },
-    );
-    effect(
-      () => {
-        if (this.#getBookingsState().stage === 'success') {
-          this.#activityStore.setBookings(this.bookings());
-        }
-      },
-      { allowSignalWrites: true },
-    );
   }
 
   // Commands division
   getActivityBySlug(slug: string) {
+    if (this.activity().id > 0) return;
     this.dispatch(this.#service.getActivityBySlug$(slug), this.#getActivityState);
   }
-  getBookingsByActivityId(activityId: number) {
-    this.dispatch(this.#service.getBookingsByActivityId$(activityId), this.#getBookingsState);
-  }
   getParticipantsByActivityId(activityId: number) {
-    this.getBookingsByActivityId(activityId);
+    if (this.bookings().length > 0) return;
+    this.dispatch(this.#service.getBookingsByActivityId$(activityId), this.#getBookingsState);
   }
 }

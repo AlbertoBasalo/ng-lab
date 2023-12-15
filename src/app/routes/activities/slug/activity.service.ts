@@ -5,7 +5,7 @@ import { Booking } from '@shared/domain/booking.type';
 import { Observable, map, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class ActivitySlugService {
+export class ActivityService {
   #http$ = inject(HttpClient);
   #apiActivitiesUrl = 'activities';
   #apiBookingsUrl = 'bookings';
