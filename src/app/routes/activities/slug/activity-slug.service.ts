@@ -30,14 +30,12 @@ export class ActivitySlugService {
   }
 
   /**
-   * Gets the number of participants for the given activity
-   * @param activityId The id of the activity to retrieve the participants
-   * @returns the number of participants for the given activity
+   * Gets the bookings for the given activity
+   * @param activityId The id of the activity to retrieve the bookings
+   * @returns the bookings for the given activity
    */
-  getParticipantsByActivityId$(activityId: number): Observable<number> {
+  getBookingsByActivityId$(activityId: number): Observable<Booking[]> {
     const url = `${this.#apiBookingsUrl}?activityId=${activityId}`;
-    return this.#http$
-      .get<Booking[]>(url)
-      .pipe(map((bookings) => bookings.reduce((acc, booking) => acc + booking.participants, 0)));
+    return this.#http$.get<Booking[]>(url);
   }
 }
