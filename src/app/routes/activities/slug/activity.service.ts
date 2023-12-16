@@ -21,7 +21,6 @@ export class ActivityService {
     return this.#http$.get<Activity[]>(url).pipe(
       tap((activities) => {
         if (activities.length == 0) {
-          console.error(`Activity not found: ${slug}`);
           throw new Error(`Activity not found: ${slug}`);
         }
       }),

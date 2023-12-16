@@ -7,7 +7,7 @@ import { ActivitiesService } from './activities.service';
 @Injectable()
 export class ActivitiesPageStore extends PageStore {
   // Injection division
-  readonly service = inject(ActivitiesService);
+  readonly #service = inject(ActivitiesService);
 
   // State division
   #getActivitiesState = this.addState<Activity[]>([]);
@@ -20,12 +20,12 @@ export class ActivitiesPageStore extends PageStore {
   /** Observable of filter terms */
   #searchTerm$ = new BehaviorSubject<string>('');
   /** For any term received discard the current query and start a new one  */
-  #activitiesByFilter$ = this.#searchTerm$.pipe(switchMap((filter) => this.service.getActivitiesByFilter$(filter)));
+  #activitiesByFilter$ = this.#searchTerm$.pipe(switchMap((filter) => this.#service.getActivitiesByFilter$(filter)));
 
   constructor(injector: Injector) {
     super(injector);
-    this.setTitle('Find and book an activity');
-    this.dispatch(this.#activitiesByFilter$, this.#getActivitiesState);
+    super.setTitle('Find and book an activity');
+    super.dispatch(this.#activitiesByFilter$, this.#getActivitiesState);
   }
 
   // Commands division

@@ -7,9 +7,10 @@
     "url": "https://albertobasalo.dev"
   },
   "scripts": {
-    "api": "json-server-auth ./db/prod/d.json -r ./db/r.json",
-    "preapi": "copyfiles -f ./db/reset/d.json ./db/prod ",
-    "seedapi": "json-server-auth ./db/prod/d.json -r ./db/r.json",
+    "api": "json-server-auth ./db/prod/d.json -r ./db/r.json -d 1000",
+    "cleanapi": "json-server-auth ./db/prod/d.json -r ./db/r.json -d 1000",
+    "precleanapi": "copyfiles -f ./db/reset/d.json ./db/prod ",
+    "seedapi": "json-server-auth ./db/prod/d.json -r ./db/r.json -d 1000",
     "preseedapi": "copyfiles -f ./db/seed/d.json ./db/prod ",
     "ng": "ng",
     "prestart": "start chrome -incognito -auto-open-devtools-for-tabs http://localhost:4200",

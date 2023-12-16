@@ -1,82 +1,56 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, effect, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, Input, computed, inject } from '@angular/core';
+import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
+import { WorkingComponent } from '@shared/ui/working.component';
 import { ActivitySlugFooterComponent } from './activity-slug-footer.component';
 import { ActivitySlugComponent } from './activity-slug.component';
-import { ActivitySlugPageStore } from './activity-slug.page-store';
+import { ActivitySlugStore } from './activity-slug.store';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PageTemplate, ActivitySlugComponent, ActivitySlugFooterComponent],
+  imports: [PageTemplate, ActivitySlugComponent, ActivitySlugFooterComponent, WorkingComponent, ErrorComponent],
+  providers: [ActivitySlugStore],
   template: `
-    <lab-page [store]="store">
-      @if (getActivityStage() === 'success') {
+    <lab-page [title]="title()">
+      @if (loaded()) {
         <lab-activity-slug
-          [activity]="activity"
-          [participants]="store.participants"
-          [availablePlaces]="store.availablePlaces"
+          [activity]="activity()"
+          [participants]="participants()"
+          [availablePlaces]="availablePlaces()"
         />
+        <lab-activity-slug-footer
+          [isOwner]="isOwner"
+          [activity]="activity"
+          [participants]="participants"
+          [availablePlaces]="availablePlaces"
+        />
+      } @else if (gotError()) {
+        <lab-error [error]="error" />
+      } @else {
+        <lab-working />
       }
-      <lab-activity-slug-footer
-        [isOwner]="store.isOwner"
-        [availableText]="store.availableText"
-        [isBookable]="store.isBookable"
-        [availablePlaces]="store.availablePlaces"
-        (booking)="onBookingClick()"
-        (edit)="onEditClick()"
-      />
     </lab-page>
   `,
 })
-export default class ActivitySlugPage implements OnInit {
+export default class ActivitySlugPage {
   // Injection division
-  readonly #router = inject(Router);
-  readonly store = inject(ActivitySlugPageStore);
+  readonly #store = inject(ActivitySlugStore);
 
   // I/O division
-  @Input({ required: true }) slug!: string;
+  @Input({ required: true }) set slug(value: string) {
+    this.#store.slug.set(value);
+  }
 
   // Data division
-  getActivityStage = this.store.getActivityStage;
-  activity = this.store.activity;
-
-  // Life-cycle division
-  constructor() {
-    effect(() => this.#setPageTitle(), { allowSignalWrites: true });
-    effect(() => this.#getParticipants(), { allowSignalWrites: true });
-  }
-
-  ngOnInit() {
-    this.store.getActivityBySlug(this.slug);
-  }
-
-  // Event handlers division
-  onBookingClick() {
-    this.#router.navigate(['/', 'bookings', 'new'], {
-      queryParams: {
-        activityId: this.activity().id,
-        activityName: this.activity().name,
-        activityPrice: this.activity().price,
-        availablePlaces: this.store.availablePlaces(),
-      },
-    });
-  }
-  onEditClick() {
-    this.#router.navigate(['/', 'activities', this.activity().slug, 'admin']);
-  }
-
-  // Effects division
-  #setPageTitle() {
-    if (this.getActivityStage() === 'success') {
-      this.store.setTitle(this.activity().name);
-    } else {
-      this.store.setTitle(this.slug);
-    }
-  }
-  #getParticipants() {
-    if (this.getActivityStage() === 'success') {
-      this.store.getParticipantsByActivityId(this.activity().id);
-    }
-  }
+  error = 'Sorry, something went wrong, please, try again.';
+  getActivityStage = this.#store.getActivityStage;
+  getBookingsStage = this.#store.getBookingsStage;
+  activity = this.#store.activity;
+  title = computed(() => this.activity().name || this.#store.slug());
+  participants = this.#store.participants;
+  isOwner = this.#store.isOwner;
+  availablePlaces = this.#store.availablePlaces;
+  loaded = computed(() => this.getActivityStage() === 'success' && this.getBookingsStage() === 'success');
+  gotError = computed(() => this.getActivityStage() === 'error' || this.getBookingsStage() === 'error');
 }

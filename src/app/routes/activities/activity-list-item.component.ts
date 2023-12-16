@@ -1,7 +1,8 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Activity } from '@shared/domain/activity.type';
+import { AuthStore } from '@shared/services/auth.store';
 
 @Component({
   selector: 'lab-activity-list-item',
@@ -11,7 +12,13 @@ import { Activity } from '@shared/domain/activity.type';
   template: `
     <li itemscope itemtype="http://schema.org/Product" [id]="activity.id">
       <span itemprop="name">
-        <a [routerLink]="[activity.slug]">{{ activity.name }}</a>
+        @if (isOwner()) {
+          <a [routerLink]="[activity.slug, 'admin']"
+            ><b>{{ activity.name }}</b></a
+          >
+        } @else {
+          <a [routerLink]="[activity.slug]">{{ activity.name }}</a>
+        }
       </span>
       <span itemprop="location" [attr.content]="activity.location"> at {{ activity.location }} </span>
       <span>
@@ -27,5 +34,9 @@ import { Activity } from '@shared/domain/activity.type';
   `,
 })
 export class ActivityListItemComponent {
+  readonly #authStore = inject(AuthStore);
+
   @Input({ required: true }) activity!: Activity;
+
+  isOwner = computed(() => this.activity.userId === this.#authStore.user()?.id);
 }

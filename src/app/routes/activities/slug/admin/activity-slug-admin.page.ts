@@ -1,8 +1,8 @@
 import { JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PageTemplate } from '@shared/ui/page.template';
-import { ActivitySlugPageStore } from '../activity-slug.page-store';
+import { ActivitySlugStore } from '../activity-slug.store';
 import { ActivitySlugAdminComponent } from './activity-slug-admin.component';
 
 @Component({
@@ -10,41 +10,36 @@ import { ActivitySlugAdminComponent } from './activity-slug-admin.component';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageTemplate, ActivitySlugAdminComponent, JsonPipe, RouterLink],
+  providers: [ActivitySlugStore],
   template: `
-    <lab-page [store]="store">
-      {{ activity() | json }}
-      <div><a [routerLink]="['/', 'activities', activity().slug]">View</a></div>
-      <ul>
-        @for (booking of bookings(); track booking.id) {
-          <li>{{ booking | json }}</li>
-        }
-      </ul>
+    <lab-page [title]="title()">
+      @if (activity()) {
+        {{ activity() | json }}
+        <div><a [routerLink]="['/', 'activities', activity().slug]">View</a></div>
+      }
+      @if (bookings()) {
+        <ul>
+          @for (booking of bookings(); track booking.id) {
+            <li>{{ booking | json }}</li>
+          }
+        </ul>
+      }
     </lab-page>
   `,
 })
-export default class ActivitySlugAdminPage implements OnInit {
+export default class ActivitySlugAdminPage {
   // Injection division
-  readonly store = inject(ActivitySlugPageStore);
+  readonly #store = inject(ActivitySlugStore);
 
   // I/O division
-  @Input({ required: true }) slug!: string;
-
-  activity = this.store.activity;
-  bookings = this.store.bookings;
-
-  // Life-cycle division
-  constructor() {
-    //effect(() => this.#setPageTitle(), { allowSignalWrites: true });
-    effect(() => this.#getParticipants(), { allowSignalWrites: true });
+  @Input({ required: true }) set slug(value: string) {
+    this.#store.slug.set(value);
   }
 
-  ngOnInit() {
-    this.store.getActivityBySlug(this.slug);
-  }
-
-  #getParticipants() {
-    if (this.store.getActivityStage() === 'success') {
-      this.store.getParticipantsByActivityId(this.activity().id);
-    }
-  }
+  // Data division
+  getActivityStage = this.#store.getActivityStage;
+  getBookingsStage = this.#store.getBookingsStage;
+  activity = this.#store.activity;
+  bookings = this.#store.bookings;
+  title = computed(() => this.activity().name || this.#store.slug());
 }

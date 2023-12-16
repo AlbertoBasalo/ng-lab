@@ -30,8 +30,8 @@ export default class NewBookingPage {
   // Life-cycle division
   constructor() {
     this.#route.queryParams.subscribe((params) => {
-      this.activityId = params['activityId'] || 0;
       this.store.setTitle('Make a booking for ' + params['activityName'] || '');
+      this.activityId = params['activityId'] || 0;
       this.activityPrice = params['activityPrice'] || 0;
       this.availablePlaces = params['availablePlaces'] || 10;
     });
