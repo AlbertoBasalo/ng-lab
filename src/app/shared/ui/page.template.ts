@@ -34,11 +34,13 @@ export class PageTemplate {
   @Input() set subtitle(subtitle: string) {
     this.store.setSubtitle(subtitle);
   }
+  // Todo: remove this and replace with runningStores[]
   @Input() store: PageStore = inject(PageStore);
   // Data division
   hasSubtitle = computed(() => !!this.store.subtitle());
 
   constructor() {
+    // ToDo: move to title setter
     effect(() => this.#docTitle.setTitle(this.store.title()));
   }
 }

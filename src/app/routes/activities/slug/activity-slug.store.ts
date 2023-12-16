@@ -7,6 +7,8 @@ import { ActivityService } from './activity.service';
 
 @Injectable({ providedIn: 'root' })
 export class ActivitySlugStore {
+  // ToDo: extend from PageStore
+
   // Injection division
   readonly #service = inject(ActivityService);
   readonly #authStore = inject(AuthStore);
