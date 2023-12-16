@@ -20,6 +20,7 @@ export class ActivitySlugPageStore extends PageStore {
   participants = computed(() => this.bookings().reduce((acc, booking) => acc + booking.participants, 0));
   isOwner = computed(() => this.activity().userId === this.#authStore.user().id);
   getActivityStage = computed(() => this.#getActivityState().stage);
+  getBookingsStage = computed(() => this.#getBookingsState().stage);
   availablePlaces = computed(() => this.activity().maxParticipants - this.participants());
   availableText = computed(() => {
     if (this.participants() === 0) {
@@ -40,11 +41,15 @@ export class ActivitySlugPageStore extends PageStore {
 
   // Commands division
   getActivityBySlug(slug: string) {
-    if (this.activity().id > 0) return;
-    this.dispatch(this.#service.getActivityBySlug$(slug), this.#getActivityState);
+    if (this.getActivityStage() === 'idle') {
+      console.log('getActivityBySlug', this.#getActivityState());
+      this.dispatch(this.#service.getActivityBySlug$(slug), this.#getActivityState);
+    }
   }
   getParticipantsByActivityId(activityId: number) {
-    if (this.bookings().length > 0) return;
-    this.dispatch(this.#service.getBookingsByActivityId$(activityId), this.#getBookingsState);
+    if (this.getBookingsStage() === 'idle') {
+      console.log('getParticipantsByActivityId', this.#getBookingsState());
+      this.dispatch(this.#service.getBookingsByActivityId$(activityId), this.#getBookingsState);
+    }
   }
 }

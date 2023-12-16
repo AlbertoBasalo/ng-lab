@@ -1,6 +1,6 @@
 import { Injectable, Injector, Signal, WritableSignal, computed, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CommandState, connectCommandToSignal, createCommandSignal } from './command.signal';
+import { CommandState, RunningState, connectCommandToSignal, createCommandSignal } from './command.signal';
 
 /**
  * A store for page state
@@ -21,7 +21,7 @@ export class PageStore {
   subtitle = computed(() => this.#subtitle());
   /** notifies changes on any running async command */
   runningStates = computed(() =>
-    this.#commandsStates.filter((s) => s().stage !== 'idle').map((s) => s() as CommandState<unknown>),
+    this.#commandsStates.filter((s) => s().stage !== 'idle').map((s) => s() as RunningState),
   );
 
   constructor(protected injector: Injector) {}

@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, effect, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PageTemplate } from '@shared/ui/page.template';
 import { ActivitySlugPageStore } from '../activity-slug.page-store';
@@ -13,7 +13,7 @@ import { ActivitySlugAdminComponent } from './activity-slug-admin.component';
   template: `
     <lab-page [store]="store">
       {{ activity() | json }}
-      <a [routerLink]="['/', 'activities', activity().slug]">View</a>
+      <div><a [routerLink]="['/', 'activities', activity().slug]">View</a></div>
       <ul>
         @for (booking of bookings(); track booking.id) {
           <li>{{ booking | json }}</li>
@@ -32,7 +32,19 @@ export default class ActivitySlugAdminPage implements OnInit {
   activity = this.store.activity;
   bookings = this.store.bookings;
 
+  // Life-cycle division
+  constructor() {
+    //effect(() => this.#setPageTitle(), { allowSignalWrites: true });
+    effect(() => this.#getParticipants(), { allowSignalWrites: true });
+  }
+
   ngOnInit() {
     this.store.getActivityBySlug(this.slug);
+  }
+
+  #getParticipants() {
+    if (this.store.getActivityStage() === 'success') {
+      this.store.getParticipantsByActivityId(this.activity().id);
+    }
   }
 }
