@@ -27,7 +27,7 @@ export class BookingsPageStore {
     connectCommandToSignal(this.#service.getBookings$(), this.#getBookingsState, this.#injector);
   }
   cancelBooking(id: number) {
-    connectCommandToSignal(this.#service.getBookings$(), this.#getBookingsState, this.#injector);
+    connectCommandToSignal(this.#service.cancelBooking$(id), this.#cancelBookingState, this.#injector);
   }
 
   // Effects division
