@@ -1,4 +1,4 @@
-import { Injectable, Injector, inject } from '@angular/core';
+import { Injectable, Injector, computed, inject } from '@angular/core';
 import { NULL_USER_TOKEN } from '@shared/domain/user-token.type';
 import { connectCommandState, createCommandState } from '@shared/services/command.state';
 import { AuthService } from '../auth.service';
@@ -12,6 +12,7 @@ export class RegisterStore {
 
   // State division
   #postRegisterState = createCommandState(NULL_USER_TOKEN);
+  postRegisterError = computed(() => this.#postRegisterState().error);
 
   // Commands division
   postRegister(register: Partial<Register>) {

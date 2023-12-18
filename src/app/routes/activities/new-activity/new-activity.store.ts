@@ -13,6 +13,7 @@ export class NewActivityStore {
 
   // Selectors division
   postActivityStage = computed(() => this.#postActivityState().stage);
+  postActivityError = computed(() => this.#postActivityState().error);
 
   // Commands division
   postActivity(activity: Partial<Activity>) {

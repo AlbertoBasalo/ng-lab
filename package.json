@@ -7,7 +7,7 @@
     "url": "https://albertobasalo.dev"
   },
   "scripts": {
-    "api": "json-server-auth ./db/prod/d.json -r ./db/r.json -d 1000",
+    "api": "json-server-auth ./db/prod/d.json -r ./db/r.json -d 2000",
     "cleanapi": "json-server-auth ./db/prod/d.json -r ./db/r.json -d 1000",
     "precleanapi": "copyfiles -f ./db/reset/d.json ./db/prod ",
     "seedapi": "json-server-auth ./db/prod/d.json -r ./db/r.json -d 1000",

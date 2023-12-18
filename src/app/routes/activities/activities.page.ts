@@ -1,20 +1,25 @@
+import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { PageTemplate } from '@shared/ui/page.template';
 import { SearchComponent } from '@shared/ui/search.component';
+import { WorkingComponent } from '@shared/ui/working.component';
 import { ActivitiesList } from './activities.list';
 import { ActivitiesPageStore } from './activities.store';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PageTemplate, SearchComponent, ActivitiesList],
+  imports: [PageTemplate, SearchComponent, ActivitiesList, WorkingComponent, JsonPipe],
   providers: [ActivitiesPageStore],
   template: `
     <lab-page [title]="title">
       <lab-search (search)="onSearch($event)" />
       @if (getActivitiesStage() === 'success') {
         <lab-activities [activities]="activities" />
+      } @else if (getActivitiesStage() === 'working') {
+        <lab-working />
       }
+      {{ getActivitiesStage() | json }}
     </lab-page>
   `,
 })

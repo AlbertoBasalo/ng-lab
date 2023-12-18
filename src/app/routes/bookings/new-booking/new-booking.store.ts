@@ -14,6 +14,7 @@ export class NewBookingStore {
 
   // Selectors division
   postBookingStage = computed(() => this.#postBookingState().stage);
+  postBookingError = computed(() => this.#postBookingState().error);
 
   // Commands division
   postBooking(booking: Partial<Booking>) {
