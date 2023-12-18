@@ -22,17 +22,20 @@ export type Notification = {
  */
 @Injectable({ providedIn: 'root' })
 export class NotificationsStore {
-  #notificationsQueue = signal<Notification[]>([]);
+  // State division
+  readonly #notificationsQueue = signal<Notification[]>([]);
 
+  // Selectors division
   /**
    * Signal indicating if there are pending notifications
    */
-  hasPending = computed(() => this.#notificationsQueue().length > 0);
-
+  hasNext = computed(() => this.#notificationsQueue().length > 0);
   /**
    * Signal with the current notification
    */
-  pending = computed(() => this.#notificationsQueue()[0]);
+  next = computed(() => this.#notificationsQueue()[0]);
+
+  // Commands division
 
   /**
    * To ask the user a question
@@ -67,7 +70,6 @@ export class NotificationsStore {
     };
     this.#addNotification(notification);
   }
-
   /**
    * Remove a notification from the queue
    * @description To be used after the user has read the notification

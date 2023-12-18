@@ -25,10 +25,10 @@ import { NotificationsComponent } from './notifications.component';
               </li>
             }
           }
+          <lab-notifications />
         </ul>
       </nav>
       <h1>{{ title }}</h1>
-      <lab-notifications />
     </header>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

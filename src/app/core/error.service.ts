@@ -19,7 +19,7 @@ class ErrorService implements ErrorHandler {
     });
     this.#notifications.showFailure({
       title: 'Application Failed',
-      message: 'We will work on it, please try again later.',
+      message: 'We will work on it. Please, reload and try again.',
     });
   }
 }
