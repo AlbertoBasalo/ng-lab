@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 import { NotificationsStore } from '@shared/services/notifications.store';
 import { Observable, catchError, throwError } from 'rxjs';
 import { APP_CONFIG } from '../shared/services/app-config.provider';
-import { LogLevel, LogService } from '../shared/services/log.service';
+import { LogLevel, LoggerService } from '../shared/services/logger.service';
 
 /**
  * Interceptor to ensure a common base for all the requests
@@ -11,7 +11,7 @@ import { LogLevel, LogService } from '../shared/services/log.service';
  */
 export function BaseInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   const appConfig = inject(APP_CONFIG);
-  const logger = inject(LogService);
+  const logger = inject(LoggerService);
   const notificationsStore = inject(NotificationsStore);
   const url = `${appConfig.apiBaseUrl}/${req.url}`;
   const clonedRequest = req.clone({ url });

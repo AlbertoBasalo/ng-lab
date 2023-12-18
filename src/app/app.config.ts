@@ -8,12 +8,15 @@ import { BaseInterceptor } from '@core/base.interceptor';
 import { provideErrorHandler } from '@core/error.service';
 
 import { provideAppConfig } from '@shared/services/app-config.provider';
+import { LogLevel, provideLogger, withWriter } from '@shared/services/logger.service';
 import { routes } from './app.routes';
+import { LabLogWriter } from './lab.log-writer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAppConfig(),
     provideErrorHandler(),
+    provideLogger({ minLevel: LogLevel.debug }, withWriter(new LabLogWriter())),
     provideHttpClient(withFetch(), withInterceptors([BaseInterceptor, AuthInterceptor])),
     provideRouter(routes, withComponentInputBinding()),
     provideClientHydration(),

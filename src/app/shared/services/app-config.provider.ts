@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { LogLevel } from './log.service';
+import { LogLevel } from './logger.service';
 
 /**
  * Application configuration type

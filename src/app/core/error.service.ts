@@ -1,13 +1,13 @@
 import { ErrorHandler, inject } from '@angular/core';
 import { NotificationsStore } from '@shared/services/notifications.store';
-import { LogLevel, LogService } from '../shared/services/log.service';
+import { LogLevel, LoggerService } from '../shared/services/logger.service';
 
 /**
  * Service to handle errors
  * @description Logs the error and notifies the user
  */
 class ErrorService implements ErrorHandler {
-  #log = inject(LogService);
+  #log = inject(LoggerService);
   #notifications = inject(NotificationsStore);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleError(error: any) {
