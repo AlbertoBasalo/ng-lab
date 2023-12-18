@@ -31,7 +31,7 @@ export type CommandState<T> = {
  * @param initial initial value
  * @returns A writable signal with the state changes
  */
-export function createCommandSignal<T>(initial: T): WritableSignal<CommandState<T>> {
+export function createCommandState<T>(initial: T): WritableSignal<CommandState<T>> {
   return signal<CommandState<T>>({ result: initial, stage: 'idle' });
 }
 
@@ -42,7 +42,7 @@ export function createCommandSignal<T>(initial: T): WritableSignal<CommandState<
  * @param injector Optional injector context to use to get the `DestroyRef`
  * @see CommandState
  */
-export function connectCommandToSignal<T>(
+export function connectCommandState<T>(
   command$: Observable<T>,
   signal: WritableSignal<CommandState<T>>,
   injector?: Injector,
@@ -59,7 +59,7 @@ export function connectCommandToSignal<T>(
    */
   function getDestroyRef() {
     if (injector) return injector.get(DestroyRef);
-    assertInInjectionContext(connectCommandToSignal);
+    assertInInjectionContext(connectCommandState);
     return inject(DestroyRef);
   }
 }
@@ -72,12 +72,12 @@ export function connectCommandToSignal<T>(
  * @returns A read-only signal with the command changes
  * @see CommandState
  */
-export function convertCommandToSignal<T>(
+export function convertToCommandState<T>(
   command$: Observable<T>,
   initial: T,
   injector?: Injector,
 ): Signal<CommandState<T>> {
-  const signal = createCommandSignal<T>(initial);
-  connectCommandToSignal(command$, signal, injector);
+  const signal = createCommandState<T>(initial);
+  connectCommandState(command$, signal, injector);
   return signal.asReadonly();
 }

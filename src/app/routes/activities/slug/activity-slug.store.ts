@@ -2,7 +2,7 @@ import { Injectable, Injector, computed, effect, inject, signal } from '@angular
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
 import { Booking } from '@shared/domain/booking.type';
 import { AuthStore } from '@shared/services/auth.store';
-import { connectCommandToSignal, createCommandSignal } from '@shared/services/command.state';
+import { connectCommandState, createCommandState } from '@shared/services/command.state';
 import { ActivityService } from './activity.service';
 
 @Injectable({ providedIn: 'root' })
@@ -12,8 +12,8 @@ export class ActivitySlugStore {
   readonly #authStore = inject(AuthStore);
 
   // State division
-  #getActivityState = createCommandSignal<Activity>(NULL_ACTIVITY);
-  #getBookingsState = createCommandSignal<Booking[]>([]);
+  #getActivityState = createCommandState<Activity>(NULL_ACTIVITY);
+  #getBookingsState = createCommandState<Booking[]>([]);
   #slugState = signal<string>('');
 
   // Selectors division
@@ -48,9 +48,9 @@ export class ActivitySlugStore {
     this.#slugState.set(slug);
   }
   #getActivityBySlug(slug: string) {
-    connectCommandToSignal(this.#service.getActivityBySlug$(slug), this.#getActivityState, this.injector);
+    connectCommandState(this.#service.getActivityBySlug$(slug), this.#getActivityState, this.injector);
   }
   #getParticipantsByActivityId(activityId: number) {
-    connectCommandToSignal(this.#service.getBookingsByActivityId$(activityId), this.#getBookingsState, this.injector);
+    connectCommandState(this.#service.getBookingsByActivityId$(activityId), this.#getBookingsState, this.injector);
   }
 }

@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { PageTemplate } from '@shared/ui/page.template';
 import { BookingsList } from './bookings.list';
-import { BookingsPageStore } from './bookings.page-store';
+import { BookingsStore } from './bookings.store';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageTemplate, BookingsList],
-  providers: [BookingsPageStore],
+  providers: [BookingsStore],
   template: `
     <lab-page [title]="title">
       @if (getBookingsStage() === 'success') {
@@ -18,7 +18,7 @@ import { BookingsPageStore } from './bookings.page-store';
 })
 export default class BookingsPage {
   // Injection division
-  readonly store = inject(BookingsPageStore);
+  readonly store = inject(BookingsStore);
 
   // Data division
   bookings = this.store.bookings;

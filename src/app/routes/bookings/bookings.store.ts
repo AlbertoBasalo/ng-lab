@@ -1,17 +1,17 @@
 import { Injectable, Injector, computed, effect, inject } from '@angular/core';
-import { connectCommandToSignal, createCommandSignal } from '@shared/services/command.state';
+import { connectCommandState, createCommandState } from '@shared/services/command.state';
 import { ActivityBooking } from './activity-booking.type';
 import { BookingsService } from './bookings.service';
 
 @Injectable()
-export class BookingsPageStore {
+export class BookingsStore {
   // Injection division
   readonly #service = inject(BookingsService);
   readonly #injector = inject(Injector);
 
   // State division
-  #getBookingsState = createCommandSignal<ActivityBooking[]>([]);
-  #cancelBookingState = createCommandSignal<boolean>(false);
+  #getBookingsState = createCommandState<ActivityBooking[]>([]);
+  #cancelBookingState = createCommandState<boolean>(false);
 
   // Selectors division
   bookings = computed(() => this.#getBookingsState().result);
@@ -24,10 +24,10 @@ export class BookingsPageStore {
 
   // Commands division
   getBookings() {
-    connectCommandToSignal(this.#service.getBookings$(), this.#getBookingsState, this.#injector);
+    connectCommandState(this.#service.getBookings$(), this.#getBookingsState, this.#injector);
   }
   cancelBooking(id: number) {
-    connectCommandToSignal(this.#service.cancelBooking$(id), this.#cancelBookingState, this.#injector);
+    connectCommandState(this.#service.cancelBooking$(id), this.#cancelBookingState, this.#injector);
   }
 
   // Effects division

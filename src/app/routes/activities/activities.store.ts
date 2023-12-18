@@ -1,5 +1,5 @@
 import { Injectable, Injector, computed, inject } from '@angular/core';
-import { convertCommandToSignal } from '@shared/services/command.state';
+import { convertToCommandState } from '@shared/services/command.state';
 import { BehaviorSubject, switchMap } from 'rxjs';
 import { ActivitiesService } from './activities.service';
 
@@ -16,7 +16,7 @@ export class ActivitiesPageStore {
   #activitiesByFilter$ = this.#searchTerm$.pipe(switchMap((filter) => this.#service.getActivitiesByFilter$(filter)));
 
   // State division
-  #getActivitiesState = convertCommandToSignal(this.#activitiesByFilter$, [], this.#injector);
+  #getActivitiesState = convertToCommandState(this.#activitiesByFilter$, [], this.#injector);
 
   // Selectors division
   activities = computed(() => this.#getActivitiesState().result);

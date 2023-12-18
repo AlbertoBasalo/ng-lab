@@ -3,12 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Booking } from '@shared/domain/booking.type';
 import { PageTemplate } from '@shared/ui/page.template';
 import { NewBookingForm, NewBookingFormValue } from './new-booking.form';
-import { NewBookingPageStore } from './new-booking.page-store';
+import { NewBookingStore } from './new-booking.store';
 
 @Component({
   standalone: true,
   imports: [PageTemplate, NewBookingForm],
-  providers: [NewBookingPageStore],
+  providers: [NewBookingStore],
   template: `
     <lab-page [title]="title">
       <lab-new-booking [availablePlaces]="availablePlaces" (create)="onCreate($event)" />
@@ -20,7 +20,7 @@ export default class NewBookingPage {
   // Injection division
   readonly #router = inject(Router);
   readonly #route = inject(ActivatedRoute);
-  readonly store = inject(NewBookingPageStore);
+  readonly store = inject(NewBookingStore);
 
   // Query params division
   activityId = 0;

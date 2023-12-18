@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PageTemplate } from '@shared/ui/page.template';
 import { LoginForm } from './login.form';
-import { LoginPageStore } from './login.page-store';
+import { LoginStore } from './login.store';
 import { Login } from './login.type';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [LoginPageStore],
+  providers: [LoginStore],
   imports: [PageTemplate, RouterLink, LoginForm],
   template: `
     <lab-page [title]="title">
@@ -19,7 +19,7 @@ import { Login } from './login.type';
 })
 export default class LoginPage {
   // Injection division
-  readonly #store = inject(LoginPageStore);
+  readonly #store = inject(LoginStore);
 
   // data division
   title = 'Login';

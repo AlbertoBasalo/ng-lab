@@ -1,6 +1,6 @@
 import { Injectable, Injector, Signal, WritableSignal, computed, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CommandState, RunningState, connectCommandToSignal, createCommandSignal } from './command.state';
+import { CommandState, RunningState, connectCommandState, createCommandState } from './command.state';
 
 /**
  * A store for page state
@@ -40,7 +40,7 @@ export class PageStore {
    * @returns A writable signal with the state changes
    */
   addState<T>(initialValue: T) {
-    const signal = createCommandSignal(initialValue);
+    const signal = createCommandState(initialValue);
     this.#commandsStates.push(signal);
     return signal;
   }
@@ -51,6 +51,6 @@ export class PageStore {
    * @param state A command state signal to be updated
    */
   dispatch<T>(command$: Observable<T>, state: WritableSignal<CommandState<T>>) {
-    connectCommandToSignal(command$, state, this.injector);
+    connectCommandState(command$, state, this.injector);
   }
 }

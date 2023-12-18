@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { PageTemplate } from '@shared/ui/page.template';
 import { SearchComponent } from '@shared/ui/search.component';
 import { ActivitiesList } from './activities.list';
-import { ActivitiesPageStore } from './activities.page-store';
+import { ActivitiesPageStore } from './activities.store';
 
 @Component({
   standalone: true,

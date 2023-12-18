@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 import { Activity } from '@shared/domain/activity.type';
 import { PageTemplate } from '@shared/ui/page.template';
 import { NewActivityForm } from './new-activity.form';
-import { NewActivityPageStore } from './new-activity.page-store';
+import { NewActivityStore } from './new-activity.store';
 
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageTemplate, NewActivityForm],
-  providers: [NewActivityPageStore],
+  providers: [NewActivityStore],
   template: `
     <lab-page [title]="title">
       <lab-new-activity (create)="onCreate($event)" />
@@ -19,7 +19,7 @@ import { NewActivityPageStore } from './new-activity.page-store';
 export default class NewActivityPage {
   // Injection division
   readonly #router = inject(Router);
-  readonly store = inject(NewActivityPageStore);
+  readonly store = inject(NewActivityStore);
 
   title = 'Create a new activity';
 

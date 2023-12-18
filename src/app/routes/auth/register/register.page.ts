@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PageTemplate } from '@shared/ui/page.template';
 import { RegisterForm } from './register.form';
-import { RegisterPageStore } from './register.page-store';
+import { RegisterStore } from './register.store';
 import { Register } from './register.type';
 
 @Component({
   standalone: true,
   imports: [PageTemplate, RegisterForm, RouterLink],
-  providers: [RegisterPageStore],
+  providers: [RegisterStore],
   template: `
     <lab-page [title]="title">
       <lab-register (register)="onRegister($event)" />
@@ -19,7 +19,7 @@ import { Register } from './register.type';
 })
 export default class RegisterPage {
   // Injection division
-  readonly store = inject(RegisterPageStore);
+  readonly store = inject(RegisterStore);
 
   // data division
   title = 'Register to create your account.';
