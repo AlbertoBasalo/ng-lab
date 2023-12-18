@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [17.8.0](https://github.com/AlbertoBasalo/ng-lab/compare/v17.7.0...v17.8.0) (2023-12-18)
+
+
+### Features
+
+* activities available places ([f935a08](https://github.com/AlbertoBasalo/ng-lab/commit/f935a084a474fe357534175f63005cd4f4781441))
+* activity and booking data improvements ([56baca2](https://github.com/AlbertoBasalo/ng-lab/commit/56baca279da8b8ccab09ab7648e1ba536b6f24e8))
+* activity feature store ([bc4de7e](https://github.com/AlbertoBasalo/ng-lab/commit/bc4de7e8d877467370ba6949d26a1f33e59a27bf))
+* activity-slug page ([c6f39b5](https://github.com/AlbertoBasalo/ng-lab/commit/c6f39b550be7a3dd5d5b390ace46b8ee463b7bd0))
+* available places ([76358c7](https://github.com/AlbertoBasalo/ng-lab/commit/76358c7f21635a2fc46c20cb5e400098e1e890c2))
+* cli activity admin feature ([9a011c3](https://github.com/AlbertoBasalo/ng-lab/commit/9a011c3935d8931645b117992f1a181fc9df04fa))
+* minor changes ([bf218d7](https://github.com/AlbertoBasalo/ng-lab/commit/bf218d78407b052d1895e61e36e44ea794c99bd3))
+* page running state ([9761445](https://github.com/AlbertoBasalo/ng-lab/commit/9761445e66c6834fde5539fa728b57572a4c9b7f))
+* simple pages with stores ([22b0e5c](https://github.com/AlbertoBasalo/ng-lab/commit/22b0e5c2939a1224b2c9ea34e792b12086a6653d))
+
+
+### Bug Fixes
+
+* reload bookings after cancel ([4a17a09](https://github.com/AlbertoBasalo/ng-lab/commit/4a17a098629d08dac15dbbfbfd12ea502d1efdfd))
+
 ## [17.7.0](https://github.com/AlbertoBasalo/ng-lab/compare/v17.6.0...v17.7.0) (2023-12-13)
 
 
