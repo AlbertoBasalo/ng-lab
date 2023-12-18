@@ -1,26 +1,21 @@
 import { Injectable, Injector, computed, inject } from '@angular/core';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
-import { PageStore } from '@shared/services/page.store';
+import { connectCommandToSignal, createCommandSignal } from '@shared/services/command.state';
 import { NewActivityService } from './new-activity.service';
 
 @Injectable()
-export class NewActivityPageStore extends PageStore {
+export class NewActivityPageStore {
   // Injection division
   readonly #service = inject(NewActivityService);
-
+  readonly #injector = inject(Injector);
   // State division
-  #postActivityState = this.addState<Activity>(NULL_ACTIVITY);
+  #postActivityState = createCommandSignal<Activity>(NULL_ACTIVITY);
 
   // Selectors division
   postActivityStage = computed(() => this.#postActivityState().stage);
 
-  constructor(injector: Injector) {
-    super(injector);
-    this.setTitle('Create a new activity');
-  }
-
   // Commands division
-  postActivity$(activity: Partial<Activity>) {
-    return this.dispatch(this.#service.postActivity$(activity), this.#postActivityState);
+  postActivity(activity: Partial<Activity>) {
+    connectCommandToSignal(this.#service.postActivity$(activity), this.#postActivityState, this.#injector);
   }
 }

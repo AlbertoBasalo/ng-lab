@@ -10,7 +10,7 @@ import { NewBookingPageStore } from './new-booking.page-store';
   imports: [PageTemplate, NewBookingForm],
   providers: [NewBookingPageStore],
   template: `
-    <lab-page [store]="store">
+    <lab-page [title]="title">
       <lab-new-booking [availablePlaces]="availablePlaces" (create)="onCreate($event)" />
     </lab-page>
   `,
@@ -27,10 +27,13 @@ export default class NewBookingPage {
   activityPrice = 0;
   availablePlaces = 10;
 
+  // data division
+  title = 'Make a booking';
+
   // Life-cycle division
   constructor() {
     this.#route.queryParams.subscribe((params) => {
-      this.store.setTitle('Make a booking for ' + params['activityName'] || '');
+      this.title = 'Make a booking for ' + params['activityName'] || '';
       this.activityId = params['activityId'] || 0;
       this.activityPrice = params['activityPrice'] || 0;
       this.availablePlaces = params['availablePlaces'] || 10;
@@ -49,7 +52,7 @@ export default class NewBookingPage {
         status: 'pending',
       },
     };
-    this.store.postBooking$(booking);
+    this.store.postBooking(booking);
   }
 
   // Effects division

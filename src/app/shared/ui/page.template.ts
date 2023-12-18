@@ -1,6 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, computed, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { PageStore } from '@shared/services/page.store';
 import { RunningStateComponent } from './running-state.component';
 
 @Component({
@@ -11,36 +10,25 @@ import { RunningStateComponent } from './running-state.component';
   template: `
     <article>
       <header>
-        <h2>{{ store.title() }}</h2>
-        @if (hasSubtitle()) {
-          <p>{{ store.subtitle() }}</p>
-        }
+        <h2>{{ title }}</h2>
+        <ng-content select=".subtitle"></ng-content>
       </header>
       <ng-content></ng-content>
-      <footer>
-        <ng-content select="footer"></ng-content>
-        <lab-running-state [runningStates]="store.runningStates()" />
-      </footer>
+      <ng-content select="footer"></ng-content>
     </article>
   `,
 })
 export class PageTemplate {
   // Injection division
   #docTitle = inject(Title);
+
   // I/O division
   @Input() set title(title: string) {
-    this.store.setTitle(title);
+    this.#title = title;
+    this.#docTitle.setTitle(title);
   }
-  @Input() set subtitle(subtitle: string) {
-    this.store.setSubtitle(subtitle);
+  get title() {
+    return this.#title;
   }
-  // Todo: remove this and replace with runningStores[]
-  @Input() store: PageStore = inject(PageStore);
-  // Data division
-  hasSubtitle = computed(() => !!this.store.subtitle());
-
-  constructor() {
-    // ToDo: move to title setter
-    effect(() => this.#docTitle.setTitle(this.store.title()));
-  }
+  #title = '';
 }

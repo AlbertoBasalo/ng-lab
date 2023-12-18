@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PageTemplate } from '@shared/ui/page.template';
 import { ActivitySlugStore } from '../activity-slug.store';
@@ -13,13 +13,13 @@ import { ActivitySlugAdminComponent } from './activity-slug-admin.component';
   providers: [ActivitySlugStore],
   template: `
     <lab-page [title]="title()">
-      @if (activity()) {
-        {{ activity() | json }}
-        <div><a [routerLink]="['/', 'activities', activity().slug]">View</a></div>
+      @if (activity(); as activity) {
+        {{ activity | json }}
+        <div><a [routerLink]="['/', 'activities', activity.slug]">View</a></div>
       }
-      @if (bookings()) {
+      @if (bookings(); as bookings) {
         <ul>
-          @for (booking of bookings(); track booking.id) {
+          @for (booking of bookings; track booking.id) {
             <li>{{ booking | json }}</li>
           }
         </ul>
@@ -33,7 +33,7 @@ export default class ActivitySlugAdminPage {
 
   // I/O division
   @Input({ required: true }) set slug(value: string) {
-    this.#store.slug.set(value);
+    this.#store.setSlug(value);
   }
 
   // Data division
@@ -41,5 +41,5 @@ export default class ActivitySlugAdminPage {
   getBookingsStage = this.#store.getBookingsStage;
   activity = this.#store.activity;
   bookings = this.#store.bookings;
-  title = computed(() => this.activity().name || this.#store.slug());
+  title = this.#store.title;
 }

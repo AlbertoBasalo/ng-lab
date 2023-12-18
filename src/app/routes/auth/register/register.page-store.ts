@@ -1,24 +1,20 @@
 import { Injectable, Injector, inject } from '@angular/core';
-import { NULL_USER_TOKEN, UserToken } from '@shared/domain/user-token.type';
-import { PageStore } from '@shared/services/page.store';
+import { NULL_USER_TOKEN } from '@shared/domain/user-token.type';
+import { connectCommandToSignal, createCommandSignal } from '@shared/services/command.state';
 import { AuthService } from '../auth.service';
 import { Register } from './register.type';
 
 @Injectable()
-export class RegisterPageStore extends PageStore {
+export class RegisterPageStore {
   // Injection division
   readonly #service$ = inject(AuthService);
+  readonly #injector = inject(Injector);
 
   // State division
-  #postRegisterState = this.addState<UserToken>(NULL_USER_TOKEN);
-
-  constructor(injector: Injector) {
-    super(injector);
-    this.setTitle('Register to create your account.');
-  }
+  #postRegisterState = createCommandSignal(NULL_USER_TOKEN);
 
   // Commands division
   postRegister(register: Partial<Register>) {
-    return this.dispatch(this.#service$.register$(register), this.#postRegisterState);
+    connectCommandToSignal(this.#service$.register$(register), this.#postRegisterState, this.#injector);
   }
 }

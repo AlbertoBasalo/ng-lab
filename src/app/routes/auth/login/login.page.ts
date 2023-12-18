@@ -11,7 +11,7 @@ import { Login } from './login.type';
   providers: [LoginPageStore],
   imports: [PageTemplate, RouterLink, LoginForm],
   template: `
-    <lab-page [store]="store">
+    <lab-page [title]="title">
       <lab-login (login)="onLogin($event)" />
       <a routerLink="/auth/register">Register if you don't have an account</a>
     </lab-page>
@@ -19,10 +19,13 @@ import { Login } from './login.type';
 })
 export default class LoginPage {
   // Injection division
-  readonly store = inject(LoginPageStore);
+  readonly #store = inject(LoginPageStore);
+
+  // data division
+  title = 'Login';
 
   // Event handlers division
   onLogin(login: Login) {
-    this.store.postLogin(login);
+    this.#store.postLogin(login);
   }
 }

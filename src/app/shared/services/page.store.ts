@@ -1,6 +1,6 @@
 import { Injectable, Injector, Signal, WritableSignal, computed, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CommandState, RunningState, connectCommandToSignal, createCommandSignal } from './command.signal';
+import { CommandState, RunningState, connectCommandToSignal, createCommandSignal } from './command.state';
 
 /**
  * A store for page state

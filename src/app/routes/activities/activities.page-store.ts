@@ -1,20 +1,13 @@
 import { Injectable, Injector, computed, inject } from '@angular/core';
-import { Activity } from '@shared/domain/activity.type';
-import { PageStore } from '@shared/services/page.store';
+import { convertCommandToSignal } from '@shared/services/command.state';
 import { BehaviorSubject, switchMap } from 'rxjs';
 import { ActivitiesService } from './activities.service';
 
 @Injectable()
-export class ActivitiesPageStore extends PageStore {
+export class ActivitiesPageStore {
   // Injection division
   readonly #service = inject(ActivitiesService);
-
-  // State division
-  #getActivitiesState = this.addState<Activity[]>([]);
-
-  // Selectors division
-  activities = computed(() => this.#getActivitiesState().result);
-  getActivitiesStage = computed(() => this.#getActivitiesState().stage);
+  readonly #injector = inject(Injector);
 
   // Data division
   /** Observable of filter terms */
@@ -22,11 +15,12 @@ export class ActivitiesPageStore extends PageStore {
   /** For any term received discard the current query and start a new one  */
   #activitiesByFilter$ = this.#searchTerm$.pipe(switchMap((filter) => this.#service.getActivitiesByFilter$(filter)));
 
-  constructor(injector: Injector) {
-    super(injector);
-    super.setTitle('Find and book an activity');
-    super.dispatch(this.#activitiesByFilter$, this.#getActivitiesState);
-  }
+  // State division
+  #getActivitiesState = convertCommandToSignal(this.#activitiesByFilter$, [], this.#injector);
+
+  // Selectors division
+  activities = computed(() => this.#getActivitiesState().result);
+  getActivitiesStage = computed(() => this.#getActivitiesState().stage);
 
   // Commands division
   getActivitiesBySearchTerm(searchTerm: string) {

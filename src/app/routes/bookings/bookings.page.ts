@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { PageTemplate } from '@shared/ui/page.template';
 import { BookingsList } from './bookings.list';
 import { BookingsPageStore } from './bookings.page-store';
@@ -9,7 +9,7 @@ import { BookingsPageStore } from './bookings.page-store';
   imports: [PageTemplate, BookingsList],
   providers: [BookingsPageStore],
   template: `
-    <lab-page [store]="store">
+    <lab-page [title]="title">
       @if (getBookingsStage() === 'success') {
         <lab-bookings [bookings]="bookings" (cancel)="onCancel($event)" />
       }
@@ -24,22 +24,15 @@ export default class BookingsPage {
   bookings = this.store.bookings;
   getBookingsStage = this.store.getBookingsStage;
   cancelBookingStage = this.store.cancelBookingStage;
+  title = 'Your activity bookings';
 
   // Life-cycle division
   constructor() {
     this.store.getBookings();
-    effect(() => this.#reloadAfterCancel(), { allowSignalWrites: true });
   }
 
   // Event handlers division
   onCancel(bookingId: number) {
     this.store.cancelBooking(bookingId);
-  }
-
-  // Effects division
-  #reloadAfterCancel() {
-    if (this.cancelBookingStage() === 'success') {
-      this.store.getBookings();
-    }
   }
 }

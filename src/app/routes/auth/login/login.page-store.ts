@@ -1,24 +1,20 @@
 import { Injectable, Injector, inject } from '@angular/core';
 import { NULL_USER_TOKEN, UserToken } from '@shared/domain/user-token.type';
-import { PageStore } from '@shared/services/page.store';
+import { connectCommandToSignal, createCommandSignal } from '@shared/services/command.state';
 import { AuthService } from '../auth.service';
 import { Login } from './login.type';
 
 @Injectable()
-export class LoginPageStore extends PageStore {
+export class LoginPageStore {
   // Injection division
   readonly #service = inject(AuthService);
+  readonly #injector = inject(Injector);
 
   // State division
-  #postLoginState = this.addState<UserToken>(NULL_USER_TOKEN);
-
-  constructor(injector: Injector) {
-    super(injector);
-    this.setTitle('Login with your credentials.');
-  }
+  #postLoginState = createCommandSignal<UserToken>(NULL_USER_TOKEN);
 
   // Commands division
   postLogin(login: Login) {
-    return this.dispatch(this.#service.login$(login), this.#postLoginState);
+    connectCommandToSignal(this.#service.login$(login), this.#postLoginState, this.#injector);
   }
 }

@@ -11,7 +11,7 @@ import { NewActivityPageStore } from './new-activity.page-store';
   imports: [PageTemplate, NewActivityForm],
   providers: [NewActivityPageStore],
   template: `
-    <lab-page [store]="store">
+    <lab-page [title]="title">
       <lab-new-activity (create)="onCreate($event)" />
     </lab-page>
   `,
@@ -21,15 +21,16 @@ export default class NewActivityPage {
   readonly #router = inject(Router);
   readonly store = inject(NewActivityPageStore);
 
+  title = 'Create a new activity';
+
   // Life-cycle division
   constructor() {
-    this.store.setTitle('Create a new activity');
     effect(() => this.#navigateAfterCreate());
   }
 
   // Event handlers division
   onCreate(activity: Partial<Activity>) {
-    this.store.postActivity$(activity);
+    this.store.postActivity(activity);
   }
 
   // Effects division

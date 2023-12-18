@@ -39,7 +39,7 @@ export default class ActivitySlugPage {
 
   // I/O division
   @Input({ required: true }) set slug(value: string) {
-    this.#store.slug.set(value);
+    this.#store.setSlug(value);
   }
 
   // Data division
@@ -47,7 +47,7 @@ export default class ActivitySlugPage {
   getActivityStage = this.#store.getActivityStage;
   getBookingsStage = this.#store.getBookingsStage;
   activity = this.#store.activity;
-  title = computed(() => this.activity().name || this.#store.slug());
+  title = this.#store.title;
   participants = this.#store.participants;
   isOwner = this.#store.isOwner;
   availablePlaces = this.#store.availablePlaces;

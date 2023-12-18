@@ -1,32 +1,39 @@
-import { Injectable, Injector, computed, inject } from '@angular/core';
-import { PageStore } from '@shared/services/page.store';
+import { Injectable, Injector, computed, effect, inject } from '@angular/core';
+import { connectCommandToSignal, createCommandSignal } from '@shared/services/command.state';
 import { ActivityBooking } from './activity-booking.type';
 import { BookingsService } from './bookings.service';
 
 @Injectable()
-export class BookingsPageStore extends PageStore {
+export class BookingsPageStore {
   // Injection division
   readonly #service = inject(BookingsService);
+  readonly #injector = inject(Injector);
 
   // State division
-  #getBookingsState = this.addState<ActivityBooking[]>([]);
-  #cancelBookingState = this.addState<boolean>(false);
+  #getBookingsState = createCommandSignal<ActivityBooking[]>([]);
+  #cancelBookingState = createCommandSignal<boolean>(false);
 
   // Selectors division
   bookings = computed(() => this.#getBookingsState().result);
   getBookingsStage = computed(() => this.#getBookingsState().stage);
   cancelBookingStage = computed(() => this.#cancelBookingState().stage);
 
-  constructor(injector: Injector) {
-    super(injector);
-    this.setTitle('Your activity bookings');
+  constructor() {
+    effect(() => this.#reloadAfterCancel(), { allowSignalWrites: true });
   }
 
   // Commands division
   getBookings() {
-    this.dispatch(this.#service.getBookings$(), this.#getBookingsState);
+    connectCommandToSignal(this.#service.getBookings$(), this.#getBookingsState, this.#injector);
   }
   cancelBooking(id: number) {
-    this.dispatch(this.#service.cancelBooking$(id), this.#cancelBookingState);
+    connectCommandToSignal(this.#service.getBookings$(), this.#getBookingsState, this.#injector);
+  }
+
+  // Effects division
+  #reloadAfterCancel() {
+    if (this.cancelBookingStage() === 'success') {
+      this.getBookings();
+    }
   }
 }

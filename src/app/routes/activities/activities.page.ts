@@ -10,7 +10,7 @@ import { ActivitiesPageStore } from './activities.page-store';
   imports: [PageTemplate, SearchComponent, ActivitiesList],
   providers: [ActivitiesPageStore],
   template: `
-    <lab-page [store]="store">
+    <lab-page [title]="title">
       <lab-search (search)="onSearch($event)" />
       @if (getActivitiesStage() === 'success') {
         <lab-activities [activities]="activities" />
@@ -20,14 +20,15 @@ import { ActivitiesPageStore } from './activities.page-store';
 })
 export default class ActivitiesPage {
   // injection division
-  readonly store = inject(ActivitiesPageStore);
+  readonly #store = inject(ActivitiesPageStore);
 
   // Data division
-  getActivitiesStage = this.store.getActivitiesStage;
-  activities = this.store.activities;
+  getActivitiesStage = this.#store.getActivitiesStage;
+  activities = this.#store.activities;
+  title = 'Find and book an activity';
 
   // Event handlers division
   onSearch(searchTerm: string): void {
-    this.store.getActivitiesBySearchTerm(searchTerm);
+    this.#store.getActivitiesBySearchTerm(searchTerm);
   }
 }

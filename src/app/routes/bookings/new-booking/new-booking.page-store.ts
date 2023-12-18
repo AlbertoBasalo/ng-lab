@@ -1,24 +1,22 @@
 import { Injectable, Injector, computed, inject } from '@angular/core';
 import { Booking, NULL_BOOKING } from '@shared/domain/booking.type';
-import { PageStore } from '@shared/services/page.store';
+import { connectCommandToSignal, createCommandSignal } from '@shared/services/command.state';
 import { NewBookingService } from './new-booking.service';
 
 @Injectable()
-export class NewBookingPageStore extends PageStore {
+export class NewBookingPageStore {
   // Injection division
   readonly #service = inject(NewBookingService);
+  readonly #injector = inject(Injector);
 
   // State division
-  #postBookingState = this.addState<Booking>(NULL_BOOKING);
+  #postBookingState = createCommandSignal<Booking>(NULL_BOOKING);
 
   // Selectors division
   postBookingStage = computed(() => this.#postBookingState().stage);
 
-  constructor(injector: Injector) {
-    super(injector);
-  }
   // Commands division
-  postBooking$(booking: Partial<Booking>) {
-    this.dispatch(this.#service.postBooking$(booking), this.#postBookingState);
+  postBooking(booking: Partial<Booking>) {
+    connectCommandToSignal(this.#service.postBooking$(booking), this.#postBookingState, this.#injector);
   }
 }

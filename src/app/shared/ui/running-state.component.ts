@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { RunningState } from '@shared/services/command.signal';
+import { RunningState } from '@shared/services/command.state';
 import { ErrorComponent } from './error.component';
 import { WorkingComponent } from './working.component';
 

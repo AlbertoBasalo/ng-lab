@@ -10,7 +10,7 @@ import { Register } from './register.type';
   imports: [PageTemplate, RegisterForm, RouterLink],
   providers: [RegisterPageStore],
   template: `
-    <lab-page [store]="store">
+    <lab-page [title]="title">
       <lab-register (register)="onRegister($event)" />
       <a routerLink="/auth/login">Login if you already have an account</a>
     </lab-page>
@@ -20,6 +20,9 @@ import { Register } from './register.type';
 export default class RegisterPage {
   // Injection division
   readonly store = inject(RegisterPageStore);
+
+  // data division
+  title = 'Register to create your account.';
 
   // Event handlers division
   onRegister(register: Partial<Register>) {
