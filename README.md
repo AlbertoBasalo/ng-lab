@@ -3,8 +3,6 @@
 > [!NOTE]
 > Angular Laboratory for courses and workshops by [Alberto Basalo](https://albertobasalo.dev)
 
-[![GitHub license](https://img.shields.io/github/license/AlbertoBasalo/cy-lab?style=for-the-badge)](https://albertobasalo.dev)
-
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
 
 ```bash
@@ -13,9 +11,9 @@ git clone https://github.com/AlbertoBasalo/ng-lab.git
 # install and run
 cd ng-lab
 npm install
-# start Angular server (with SSR)
+# start Angular server
 npm start
-# start a fake API server (with json-server)
+# start a fake API server
 npm run seedapi
 ```
 
@@ -41,6 +39,8 @@ Have an outlook of the project folders structure
 This project is being _e2e_ tested with **Cypress**. Find the testing code at this repository
 
 - [**cy-lab**](https://github.com/AlbertoBasalo/cy-lab)
+
+[![GitHub license](https://img.shields.io/github/license/AlbertoBasalo/cy-lab?style=for-the-badge)](https://albertobasalo.dev)
 
 ---
 
