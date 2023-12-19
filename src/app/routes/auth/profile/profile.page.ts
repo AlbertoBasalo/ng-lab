@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AuthStore } from '@shared/services/auth.store';
+import { AuthStore } from '@auth/auth.store';
 import { PageTemplate } from '@shared/ui/page.template';
 
 @Component({

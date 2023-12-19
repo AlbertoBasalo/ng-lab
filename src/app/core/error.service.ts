@@ -1,6 +1,7 @@
 import { ErrorHandler, inject } from '@angular/core';
+import { LoggerService } from '@log/logger.service';
+import { LogLevel } from '@log/logger.type';
 import { NotificationsStore } from '@shared/services/notifications.store';
-import { LogLevel, LoggerService } from '../shared/services/logger.service';
 
 /**
  * Service to handle errors

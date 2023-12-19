@@ -1,4 +1,4 @@
-import { LogEntry, LogLevel } from '@shared/services/logger.service';
+import { LogEntry, LogLevel } from '@shared/services/log/logger.type';
 
 export class LabLogWriter {
   write(entry: LogEntry) {

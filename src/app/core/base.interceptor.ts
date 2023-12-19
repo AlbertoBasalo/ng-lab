@@ -1,9 +1,10 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { LoggerService } from '@log/logger.service';
+import { LogLevel } from '@log/logger.type';
 import { NotificationsStore } from '@shared/services/notifications.store';
 import { Observable, catchError, throwError } from 'rxjs';
 import { APP_CONFIG } from '../shared/services/app-config.provider';
-import { LogLevel, LoggerService } from '../shared/services/logger.service';
 
 /**
  * Interceptor to ensure a common base for all the requests

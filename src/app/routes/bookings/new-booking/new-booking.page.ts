@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthStore } from '@auth/auth.store';
+import { LoggerService } from '@log/logger.service';
+import { LogLevel } from '@log/logger.type';
 import { Booking } from '@shared/domain/booking.type';
 import { ErrorComponent } from '@shared/ui/error.component';
 import { PageTemplate } from '@shared/ui/page.template';
@@ -23,8 +26,10 @@ import { NewBookingStore } from './new-booking.store';
 export default class NewBookingPage {
   // Injection division
   readonly #router = inject(Router);
+  readonly #authStore = inject(AuthStore);
   readonly #route = inject(ActivatedRoute);
   readonly #store = inject(NewBookingStore);
+  readonly #logger = inject(LoggerService);
 
   // Query params division
   activityId = 0;
@@ -51,7 +56,9 @@ export default class NewBookingPage {
   onCreate(newBooking: NewBookingFormValue) {
     const booking: Partial<Booking> = {
       activityId: this.activityId,
+      userId: this.#authStore.userId(),
       participants: newBooking.participants,
+      date: new Date(),
       payment: {
         method: newBooking.paymentMethod,
         amount: this.activityPrice * newBooking.participants,
@@ -64,6 +71,12 @@ export default class NewBookingPage {
   // Effects division
   #navigateAfterCreate() {
     if (this.postBookingStage() === 'success') {
+      const logEntry = {
+        level: LogLevel.info,
+        message: 'Booking created successfully',
+        payload: this.#store.postBookingResult(),
+      };
+      this.#logger.log(logEntry);
       this.#router.navigate(['/', 'bookings']);
     }
   }

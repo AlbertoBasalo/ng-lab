@@ -1,8 +1,8 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthStore } from '@auth/auth.store';
 import { Activity } from '@shared/domain/activity.type';
-import { AuthStore } from '@shared/services/auth.store';
 
 @Component({
   selector: 'lab-activity-list-item',

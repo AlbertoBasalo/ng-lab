@@ -1,7 +1,7 @@
 import { Injectable, Injector, computed, effect, inject, signal } from '@angular/core';
+import { AuthStore } from '@auth/auth.store';
 import { Activity, NULL_ACTIVITY } from '@shared/domain/activity.type';
 import { Booking } from '@shared/domain/booking.type';
-import { AuthStore } from '@shared/services/auth.store';
 import { connectCommandState, createCommandState } from '@shared/services/command.state';
 import { ActivityService } from './activity.service';
 

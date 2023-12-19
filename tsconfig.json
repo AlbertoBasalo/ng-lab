@@ -24,6 +24,8 @@
     "paths": {
       "@routes/*": ["src/app/routes/*"],
       "@core/*": ["src/app/core/*"],
+      "@auth/*": ["src/app/shared/services/auth/*"],
+      "@log/*": ["src/app/shared/services/log/*"],
       "@shared/*": ["src/app/shared/*"]
     }
   },

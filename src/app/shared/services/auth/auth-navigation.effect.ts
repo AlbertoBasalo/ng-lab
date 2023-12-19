@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthProcess } from './auth.store';
+import { AuthProcess } from './auth.type';
 
 /**
  * Effect to navigate to the appropriate page based on the current authentication state

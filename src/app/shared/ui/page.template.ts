@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { RunningStateComponent } from './running-state.component';
 
 @Component({
   selector: 'lab-page',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [RunningStateComponent],
+  imports: [],
   template: `
     <article>
       <header>

@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Booking } from '@shared/domain/booking.type';
-import { AuthStore } from '@shared/services/auth.store';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class NewBookingService {
   #http$ = inject(HttpClient);
-  #authStore = inject(AuthStore);
+
   #apiBookingsUrl = 'bookings';
 
   /**
@@ -19,8 +18,6 @@ export class NewBookingService {
    */
   postBooking$(booking: Partial<Booking>): Observable<Booking> {
     const url = `${this.#apiBookingsUrl}`;
-    booking.userId = this.#authStore.userId();
-    booking.date = new Date();
     return this.#http$.post<Booking>(url, booking);
   }
 }

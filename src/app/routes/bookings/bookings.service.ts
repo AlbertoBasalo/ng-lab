@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { AuthStore } from '@auth/auth.store';
 import { Activity } from '@shared/domain/activity.type';
 import { Booking } from '@shared/domain/booking.type';
-import { AuthStore } from '@shared/services/auth.store';
 import { Observable, forkJoin, map, of, switchMap } from 'rxjs';
 import { ActivityBooking } from './activity-booking.type';
 

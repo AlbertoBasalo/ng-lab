@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { AuthStore } from '@auth/auth.store';
 import { UserToken } from '@shared/domain/user-token.type';
-import { AuthStore } from '@shared/services/auth.store';
 import { tap } from 'rxjs';
 import { Login } from './login/login.type';
 import { Register } from './register/register.type';

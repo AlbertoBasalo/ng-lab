@@ -1,18 +1,8 @@
 import { Injectable, computed, effect, signal } from '@angular/core';
-import { NULL_USER_TOKEN, UserToken } from '../domain/user-token.type';
+import { NULL_USER_TOKEN, UserToken } from '../../domain/user-token.type';
 import { AuthNavigationEffect } from './auth-navigation.effect';
 import { AuthStorageEffect } from './auth-storage.effect';
-
-export type AuthProcess = {
-  interactive: boolean;
-  url: string;
-  mustLogin?: boolean;
-};
-
-export type AuthState = {
-  userToken: UserToken;
-  authProcess: AuthProcess;
-};
+import { AuthState } from './auth.type';
 
 /**
  * A store to manage all state related to authentication

@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanMatchFn } from '@angular/router';
-import { AuthStore } from '@shared/services/auth.store';
+import { AuthStore } from './auth.store';
 
 /**
  * Allow only authenticated users to access the route.
