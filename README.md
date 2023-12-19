@@ -27,7 +27,7 @@ Find detailed journal of instructions in [CLI.md](CLI.md)
 
 Have an outlook of the project folders structure
 
-![Folders](docs/folders.png)
+![Folders](./docs/screenshots/folders.png)
 
 > [!TIP]
 > Companion article:
