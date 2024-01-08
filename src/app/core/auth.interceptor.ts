@@ -1,8 +1,8 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthStore } from '@auth/auth.store';
 import { NotificationsStore } from '@shared/services/notifications.store';
-import { Router } from 'express';
 import { Observable, catchError, throwError } from 'rxjs';
 
 /**
