@@ -1,4 +1,4 @@
-# NgLab,
+# NgLab
 
 > [!NOTE]
 > Angular Laboratory for courses and workshops by [Alberto Basalo](https://albertobasalo.dev)
@@ -19,7 +19,7 @@ npm run seedapi
 
 ## Documentation
 
-Find detailed journal of instructions in [CLI.md](CLI.md)
+Find detailed journal of instructions in [CLI.md](./docs/CLI.md)
 
 ### Folder structure
 

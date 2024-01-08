@@ -19,8 +19,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "update": "ncu -u",
-    "prerelease": "standard-version ",
-    "release": "git push --follow-tags origin main"
+    "release": "standard-version && git push --follow-tags origin main"
   },
   "private": true,
   "dependencies": {
