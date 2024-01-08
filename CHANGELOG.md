@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [17.9.0](https://github.com/AlbertoBasalo/ng-lab/compare/v17.8.0...v17.9.0) (2024-01-08)
+
+
+### Features
+
+* error handling ([5dfae23](https://github.com/AlbertoBasalo/ng-lab/commit/5dfae2377734d6eade8c10082bba94f7d7f43b3b))
+* logger configurable with features ([7c25fe8](https://github.com/AlbertoBasalo/ng-lab/commit/7c25fe8fcca28ff223f1584951c901371138d8b2))
+* notifications ([d319523](https://github.com/AlbertoBasalo/ng-lab/commit/d3195234001162403df535a53d1b1cac891737ba))
+* tsconfig paths ([a32017e](https://github.com/AlbertoBasalo/ng-lab/commit/a32017effc6243027612d2685a12778b9206d101))
+
 ## [17.8.0](https://github.com/AlbertoBasalo/ng-lab/compare/v17.7.0...v17.8.0) (2023-12-18)
 
 
