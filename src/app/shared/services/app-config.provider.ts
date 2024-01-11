@@ -1,4 +1,5 @@
 import { InjectionToken } from '@angular/core';
+import { environment } from 'src/environments/environment.development';
 import { LogLevel } from './log/logger.type';
 
 /**
@@ -9,12 +10,11 @@ export type AppConfig = {
   logLevel: LogLevel;
   /** Base URL of the API */
   apiBaseUrl: string;
+  /** Whether to show alerts to the user */
+  showAlertsToUser?: boolean;
 };
 
-const DEFAULT_CONFIG = {
-  logLevel: LogLevel.info,
-  apiBaseUrl: 'http://localhost:3000',
-};
+const DEFAULT_CONFIG = environment;
 
 /** Application configuration token*/
 export const APP_CONFIG = new InjectionToken<AppConfig>('app.config');

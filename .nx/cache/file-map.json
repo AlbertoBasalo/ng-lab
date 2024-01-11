@@ -1,0 +1,568 @@
+{
+  "version": "6.0",
+  "nxVersion": "17.2.8",
+  "deps": {
+    "@angular/animations": "^17.0.8",
+    "@angular/common": "^17.0.8",
+    "@angular/compiler": "^17.0.8",
+    "@angular/core": "^17.0.8",
+    "@angular/forms": "^17.0.8",
+    "@angular/platform-browser": "^17.0.8",
+    "@angular/platform-browser-dynamic": "^17.0.8",
+    "@angular/platform-server": "^17.0.8",
+    "@angular/router": "^17.0.8",
+    "@angular/ssr": "^17.0.9",
+    "@picocss/pico": "^1.5.11",
+    "express": "^4.18.2",
+    "rxjs": "~7.8.1",
+    "tslib": "^2.6.2",
+    "zone.js": "~0.14.2",
+    "@angular-devkit/build-angular": "^17.0.9",
+    "@angular-eslint/builder": "17.2.0",
+    "@angular-eslint/eslint-plugin": "17.2.0",
+    "@angular-eslint/eslint-plugin-template": "17.2.0",
+    "@angular-eslint/schematics": "17.2.0",
+    "@angular-eslint/template-parser": "17.2.0",
+    "@angular/cli": "^17.0.9",
+    "@angular/compiler-cli": "^17.0.8",
+    "@types/express": "^4.17.21",
+    "@types/jasmine": "~5.1.4",
+    "@types/node": "^20.10.7",
+    "@typescript-eslint/eslint-plugin": "6.18.0",
+    "@typescript-eslint/parser": "6.18.0",
+    "copyfiles": "^2.4.1",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "jasmine-core": "~5.1.1",
+    "json-server": "^0.17.4",
+    "json-server-auth": "^2.1.0",
+    "karma": "~6.4.2",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.1",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "npm-check-updates": "^16.14.12",
+    "prettier": "^3.1.1",
+    "standard-version": "^9.5.0",
+    "typescript": "^5.2.2"
+  },
+  "pathMappings": {
+    "@routes/*": [
+      "src/app/routes/*"
+    ],
+    "@core/*": [
+      "src/app/core/*"
+    ],
+    "@auth/*": [
+      "src/app/shared/services/auth/*"
+    ],
+    "@log/*": [
+      "src/app/shared/services/log/*"
+    ],
+    "@shared/*": [
+      "src/app/shared/*"
+    ]
+  },
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {},
+    "nonProjectFiles": [
+      {
+        "file": ".editorconfig",
+        "hash": "13131768727341361436"
+      },
+      {
+        "file": ".eslintrc.json",
+        "hash": "10639172600262590242"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "16474352156368691718"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "13425295711526465667"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "11934160580685414355"
+      },
+      {
+        "file": ".vscode/launch.json",
+        "hash": "17406702432687230417"
+      },
+      {
+        "file": ".vscode/settings.json",
+        "hash": "17171194962855985831"
+      },
+      {
+        "file": ".vscode/tasks.json",
+        "hash": "10093397977228577162"
+      },
+      {
+        "file": "CHANGELOG.md",
+        "hash": "13700634998349937577"
+      },
+      {
+        "file": "README.md",
+        "hash": "13675405768599726962"
+      },
+      {
+        "file": "angular.json",
+        "hash": "13463041685019930920"
+      },
+      {
+        "file": "db/r.json",
+        "hash": "10347399075945367087"
+      },
+      {
+        "file": "db/reset/d.json",
+        "hash": "8881558451955527350"
+      },
+      {
+        "file": "db/seed/d.json",
+        "hash": "8950441654962880135"
+      },
+      {
+        "file": "docs/CLI.md",
+        "hash": "11239165047527709349"
+      },
+      {
+        "file": "docs/TASKS.md",
+        "hash": "10821707202903619678"
+      },
+      {
+        "file": "docs/screenshots/activity-deatils.0.png",
+        "hash": "13743606345086116765"
+      },
+      {
+        "file": "docs/screenshots/activity-deatils.1.png",
+        "hash": "11653906249876513707"
+      },
+      {
+        "file": "docs/screenshots/bookings.page.png",
+        "hash": "6910402805645093531"
+      },
+      {
+        "file": "docs/screenshots/folders-txt.png",
+        "hash": "16771651170720166533"
+      },
+      {
+        "file": "docs/screenshots/folders.png",
+        "hash": "16048570868852041677"
+      },
+      {
+        "file": "docs/screenshots/home.page.0.png",
+        "hash": "3242409217408893419"
+      },
+      {
+        "file": "docs/screenshots/home.page.1.png",
+        "hash": "6480331954962331442"
+      },
+      {
+        "file": "docs/screenshots/home.page.2.png",
+        "hash": "11147349360119864384"
+      },
+      {
+        "file": "docs/screenshots/home.page.3.png",
+        "hash": "5335770973926888151"
+      },
+      {
+        "file": "docs/screenshots/shared-folders.png",
+        "hash": "11734174824888596512"
+      },
+      {
+        "file": "docs/screenshots/state.function.0.png",
+        "hash": "9814475824712807411"
+      },
+      {
+        "file": "docs/screenshots/state.function.1.png",
+        "hash": "9854264915093288376"
+      },
+      {
+        "file": "docs/screenshots/state.function.2.png",
+        "hash": "7375788783147144737"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "15235862058723666758"
+      },
+      {
+        "file": "package.json",
+        "hash": "12630306340449516910"
+      },
+      {
+        "file": "server.ts",
+        "hash": "17556996765790181515"
+      },
+      {
+        "file": "src/app/app.component.ts",
+        "hash": "15270549402426175874"
+      },
+      {
+        "file": "src/app/app.config.server.ts",
+        "hash": "15184490126418035619"
+      },
+      {
+        "file": "src/app/app.config.ts",
+        "hash": "9167767227670044615"
+      },
+      {
+        "file": "src/app/app.routes.ts",
+        "hash": "9990054914505491536"
+      },
+      {
+        "file": "src/app/core/auth.interceptor.ts",
+        "hash": "3057199915136028389"
+      },
+      {
+        "file": "src/app/core/base.interceptor.ts",
+        "hash": "17140863876942724207"
+      },
+      {
+        "file": "src/app/core/error.service.ts",
+        "hash": "16390778510592680236"
+      },
+      {
+        "file": "src/app/core/footer.component.ts",
+        "hash": "17407161966657494861"
+      },
+      {
+        "file": "src/app/core/header.component.ts",
+        "hash": "13039080169871961582"
+      },
+      {
+        "file": "src/app/core/notifications.component.ts",
+        "hash": "17050972746413559648"
+      },
+      {
+        "file": "src/app/lab.log-writer.ts",
+        "hash": "4888953709984558094"
+      },
+      {
+        "file": "src/app/routes/activities/activities.list.ts",
+        "hash": "5350753473997175863"
+      },
+      {
+        "file": "src/app/routes/activities/activities.page.ts",
+        "hash": "8205089071328213368"
+      },
+      {
+        "file": "src/app/routes/activities/activities.routes.ts",
+        "hash": "5161200439299415127"
+      },
+      {
+        "file": "src/app/routes/activities/activities.service.ts",
+        "hash": "10067080813626903835"
+      },
+      {
+        "file": "src/app/routes/activities/activities.store.ts",
+        "hash": "17933001039271352421"
+      },
+      {
+        "file": "src/app/routes/activities/activity-list-item.component.ts",
+        "hash": "4054069529498488628"
+      },
+      {
+        "file": "src/app/routes/activities/new-activity/new-activity.form.ts",
+        "hash": "346361051974696874"
+      },
+      {
+        "file": "src/app/routes/activities/new-activity/new-activity.page.ts",
+        "hash": "7431587135852558630"
+      },
+      {
+        "file": "src/app/routes/activities/new-activity/new-activity.service.ts",
+        "hash": "18042879528369348422"
+      },
+      {
+        "file": "src/app/routes/activities/new-activity/new-activity.store.ts",
+        "hash": "9197541445268048942"
+      },
+      {
+        "file": "src/app/routes/activities/slug/activity-slug-footer.component.ts",
+        "hash": "4355040382445761036"
+      },
+      {
+        "file": "src/app/routes/activities/slug/activity-slug.component.ts",
+        "hash": "6946207034535342399"
+      },
+      {
+        "file": "src/app/routes/activities/slug/activity-slug.page.ts",
+        "hash": "17532753790947868678"
+      },
+      {
+        "file": "src/app/routes/activities/slug/activity-slug.store.ts",
+        "hash": "11930808906927244128"
+      },
+      {
+        "file": "src/app/routes/activities/slug/activity.service.ts",
+        "hash": "13382566894251280093"
+      },
+      {
+        "file": "src/app/routes/activities/slug/admin/activity-slug-admin.component.ts",
+        "hash": "9437833957485505168"
+      },
+      {
+        "file": "src/app/routes/activities/slug/admin/activity-slug-admin.page-store.ts",
+        "hash": "16173792019312360695"
+      },
+      {
+        "file": "src/app/routes/activities/slug/admin/activity-slug-admin.page.ts",
+        "hash": "10911710138564283756"
+      },
+      {
+        "file": "src/app/routes/activities/slug/admin/activity-slug-admin.service.ts",
+        "hash": "4200238271432089509"
+      },
+      {
+        "file": "src/app/routes/auth/auth.routes.ts",
+        "hash": "13309669576440254545"
+      },
+      {
+        "file": "src/app/routes/auth/auth.service.ts",
+        "hash": "8231241389904822503"
+      },
+      {
+        "file": "src/app/routes/auth/login/login.form.ts",
+        "hash": "13571130256442900963"
+      },
+      {
+        "file": "src/app/routes/auth/login/login.page.ts",
+        "hash": "11790197439886836593"
+      },
+      {
+        "file": "src/app/routes/auth/login/login.store.ts",
+        "hash": "3646747092021752466"
+      },
+      {
+        "file": "src/app/routes/auth/login/login.type.ts",
+        "hash": "1021837993216651669"
+      },
+      {
+        "file": "src/app/routes/auth/profile/profile.page.ts",
+        "hash": "5433348035762289306"
+      },
+      {
+        "file": "src/app/routes/auth/register/register.form.ts",
+        "hash": "4470372785134563475"
+      },
+      {
+        "file": "src/app/routes/auth/register/register.page.ts",
+        "hash": "15682684991751689390"
+      },
+      {
+        "file": "src/app/routes/auth/register/register.store.ts",
+        "hash": "887597712964758582"
+      },
+      {
+        "file": "src/app/routes/auth/register/register.type.ts",
+        "hash": "4046695376749619852"
+      },
+      {
+        "file": "src/app/routes/bookings/activity-booking.type.ts",
+        "hash": "9074167733213354051"
+      },
+      {
+        "file": "src/app/routes/bookings/booking.card.ts",
+        "hash": "16864020834660733832"
+      },
+      {
+        "file": "src/app/routes/bookings/bookings.list.ts",
+        "hash": "10474255634143499568"
+      },
+      {
+        "file": "src/app/routes/bookings/bookings.page.ts",
+        "hash": "15475911700977075817"
+      },
+      {
+        "file": "src/app/routes/bookings/bookings.routes.ts",
+        "hash": "5337812362061265807"
+      },
+      {
+        "file": "src/app/routes/bookings/bookings.service.ts",
+        "hash": "4899815805848253899"
+      },
+      {
+        "file": "src/app/routes/bookings/bookings.store.ts",
+        "hash": "7314702516197401745"
+      },
+      {
+        "file": "src/app/routes/bookings/new-booking/new-booking.form.ts",
+        "hash": "12454871226279527531"
+      },
+      {
+        "file": "src/app/routes/bookings/new-booking/new-booking.page.ts",
+        "hash": "7490243268650507490"
+      },
+      {
+        "file": "src/app/routes/bookings/new-booking/new-booking.service.ts",
+        "hash": "2578575816509497336"
+      },
+      {
+        "file": "src/app/routes/bookings/new-booking/new-booking.store.ts",
+        "hash": "5206295680735414723"
+      },
+      {
+        "file": "src/app/routes/home/home.page.ts",
+        "hash": "8887055828809781272"
+      },
+      {
+        "file": "src/app/shared/domain/activitiy.validations.ts",
+        "hash": "12146181239390748959"
+      },
+      {
+        "file": "src/app/shared/domain/activity.type.ts",
+        "hash": "5449210300171721003"
+      },
+      {
+        "file": "src/app/shared/domain/booking.type.ts",
+        "hash": "3739045753855456033"
+      },
+      {
+        "file": "src/app/shared/domain/slug.utils.ts",
+        "hash": "8368078896097112024"
+      },
+      {
+        "file": "src/app/shared/domain/user-token.type.ts",
+        "hash": "14995607600872923716"
+      },
+      {
+        "file": "src/app/shared/domain/user.type.ts",
+        "hash": "16338752695835682559"
+      },
+      {
+        "file": "src/app/shared/services/app-config.provider.ts",
+        "hash": "2025982506541753494"
+      },
+      {
+        "file": "src/app/shared/services/auth/auth-navigation.effect.ts",
+        "hash": "16496459346763173187"
+      },
+      {
+        "file": "src/app/shared/services/auth/auth-storage.effect.ts",
+        "hash": "2177120796770792644"
+      },
+      {
+        "file": "src/app/shared/services/auth/auth.guard.ts",
+        "hash": "15362128514549252014"
+      },
+      {
+        "file": "src/app/shared/services/auth/auth.store.ts",
+        "hash": "3152873924391491990"
+      },
+      {
+        "file": "src/app/shared/services/auth/auth.type.ts",
+        "hash": "8846149870281255102"
+      },
+      {
+        "file": "src/app/shared/services/command.state.ts",
+        "hash": "971968156363730952"
+      },
+      {
+        "file": "src/app/shared/services/log/logger-writer.feature.ts",
+        "hash": "3168203777462876039"
+      },
+      {
+        "file": "src/app/shared/services/log/logger.config.ts",
+        "hash": "14024109504239843108"
+      },
+      {
+        "file": "src/app/shared/services/log/logger.provider.ts",
+        "hash": "15667178017390094290"
+      },
+      {
+        "file": "src/app/shared/services/log/logger.service.ts",
+        "hash": "9666458529214395533"
+      },
+      {
+        "file": "src/app/shared/services/log/logger.type.ts",
+        "hash": "5021350638239003075"
+      },
+      {
+        "file": "src/app/shared/services/notifications.store.ts",
+        "hash": "209208416456911206"
+      },
+      {
+        "file": "src/app/shared/services/page.store.ts",
+        "hash": "10829012793785471230"
+      },
+      {
+        "file": "src/app/shared/services/window.service.ts",
+        "hash": "4353921929700194359"
+      },
+      {
+        "file": "src/app/shared/ui/error.component.ts",
+        "hash": "9938960713021435589"
+      },
+      {
+        "file": "src/app/shared/ui/form.utils.ts",
+        "hash": "14582709972765807454"
+      },
+      {
+        "file": "src/app/shared/ui/label-data.component.ts",
+        "hash": "3948417329166007544"
+      },
+      {
+        "file": "src/app/shared/ui/list.template.ts",
+        "hash": "15667154813743592663"
+      },
+      {
+        "file": "src/app/shared/ui/page.template.ts",
+        "hash": "12930821599455799457"
+      },
+      {
+        "file": "src/app/shared/ui/search.component.ts",
+        "hash": "11124416869791687668"
+      },
+      {
+        "file": "src/app/shared/ui/working.component.ts",
+        "hash": "2776876009284224916"
+      },
+      {
+        "file": "src/assets/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "src/environments/environment.development.ts",
+        "hash": "2864305538905855547"
+      },
+      {
+        "file": "src/environments/environment.ts",
+        "hash": "2582401195083835562"
+      },
+      {
+        "file": "src/favicon.ico",
+        "hash": "3988961587069885523"
+      },
+      {
+        "file": "src/index.html",
+        "hash": "2753597890590003663"
+      },
+      {
+        "file": "src/main.server.ts",
+        "hash": "9257623809215978365"
+      },
+      {
+        "file": "src/main.ts",
+        "hash": "4169901790405087765"
+      },
+      {
+        "file": "src/styles.css",
+        "hash": "17503807860956347902"
+      },
+      {
+        "file": "tsconfig.app.json",
+        "hash": "2442507913137902887"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "18135815991717913076"
+      },
+      {
+        "file": "tsconfig.spec.json",
+        "hash": "5122839733245053999"
+      }
+    ]
+  }
+}
