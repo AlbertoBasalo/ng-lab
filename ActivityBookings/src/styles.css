@@ -1,1 +1,76 @@
 /* You can add global styles to this file, and also import other style files */
+:root:not([data-theme="dark"]) {
+  --color: #30363d;
+  --primary: #33c1ee;
+  --secondary: #0e4d90;
+  --contrast: #47d469;
+  --mark-color: #0783d8;
+  --ins-color: #47d469;
+  --del-color: #c62828;
+}
+
+:root {
+  --block-spacing-vertical: 0.25rem;
+  --form-element-spacing-vertical: 0.25rem;
+  --form-element-spacing-horizontal: 0.5rem;
+  --typography-spacing-vertical: 0.5rem;
+}
+
+body {
+  padding: 0.8rem;
+}
+
+h1 {
+  --font-size: 1.5rem;
+  --typography-spacing-vertical: 2.25rem;
+}
+h2 {
+  --font-size: 1.25rem;
+  --typography-spacing-vertical: 1.874rem;
+}
+h3 {
+  --font-size: 1.125rem;
+  --typography-spacing-vertical: 1.6875rem;
+}
+h4 {
+  --font-size: 1.0625rem;
+  --typography-spacing-vertical: 1.519rem;
+}
+span {
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+input[type="search"] {
+  padding-left: 1rem;
+}
+
+.grid.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+}
+.grid.three {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1rem;
+}
+
+.grid.one-two {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-gap: 1rem;
+}
+
+.grid.one-three {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1fr 1fr;
+  grid-gap: 1rem;
+}
+
+.right-align {
+  text-align: right;
+}
+.left-align {
+  text-align: left;
+}
