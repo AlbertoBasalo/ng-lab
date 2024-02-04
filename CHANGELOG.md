@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [18.0.0](https://github.com/AlbertoBasalo/ng-lab/compare/v17.9.0...v18.0.0) (2024-02-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* update to 17 1
+
+### Features
+
+* clean app ([0bcbad3](https://github.com/AlbertoBasalo/ng-lab/commit/0bcbad3c40dd32e5fbbde3199447e49b0423c334))
+* config files ([930dbba](https://github.com/AlbertoBasalo/ng-lab/commit/930dbba5453a1a596c5027a0a1489fc323ac3ad2))
+* copy from pre lab ([3dace31](https://github.com/AlbertoBasalo/ng-lab/commit/3dace31e49cf5c65cf75f65f0ea51cf4da21aa3f))
+* ng new ([d03d462](https://github.com/AlbertoBasalo/ng-lab/commit/d03d4628538de8e899d05ee6f86a338bab355c82))
+* smoke test ([23f95f6](https://github.com/AlbertoBasalo/ng-lab/commit/23f95f66d70034b13adad03819cb9b8383aeb386))
+* update to 17 1 ([174ca40](https://github.com/AlbertoBasalo/ng-lab/commit/174ca40b77997945ce32940cca91b244791430b4))
+
 ## [17.9.0](https://github.com/AlbertoBasalo/ng-lab/compare/v17.8.0...v17.9.0) (2024-01-08)
 
 
