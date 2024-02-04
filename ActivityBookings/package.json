@@ -1,13 +1,22 @@
 {
   "name": "activity-bookings",
-  "version": "0.0.0",
+  "version": "17.1.2",
+  "description": "Booking and management of activities",
+  "author": {
+    "name": "Alberto Basalo",
+    "url": "https://albertobasalo.dev"
+  },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "chrome": "start chrome -incognito -auto-open-devtools-for-tabs http://localhost:4200",
+    "start": "npm run chrome && ng serve --force-esbuild",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:ActivityBookings": "node dist/activity-bookings/server/server.mjs"
+    "serve:ssr:ActivityBookings": "node dist/activity-bookings/server/server.mjs",
+    "api": "json-server-auth ../db/prod/d.json -r ../db/r.json",
+    "api:reset": "copyfiles -f ../db/reset/d.json ../db/prod && npm run api",
+    "api:seed": "copyfiles -f ../db/seed/d.json ../db/prod && npm run api"
   },
   "private": true,
   "dependencies": {
@@ -45,6 +54,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "npm-check-updates": "^16.14.14",
     "prettier": "^3.2.5",
     "prettier-eslint": "^16.3.0",
     "typescript": "~5.3.2"

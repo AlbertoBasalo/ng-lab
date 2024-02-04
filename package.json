@@ -7,28 +7,15 @@
     "url": "https://albertobasalo.dev"
   },
   "scripts": {
-    "api": "json-server-auth ./db/prod/d.json -r ./db/r.json -d 2000",
-    "cleanapi": "json-server-auth ./db/prod/d.json -r ./db/r.json -d 1000",
-    "precleanapi": "copyfiles -f ./db/reset/d.json ./db/prod ",
-    "seedapi": "json-server-auth ./db/prod/d.json -r ./db/r.json -d 1000",
-    "preseedapi": "copyfiles -f ./db/seed/d.json ./db/prod ",
-    "ng": "ng",
-    "chrome": "start chrome -incognito -auto-open-devtools-for-tabs http://localhost:4200",
-    "start": " npm run chrome && ng serve --force-esbuild",
-    "build": "ng build",
-    "http-server": "npx http-server dist/ng-lab/browser -c-1",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
     "update": "ncu -u",
-    "release": "standard-version && git push --follow-tags origin main",
-    "lint": "ng lint"
+    "release": "standard-version && git push --follow-tags origin main"
   },
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "npm-check-updates": "^16.14.12",
-    "prettier": "^3.1.1",
+    "npm-check-updates": "^16.14.14",
+    "prettier": "^3.2.5",
     "standard-version": "^9.5.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.3.3"
   }
 }
