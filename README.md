@@ -1,15 +1,17 @@
 # NgLab
 
-> [!NOTE]
-> Angular Laboratory for courses and workshops by [Alberto Basalo](https://albertobasalo.dev)
+Angular Laboratory for courses and workshops by [Alberto Basalo](https://albertobasalo.dev)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
+> [!NOTE]
+> Angular sample Activity Bookings is at [ActivityBookings](./ActivityBookings) folder
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.1.
 
 ```bash
 # clone lab from github
 git clone https://github.com/AlbertoBasalo/ng-lab.git
 # install and run
-cd ng-lab
+cd ng-lab/ActivityBookings
 npm install
 # start Angular server
 npm start
