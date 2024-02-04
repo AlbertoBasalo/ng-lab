@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [17.10.1](https://github.com/AlbertoBasalo/ng-lab/compare/v18.0.0...v17.10.1) (2024-02-04)
+
 ## [17.10.0](https://github.com/AlbertoBasalo/ng-lab/compare/v17.9.0...v17.10.0) (2024-02-04)
 
 ### ⚠ BREAKING CHANGES
