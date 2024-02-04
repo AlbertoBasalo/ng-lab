@@ -41,6 +41,4 @@ testem.log
 .DS_Store
 Thumbs.db
 
-/db/prod
-
 .nx
