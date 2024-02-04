@@ -1,7 +1,7 @@
-import { LogEntry, LogLevel } from '@shared/services/log/logger.type';
+import { AppEvent, LogLevel } from '@shared/services/log/logger.type';
 
 export class LabLogWriter {
-  write(entry: LogEntry) {
+  write(entry: AppEvent) {
     const entryMessage = `${entry.message} @ ${entry.source}`;
     switch (entry.level) {
       case LogLevel.debug:

@@ -1,18 +1,18 @@
 import { Provider } from '@angular/core';
-import { LogEntry } from './logger.type';
+import { AppEvent } from './logger.type';
 
 /**
  * Log writer interface
  */
 
 export abstract class LogWriter {
-  abstract write(entry: LogEntry): void;
+  abstract write(entry: AppEvent): void;
 }
 /**
  * Default log writer
  */
 const DEFAULT_WRITER: LogWriter = {
-  write(entry: LogEntry): void {
+  write(entry: AppEvent): void {
     console.log(entry);
   },
 };
