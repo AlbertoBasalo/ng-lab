@@ -124,19 +124,16 @@ export class BookingsComponent {
 
   constructor() {
     const ALLOW_WRITE = { allowSignalWrites: true };
-    effect(() => this.#changeStatusOnTotalParticipants(), ALLOW_WRITE);
+    effect(() => this.#fillParticipantsOnTotalParticipants(), ALLOW_WRITE);
   }
 
-  #changeStatusOnTotalParticipants() {
+  #fillParticipantsOnTotalParticipants() {
     const totalParticipants = this.totalParticipants();
-    this.changeParticipants.emit(totalParticipants);
-    this.participants.update((participants) => {
-      participants.splice(0, participants.length);
-      for (let i = 0; i < totalParticipants; i++) {
-        participants.push({ id: participants.length + 1 });
-      }
-      return participants;
-    });
+    const participants = [];
+    for (let i = 0; i < totalParticipants; i++) {
+      participants.push({ id: participants.length + 1 });
+    }
+    this.participants.set(participants);
   }
 
   onNewParticipantsChange(newParticipants: number) {
@@ -144,6 +141,7 @@ export class BookingsComponent {
       newParticipants = this.maxNewParticipants();
     }
     this.newParticipants.set(newParticipants);
+    this.changeParticipants.emit(this.totalParticipants());
   }
 
   onBookParticipantsClick() {
