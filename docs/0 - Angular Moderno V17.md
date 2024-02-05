@@ -18,11 +18,11 @@ _la inyección mejorada y funcional… etc._
 
 Todo mediante **ejemplos prácticos** bien documentados y siguiendo buenas prácticas de código limpio. Aprende a crear soluciones de gestión **modernas** para empresas.
 
-<aside>
-⏰ Duración para cursos tele-presenciales: 
-- 8 módulos básicos: **24 horas**. Extendido a 12 módulos: **36 horas.** Sesiones de 3 - 4 horas.
-
-</aside>
+> ⏰ Duración para cursos tele-presenciales:
+>
+> > - 8 módulos básicos: **24 horas**.
+> > - Extendido a 12 módulos: **36 horas.**
+> > - Sesiones de **3 - 4 horas**.
 
 # 🎯 Objetivos
 
