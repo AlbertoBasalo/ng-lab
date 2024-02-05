@@ -44,7 +44,7 @@ export default class BookingsPage {
 
   // interop division
   activity: Signal<Activity> = toSignal(
-    toObservable(this.slug).pipe(switchMap((slug) => this.#service.getActivityBySlug(slug))),
+    toObservable(this.slug).pipe(switchMap((slug) => this.#service.getActivityBySlug$(slug))),
     { initialValue: NULL_ACTIVITY },
   );
 
@@ -72,7 +72,7 @@ export default class BookingsPage {
   #getParticipantsOnActivity() {
     const id = this.activity().id;
     if (id === 0) return;
-    this.#service.getBookingsByActivityId(id).subscribe((bookings) => {
+    this.#service.getBookingsByActivityId$(id).subscribe((bookings) => {
       bookings.forEach((booking) => {
         this.alreadyParticipants.update((participants) => participants + booking.participants);
       });
@@ -82,14 +82,14 @@ export default class BookingsPage {
   #updateActivityOnBookings() {
     if (!this.booked()) return;
     if (!this.activityStatusUpdated()) return;
-    this.#service.putActivity(this.activity()).subscribe({
+    this.#service.putActivity$(this.activity()).subscribe({
       next: () => console.log('Activity status updated'),
       error: (error) => console.error('Error updating activity', error),
     });
   }
 
   onNewBooking(newBooking: Booking) {
-    this.#service.postBooking(newBooking).subscribe({
+    this.#service.postBooking$(newBooking).subscribe({
       next: () => this.booked.set(true),
       error: (error) => console.error('Error creating booking', error),
     });

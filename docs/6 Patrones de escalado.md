@@ -471,15 +471,104 @@ ng g s routes/bookings/bookings
 ```
 
 ```typescript
+@Injectable({
+  providedIn: "root",
+})
+export class BookingsService {
+  #http$ = inject(HttpClient);
+  #activitiesUrl = "http://localhost:3000/activities";
+  #bookingsUrl = "http://localhost:3000/bookings";
 
+  getActivityBySlug$(slug: string | undefined) {
+    if (!slug) return of(NULL_ACTIVITY);
+    const url = `${this.#activitiesUrl}?slug=${slug}`;
+    return this.#http$.get<Activity[]>(url).pipe(
+      map((activities) => activities[0] || NULL_ACTIVITY),
+      catchError((_) => of(NULL_ACTIVITY))
+    );
+  }
+
+  getBookingsByActivityId$(activityId: number) {
+    const url = `${this.#bookingsUrl}?activityId=${activityId}`;
+    return this.#http$.get<Booking[]>(url);
+  }
+
+  postBooking$(booking: Booking) {
+    return this.#http$.post<Booking>(this.#bookingsUrl, booking);
+  }
+
+  putActivity$(activity: Activity) {
+    const url = `${this.#activitiesUrl}/${activity.id}`;
+    return this.#http$.put<Activity>(url, activity);
+  }
+}
 ```
 
 ```typescript
+export default class BookingsPage {
+  #service = inject(BookingsService);
 
-```
+  // input division
+  slug = input<string>();
 
-```html
+  // signal division
+  alreadyParticipants = signal(0);
+  booked = signal(false);
+  activityStatusUpdated = signal(false);
 
+  // interop division
+  activity: Signal<Activity> = toSignal(
+    toObservable(this.slug).pipe(switchMap((slug) => this.#service.getActivityBySlug$(slug))),
+    { initialValue: NULL_ACTIVITY }
+  );
+
+  constructor() {
+    const ALLOW_WRITE = { allowSignalWrites: true };
+    effect(() => this.#getParticipantsOnActivity(), ALLOW_WRITE);
+    effect(() => this.#updateActivityOnBookings(), ALLOW_WRITE);
+  }
+
+  onNewParticipantsChange(totalParticipants: number) {
+    const oldStatus = this.activity().status as string;
+    let newStatus = this.activity().status;
+    if (totalParticipants >= this.activity().maxParticipants) {
+      newStatus = "sold-out";
+    } else if (totalParticipants >= this.activity().minParticipants) {
+      newStatus = "confirmed";
+    } else {
+      newStatus = "published";
+    }
+    if (newStatus === oldStatus) return;
+    this.activity().status = newStatus;
+    this.activityStatusUpdated.set(true);
+  }
+
+  #getParticipantsOnActivity() {
+    const id = this.activity().id;
+    if (id === 0) return;
+    this.#service.getBookingsByActivityId$(id).subscribe((bookings) => {
+      bookings.forEach((booking) => {
+        this.alreadyParticipants.update((participants) => participants + booking.participants);
+      });
+    });
+  }
+
+  #updateActivityOnBookings() {
+    if (!this.booked()) return;
+    if (!this.activityStatusUpdated()) return;
+    this.#service.putActivity$(this.activity()).subscribe({
+      next: () => console.log("Activity status updated"),
+      error: (error) => console.error("Error updating activity", error),
+    });
+  }
+
+  onNewBooking(newBooking: Booking) {
+    this.#service.postBooking$(newBooking).subscribe({
+      next: () => this.booked.set(true),
+      error: (error) => console.error("Error creating booking", error),
+    });
+  }
+}
 ```
 
 ## 6.3 Uso funcional, local y global de Signals
