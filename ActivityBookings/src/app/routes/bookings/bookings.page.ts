@@ -32,6 +32,7 @@ import { BookingsService } from './bookings.service';
   `,
 })
 export default class BookingsPage {
+  // injection division
   #service = inject(BookingsService);
 
   // input division
@@ -54,6 +55,7 @@ export default class BookingsPage {
     effect(() => this.#updateActivityOnBookings(), ALLOW_WRITE);
   }
 
+  // event division
   onNewParticipantsChange(totalParticipants: number) {
     const oldStatus = this.activity().status as string;
     let newStatus = this.activity().status;
@@ -69,6 +71,14 @@ export default class BookingsPage {
     this.activityStatusUpdated.set(true);
   }
 
+  onNewBooking(newBooking: Booking) {
+    this.#service.postBooking$(newBooking).subscribe({
+      next: () => this.booked.set(true),
+      error: (error) => console.error('Error creating booking', error),
+    });
+  }
+
+  // effect division
   #getParticipantsOnActivity() {
     const id = this.activity().id;
     if (id === 0) return;
@@ -85,13 +95,6 @@ export default class BookingsPage {
     this.#service.putActivity$(this.activity()).subscribe({
       next: () => console.log('Activity status updated'),
       error: (error) => console.error('Error updating activity', error),
-    });
-  }
-
-  onNewBooking(newBooking: Booking) {
-    this.#service.postBooking$(newBooking).subscribe({
-      next: () => this.booked.set(true),
-      error: (error) => console.error('Error creating booking', error),
     });
   }
 }

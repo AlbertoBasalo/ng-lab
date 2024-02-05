@@ -4,7 +4,7 @@ Reparto de responsabilidades y reutilización de código.
 
 ## 6.1 Patrón Container/Presenter.
 
-### 6.1.1 Create presentational bookings component
+### 6.1.1 Crear componente presentational
 
 ```bash
 # Create presentational bookings componente
@@ -160,7 +160,7 @@ ng g c routes/bookings/bookings
   }
 ```
 
-### 6.1.2 Refactor container bookings page
+### 6.1.2 Refactorizar component container
 
 ```typescript
 imports: [BookingsComponent],
@@ -508,15 +508,12 @@ export class BookingsService {
 export default class BookingsPage {
   #service = inject(BookingsService);
 
-  // input division
   slug = input<string>();
 
-  // signal division
   alreadyParticipants = signal(0);
   booked = signal(false);
   activityStatusUpdated = signal(false);
 
-  // interop division
   activity: Signal<Activity> = toSignal(
     toObservable(this.slug).pipe(switchMap((slug) => this.#service.getActivityBySlug$(slug))),
     { initialValue: NULL_ACTIVITY }
@@ -577,7 +574,35 @@ export default class BookingsPage {
 > alternativa con signal component dividiendo más la presentación
 > comunicar con header
 
-### 6.3.1 To Do
+### 6.3.1 Simplificación de señales con observables
+
+```bash
+
+```
+
+```typescript
+
+```
+
+```html
+
+```
+
+### 6.3.2 Descomposición de componentes y almacén local
+
+```bash
+
+```
+
+```typescript
+
+```
+
+```html
+
+```
+
+### 6.3.3 Comunicación con almacén global
 
 ```bash
 

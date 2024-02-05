@@ -127,15 +127,7 @@ export class BookingsComponent {
     effect(() => this.#fillParticipantsOnTotalParticipants(), ALLOW_WRITE);
   }
 
-  #fillParticipantsOnTotalParticipants() {
-    const totalParticipants = this.totalParticipants();
-    const participants = [];
-    for (let i = 0; i < totalParticipants; i++) {
-      participants.push({ id: participants.length + 1 });
-    }
-    this.participants.set(participants);
-  }
-
+  // event division
   onNewParticipantsChange(newParticipants: number) {
     if (newParticipants > this.maxNewParticipants()) {
       newParticipants = this.maxNewParticipants();
@@ -158,5 +150,15 @@ export class BookingsComponent {
       },
     };
     this.book.emit(newBooking);
+  }
+
+  // effect division
+  #fillParticipantsOnTotalParticipants() {
+    const totalParticipants = this.totalParticipants();
+    const participants = [];
+    for (let i = 0; i < totalParticipants; i++) {
+      participants.push({ id: participants.length + 1 });
+    }
+    this.participants.set(participants);
   }
 }
