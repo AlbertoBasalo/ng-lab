@@ -1,6 +1,6 @@
 # 6 Patrones de escalado
 
-Envío, recepción y manejo de datos asínconos
+Reparto de responsabilidades y reutilización de código.
 
 ## 6.1 Patrón Container/Presenter.
 
@@ -34,7 +34,7 @@ Envío, recepción y manejo de datos asínconos
 
 ```
 
-## 6.3 Un almacén global basado en Signals
+## 6.3 Uso funcional, local y global de Signals
 
 ### 6.3.1 To Do
 
