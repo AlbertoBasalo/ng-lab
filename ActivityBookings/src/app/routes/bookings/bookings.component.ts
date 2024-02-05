@@ -10,8 +10,8 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Activity, NULL_ACTIVITY } from '../../domain/activity.type';
-import { Booking } from '../../domain/booking.type';
+import { Activity, NULL_ACTIVITY } from '../../shared/domain/activity.type';
+import { Booking } from '../../shared/domain/booking.type';
 
 @Component({
   selector: 'lab-bookings',

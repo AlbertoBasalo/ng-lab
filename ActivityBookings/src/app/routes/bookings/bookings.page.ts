@@ -7,10 +7,9 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { switchMap } from 'rxjs';
-import { Activity, NULL_ACTIVITY } from '../../domain/activity.type';
-import { Booking } from '../../domain/booking.type';
+import { toSignalMap } from '../../shared/api/api.functions';
+import { Activity, NULL_ACTIVITY } from '../../shared/domain/activity.type';
+import { Booking } from '../../shared/domain/booking.type';
 import { BookingsComponent } from './bookings.component';
 import { BookingsService } from './bookings.service';
 
@@ -44,9 +43,10 @@ export default class BookingsPage {
   activityStatusUpdated = signal(false);
 
   // interop division
-  activity: Signal<Activity> = toSignal(
-    toObservable(this.slug).pipe(switchMap((slug) => this.#service.getActivityBySlug$(slug))),
-    { initialValue: NULL_ACTIVITY },
+  activity: Signal<Activity> = toSignalMap(
+    this.slug,
+    (slug) => this.#service.getActivityBySlug$(slug),
+    NULL_ACTIVITY,
   );
 
   constructor() {

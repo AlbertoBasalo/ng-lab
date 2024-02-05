@@ -577,15 +577,29 @@ export default class BookingsPage {
 ### 6.3.1 Simplificación de señales con observables
 
 ```bash
-
+# make shared folder
+mkdir shared
+# move domain into shared
+mv domain shared
+# make api folder
+cd shared
+mkdir api
+# create file api.functions.ts
+touch api/api.functions.ts
 ```
 
 ```typescript
+export type ApiTarget$<T, K> = (sourceValue: T) => Observable<K>;
 
+export function toSignalMap<T, K>(source: Signal<T>, apiTarget$: ApiTarget$<T, K>, initialValue: K): Signal<K> {
+  const source$ = toObservable(source);
+  const apiResult$ = source$.pipe(switchMap(apiTarget$));
+  return toSignal(apiResult$, { initialValue });
+}
 ```
 
-```html
-
+```typescript
+activity: Signal<Activity> = toSignalMap(this.slug, (slug) => this.#service.getActivityBySlug$(slug), NULL_ACTIVITY);
 ```
 
 ### 6.3.2 Descomposición de componentes y almacén local

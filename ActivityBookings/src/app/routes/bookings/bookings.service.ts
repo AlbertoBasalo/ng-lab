@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { catchError, map, of } from 'rxjs';
-import { Activity, NULL_ACTIVITY } from '../../domain/activity.type';
-import { Booking } from '../../domain/booking.type';
+import { Activity, NULL_ACTIVITY } from '../../shared/domain/activity.type';
+import { Booking } from '../../shared/domain/booking.type';
 
 @Injectable({
   providedIn: 'root',
