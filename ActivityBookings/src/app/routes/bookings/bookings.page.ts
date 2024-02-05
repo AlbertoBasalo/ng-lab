@@ -116,9 +116,6 @@ export default class BookingsPage {
   // activity = signal<Activity>(NULL_ACTIVITY);
 
   // Alternative implementation using toSignal and toObservable
-
-  // ToDo: experiment with toSignal and toObservable
-
   activity: Signal<Activity> = toSignal(
     toObservable(this.slug).pipe(
       switchMap((slug) =>

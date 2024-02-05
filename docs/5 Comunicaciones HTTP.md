@@ -19,20 +19,15 @@ npm run api
 ```typescript
 //config provider
 export const appConfig: ApplicationConfig = {
-  providers: [
-    provideClientHydration(),
-    provideHttpClient(),
-    provideRouter(routes, withComponentInputBinding()),
-  ],
+  providers: [provideClientHydration(), provideHttpClient(), provideRouter(routes, withComponentInputBinding())],
 };
-
 ```
 
 ```typescript
 // Home Page
 export default class HomePage {
   #http$ = inject(HttpClient);
-  #apiUrl = 'http://localhost:3000/activities';
+  #apiUrl = "http://localhost:3000/activities";
   activities = [];
 
   constructor() {
@@ -43,17 +38,15 @@ export default class HomePage {
 }
 ```
 
-
-
 ### 5.1.2 Envío asíncrono de cambios
 
 ```typescript
 // Bookings Page
 export default class BookingsPage {
   #http$ = inject(HttpClient);
-  #activitiesUrl = 'http://localhost:3000/activities';
-  #bookingsUrl = 'http://localhost:3000/bookings';
-  
+  #activitiesUrl = "http://localhost:3000/activities";
+  #bookingsUrl = "http://localhost:3000/bookings";
+
   onBookParticipantsClick() {
     this.booked.set(true);
     const newBooking: Booking = {
@@ -63,28 +56,26 @@ export default class BookingsPage {
       date: new Date(),
       participants: this.newParticipants(),
       payment: {
-        method: 'creditCard',
+        method: "creditCard",
         amount: this.bookingAmount(),
-        status: 'pending',
+        status: "pending",
       },
     };
     this.#http$.post<Booking>(this.#bookingsUrl, newBooking).subscribe({
       next: () => this.#updateActivityStatus(),
-      error: (error) => console.error('Error creating booking', error),
+      error: (error) => console.error("Error creating booking", error),
     });
   }
 
   #updateActivityStatus() {
     const activityUrl = `${this.#activitiesUrl}/${this.activity().id}`;
     this.#http$.put<Activity>(activityUrl, this.activity()).subscribe({
-      next: () => console.log('Activity status updated'),
-      error: (error) => console.error('Error updating activity', error),
+      next: () => console.log("Activity status updated"),
+      error: (error) => console.error("Error updating activity", error),
     });
-  }    
+  }
 }
 ```
-
-
 
 ## 5.2 Asincronismo y señales
 
@@ -94,16 +85,17 @@ export default class BookingsPage {
 // Home Page
 export default class HomePage {
   #http$ = inject(HttpClient);
-  #apiUrl = 'http://localhost:3000/activities';
+  #apiUrl = "http://localhost:3000/activities";
   activities = signal<Activity[]>([]);
 
   constructor() {
-    this.#http$.get<Activity[]>(this.#apiUrl).subscribe((activities) => 	{
+    this.#http$.get<Activity[]>(this.#apiUrl).subscribe((activities) => {
       this.activities.set(activities);
     });
   }
 }
 ```
+
 ### 5.2.2 Señales para enviar cambios
 
 ```typescript
@@ -114,7 +106,7 @@ export default class BookingsPage {
   slug = input<string>();
 
   activity = signal<Activity>(NULL_ACTIVITY);
-  
+
   constructor() {
     effect(() => this.#getActivityOnSlug(), { allowSignalWrites: true });
   }
@@ -132,11 +124,11 @@ export default class BookingsPage {
 ```typescript
 export default class BookingsPage {
   #http$ = inject(HttpClient);
-  #activitiesUrl = 'http://localhost:3000/activities';
-  #bookingsUrl = 'http://localhost:3000/bookings';
+  #activitiesUrl = "http://localhost:3000/activities";
+  #bookingsUrl = "http://localhost:3000/bookings";
   slug = input<string>();
   activity = signal<Activity>(NULL_ACTIVITY);
-    
+
   constructor() {
     const ALLOW_WRITE = { allowSignalWrites: true };
     effect(() => this.#getActivityOnSlug(), ALLOW_WRITE);
@@ -168,11 +160,11 @@ export default class BookingsPage {
     const activity = this.activity();
     let newStatus = activity.status;
     if (totalParticipants >= activity.maxParticipants) {
-      newStatus = 'sold-out';
+      newStatus = "sold-out";
     } else if (totalParticipants >= activity.minParticipants) {
-      newStatus = 'confirmed';
+      newStatus = "confirmed";
     } else {
-      newStatus = 'published';
+      newStatus = "published";
     }
     activity.status = newStatus;
     this.participants.update((participants) => {
@@ -188,8 +180,8 @@ export default class BookingsPage {
     if (!this.booked()) return;
     const activityUrl = `${this.#activitiesUrl}/${this.activity().id}`;
     this.#http$.put<Activity>(activityUrl, this.activity()).subscribe({
-      next: () => console.log('Activity status updated'),
-      error: (error) => console.error('Error updating activity', error),
+      next: () => console.log("Activity status updated"),
+      error: (error) => console.error("Error updating activity", error),
     });
   }
 }
@@ -197,10 +189,10 @@ export default class BookingsPage {
 
 ## 5.3 Operadores RxJS.
 
-### 5.3.1 Tuberias funcionales
+### 5.3.1 Tuberías funcionales
 
 ```typescript
-export default class BookingsPage {  
+export default class BookingsPage {
   #getActivityOnSlug() {
     const activityUrl = `${this.#activitiesUrl}?slug=${this.slug()}`;
     this.#http$
@@ -208,9 +200,9 @@ export default class BookingsPage {
       .pipe(
         map((activities: Activity[]) => activities[0] || NULL_ACTIVITY),
         catchError((error) => {
-          console.error('Error getting activity', error);
+          console.error("Error getting activity", error);
           return of(NULL_ACTIVITY);
-        }),
+        })
       )
       .subscribe((activity: Activity) => {
         this.activity.set(activity);
@@ -219,33 +211,34 @@ export default class BookingsPage {
 }
 ```
 
-
-
 ### 5.3.2 Interoperabilidad de señales y observables
 
 ```typescript
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 
- simpleSignal: Signal<string> = toSignal(of('Angular'), { initialValue: '' });
- simpleObs: Observable<string> = toObservable(this.simpleSignal);
- complexSignal: Signal<string> = toSignal(of(this.slug), { initialValue: '' });
+simpleSignal: Signal<string> = toSignal(of("Angular"), { initialValue: "" });
+simpleObs: Observable<string> = toObservable(this.simpleSignal);
+complexSignal: Signal<string> = toSignal(of(this.slug), { initialValue: "" });
 
+// Original implementation
 // activity = signal<Activity>(NULL_ACTIVITY);
+// With effect
+// constructor() {
+//     const ALLOW_WRITE = { allowSignalWrites: true };
+//     effect(() => this.#getActivityOnSlug(), ALLOW_WRITE);
+// }
 
-// Alternative implementation using toSignal and toObservable
+// Alternative implementation using toSignal and toObservable and switchMap
 
-  activity: Signal<Activity> = toSignal(
-    toObservable(this.slug).pipe(
-      switchMap((slug) =>
-        this.#http$.get<Activity[]>(`${this.#activitiesUrl}?slug=${slug}`).pipe(
-          map((activities) => activities[0] || NULL_ACTIVITY),
-          catchError(() => of(NULL_ACTIVITY)),
-        ),
-      ),
-    ),
-    { initialValue: NULL_ACTIVITY },
-  );
+activity: Signal<Activity> = toSignal(
+  toObservable(this.slug).pipe(
+    switchMap((slug) =>
+      this.#http$.get<Activity[]>(`${this.#activitiesUrl}?slug=${slug}`).pipe(
+        map((activities) => activities[0] || NULL_ACTIVITY),
+        catchError(() => of(NULL_ACTIVITY))
+      )
+    )
+  ),
+  { initialValue: NULL_ACTIVITY }
+);
 ```
-
-
-
