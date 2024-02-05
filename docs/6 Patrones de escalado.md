@@ -462,9 +462,15 @@ export class BookingsComponent {
 
 ## 6.2 Servicios e inyección de dependencias
 
-### 6.2.1 To Do
+> Extraer lógica de negocio e infraestructura a servicios
+
+### 6.2.1 Extraer lógica a un servicio
 
 ```bash
+ng g s routes/bookings/bookings
+```
+
+```typescript
 
 ```
 
@@ -477,6 +483,10 @@ export class BookingsComponent {
 ```
 
 ## 6.3 Uso funcional, local y global de Signals
+
+> simplificar interop, revisión de input/output y comunicar con header
+> alternativa con signal component dividiendo más la presentación
+> comunicar con header
 
 ### 6.3.1 To Do
 
