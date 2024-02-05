@@ -1,6 +1,6 @@
 # NgLab
 
-Angular Laboratory for courses and workshops by [Alberto Basalo](https://albertobasalo.dev)
+Laboratorio para [cursos y talleres de Angular](./docs/0%20-%20Angular%20Moderno%20V17.md) impartidos en Español por [Alberto Basalo](https://albertobasalo.dev)
 
 > [!NOTE]
 > Angular sample Activity Bookings is at [ActivityBookings](./ActivityBookings) folder
@@ -16,7 +16,7 @@ npm install
 # start Angular server
 npm start
 # start a fake API server
-npm run seedapi
+npm run api:seed
 ```
 
 ## Documentation
@@ -30,7 +30,7 @@ Have an outlook of the project folders structure
 ![Folders](./docs/screenshots/folders.png)
 
 > [!TIP]
-> Companion article:
+> Companion article about Angular code organization:
 
 - [English version](https://medium.com/@albertobasalo/file-and-folder-structure-for-angular-applications-3130efc582e3)
 
