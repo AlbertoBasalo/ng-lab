@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Activity } from '../../shared/domain/activity.type';
+import { Activity } from '@domain/activity.type';
 import { ActivityComponent } from './activity.component';
 import { HomeService } from './home.service';
 

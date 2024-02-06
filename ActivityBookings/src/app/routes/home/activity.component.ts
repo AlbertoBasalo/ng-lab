@@ -1,7 +1,7 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Activity } from '../../shared/domain/activity.type';
+import { Activity } from '@domain/activity.type';
 
 @Component({
   selector: 'lab-activity',

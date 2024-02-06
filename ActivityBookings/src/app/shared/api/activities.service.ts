@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { Activity, NULL_ACTIVITY } from '@domain/activity.type';
 import { catchError, map, of, throwError } from 'rxjs';
-import { Activity, NULL_ACTIVITY } from '../domain/activity.type';
 
 @Injectable({
   providedIn: 'root',

@@ -231,15 +231,51 @@ mv domain shared
 touch domain/activity.functions.ts
 ```
 
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@domain/*": ["src/app/shared/domain/*"]
+    }
+  }
+}
+```
+
 `shared/domain/activity.type`
 `shared/domain/booking.type`
 
 `shared/domain/activity.functions`
 
 ```typescript
-export function changeActivityStatus(activity: Activity, participants: number): Activity {
-  return { ...activity, status };
+export function changeActivityStatus(activity: Activity, totalParticipants: number) {
+  let newStatus = activity.status;
+  if (totalParticipants >= activity.maxParticipants) {
+    newStatus = "sold-out";
+  } else if (totalParticipants >= activity.minParticipants) {
+    newStatus = "confirmed";
+  } else {
+    newStatus = "published";
+  }
+  activity.status = newStatus;
 }
+```
+
+usarlo en `bookings.page`
+
+```typescript
+  #changeStatusOnTotalParticipants() {
+    const totalParticipants = this.totalParticipants();
+    const totalParticipants = this.totalParticipants();
+    changeActivityStatus(this.activity(), totalParticipants);
+    this.participants.update((participants) => {
+      participants.splice(0, participants.length);
+      for (let i = 0; i < totalParticipants; i++) {
+        participants.push({ id: participants.length + 1 });
+      }
+      return participants;
+    });
+  }
 ```
 
 ### 6.3.3 Componentes reutilizables
