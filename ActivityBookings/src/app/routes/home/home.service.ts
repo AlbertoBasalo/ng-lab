@@ -6,10 +6,10 @@ import { Activity } from '../../shared/domain/activity.type';
   providedIn: 'root',
 })
 export class HomeService {
-  #http$ = inject(HttpClient);
+  #http = inject(HttpClient);
   #apiUrl = 'http://localhost:3000/activities';
 
-  getActivities$() {
-    return this.#http$.get<Activity[]>(this.#apiUrl);
+  getActivities() {
+    return this.#http.get<Activity[]>(this.#apiUrl);
   }
 }

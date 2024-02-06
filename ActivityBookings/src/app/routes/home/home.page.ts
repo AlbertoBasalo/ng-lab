@@ -24,5 +24,5 @@ import { HomeService } from './home.service';
 })
 export default class HomePage {
   #service = inject(HomeService);
-  activities: Signal<Activity[]> = toSignal(this.#service.getActivities$(), { initialValue: [] });
+  activities: Signal<Activity[]> = toSignal(this.#service.getActivities(), { initialValue: [] });
 }
