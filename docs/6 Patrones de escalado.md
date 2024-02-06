@@ -110,15 +110,67 @@ Reutilización de código en componentes.
 
 ### 6.3.1 Componentes reutilizables
 
+```bash
+# generate activity-state component
+ng g s shared/ui/activity-state
+```
+
 `shared/ui/activity-state.component`
 
 ### 6.3.2 Servicios y utilidades de datos comunes
 
+```bash
+# generate activities service
+ng g s shared/api/activities
+# go to shared/api folder
+cd shared/api
+# create file api.functions.ts
+touch api/signal.functions.ts
+```
+
 `shared/api/activities.service`
+
+```typescript
+@Injectable
+export class ActivitiesService {
+  #http = inject(HttpClient);
+  #apiUrl = "http://localhost:3000/activities";
+
+  getActivities() {
+    return this.#http.get<Activity[]>(this.#apiUrl);
+  }
+}
+```
+
 `shared/api/signal.functions`
+
+```typescript
+export type ApiTarget$<T, K> = (sourceValue: T) => Observable<K>;
+
+export function toSignalMap<T, K>(source: Signal<T>, apiTarget$: ApiTarget$<T, K>, initialValue: K): Signal<K> {
+  const source$ = toObservable(source);
+  const apiResult$ = source$.pipe(switchMap(apiTarget$));
+  return toSignal(apiResult$, { initialValue });
+}
+```
+
+`bookings.page`
+
+```typescript
+activity: Signal<Activity> = toSignalMap(this.slug, (slug) => this.#service.getActivityBySlug$(slug), NULL_ACTIVITY);
+```
 
 ### 6.3.3 Lógica y tipos de dominio
 
+```bash
+# go to shared folder
+cd shared
+# move domain into shared
+mv domain shared
+touch domain/activity.functions.ts
+```
+
 `shared/domain/activity.type`
 `shared/domain/booking.type`
+
 `shared/domain/activity.functions`
