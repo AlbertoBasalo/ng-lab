@@ -106,18 +106,9 @@ export default class HomePage {
 
 Reutilización de código en componentes.
 
-> Carpeta shared
+> Carpeta shared 🚧 import @shared
 
-### 6.3.1 Componentes reutilizables
-
-```bash
-# generate activity-state component
-ng g s shared/ui/activity-state
-```
-
-`shared/ui/activity-state.component`
-
-### 6.3.2 Servicios y utilidades de datos comunes
+### 6.3.1 Servicios y utilidades de datos comunes
 
 ```bash
 # generate activities service
@@ -126,6 +117,19 @@ ng g s shared/api/activities
 cd shared/api
 # create file api.functions.ts
 touch api/signal.functions.ts
+```
+
+`tsconfig.json`
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@api/*": ["src/app/shared/api/*"]
+    }
+  }
+}
 ```
 
 `shared/api/activities.service`
@@ -138,6 +142,56 @@ export class ActivitiesService {
 
   getActivities() {
     return this.#http.get<Activity[]>(this.#apiUrl);
+  }
+
+  getActivityBySlug(slug: string | undefined) {
+    if (!slug) return of(NULL_ACTIVITY);
+    const url = `${this.#apiUrl}?slug=${slug}`;
+    return this.#http.get<Activity[]>(url).pipe(
+      map((activities) => activities[0] || NULL_ACTIVITY),
+      catchError((_) => of(NULL_ACTIVITY))
+    );
+  }
+
+  putActivity(activity: Activity) {
+    const url = `${this.#apiUrl}/${activity.id}`;
+    return this.#http.put<Activity>(url, activity).pipe(
+      catchError((error) => {
+        console.error("Error updating activity", error);
+        return throwError(() => new Error(error));
+      })
+    );
+  }
+}
+```
+
+usarlo en `home.service` y en `bookings.page`
+
+```typescript
+@Injectable({
+  providedIn: "root",
+})
+export class HomeService {
+  #activities = inject(ActivitiesService);
+
+  getActivities() {
+    return this.#activities.getActivities();
+  }
+}
+```
+
+```typescript
+export default class BookingsPage {
+  #activitiesService = inject(ActivitiesService);
+
+  activity: Signal<Activity> = toSignal(
+    toObservable(this.slug).pipe(switchMap((slug) => this.#activitiesService.getActivityBySlug(slug))),
+    { initialValue: NULL_ACTIVITY }
+  );
+
+  #updateActivityOnBookings() {
+    if (!this.booked()) return;
+    this.#activitiesService.putActivity(this.activity()).subscribe(() => console.log("Activity status updated"));
   }
 }
 ```
@@ -154,13 +208,20 @@ export function toSignalMap<T, K>(source: Signal<T>, apiTarget$: ApiTarget$<T, K
 }
 ```
 
-`bookings.page`
+usarlo en `bookings.page`
 
 ```typescript
-activity: Signal<Activity> = toSignalMap(this.slug, (slug) => this.#service.getActivityBySlug$(slug), NULL_ACTIVITY);
+export default class BookingsPage {
+  #service = inject(ActivitiesService);
+  activity: Signal<Activity> = toSignalMap(
+    this.slug,
+    (slug) => this.#activitiesService.getActivityBySlug(slug),
+    NULL_ACTIVITY
+  );
+}
 ```
 
-### 6.3.3 Lógica y tipos de dominio
+### 6.3.2 Lógica y tipos de dominio
 
 ```bash
 # go to shared folder
@@ -174,3 +235,18 @@ touch domain/activity.functions.ts
 `shared/domain/booking.type`
 
 `shared/domain/activity.functions`
+
+```typescript
+export function changeActivityStatus(activity: Activity, participants: number): Activity {
+  return { ...activity, status };
+}
+```
+
+### 6.3.3 Componentes reutilizables
+
+```bash
+# generate activity-state component
+ng g s shared/ui/activity-state
+```
+
+`shared/ui/activity-state.component`
