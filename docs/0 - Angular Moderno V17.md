@@ -54,7 +54,7 @@ Todo mediante **ejemplos prácticos** bien documentados y siguiendo buenas prác
 
 # 📚 Contenido
 
-### Módulos básicos
+### Módulos básicos (Angular Basics)
 
 1. **Hola Angular CLI**
    - Instalación del CLI y generación de una aplicación
@@ -79,27 +79,27 @@ Todo mediante **ejemplos prácticos** bien documentados y siguiendo buenas prác
 6. **Patrones de escalado**
    - Patrón container/presenter
    - Servicios e inyección de dependencias
+   - Principio DRY con código compartido
+7. **Programación reactiva**
    - Un almacén global basado en Signals
-7. **Formularios y listados de datos**
+   - Flujo de datos unidireccional
+   - Operadores avanzados de RxJs
+8. **Formularios y manipulación de datos**
    - Formularios para recogida de datos
    - Validación de entrada
    - Presentación condicional y diferida de feedback al usuario
-8. **Programación reactiva**
-   - Flujo de datos unidireccional
-   - Operadores avanzados de RxJs
-   - Soluciones de terceros
 
 ---
 
-### Módulos de extensión
+### Módulos de extensión (Angular PRO)
 
-- x. Providers con clases y funciones
+- x. Seguridad
 
-  - Inversión del control con el sistema de inyección de dependencias
-
-  - Intercepción de comunicaciones con funciones
+  - Interceptación de comunicaciones con funciones
 
   - Guardias de navegación con programación funcional
+
+  - Estado global y almacenamiento seguro
 
 - x. Extensibilidad
 
@@ -115,7 +115,7 @@ Todo mediante **ejemplos prácticos** bien documentados y siguiendo buenas prác
 
   - Progressive Web Applications
 
-  - Internacionalización.
+  - Gestión de errores.
 
 - x. Librerías
 
@@ -127,7 +127,7 @@ Todo mediante **ejemplos prácticos** bien documentados y siguiendo buenas prác
 
 <aside>
 ⏰ Duración para cursos tele-presenciales: 
-- **8 módulos básicos: 24 horas. Extendido a 12 módulos: 36 horas**
+- **8 módulos básicos: 24 horas. Extendido hasta 12 módulos: hasta 36 horas**
 
 </aside>
 

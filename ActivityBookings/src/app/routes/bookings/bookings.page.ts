@@ -7,7 +7,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { toSignalMap } from '../../shared/api/api.functions';
+import { toSignalMap } from '../../shared/api/signal.functions';
 import { Activity, NULL_ACTIVITY } from '../../shared/domain/activity.type';
 import { Booking } from '../../shared/domain/booking.type';
 import { BookingsComponent } from './bookings.component';
