@@ -1,4 +1,4 @@
-import { CurrencyPipe, DatePipe, UpperCasePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
@@ -16,36 +16,14 @@ import { toSignalMap } from '@api/signal.functions';
 import { changeActivityStatus } from '@domain/activity.functions';
 import { Activity, NULL_ACTIVITY } from '@domain/activity.type';
 import { Booking } from '@domain/booking.type';
+import { ActivityStatusComponent } from '@ui/activity-status.component';
 
 @Component({
   selector: 'lab-bookings',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: `
-    .draft {
-      color: aqua;
-      font-style: italic;
-    }
-    .published {
-      color: navy;
-    }
-    .confirmed {
-      color: green;
-    }
-    .sold-out {
-      color: teal;
-      font-style: italic;
-    }
-    .done {
-      color: olive;
-      font-style: italic;
-    }
-    .cancelled {
-      color: maroon;
-      font-style: italic;
-    }
-  `,
-  imports: [CurrencyPipe, DatePipe, UpperCasePipe, FormsModule],
+  styles: ``,
+  imports: [CurrencyPipe, DatePipe, ActivityStatusComponent, FormsModule],
   template: `
     @if (activity(); as activity) {
       <article>
@@ -54,7 +32,7 @@ import { Booking } from '@domain/booking.type';
           <div>
             <span>{{ activity.price | currency }}</span>
             <span>{{ activity.date | date: 'dd-MMM-yyyy' }}</span>
-            <span [class]="activity.status">{{ activity.status | uppercase }}</span>
+            <lab-activity-status [status]="activity.status" />
           </div>
         </header>
         <main>

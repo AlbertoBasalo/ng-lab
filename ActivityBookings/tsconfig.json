@@ -23,7 +23,8 @@
     "baseUrl": "./",
     "paths": {
       "@api/*": ["src/app/shared/api/*"],
-      "@domain/*": ["src/app/shared/domain/*"]
+      "@domain/*": ["src/app/shared/domain/*"],
+      "@ui/*": ["src/app/shared/ui/*"]
     }
   },
   "angularCompilerOptions": {

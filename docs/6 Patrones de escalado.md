@@ -249,15 +249,12 @@ touch domain/activity.functions.ts
 
 ```typescript
 export function changeActivityStatus(activity: Activity, totalParticipants: number) {
-  let newStatus = activity.status;
+  if (["draft", "done", "cancelled"].includes(activity.status)) return;
   if (totalParticipants >= activity.maxParticipants) {
-    newStatus = "sold-out";
+    activity.status = "sold-out";
   } else if (totalParticipants >= activity.minParticipants) {
-    newStatus = "confirmed";
-  } else {
-    newStatus = "published";
+    activity.status = "confirmed";
   }
-  activity.status = newStatus;
 }
 ```
 
@@ -281,8 +278,69 @@ usarlo en `bookings.page`
 ### 6.3.3 Componentes reutilizables
 
 ```bash
-# generate activity-state component
-ng g s shared/ui/activity-state
+# generate activity-status component
+ng g c shared/ui/activity-status
+```
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@ui/*": ["src/app/shared/ui/*"]
+    }
+  }
+}
 ```
 
 `shared/ui/activity-state.component`
+
+```css
+.draft {
+  color: aqua;
+  font-style: italic;
+}
+.published {
+  color: navy;
+}
+.confirmed {
+  color: green;
+}
+.sold-out {
+  color: teal;
+  font-style: italic;
+}
+.done {
+  color: olive;
+  font-style: italic;
+}
+.cancelled {
+  color: maroon;
+  font-style: italic;
+}
+```
+
+```html
+<span [class]="activity().status">{{ activity().status }}</span>
+```
+
+```typescript
+{
+  export class ActivityStatusComponent {
+    status = input.required<ActivityStatus>();
+  }
+}
+```
+
+usarlo en `bookings.page` y en `activity.component`
+
+```typescript
+import { ActivityStatusComponent } from "@ui/activity-status";
+{
+  imports: [ActivityStatusComponent],
+}
+```
+
+```html
+<lab-activity-status [status]="activity.status" />
+```
