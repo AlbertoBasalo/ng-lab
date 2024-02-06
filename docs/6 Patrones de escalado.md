@@ -7,6 +7,33 @@ Reparto de responsabilidades y reutilización de código.
 ### 6.1.1 Crear componente presentational
 
 ```bash
+# Create presentational home componente
+ng g c routes/home/activity
+# Move presentational logic
+```
+
+```html
+<div>
+  <span>
+    <a [routerLink]="['/bookings', activity().slug]">{{ activity().name }}</a>
+  </span>
+  <span>{{ activity().location }}</span>
+  <span>{{ activity().price | currency }}</span>
+  <span>{{ activity().date | date: 'dd-MMM-yyyy' }}</span>
+</div>
+```
+
+move imports ` imports: [CurrencyPipe, DatePipe, RouterLink],`
+
+declare input
+
+```typescript
+activity = input.required<Activity>();
+```
+
+#### 6.1.1.2 🚫 Bookings example
+
+```bash
 # Create presentational bookings componente
 ng g c routes/bookings/bookings
 # Move presentational logic
@@ -163,6 +190,25 @@ ng g c routes/bookings/bookings
 ### 6.1.2 Refactorizar component container
 
 ```typescript
+imports: [ActivityComponent],
+```
+
+```html
+<article>
+  <header>
+    <h2>Activities</h2>
+  </header>
+  <main>
+    @for (activity of activities(); track activity.id) {
+    <lab-activity [activity]="activity" />
+    }
+  </main>
+</article>
+```
+
+#### 6.1.2.2 🚫 Bookings example
+
+```typescript
 imports: [BookingsComponent],
 ```
 
@@ -242,9 +288,11 @@ export default class BookingsPage {
 }
 ```
 
-### 6.1.3 Input y Output
+### 6.1.3 🚧 Input y Output ❓
 
 > 🚧 Output syntax will change to be the same as input
+
+> ❓ Wait for changes and move to the end?
 
 Parent Container component
 
@@ -467,6 +515,37 @@ export class BookingsComponent {
 ### 6.2.1 Extraer lógica a un servicio
 
 ```bash
+# Create home service
+ng g s routes/home/home
+```
+
+```typescript
+@Injectable({
+  providedIn: "root",
+})
+export class HomeService {
+  #http$ = inject(HttpClient);
+  #apiUrl = "http://localhost:3000/activities";
+
+  getActivities$() {
+    return this.#http$.get<Activity[]>(this.#apiUrl);
+  }
+}
+```
+
+```typescript
+export default class HomePage {
+  #service = inject(HomeService);
+  activities: Signal<Activity[]> = toSignal(this.#service.getActivities$(), { initialValue: [] });
+}
+```
+
+#### 6.2.1.2 🚫 Bookings example
+
+```bash
+# Create home service
+ng g s routes/home/home
+# Create bookings service
 ng g s routes/bookings/bookings
 ```
 
@@ -569,10 +648,6 @@ export default class BookingsPage {
 ```
 
 ## 6.3 Uso funcional, local y global de Signals
-
-> simplificar interop, revisión de input/output y comunicar con header
-> alternativa con signal component dividiendo más la presentación
-> comunicar con header
 
 ### 6.3.1 Simplificación de señales con observables
 

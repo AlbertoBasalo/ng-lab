@@ -1,12 +1,12 @@
-import { CurrencyPipe, DatePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, WritableSignal, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Activity } from '../../shared/domain/activity.type';
+import { ActivityComponent } from './activity.component';
+import { HomeService } from './home.service';
 
 @Component({
   standalone: true,
-  imports: [CurrencyPipe, DatePipe, RouterLink],
+  imports: [ActivityComponent],
   template: `
     <article>
       <header>
@@ -14,14 +14,7 @@ import { Activity } from '../../shared/domain/activity.type';
       </header>
       <main>
         @for (activity of activities(); track activity.id) {
-          <div>
-            <span>
-              <a [routerLink]="['/bookings', activity.slug]">{{ activity.name }}</a>
-            </span>
-            <span>{{ activity.location }}</span>
-            <span>{{ activity.price | currency }}</span>
-            <span>{{ activity.date | date: 'dd-MMM-yyyy' }}</span>
-          </div>
+          <lab-activity [activity]="activity" />
         }
       </main>
     </article>
@@ -30,13 +23,6 @@ import { Activity } from '../../shared/domain/activity.type';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class HomePage {
-  #http$ = inject(HttpClient);
-  #apiUrl = 'http://localhost:3000/activities';
-  activities: WritableSignal<Activity[]> = signal<Activity[]>([]);
-
-  constructor() {
-    this.#http$.get<Activity[]>(this.#apiUrl).subscribe((activities) => {
-      this.activities.set(activities);
-    });
-  }
+  #service = inject(HomeService);
+  activities: Signal<Activity[]> = toSignal(this.#service.getActivities$(), { initialValue: [] });
 }
