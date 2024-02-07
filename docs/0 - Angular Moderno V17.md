@@ -80,6 +80,7 @@ Todo mediante **ejemplos prácticos** bien documentados y siguiendo buenas prác
    - Patrón container/presenter
    - Servicios e inyección de dependencias
    - Principio DRY con código compartido
+   - Ejercicios de refactorización
 7. **Programación reactiva**
    - Un almacén global basado en Signals
    - Flujo de datos unidireccional

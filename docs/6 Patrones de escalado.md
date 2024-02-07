@@ -344,3 +344,7 @@ import { ActivityStatusComponent } from "@ui/activity-status";
 ```html
 <lab-activity-status [status]="activity.status" />
 ```
+
+## 6.x Ejercicios de refactorización
+
+### 6.x.1 Refactorizar un componente contenedor inteligente
