@@ -92,6 +92,14 @@ export default class BookingsPage {
   #bookingsUrl = 'http://localhost:3000/bookings';
   slug = input<string>();
 
+  // ToDo:
+  // Replace every http with a call to toSignalMap function
+  // Create Bookings service
+  // Remove async code from effects
+  // Rename services to distinguish API from facade
+  // Apply container/presenter pattern
+  // Refine presenter in nested components (some of them shared)
+
   activity: Signal<Activity> = toSignalMap(
     this.slug,
     (slug) => this.#activitiesService.getActivityBySlug(slug),
@@ -117,29 +125,13 @@ export default class BookingsPage {
 
   constructor() {
     const ALLOW_WRITE = { allowSignalWrites: true };
-    // effect(() => this.#getActivityOnSlug(), ALLOW_WRITE);
     effect(() => this.#getParticipantsOnActivity(), ALLOW_WRITE);
     effect(() => this.#changeStatusOnTotalParticipants(), ALLOW_WRITE);
     effect(() => this.#updateActivityOnBookings(), ALLOW_WRITE);
   }
 
-  // #getActivityOnSlug() {
-  //   const activityUrl = `${this.#activitiesUrl}?slug=${this.slug()}`;
-  //   this.#http$
-  //     .get<Activity[]>(activityUrl)
-  //     .pipe(
-  //       map((activities: Activity[]) => activities[0] || NULL_ACTIVITY),
-  //       catchError((error) => {
-  //         console.error('Error getting activity', error);
-  //         return of(NULL_ACTIVITY);
-  //       }),
-  //     )
-  //     .subscribe((activity: Activity) => {
-  //       this.activity.set(activity);
-  //     });
-  // }
-
   #getParticipantsOnActivity() {
+    // ! This is a side effect with async code
     const id = this.activity().id;
     if (id === 0) return;
     const bookingsUrl = `${this.#bookingsUrl}?activityId=${id}`;
@@ -163,6 +155,7 @@ export default class BookingsPage {
   }
 
   #updateActivityOnBookings() {
+    // ! This is a side effect with async code
     if (!this.booked()) return;
     this.#activitiesService
       .putActivity(this.activity())

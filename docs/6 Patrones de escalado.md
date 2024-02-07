@@ -149,7 +149,7 @@ export class ActivitiesService {
     const url = `${this.#apiUrl}?slug=${slug}`;
     return this.#http.get<Activity[]>(url).pipe(
       map((activities) => activities[0] || NULL_ACTIVITY),
-      catchError((_) => of(NULL_ACTIVITY))
+      catchError(() => of(NULL_ACTIVITY))
     );
   }
 
