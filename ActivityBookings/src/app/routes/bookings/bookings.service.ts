@@ -1,37 +1,32 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { catchError, map, of } from 'rxjs';
-import { Activity, NULL_ACTIVITY } from '../../shared/domain/activity.type';
-import { Booking } from '../../shared/domain/booking.type';
+import { ActivitiesRepository } from '@api/activities.repository';
+import { BookingsRepository } from '@api/bookings.repository';
+import { Activity, NULL_ACTIVITY } from '@domain/activity.type';
+import { Booking } from '@domain/booking.type';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookingsService {
-  #http$ = inject(HttpClient);
-  #activitiesUrl = 'http://localhost:3000/activities';
-  #bookingsUrl = 'http://localhost:3000/bookings';
+  activities = inject(ActivitiesRepository);
+  bookings = inject(BookingsRepository);
 
   getActivityBySlug$(slug: string | undefined) {
     if (!slug) return of(NULL_ACTIVITY);
-    const url = `${this.#activitiesUrl}?slug=${slug}`;
-    return this.#http$.get<Activity[]>(url).pipe(
-      map((activities) => activities[0] || NULL_ACTIVITY),
-      catchError((_) => of(NULL_ACTIVITY)),
-    );
+    return this.activities.getActivityBySlug$(slug);
   }
 
   getBookingsByActivityId$(activityId: number) {
-    const url = `${this.#bookingsUrl}?activityId=${activityId}`;
-    return this.#http$.get<Booking[]>(url);
+    if (!activityId) return of([]);
+    return this.bookings.getBookingsByActivityId$(activityId);
   }
 
   postBooking$(booking: Booking) {
-    return this.#http$.post<Booking>(this.#bookingsUrl, booking);
+    return this.bookings.postBooking$(booking);
   }
 
   putActivity$(activity: Activity) {
-    const url = `${this.#activitiesUrl}/${activity.id}`;
-    return this.#http$.put<Activity>(url, activity);
+    return this.activities.putActivity$(activity);
   }
 }

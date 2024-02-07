@@ -1,5 +1,4 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,12 +10,12 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivitiesService } from '@api/activities.service';
 import { toSignalMap } from '@api/signal.functions';
 import { changeActivityStatus } from '@domain/activity.functions';
 import { Activity, NULL_ACTIVITY } from '@domain/activity.type';
 import { Booking } from '@domain/booking.type';
 import { ActivityStatusComponent } from '@ui/activity-status.component';
+import { BookingsService } from './bookings.service';
 
 @Component({
   selector: 'lab-bookings',
@@ -74,7 +73,7 @@ import { ActivityStatusComponent } from '@ui/activity-status.component';
               </div>
             }
             <button
-              [disabled]="booked() || newParticipants() === 0"
+              [disabled]="bookingSaved() || newParticipants() === 0"
               (click)="onBookParticipantsClick()"
             >
               Book {{ newParticipants() }} places now for {{ bookingAmount() | currency }}!
@@ -87,64 +86,71 @@ import { ActivityStatusComponent } from '@ui/activity-status.component';
   `,
 })
 export default class BookingsPage {
-  #http = inject(HttpClient);
-  #activitiesService = inject(ActivitiesService);
-  #bookingsUrl = 'http://localhost:3000/bookings';
+  #service = inject(BookingsService);
   slug = input<string>();
 
-  // ToDo:
-  // Replace every http with a call to toSignalMap function
   // Create Bookings service
+  // Replace every http with a call to toSignalMap function
   // Remove async code from effects
   // Rename services to distinguish API from facade
+  // ToDo:
   // Apply container/presenter pattern
   // Refine presenter in nested components (some of them shared)
 
   activity: Signal<Activity> = toSignalMap(
     this.slug,
-    (slug) => this.#activitiesService.getActivityBySlug(slug),
+    (slug) => this.#service.getActivityBySlug$(slug),
     NULL_ACTIVITY,
   );
 
-  alreadyParticipants = signal(0);
-  maxNewParticipants = computed(() => this.activity().maxParticipants - this.alreadyParticipants());
-  isBookable = computed(() => ['published', 'confirmed'].includes(this.activity().status));
+  activityBookings = toSignalMap(
+    this.activity,
+    (activity) => this.#service.getBookingsByActivityId$(activity.id),
+    [],
+  );
 
   newParticipants = signal(0);
-  booked = signal(false);
   participants = signal<{ id: number }[]>([]);
+  bookingSaved = signal(false);
+
+  statusChanged = false;
+
+  alreadyParticipants = computed(() =>
+    this.activityBookings().reduce((acc, booking) => acc + booking.participants, 0),
+  );
+  maxNewParticipants = computed(() => this.activity().maxParticipants - this.alreadyParticipants());
+  isBookable = computed(() => ['published', 'confirmed'].includes(this.activity().status));
 
   totalParticipants = computed(() => this.alreadyParticipants() + this.newParticipants());
   remainingPlaces = computed(() => this.activity().maxParticipants - this.totalParticipants());
   bookingAmount = computed(() => this.newParticipants() * this.activity().price);
 
   bookedMessage = computed(() => {
-    if (this.booked()) return `Booked USD ${this.bookingAmount()}`;
+    if (this.bookingSaved()) return `Booked USD ${this.bookingAmount()}`;
     return '';
   });
 
   constructor() {
     const ALLOW_WRITE = { allowSignalWrites: true };
-    effect(() => this.#getParticipantsOnActivity(), ALLOW_WRITE);
+    // effect(() => this.#getParticipantsOnActivity(), ALLOW_WRITE);
     effect(() => this.#changeStatusOnTotalParticipants(), ALLOW_WRITE);
-    effect(() => this.#updateActivityOnBookings(), ALLOW_WRITE);
+    // effect(() => this.#updateActivityOnBookings(), ALLOW_WRITE);
   }
 
   #getParticipantsOnActivity() {
     // ! This is a side effect with async code
-    const id = this.activity().id;
-    if (id === 0) return;
-    const bookingsUrl = `${this.#bookingsUrl}?activityId=${id}`;
-    this.#http.get<Booking[]>(bookingsUrl).subscribe((bookings) => {
-      bookings.forEach((booking) => {
-        this.alreadyParticipants.update((participants) => participants + booking.participants);
-      });
-    });
+    // const id = this.activity().id;
+    // if (id === 0) return;
+    // this.#service.getBookingsByActivityId$(id).subscribe((bookings) => {
+    //   bookings.forEach((booking) => {
+    //     this.alreadyParticipants.update((participants) => participants + booking.participants);
+    //   });
+    // });
   }
 
   #changeStatusOnTotalParticipants() {
     const totalParticipants = this.totalParticipants();
-    changeActivityStatus(this.activity(), totalParticipants);
+    this.statusChanged = changeActivityStatus(this.activity(), totalParticipants);
     this.participants.update((participants) => {
       participants.splice(0, participants.length);
       for (let i = 0; i < totalParticipants; i++) {
@@ -156,10 +162,10 @@ export default class BookingsPage {
 
   #updateActivityOnBookings() {
     // ! This is a side effect with async code
-    if (!this.booked()) return;
-    this.#activitiesService
-      .putActivity(this.activity())
-      .subscribe(() => console.log('Activity status updated'));
+    // if (!this.booked()) return;
+    // this.#service
+    //   .putActivity$(this.activity())
+    //   .subscribe(() => console.log('Activity status updated'));
   }
 
   onNewParticipantsChange(newParticipants: number) {
@@ -182,8 +188,14 @@ export default class BookingsPage {
         status: 'pending',
       },
     };
-    this.#http.post<Booking>(this.#bookingsUrl, newBooking).subscribe({
-      next: () => this.booked.set(true),
+    this.#service.postBooking$(newBooking).subscribe({
+      next: () => {
+        this.bookingSaved.set(true);
+        if (!this.statusChanged) return;
+        this.#service
+          .putActivity$(this.activity())
+          .subscribe(() => console.log('Activity status updated'));
+      },
       error: (error) => console.error('Error creating booking', error),
     });
   }

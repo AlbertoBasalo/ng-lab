@@ -205,7 +205,7 @@
       "date": "2024-07-14",
       "maxParticipants": 12,
       "minParticipants": 6,
-      "status": "published",
+      "status": "confirmed",
       "userId": 1
     },
     {
@@ -222,7 +222,56 @@
       "userId": 2
     }
   ],
-  "bookings": [],
+  "bookings": [
+    {
+      "id": 1,
+      "userId": 0,
+      "activityId": 16,
+      "date": "2024-02-07T15:37:24.316Z",
+      "participants": 2,
+      "payment": {
+        "method": "creditCard",
+        "amount": 100,
+        "status": "pending"
+      }
+    },
+    {
+      "id": 2,
+      "userId": 0,
+      "activityId": 16,
+      "date": "2024-02-07T15:37:36.120Z",
+      "participants": 1,
+      "payment": {
+        "method": "creditCard",
+        "amount": 50,
+        "status": "pending"
+      }
+    },
+    {
+      "id": 3,
+      "userId": 0,
+      "activityId": 16,
+      "date": "2024-02-07T15:43:39.086Z",
+      "participants": 1,
+      "payment": {
+        "method": "creditCard",
+        "amount": 50,
+        "status": "pending"
+      }
+    },
+    {
+      "id": 4,
+      "userId": 0,
+      "activityId": 16,
+      "date": "2024-02-07T15:43:48.933Z",
+      "participants": 2,
+      "payment": {
+        "method": "creditCard",
+        "amount": 100,
+        "status": "pending"
+      }
+    }
+  ],
   "users": [
     {
       "email": "richard@virg.in",

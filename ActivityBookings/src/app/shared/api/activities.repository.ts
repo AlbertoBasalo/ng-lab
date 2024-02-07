@@ -6,15 +6,15 @@ import { catchError, map, of, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ActivitiesService {
+export class ActivitiesRepository {
   #http = inject(HttpClient);
   #apiUrl = 'http://localhost:3000/activities';
 
-  getActivities() {
+  getActivities$() {
     return this.#http.get<Activity[]>(this.#apiUrl);
   }
 
-  getActivityBySlug(slug: string | undefined) {
+  getActivityBySlug$(slug: string | undefined) {
     if (!slug) return of(NULL_ACTIVITY);
     const url = `${this.#apiUrl}?slug=${slug}`;
     return this.#http.get<Activity[]>(url).pipe(
@@ -26,7 +26,7 @@ export class ActivitiesService {
     );
   }
 
-  putActivity(activity: Activity) {
+  putActivity$(activity: Activity) {
     const url = `${this.#apiUrl}/${activity.id}`;
     return this.#http.put<Activity>(url, activity).pipe(
       catchError((error) => {

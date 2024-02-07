@@ -1,13 +1,13 @@
 import { Injectable, inject } from '@angular/core';
-import { ActivitiesService } from '@api/activities.service';
+import { ActivitiesRepository } from '@api/activities.repository';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HomeService {
-  #activities = inject(ActivitiesService);
+  #activities = inject(ActivitiesRepository);
 
-  getActivities() {
-    return this.#activities.getActivities();
+  getActivities$() {
+    return this.#activities.getActivities$();
   }
 }

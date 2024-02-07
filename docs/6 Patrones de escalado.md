@@ -348,3 +348,20 @@ import { ActivityStatusComponent } from "@ui/activity-status";
 ## 6.x Ejercicios de refactorización
 
 ### 6.x.1 Refactorizar un componente contenedor inteligente
+
+rename `\shared\api\activities.service.ts` `\shared\api\activities.repository.ts`
+
+Crear fachada de servicio intermedia
+
+```bash
+ng g s shared/api/bookings
+# renombrar a repository
+```
+
+Vincular una señal para guardar las reservas de una actividad, al cambiar el valor de la señal de actividad.
+
+Computar los participantes actuales de una actividad, a partir de las reservas.
+
+Actualizar la actividad, tras guardar la nueva reserva.
+
+Eliminar los efectos que que hacen llamadas asíncronas.
