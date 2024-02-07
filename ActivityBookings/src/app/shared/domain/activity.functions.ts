@@ -1,14 +1,15 @@
-import { Activity } from './activity.type';
+import { Activity, ActivityStatus } from './activity.type';
 
-export function changeActivityStatus(activity: Activity, totalParticipants: number): boolean {
-  if (['draft', 'done', 'cancelled'].includes(activity.status)) return false;
+export function getNextActivityStatus(
+  activity: Activity,
+  totalParticipants: number,
+): ActivityStatus {
+  if (['draft', 'done', 'cancelled'].includes(activity.status)) return activity.status;
   if (totalParticipants >= activity.maxParticipants) {
-    activity.status = 'sold-out';
-    return true;
+    return 'sold-out';
   }
   if (totalParticipants >= activity.minParticipants) {
-    activity.status = 'confirmed';
-    return true;
+    return 'confirmed';
   }
-  return false;
+  return activity.status;
 }

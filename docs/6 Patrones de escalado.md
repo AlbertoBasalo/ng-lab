@@ -347,7 +347,12 @@ import { ActivityStatusComponent } from "@ui/activity-status";
 
 ## 6.x Ejercicios de refactorización
 
-### 6.x.1 Refactorizar un componente contenedor inteligente
+### 6.x.1 Refactorizar lógica
+
+// Create Bookings service
+// Replace every http with a call to toSignalMap function
+// Remove async code from effects
+// Rename services to distinguish API from facade
 
 rename `\shared\api\activities.service.ts` `\shared\api\activities.repository.ts`
 
@@ -365,3 +370,12 @@ Computar los participantes actuales de una actividad, a partir de las reservas.
 Actualizar la actividad, tras guardar la nueva reserva.
 
 Eliminar los efectos que que hacen llamadas asíncronas.
+
+### 6.x.1 Refactorizar presentación
+
+// Apply container/presenter pattern
+// Refine presenter in nested components (some of them shared)
+
+ng g c routes/bookings/activity-header
+ng g c routes/bookings/participants
+ng g c routes/bookings/booking-form

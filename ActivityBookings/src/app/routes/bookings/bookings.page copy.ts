@@ -10,7 +10,7 @@ import {
 import { toSignalMap } from '../../shared/api/signal.functions';
 import { Activity, NULL_ACTIVITY } from '../../shared/domain/activity.type';
 import { Booking } from '../../shared/domain/booking.type';
-import { BookingsComponent } from './bookings.component';
+import { BookingsComponent } from './bookings.component copy';
 import { BookingsService } from './bookings.service';
 
 @Component({
@@ -92,7 +92,7 @@ class WipBookingsPage {
   #updateActivityOnBookings() {
     if (!this.booked()) return;
     if (!this.activityStatusUpdated()) return;
-    this.#service.putActivity$(this.activity()).subscribe({
+    this.#service.updateActivityStatus$(this.activity()).subscribe({
       next: () => console.log('Activity status updated'),
       error: (error) => console.error('Error updating activity', error),
     });

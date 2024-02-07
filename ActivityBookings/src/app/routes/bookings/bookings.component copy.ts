@@ -14,7 +14,7 @@ import { Activity, NULL_ACTIVITY } from '../../shared/domain/activity.type';
 import { Booking } from '../../shared/domain/booking.type';
 
 @Component({
-  selector: 'lab-bookings',
+  selector: 'lab-bookings-copy',
   standalone: true,
   imports: [CurrencyPipe, DatePipe, UpperCasePipe, FormsModule],
   template: `
@@ -100,7 +100,7 @@ import { Booking } from '../../shared/domain/booking.type';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BookingsComponent {
+export class BookingsComponentCopy {
   // input division
   activity = input<Activity>(NULL_ACTIVITY);
   alreadyParticipants = input(0);

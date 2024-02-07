@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { ActivitiesRepository } from '@api/activities.repository';
 import { BookingsRepository } from '@api/bookings.repository';
-import { Activity, NULL_ACTIVITY } from '@domain/activity.type';
+import { Activity, ActivityStatus, NULL_ACTIVITY } from '@domain/activity.type';
 import { Booking } from '@domain/booking.type';
 import { of } from 'rxjs';
 
@@ -26,7 +26,9 @@ export class BookingsService {
     return this.bookings.postBooking$(booking);
   }
 
-  putActivity$(activity: Activity) {
-    return this.activities.putActivity$(activity);
+  updateActivityStatus$(activity: Activity, status: ActivityStatus | undefined) {
+    if (!status) return of(activity);
+    if (activity.status === status) return of(activity);
+    return this.activities.putActivity$({ ...activity, status });
   }
 }
