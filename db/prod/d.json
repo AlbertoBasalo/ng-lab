@@ -192,7 +192,7 @@
       "date": "2027-08-01",
       "maxParticipants": 10,
       "minParticipants": 2,
-      "status": "confirmed",
+      "status": "published",
       "userId": 1
     },
     {
@@ -205,7 +205,7 @@
       "date": "2024-07-14",
       "maxParticipants": 12,
       "minParticipants": 6,
-      "status": "sold-out",
+      "status": "confirmed",
       "userId": 1
     },
     {
@@ -227,7 +227,7 @@
       "id": 1,
       "userId": 0,
       "activityId": 16,
-      "date": "2024-02-07T16:41:20.931Z",
+      "date": "2024-02-08T09:58:02.709Z",
       "participants": 2,
       "payment": {
         "method": "creditCard",
@@ -239,71 +239,11 @@
       "id": 2,
       "userId": 0,
       "activityId": 16,
-      "date": "2024-02-07T16:41:30.380Z",
+      "date": "2024-02-08T09:58:19.764Z",
       "participants": 4,
       "payment": {
         "method": "creditCard",
         "amount": 200,
-        "status": "pending"
-      }
-    },
-    {
-      "id": 3,
-      "userId": 0,
-      "activityId": 16,
-      "date": "2024-02-07T17:12:29.201Z",
-      "participants": 2,
-      "payment": {
-        "method": "creditCard",
-        "amount": 100,
-        "status": "pending"
-      }
-    },
-    {
-      "id": 4,
-      "userId": 0,
-      "activityId": 16,
-      "date": "2024-02-07T17:12:41.471Z",
-      "participants": 4,
-      "payment": {
-        "method": "creditCard",
-        "amount": 200,
-        "status": "pending"
-      }
-    },
-    {
-      "id": 5,
-      "userId": 0,
-      "activityId": 15,
-      "date": "2024-02-07T17:16:41.380Z",
-      "participants": 1,
-      "payment": {
-        "method": "creditCard",
-        "amount": 30,
-        "status": "pending"
-      }
-    },
-    {
-      "id": 6,
-      "userId": 0,
-      "activityId": 15,
-      "date": "2024-02-07T17:16:49.096Z",
-      "participants": 1,
-      "payment": {
-        "method": "creditCard",
-        "amount": 30,
-        "status": "pending"
-      }
-    },
-    {
-      "id": 7,
-      "userId": 0,
-      "activityId": 15,
-      "date": "2024-02-07T17:16:58.118Z",
-      "participants": 2,
-      "payment": {
-        "method": "creditCard",
-        "amount": 60,
         "status": "pending"
       }
     }

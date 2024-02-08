@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, computed, input } from '@angular/core';
 
 @Component({
   selector: 'lab-participants',
@@ -33,7 +33,7 @@ export class ParticipantsComponent {
   totalParticipants = input.required<number>();
 
   // computed division
-  participants = computed(() => {
+  participants: Signal<any[]> = computed(() => {
     const length = this.totalParticipants();
     const fakeParticipants = [];
     for (let i = 0; i < length; i++) {

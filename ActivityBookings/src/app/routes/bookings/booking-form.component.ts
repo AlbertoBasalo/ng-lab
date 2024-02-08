@@ -4,6 +4,8 @@ import {
   Component,
   EventEmitter,
   Output,
+  Signal,
+  WritableSignal,
   computed,
   input,
   signal,
@@ -53,15 +55,16 @@ export class BookingFormComponent {
   bookingSaved = input.required<boolean>();
 
   // signal division
-  newParticipants = signal(0);
+  newParticipants: WritableSignal<number> = signal(0);
 
   // computed division
-  bookingAmount = computed(() => this.newParticipants() * this.activity().price);
-  bookedMessage = computed(() => {
-    if (this.bookingSaved()) return `Booked USD ${this.bookingAmount()}`;
-    return '';
-  });
-  maxNewParticipants = computed(() => this.activity().maxParticipants - this.alreadyParticipants());
+  bookingAmount: Signal<number> = computed(() => this.newParticipants() * this.activity().price);
+  bookedMessage: Signal<string> = computed(() =>
+    this.bookingSaved() ? `Booked USD ${this.bookingAmount()}` : '',
+  );
+  maxNewParticipants: Signal<number> = computed(
+    () => this.activity().maxParticipants - this.alreadyParticipants(),
+  );
 
   // output division
   @Output() saveBooking = new EventEmitter<Booking>();

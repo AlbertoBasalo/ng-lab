@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Signal,
+  WritableSignal,
   computed,
   inject,
   input,
@@ -9,7 +10,7 @@ import {
 } from '@angular/core';
 import { toSignalMap } from '@api/signal.functions';
 import { getNextActivityStatus } from '@domain/activity.functions';
-import { Activity, NULL_ACTIVITY } from '@domain/activity.type';
+import { Activity, ActivityStatus, NULL_ACTIVITY } from '@domain/activity.type';
 import { Booking } from '@domain/booking.type';
 import { ActivityHeaderComponent } from './activity-header.component';
 import { BookingFormComponent } from './booking-form.component';
@@ -32,8 +33,8 @@ import { ParticipantsComponent } from './participants.component';
           <lab-participants
             [activity]="activity"
             [alreadyParticipants]="alreadyParticipants()"
-            [newParticipants]="newParticipants()"
             [remainingPlaces]="remainingPlaces()"
+            [newParticipants]="newParticipants()"
             [totalParticipants]="totalParticipants()"
           />
         </main>
@@ -60,33 +61,39 @@ export default class BookingsPage {
   // input division
   slug = input<string>();
 
+  // signal division
+  bookingSaved: WritableSignal<boolean> = signal(false);
+  newParticipants: WritableSignal<number> = signal(0);
+
+  // computed division
+
   // async signal division
   activity: Signal<Activity> = toSignalMap(
     this.slug,
     (slug) => this.#service.getActivityBySlug$(slug),
     NULL_ACTIVITY,
   );
-
-  activityBookings = toSignalMap(
+  activityBookings: Signal<Booking[]> = toSignalMap(
     this.activity,
     (activity) => this.#service.getBookingsByActivityId$(activity.id),
     [],
   );
 
-  // signal division
-  bookingSaved = signal(false);
-  newParticipants = signal(0);
-
-  // computed division
-  activityStatus = computed(() => {
-    return getNextActivityStatus(this.activity(), this.totalParticipants());
-  });
-  alreadyParticipants = computed(() =>
+  activityStatus: Signal<ActivityStatus> = computed(() =>
+    getNextActivityStatus(this.activity(), this.totalParticipants()),
+  );
+  alreadyParticipants: Signal<number> = computed(() =>
     this.activityBookings().reduce((acc, booking) => acc + booking.participants, 0),
   );
-  isBookable = computed(() => ['published', 'confirmed'].includes(this.activity().status));
-  totalParticipants = computed(() => this.alreadyParticipants() + this.newParticipants());
-  remainingPlaces = computed(() => this.activity().maxParticipants - this.totalParticipants());
+  isBookable: Signal<boolean> = computed(() =>
+    ['published', 'confirmed'].includes(this.activity().status),
+  );
+  totalParticipants: Signal<number> = computed(
+    () => this.alreadyParticipants() + this.newParticipants(),
+  );
+  remainingPlaces: Signal<number> = computed(
+    () => this.activity().maxParticipants - this.totalParticipants(),
+  );
 
   // event division
   onChangeParticipants(newParticipants: number) {
@@ -97,9 +104,8 @@ export default class BookingsPage {
     this.#service.postBooking$(newBooking).subscribe({
       next: () => {
         this.bookingSaved.set(true);
-        this.#service
-          .updateActivityStatus$(this.activity(), this.activityStatus())
-          .subscribe(() => console.log('Activity status updated'));
+        if (!this.activityStatus()) return;
+        this.#service.updateActivityStatus$(this.activity(), this.activityStatus()).subscribe();
       },
       error: (error) => console.error('Error creating booking', error),
     });
