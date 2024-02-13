@@ -4,10 +4,6 @@ Reparto de responsabilidades y reutilización de código.
 
 ## 6.1 Patrón Container/Presenter
 
-Separación de la lógica de presentación y la lógica de negocio.
-
-> Carpeta routes/home
-
 ### 6.1.1 Extraer presentación a un componente simple
 
 `routes/home/activity.component`
@@ -66,8 +62,6 @@ imports: [ActivityComponent],
 
 ## 6.2 Servicios e inyección de dependencias
 
-> Carpeta routes/home
-
 ### 6.2.1 Extraer lógica y datos a un servicio fachada
 
 `routes/home/home.service`
@@ -103,10 +97,6 @@ export default class HomePage {
 ```
 
 ## 6.3 Principio DRY con código compartido
-
-Reutilización de código en componentes.
-
-> Carpeta shared 🚧 import @shared
 
 ### 6.3.1 Servicios y utilidades de datos comunes
 
@@ -344,5 +334,3 @@ import { ActivityStatusComponent } from "@ui/activity-status";
 ```html
 <lab-activity-status [status]="activity.status" />
 ```
-
-

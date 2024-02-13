@@ -7,7 +7,7 @@ Introducción al desarrollo de aplicaciones web con Angular moderno.
 ### 1.1.1 Crear un proyecto nuevo: Activity Bookings
 
 ```bash
-# Ensure node version
+# Ensure node version 
 # https://nodejs.org/en/download
 # https://angular.io/guide/versions
 
@@ -15,12 +15,9 @@ node -v
 # Global install on your machine
 npm i -g @angular/cli
 
-ng new ActivityBookings  --inline-style --inline-template --prefix=lab --ssr --style=css
-
-
-# Modern app generation
-ng new ActivityBookings
-  --inline-style --inline-template --prefix=lab
+# Modern app generation 
+ng new ActivityBookings 
+  --inline-style --inline-template --prefix=lab 
   --ssr --style=css
 
 # Or run with npx and options with aliases (- instead of --)
@@ -60,20 +57,20 @@ ng new UnProyectoNuevo --minimal
 # Compile
 ng build
 # Serve from a static folder
-"http-server":
+"http-server": 
   "npx http-server dist/activity-bookings/browser -c-1",
 ```
 
 ### 1.2.2 Ejecutar y actualizar aplicación en modo desarrollo
 
 ```bash
-# npm start
+# npm start 
 ng serve
 # Common options
 ng server --open --force-esbuild
 # Configuring browser
-"chrome":
-	"start chrome -incognito
+"chrome": 
+	"start chrome -incognito 
    -auto-open-devtools-for-tabs <http://localhost:4200>",
 "start": "npm run chrome && ng serve --force-esbuild",
 ```
@@ -88,7 +85,7 @@ https://github.com/AlbertoBasalo/dotfiles
 
 ```bash
 ng add @angular-eslint/schematics
-npm i prettier prettier-eslint
+npm i prettier prettier-eslint 
   eslint-config-prettier eslint-plugin-prettier -D
 ```
 
@@ -96,7 +93,7 @@ Prettier config
 
 ```json
 {
-  "endOfLine": "auto",
+  "endOfLine": "auto",  
   "trailingComma": "all",
   "tabWidth": 2,
   "semi": true,
@@ -121,7 +118,7 @@ EsLint config
         "plugin:prettier/recommended"
       ],
       "rules": {
-        "prettier/prettier": "warn",
+				"prettier/prettier": "warn",
         "@angular-eslint/directive-selector": [
           "error",
           {
@@ -142,7 +139,10 @@ EsLint config
     },
     {
       "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended", "plugin:@angular-eslint/template/accessibility"],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended",
+        "plugin:@angular-eslint/template/accessibility"
+      ],
       "rules": {}
     }
   ]
