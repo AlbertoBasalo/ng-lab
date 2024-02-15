@@ -16,7 +16,8 @@
     "serve:ssr:ActivityBookings": "node dist/activity-bookings/server/server.mjs",
     "api": "json-server-auth ../db/prod/d.json -r ../db/r.json",
     "api:reset": "copyfiles -f ../db/reset/d.json ../db/prod && npm run api",
-    "api:seed": "copyfiles -f ../db/seed/d.json ../db/prod && npm run api"
+    "api:seed": "copyfiles -f ../db/seed/d.json ../db/prod && npm run api",
+    "update": "ncu -u"
   },
   "private": true,
   "dependencies": {
@@ -30,33 +31,33 @@
     "@angular/platform-server": "^17.2.1",
     "@angular/router": "^17.2.1",
     "@angular/ssr": "^17.2.0",
-    "@picocss/pico": "^1.5.11",
+    "@picocss/pico": "^2.0.0",
     "express": "^4.18.2",
-    "rxjs": "~7.8.0",
-    "tslib": "^2.3.0",
-    "zone.js": "~0.14.3"
+    "rxjs": "~7.8.1",
+    "tslib": "^2.6.2",
+    "zone.js": "~0.14.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.2.0",
     "@angular/cli": "^17.2.0",
     "@angular/compiler-cli": "^17.2.1",
-    "@types/express": "^4.17.17",
-    "@types/jasmine": "~5.1.0",
-    "@types/node": "^18.18.0",
+    "@types/express": "^4.17.21",
+    "@types/jasmine": "~5.1.4",
+    "@types/node": "^20.11.17",
     "copyfiles": "^2.4.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
-    "jasmine-core": "~5.1.0",
+    "jasmine-core": "~5.1.2",
     "json-server": "^0.17.4",
     "json-server-auth": "^2.1.0",
-    "karma": "~6.4.0",
+    "karma": "~6.4.2",
     "karma-chrome-launcher": "~3.2.0",
-    "karma-coverage": "~2.2.0",
+    "karma-coverage": "~2.2.1",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "npm-check-updates": "^16.14.14",
+    "npm-check-updates": "^16.14.15",
     "prettier": "^3.2.5",
     "prettier-eslint": "^16.3.0",
-    "typescript": "~5.3.2"
+    "typescript": "~5.3.3"
   }
 }
