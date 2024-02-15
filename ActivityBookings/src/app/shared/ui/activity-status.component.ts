@@ -9,25 +9,25 @@ import { ActivityStatus } from '@domain/activity.type';
   template: ` <span [class]="status()">{{ status() | uppercase }}</span> `,
   styles: `
     .draft {
-      color: aqua;
+      color: #017fc0;
       font-style: italic;
     }
     .published {
-      color: navy;
+      color: #a5d601;
     }
     .confirmed {
-      color: green;
+      color: #00895a;
     }
     .sold-out {
-      color: teal;
+      color: #398712;
       font-style: italic;
     }
     .done {
-      color: olive;
+      color: #058686;
       font-style: italic;
     }
     .cancelled {
-      color: maroon;
+      color: #d93526;
       font-style: italic;
     }
   `,
