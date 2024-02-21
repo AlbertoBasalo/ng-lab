@@ -46,9 +46,9 @@ export class ActivitiesRepository {
   }
 
   /**
-   * Create a new activity in the API
-   * @param activity The activity to create
-   * @returns An observable with the created activity
+   * Updates an activity in the API
+   * @param activity The activity to be updated
+   * @returns An observable with the updated activity
    */
   putActivity$(activity: Activity) {
     const url = `${this.#apiUrl}/${activity.id}`;
