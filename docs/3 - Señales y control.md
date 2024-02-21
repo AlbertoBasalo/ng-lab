@@ -8,35 +8,37 @@ Cambios en los datos producen cambios en la presentación
 
 ```typescript
 export class BookingsComponent {
-readonly activity: Activity = {
-    name: 'Paddle surf',
-    location: 'Lake Leman at Lausanne',
+  readonly activity: Activity = {
+    name: "Paddle surf",
+    location: "Lake Leman at Lausanne",
     price: 125,
     date: new Date(2025, 7, 15),
     minParticipants: 5,
     maxParticipants: 9,
-    status: 'published',
+    status: "published",
     id: 1,
-    slug: 'paddle-surf',
+    slug: "paddle-surf",
     duration: 2,
     userId: 1,
   };
-readonly alreadyParticipants = 3;
+  readonly alreadyParticipants = 3;
 
-readonly newParticipants = signal(0);
-readonly booked = signal(false);
+  readonly newParticipants = signal(0);
+  readonly booked = signal(false);
 
-onNewParticipantsChange(newParticipants: number) {
-  this.newParticipants.set(newParticipants);
-}
+  onNewParticipantsChange(newParticipants: number) {
+    this.newParticipants.set(newParticipants);
+  }
 
-onBookClick() {
-  this.booked.set(true);
+  onBookClick() {
+    this.booked.set(true);
+  }
 }
 ```
+
 ```html
 <article>
-	<header>
+  <header>
     <h2>{{ activity.name }}</h2>
     <div [class]="activity.status">
       <span>{{ activity.location }}</span>
@@ -46,22 +48,15 @@ onBookClick() {
     </div>
   </header>
   <main>
-		<h4>Participants</h4>
+    <h4>Participants</h4>
     <div>Already Participants: {{ alreadyParticipants }}</div>
-		<div>New participants: {{ newParticipants() }}</div>
+    <div>New participants: {{ newParticipants() }}</div>
   </main>
   <footer>
-		<h4>New Bookings</h4>
-		<label for="newParticipants">How many participants want to book?</label>
-		<input 
-				type="number" 
-				[ngModel]="newParticipants()" 
-				(ngModelChange)="onNewParticipantsChange($event)"/>
-    <button 
-				[disabled]="booked() || newParticipants() === 0" 
-				(click)="onBookClick()">
-				Book now!
-		</button>
+    <h4>New Bookings</h4>
+    <label for="newParticipants">How many participants want to book?</label>
+    <input type="number" [ngModel]="newParticipants()" (ngModelChange)="onNewParticipantsChange($event)" />
+    <button [disabled]="booked() || newParticipants() === 0" (click)="onBookClick()">Book now!</button>
   </footer>
 </article>
 ```
@@ -71,7 +66,7 @@ onBookClick() {
 ### 3.2.1 Computación derivada
 
 ```typescript
-readonly maxNewParticipants 
+readonly maxNewParticipants
   = this.activity.maxParticipants - this.alreadyParticipants;
 readonly totalParticipants = computed(
   () => this.alreadyParticipants + this.newParticipants()
@@ -117,8 +112,8 @@ readonly canNotBook = computed(
       min="0"
       [max]="maxNewParticipants"
     />
-    <button 
-				[disabled]="canNotBook()" 
+    <button
+				[disabled]="canNotBook()"
 				(click)="onBookClick()">
 				Book now for {{ bookingAmount() | currency }}!
 		</button>
@@ -151,20 +146,13 @@ constructor() {
 
 ```html
 @if(remainingPlaces() > 0) {
-	<label for="newBookings">How many bookings?</label>
-	<input
-	  type="number"
-	  [ngModel]="newBookings()"
-	  (ngModelChange)="onNewBookings($event)"
-	  min="0"
-	  [max]="maxBookings()"/>
+<label for="newBookings">How many bookings?</label>
+<input type="number" [ngModel]="newBookings()" (ngModelChange)="onNewBookings($event)" min="0" [max]="maxBookings()" />
 } @else {
-	<div>
-  <button class="secondary oututline"(click)="onNewParticipantsChange(0)">
-        Reset
-		</button>
-		<span>No more places available</span>
-	</div>
+<div>
+  <button class="secondary oututline" (click)="onNewParticipantsChange(0)">Reset</button>
+  <span>No more places available</span>
+</div>
 }
 ```
 
@@ -191,9 +179,9 @@ onNewParticipantsChange(newParticipants: number) {
 ```html
 <div>
   @for (participant of participants(); track participant.id) {
-    <span [attr.data-tooltip]="participant.id">🏃</span>
+  <span [attr.data-tooltip]="participant.id">🏃</span>
   } @empty {
-    <span>🕸️</span>
+  <span>🕸️</span>
   }
 </div>
 ```
@@ -202,7 +190,7 @@ onNewParticipantsChange(newParticipants: number) {
 
 ```typescript
 @Component({
-  selector: 'lab-footer',
+  selector: "lab-footer",
   standalone: true,
   imports: [],
   template: ``,
@@ -211,8 +199,8 @@ onNewParticipantsChange(newParticipants: number) {
 })
 export class FooterComponent {
   author = {
-    name: 'Alberto Basalo',
-    homepage: '<https://albertobasalo.dev>',
+    name: "Alberto Basalo",
+    homepage: "<https://albertobasalo.dev>",
   };
 
   year = new Date().getFullYear();
@@ -220,7 +208,7 @@ export class FooterComponent {
   cookiesAccepted = signal(false);
 
   onAcceptClick() {
-    console.log('Cookies accepted!');
+    console.log("Cookies accepted!");
     this.cookiesAccepted.set(true);
   }
 }
@@ -230,17 +218,13 @@ export class FooterComponent {
 <footer>
   <nav>
     <span>
-      <a [href]="author.homepage" target="_blank"> 
-                        © {{ year }} {{ author.name }} 
-                </a>
+      <a [href]="author.homepage" target="_blank">© {{ year }} {{ author.name }}</a>
     </span>
     <span>
       @if (cookiesAccepted()) {
-        <small>🍪</small>
+      <small>🍪</small>
       } @else {
-        <button (click)="onAcceptClick()" class="secondary outline">
-                        Accept Cookies
-                    </button>
+      <button (click)="onAcceptClick()" class="secondary outline">Accept Cookies</button>
       }
     </span>
   </nav>

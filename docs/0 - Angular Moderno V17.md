@@ -76,15 +76,16 @@ Todo mediante **ejemplos prácticos** bien documentados y siguiendo buenas prác
    - Consumo de un API Rest
    - Operadores comunes de RxJs
    - Asincronismo y señales
+   - \_Cuestionario_Z
 6. **Patrones de escalado**
    - Patrón container/presenter
    - Servicios e inyección de dependencias
    - Principio DRY con código compartido
-   - Ejercicios de refactorización
+   - _Ejercicios de refactorización_
 7. **Programación reactiva**
-   - Un almacén global basado en Signals
-   - Flujo de datos unidireccional
-   - Operadores avanzados de RxJs
+   - Un almacén global basado en Signals (gestión de errores)
+   - Flujo de datos unidireccional (buscador)
+   - Operadores avanzados de RxJs (buscador)
 8. **Formularios y manipulación de datos**
    - Formularios para recogida de datos
    - Validación de entrada
