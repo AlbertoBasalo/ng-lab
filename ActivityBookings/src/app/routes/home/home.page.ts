@@ -23,6 +23,12 @@ import { HomeService } from './home.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class HomePage {
+  // * Injected services division
+
   #service = inject(HomeService);
+
+  // * Signals division
+
+  /** The list of activities to be presented */
   activities: Signal<Activity[]> = toSignal(this.#service.getActivities$(), { initialValue: [] });
 }

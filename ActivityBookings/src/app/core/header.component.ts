@@ -8,16 +8,21 @@ import { RouterLink } from '@angular/router';
   template: `
     <header>
       <nav>
-        <a [routerLink]="['/']">
-          <strong> {{ title }} </strong>
-        </a>
+        <a [routerLink]="['/']" class="title">{{ title }}</a>
         <a [routerLink]="['/auth', 'login']">Login</a>
       </nav>
     </header>
   `,
-  styles: ``,
+  styles: `
+    .title {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-  title = 'Activity Bookings';
+  // Properties division
+
+  readonly title = 'Activity Bookings';
 }

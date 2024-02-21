@@ -31,4 +31,4 @@ import { RouterLink } from '@angular/router';
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent {}
+export default class LoginPage {}

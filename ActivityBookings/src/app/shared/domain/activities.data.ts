@@ -1,5 +1,9 @@
 import { Activity } from './activity.type';
 
+/**
+ * List of activities available for booking
+ * @description Used while the backend is not implemented
+ */
 export const ACTIVITIES: Activity[] = [
   {
     name: 'Paddle surf',

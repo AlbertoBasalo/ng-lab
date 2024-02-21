@@ -8,11 +8,13 @@ import { HeaderComponent } from './core/header.component';
   standalone: true,
   imports: [RouterOutlet, HeaderComponent, FooterComponent],
   template: `
-    <lab-header />
-    <main>
-      <router-outlet />
-    </main>
-    <lab-footer />
+    <div class="container-fluid">
+      <lab-header />
+      <main>
+        <router-outlet />
+      </main>
+      <lab-footer />
+    </div>
   `,
   styles: [
     `

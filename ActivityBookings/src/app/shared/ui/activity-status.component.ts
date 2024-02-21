@@ -1,12 +1,12 @@
 import { UpperCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, InputSignal, input } from '@angular/core';
 import { ActivityStatus } from '@domain/activity.type';
 
 @Component({
   selector: 'lab-activity-status',
   standalone: true,
   imports: [UpperCasePipe],
-  template: ` <span [class]="status()">{{ status() | uppercase }}</span> `,
+  template: `<span [class]="status()">{{ status() | uppercase }}</span>`,
   styles: `
     .draft {
       color: #017fc0;
@@ -34,5 +34,8 @@ import { ActivityStatus } from '@domain/activity.type';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityStatusComponent {
-  status = input.required<ActivityStatus>();
+  // * Input signals division
+
+  /** The current status to be presented */
+  status: InputSignal<ActivityStatus> = input.required<ActivityStatus>();
 }
