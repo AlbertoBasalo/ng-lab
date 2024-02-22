@@ -11,11 +11,7 @@ export type ApiTarget$<T, K> = (sourceValue: T) => Observable<K>;
  * @param initialValue An initial value for the returned signal
  * @returns A signal with the result of the API target observable
  */
-export function toSignalMap<T, K>(
-  source: Signal<T>,
-  apiTarget$: ApiTarget$<T, K>,
-  initialValue: K,
-): Signal<K> {
+export function toSignalMap<T, K>(source: Signal<T>, apiTarget$: ApiTarget$<T, K>, initialValue: K): Signal<K> {
   const source$ = toObservable(source);
   const apiResult$ = source$.pipe(switchMap(apiTarget$));
   return toSignal(apiResult$, { initialValue });

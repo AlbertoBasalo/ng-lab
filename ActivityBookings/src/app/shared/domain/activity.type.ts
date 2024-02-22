@@ -2,13 +2,7 @@
  * ActivityStatus type definition
  * @description This is an enum for the activity possible status
  */
-export type ActivityStatus =
-  | 'published'
-  | 'confirmed'
-  | 'sold-out'
-  | 'done'
-  | 'cancelled'
-  | 'draft';
+export type ActivityStatus = 'published' | 'confirmed' | 'sold-out' | 'done' | 'cancelled' | 'draft';
 
 /**
  * Activity type definition

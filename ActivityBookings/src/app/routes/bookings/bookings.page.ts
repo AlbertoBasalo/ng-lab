@@ -4,6 +4,7 @@ import {
   Signal,
   WritableSignal,
   computed,
+  effect,
   inject,
   input,
   signal,
@@ -42,11 +43,11 @@ import { ParticipantsComponent } from './participants.component';
           @if (isBookable()) {
             <lab-booking-form
               [activity]="activity"
+              [(newParticipants)]="newParticipants"
+              [(saveBooking)]="saveBooking"
               [alreadyParticipants]="alreadyParticipants()"
               [remainingPlaces]="remainingPlaces()"
               [bookingSaved]="bookingSaved()"
-              (changeParticipants)="onChangeParticipants($event)"
-              (saveBooking)="onSaveBooking($event)"
             />
           }
         </footer>
@@ -68,15 +69,12 @@ export default class BookingsPage {
 
   bookingSaved: WritableSignal<boolean> = signal(false);
   newParticipants: WritableSignal<number> = signal(0);
+  saveBooking: WritableSignal<Booking | undefined> = signal(undefined);
 
   // * Computed signals division
 
   /** The activity that comes from the API based on the slug signal */
-  activity: Signal<Activity> = toSignalMap(
-    this.slug,
-    (slug) => this.#service.getActivityBySlug$(slug),
-    NULL_ACTIVITY,
-  );
+  activity: Signal<Activity> = toSignalMap(this.slug, (slug) => this.#service.getActivityBySlug$(slug), NULL_ACTIVITY);
   /** The bookings of the activity that comes from the API based on the activity signal */
   activityBookings: Signal<Booking[]> = toSignalMap(
     this.activity,
@@ -90,9 +88,7 @@ export default class BookingsPage {
   );
 
   /** Already booked plus new participants */
-  totalParticipants: Signal<number> = computed(
-    () => this.alreadyParticipants() + this.newParticipants(),
-  );
+  totalParticipants: Signal<number> = computed(() => this.alreadyParticipants() + this.newParticipants());
 
   /** Activity status computed from current activity and total participants */
   activityStatus: Signal<ActivityStatus> = computed(() =>
@@ -100,24 +96,24 @@ export default class BookingsPage {
   );
 
   /** If the activity has an status bookable */
-  isBookable: Signal<boolean> = computed(() =>
-    ['published', 'confirmed'].includes(this.activity().status),
-  );
+  isBookable: Signal<boolean> = computed(() => ['published', 'confirmed'].includes(this.activity().status));
 
   /** Remaining places to book */
-  remainingPlaces: Signal<number> = computed(
-    () => this.activity().maxParticipants - this.totalParticipants(),
-  );
+  remainingPlaces: Signal<number> = computed(() => this.activity().maxParticipants - this.totalParticipants());
 
-  // * Events division
-
-  /** Set the new participants signal when the participants change */
-  onChangeParticipants(newParticipants: number) {
-    this.newParticipants.set(newParticipants);
+  constructor() {
+    effect(() => {
+      const booking = this.saveBooking();
+      if (booking !== undefined) {
+        this.postBooking(booking);
+      }
+    });
   }
 
+  // * Methods division
+
   /** Post a new booking to the API and update the activity status if it is necessary */
-  onSaveBooking(newBooking: Booking) {
+  postBooking(newBooking: Booking) {
     this.#service.postBooking$(newBooking).subscribe({
       next: () => {
         this.bookingSaved.set(true);
