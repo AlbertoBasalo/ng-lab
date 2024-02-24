@@ -8,8 +8,17 @@ import { RouterLink } from '@angular/router';
   template: `
     <header>
       <nav>
-        <a [routerLink]="['/']" class="title">{{ title }}</a>
-        <a [routerLink]="['/auth', 'login']">Login</a>
+        <ul>
+          <a [routerLink]="['/']" class="title">{{ title }}</a>
+        </ul>
+        <ul>
+          <li>
+            <a [routerLink]="[]">
+              My favorites<sup><mark>0</mark></sup>
+            </a>
+          </li>
+          <li><a [routerLink]="['/auth', 'login']">Login</a></li>
+        </ul>
       </nav>
     </header>
   `,

@@ -62,18 +62,73 @@ imports: [ActivityComponent],
 
 ### 6.1.3 Comunicación entre contenedor y presentador
 
-`routes/bookings/bookings.page` y `routes/bookings/bookings-form.component`
+`routes/home/home.page`
 
-## 6.2 Servicios e inyección de dependencias
-
-### 6.2.1 Extraer lógica y datos a un servicio fachada
-
-`routes/home/home.service`
-
-```bash
-# Create home service
-ng g s routes/home/home
+```html
+<article>
+  <header>
+    <h2>Activities</h2>
+  </header>
+  <main>
+    @for (activity of activities(); track activity.id) {
+    <lab-activity [activity]="activity" [(favorites)]="favorites" (favoritesChange)="onFavoritesChange($event)" />
+    }
+  </main>
+  <footer>
+    <small>
+      Showing
+      <mark>{{ activities().length }}</mark>
+      activities, you have selected
+      <mark>{{ favorites.length }}</mark>
+      favorites.
+    </small>
+  </footer>
+</article>
 ```
+
+```typescript
+export default class HomePage {
+  activities: Signal<Activity[]> = toSignal(this.#service.getActivities(), { initialValue: [] });
+  favorites: Signal<Activity[]> = toSignal([], { initialValue: [] });
+
+  onFavoritesChange(favorites: Activity[]) {
+    this.favorites.update(favorites);
+  }
+}
+```
+
+y `routes/home/activity.component`
+
+```html
+<span>
+  <input type="checkbox" name="" class="secondary outline" (click)="toggleFavorite(activity().slug)" />
+</span>
+```
+
+```typescript
+  // * Model signals division
+
+  /** The list of favorites */
+  favorites: ModelSignal<string[]> = model<string[]>([]);
+
+  // * Methods division
+
+  /** Toggles the favorite status of the given activity */
+  toggleFavorite(slug: string): void {
+    this.favorites.update((favorites) => {
+      if (favorites.includes(slug)) {
+        return favorites.filter((favorite) => favorite !== slug);
+      }
+      return favorites.concat(slug);
+    });
+  }
+```
+
+## 6.2 Servicios e inyección de dependencias ### 6.2.1 Extraer lógica y datos a un servicio fachada
+
+`routes/home/home.service` ```bash # Create home service ng g s routes/home/home
+
+````
 
 ```typescript
 @Injectable({
@@ -338,3 +393,4 @@ import { ActivityStatusComponent } from "@ui/activity-status";
 ```html
 <lab-activity-status [status]="activity.status" />
 ```
+````

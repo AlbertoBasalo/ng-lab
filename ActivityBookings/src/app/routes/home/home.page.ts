@@ -18,10 +18,10 @@ import { HomeService } from './home.service';
         }
       </main>
       <footer>
-        <p>
+        <small>
           Showing <mark>{{ activities().length }}</mark> activities, you have selected
-          <mark>{{ favorites.length }}</mark> favorites
-        </p>
+          <mark>{{ favorites.length }}</mark> favorites.
+        </small>
       </footer>
     </article>
   `,

@@ -11,12 +11,7 @@ import { ActivityStatusComponent } from '@ui/activity-status.component';
   template: `
     <div>
       <span>
-        <input type="checkbox" class="secondary outline" (click)="toggleFavorite(activity().slug)" />
-        @if (favorites().includes(activity().slug)) {
-          💓
-        } @else {
-          🤍
-        }
+        <input type="checkbox" name="" class="secondary outline" (click)="toggleFavorite(activity().slug)" />
       </span>
       <span>
         <a [routerLink]="['/bookings', activity().slug]">{{ activity().name }}</a>
