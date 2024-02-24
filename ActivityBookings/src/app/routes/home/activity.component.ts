@@ -46,11 +46,10 @@ export class ActivityComponent {
   /** Toggles the favorite status of the given activity */
   toggleFavorite(slug: string): void {
     this.favorites.update((favorites) => {
-      const index = favorites.indexOf(slug);
-      if (index === -1) {
-        return [...favorites, slug];
+      if (favorites.includes(slug)) {
+        return favorites.filter((favorite) => favorite !== slug);
       }
-      return [...favorites.slice(0, index), ...favorites.slice(index + 1)];
+      return favorites.concat(slug);
     });
   }
 }

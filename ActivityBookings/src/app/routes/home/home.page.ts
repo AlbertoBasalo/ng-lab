@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Activity } from '@domain/activity.type';
@@ -7,7 +6,7 @@ import { HomeService } from './home.service';
 
 @Component({
   standalone: true,
-  imports: [ActivityComponent, JsonPipe],
+  imports: [ActivityComponent],
   template: `
     <article>
       <header>
@@ -18,8 +17,13 @@ import { HomeService } from './home.service';
           <lab-activity [activity]="activity" [(favorites)]="favorites" (favoritesChange)="onFavoritesChange($event)" />
         }
       </main>
+      <footer>
+        <p>
+          Showing <mark>{{ activities().length }}</mark> activities, you have selected
+          <mark>{{ favorites.length }}</mark> favorites
+        </p>
+      </footer>
     </article>
-    {{ favorites | json }}
   `,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,6 +37,8 @@ export default class HomePage {
 
   /** The list of activities to be presented */
   activities: Signal<Activity[]> = toSignal(this.#service.getActivities$(), { initialValue: [] });
+
+  // * Properties division
 
   /** The list of favorites */
   favorites: string[] = [];
