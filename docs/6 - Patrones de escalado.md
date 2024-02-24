@@ -60,6 +60,10 @@ imports: [ActivityComponent],
 </article>
 ```
 
+### 6.1.3 Comunicación entre contenedor y presentador
+
+`routes/bookings/bookings.page` y `routes/bookings/bookings-form.component`
+
 ## 6.2 Servicios e inyección de dependencias
 
 ### 6.2.1 Extraer lógica y datos a un servicio fachada

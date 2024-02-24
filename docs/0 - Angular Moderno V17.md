@@ -56,11 +56,11 @@ Todo mediante **ejemplos prácticos** bien documentados y siguiendo buenas prác
 
 ### Módulos básicos (Angular Basics)
 
-1. **Hola Angular CLI**
+1. **Hola Angular**
    - Instalación del CLI y generación de una aplicación
    - Comandos básicos para depurar y ejecutar aplicaciones
    - Configuración del espacio de trabajo, editor y herramientas recomendadas
-2. **Componentes y datos**
+2. **Componentes**
    - Generación de componentes.
    - Anatomía de un componente: plantillas y lógica.
    - Presentación de datos
@@ -74,34 +74,37 @@ Todo mediante **ejemplos prácticos** bien documentados y siguiendo buenas prác
    - SEO y Server-Side Rendering
 5. **Comunicaciones HTTP**
    - Consumo de un API Rest
-   - Operadores comunes de RxJs
    - Asincronismo y señales
-   - \_Cuestionario_Z
+   - Operadores RxJs
 6. **Patrones de escalado**
-   - Patrón container/presenter
+   - Patrón Container Presenter
    - Servicios e inyección de dependencias
    - Principio DRY con código compartido
-   - _Ejercicios de refactorización_
 7. **Programación reactiva**
-   - Un almacén global basado en Signals (gestión de errores)
-   - Flujo de datos unidireccional (buscador)
-   - Operadores avanzados de RxJs (buscador)
-8. **Formularios y manipulación de datos**
-   - Formularios para recogida de datos
-   - Validación de entrada
+   - Un almacén global basado en Signals
+   - Flujo de datos unidireccional
+   - Operadores avanzados de RxJs
+8. **Seguridad y validación de datos**
+   - Formularios para recogida segura de datos
+   - Interceptores de comunicaciones y guardias de navegación
    - Presentación condicional y diferida de feedback al usuario
 
 ---
 
 ### Módulos de extensión (Angular PRO)
 
-- x. Seguridad
+7. **Programación reactiva**
 
-  - Interceptación de comunicaciones con funciones
+   - Un almacén global basado en Signals (payments, cart, user, etc.)
+   - Flujo de datos unidireccional (buscador)
+   - Operadores avanzados de RxJs (buscador)
 
-  - Guardias de navegación con programación funcional
+8. **Seguridad y validación de datos**
+   - Formularios para recogida segura de datos (login, registro, etc.)
+   - Interceptores de comunicaciones y guardias de navegación
+   - Presentación condicional y diferida de feedback al usuario (activity y sus bookings si eres owner... y cuando leguen los datos)
 
-  - Estado global y almacenamiento seguro
+---
 
 - x. Extensibilidad
 
@@ -126,6 +129,14 @@ Todo mediante **ejemplos prácticos** bien documentados y siguiendo buenas prác
   - Nx Dev tools, espacios de trabajo multiproyecto
 
   - Dependencias y reglas por categoría de proyecto.
+
+- x. Seguridad
+
+  - Interceptación de comunicaciones con funciones
+
+  - Guardias de navegación con programación funcional
+
+  - Estado global y almacenamiento seguro
 
 <aside>
 ⏰ Duración para cursos tele-presenciales: 

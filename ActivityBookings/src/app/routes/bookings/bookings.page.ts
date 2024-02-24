@@ -4,7 +4,6 @@ import {
   Signal,
   WritableSignal,
   computed,
-  effect,
   inject,
   input,
   signal,
@@ -44,7 +43,7 @@ import { ParticipantsComponent } from './participants.component';
             <lab-booking-form
               [activity]="activity"
               [(newParticipants)]="newParticipants"
-              [(saveBooking)]="saveBooking"
+              (saveBookingChange)="postBooking($event)"
               [alreadyParticipants]="alreadyParticipants()"
               [remainingPlaces]="remainingPlaces()"
               [bookingSaved]="bookingSaved()"
@@ -69,7 +68,6 @@ export default class BookingsPage {
 
   bookingSaved: WritableSignal<boolean> = signal(false);
   newParticipants: WritableSignal<number> = signal(0);
-  saveBooking: WritableSignal<Booking | undefined> = signal(undefined);
 
   // * Computed signals division
 
@@ -101,19 +99,11 @@ export default class BookingsPage {
   /** Remaining places to book */
   remainingPlaces: Signal<number> = computed(() => this.activity().maxParticipants - this.totalParticipants());
 
-  constructor() {
-    effect(() => {
-      const booking = this.saveBooking();
-      if (booking !== undefined) {
-        this.postBooking(booking);
-      }
-    });
-  }
-
   // * Methods division
 
   /** Post a new booking to the API and update the activity status if it is necessary */
-  postBooking(newBooking: Booking) {
+  postBooking(newBooking: Booking | undefined) {
+    if (newBooking === undefined) return;
     this.#service.postBooking$(newBooking).subscribe({
       next: () => {
         this.bookingSaved.set(true);
