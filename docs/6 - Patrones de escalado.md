@@ -87,25 +87,51 @@ imports: [ActivityComponent],
 ```
 
 ```typescript
-export default class HomePage {
-  activities: Signal<Activity[]> = toSignal(this.#service.getActivities(), { initialValue: [] });
-  favorites: Signal<Activity[]> = toSignal([], { initialValue: [] });
+  // * Injected services division
 
-  onFavoritesChange(favorites: Activity[]) {
-    this.favorites.update(favorites);
+  #service = inject(HomeService);
+
+  // * Signals division
+
+  /** The list of activities to be presented */
+  activities: Signal<Activity[]> = toSignal(this.#service.getActivities$(), { initialValue: [] });
+
+  // * Properties division
+
+  /** The list of favorites */
+  favorites: string[] = [];
+
+  // * Methods division
+
+  /** Handles the change of the favorites list */
+  onFavoritesChange(favorites: string[]): void {
+    console.log('Favorites changed', favorites);
   }
-}
 ```
 
 y `routes/home/activity.component`
 
 ```html
-<span>
-  <input type="checkbox" name="" class="secondary outline" (click)="toggleFavorite(activity().slug)" />
-</span>
+<div>
+  <span>
+    <input type="checkbox" name="" class="secondary outline" (click)="toggleFavorite(activity().slug)" />
+  </span>
+  <span>
+    <a [routerLink]="['/bookings', activity().slug]">{{ activity().name }}</a>
+  </span>
+  <span>{{ activity().location }}</span>
+  <span>{{ activity().price | currency }}</span>
+  <span>{{ activity().date | date: 'dd-MMM-yyyy' }}</span>
+  <lab-activity-status [status]="activity().status" />
+</div>
 ```
 
 ```typescript
+  // * Input signals division
+
+  /** The current Activity to be presented*/
+  activity: InputSignal<Activity> = input.required<Activity>();
+
   // * Model signals division
 
   /** The list of favorites */
