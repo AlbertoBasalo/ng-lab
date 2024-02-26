@@ -150,11 +150,16 @@ y `routes/home/activity.component`
   }
 ```
 
-## 6.2 Servicios e inyección de dependencias ### 6.2.1 Extraer lógica y datos a un servicio fachada
+## 6.2 Servicios e inyección de dependencias 
 
-`routes/home/home.service` ```bash # Create home service ng g s routes/home/home
+### 6.2.1 Extraer lógica y datos a un servicio fachada
 
-````
+`routes/home/home.service` 
+
+```bash 
+# Create home service 
+ng g s routes/home/home
+```
 
 ```typescript
 @Injectable({
@@ -419,4 +424,4 @@ import { ActivityStatusComponent } from "@ui/activity-status";
 ```html
 <lab-activity-status [status]="activity.status" />
 ```
-````
+
