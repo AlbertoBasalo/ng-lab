@@ -23,3 +23,16 @@ Asignar Jest en el archivo angular.json
   }
 }
 ```
+
+Incluir tipos Jest en tsconfig.spec.json
+
+```json
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "types": ["jest"]
+  },
+  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
+}
+```
