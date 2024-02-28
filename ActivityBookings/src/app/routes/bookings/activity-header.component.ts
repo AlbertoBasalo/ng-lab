@@ -10,7 +10,7 @@ import { ActivityStatusComponent } from '@ui/activity-status.component';
   template: `
     <h2>{{ activity().name }} at {{ activity().location }}</h2>
     <div>
-      <span>{{ activity().price | currency }}</span>
+      <span>{{ activity().price | currency: 'EUR' }}</span>
       <span>{{ activity().date | date: 'dd-MMM-yyyy' }}</span>
       @if (activityStatus(); as status) {
         <lab-activity-status [status]="status" />
