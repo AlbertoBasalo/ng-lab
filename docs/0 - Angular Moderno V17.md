@@ -95,7 +95,7 @@ Todo mediante **ejemplos prácticos** bien documentados y siguiendo buenas prác
 
 7. **Programación reactiva**
 
-   - Un almacén global basado en Signals (payments, cart, user, etc.)
+   - Un almacén global basado en Signals (favorites, user, etc.)
    - Flujo de datos unidireccional (buscador)
    - Operadores avanzados de RxJs (buscador)
 
