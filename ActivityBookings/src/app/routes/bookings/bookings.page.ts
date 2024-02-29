@@ -35,8 +35,7 @@ import { ParticipantsComponent } from './participants.component';
             [alreadyParticipants]="alreadyParticipants()"
             [remainingPlaces]="remainingPlaces()"
             [newParticipants]="newParticipants()"
-            [totalParticipants]="totalParticipants()"
-          />
+            [totalParticipants]="totalParticipants()" />
         </main>
         <footer>
           @if (isBookable()) {
@@ -46,8 +45,7 @@ import { ParticipantsComponent } from './participants.component';
               (saveBookingChange)="postBooking($event)"
               [alreadyParticipants]="alreadyParticipants()"
               [remainingPlaces]="remainingPlaces()"
-              [bookingSaved]="bookingSaved()"
-            />
+              [bookingSaved]="bookingSaved()" />
           }
         </footer>
       </article>
