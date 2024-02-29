@@ -8,10 +8,10 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { toSignalMap } from '@api/signal.functions';
 import { getNextActivityStatus } from '@domain/activity.functions';
 import { Activity, ActivityStatus, NULL_ACTIVITY } from '@domain/activity.type';
 import { Booking } from '@domain/booking.type';
+import { toSignalMap } from 'src/app/shared/api/signal.functions';
 import { ActivityHeaderComponent } from './activity-header.component';
 import { BookingFormComponent } from './booking-form.component';
 import { BookingsService } from './bookings.service';

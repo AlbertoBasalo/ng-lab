@@ -17,4 +17,12 @@ export const routes: Routes = [
     path: 'bookings/:slug',
     loadComponent: () => import('./routes/bookings/bookings.page'),
   },
+  {
+    path: 'favorites',
+    loadComponent: () => import('./routes/favorites/favorites.page'),
+  },
+  {
+    path: '**',
+    redirectTo: '',
+  },
 ];

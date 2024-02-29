@@ -11,7 +11,12 @@ import { ActivityStatusComponent } from '@ui/activity-status.component';
   template: `
     <div>
       <span>
-        <input type="checkbox" name="" class="secondary outline" (click)="toggleFavorite(activity().slug)" />
+        <input
+          type="checkbox"
+          name=""
+          class="secondary outline"
+          [checked]="favorites().includes(activity().slug)"
+          (click)="toggleFavorite(activity().slug)" />
       </span>
       <span>
         <a [routerLink]="['/bookings', activity().slug]">{{ activity().name }}</a>
@@ -34,7 +39,7 @@ export class ActivityComponent {
   // * Model signals division
 
   /** The list of favorites */
-  favorites: ModelSignal<string[]> = model<string[]>([]);
+  favorites: ModelSignal<string[]> = model.required<string[]>();
 
   // * Methods division
 

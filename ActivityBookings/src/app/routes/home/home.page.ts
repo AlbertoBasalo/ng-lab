@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Activity } from '@domain/activity.type';
+import { FavoritesStore } from '@state/favorites.store';
 import { ActivityComponent } from './activity.component';
 import { HomeService } from './home.service';
 
@@ -31,7 +32,12 @@ import { HomeService } from './home.service';
 export default class HomePage {
   // * Injected services division
 
+  // The service to get the activities
   #service = inject(HomeService);
+
+  // ? This may must go to the service facade
+  // Signal based store of the favorites
+  #favorites = inject(FavoritesStore);
 
   // * Signals division
 
@@ -41,12 +47,15 @@ export default class HomePage {
   // * Properties division
 
   /** The list of favorites */
-  favorites: string[] = [];
+  favorites: string[] = this.#favorites.state();
 
   // * Methods division
 
-  /** Handles the change of the favorites list */
+  /** Handles the change of the favorites list
+   * @param favorites The new list of favorites
+   */
   onFavoritesChange(favorites: string[]): void {
     console.log('Favorites changed', favorites);
+    this.#favorites.setState(favorites);
   }
 }

@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { ActivitiesRepository } from '@api/activities.repository';
-import { BookingsRepository } from '@api/bookings.repository';
 import { Activity, ActivityStatus, NULL_ACTIVITY } from '@domain/activity.type';
 import { Booking } from '@domain/booking.type';
 import { Observable, of, tap } from 'rxjs';
+import { ActivitiesRepository } from 'src/app/shared/api/activities.repository';
+import { BookingsRepository } from 'src/app/shared/api/bookings.repository';
 
 /**
  * Facade service for the Bookings page

@@ -84,7 +84,7 @@
     "*.use-case.ts": "purescript",
     "*.utils.ts": "purescript",
     "*.validation.ts": "document",
-    "*.widget.ts": "angular",
+    "*.widget.ts": "angular-component",
     "CLI.md": "console",
     "TASKS.md": "todo"
   },

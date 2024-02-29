@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { ActivitiesRepository } from '@api/activities.repository';
 import { Activity } from '@domain/activity.type';
 import { Observable } from 'rxjs';
+import { ActivitiesRepository } from 'src/app/shared/api/activities.repository';
 
 /**
  * Facade service for the Home page
