@@ -1,5 +1,5 @@
 import { CurrencyPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Signal, computed, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, computed, effect, input, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Activity } from '@domain/activity.type';
 import { Booking } from '@domain/booking.type';
@@ -45,6 +45,10 @@ export class BookingFormComponent {
   bookingAmount: Signal<number> = computed(() => this.newParticipants() * this.activity().price);
   bookedMessage: Signal<string> = computed(() => (this.bookingSaved() ? `Booked USD ${this.bookingAmount()}` : ''));
   maxNewParticipants: Signal<number> = computed(() => this.activity().maxParticipants - this.alreadyParticipants());
+
+  constructor() {
+    effect(() => console.log('BookingFormComponent newParticipants', this.newParticipants()));
+  }
 
   // * Event division
 

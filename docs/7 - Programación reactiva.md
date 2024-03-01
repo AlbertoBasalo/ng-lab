@@ -142,7 +142,131 @@ en el `activity.component`
   (click)="toggleFavorite(activity().slug)" />
 ```
 
+## 7.2 Flujo de datos unidireccional
+
+### 7.2.1 Filter widget
+
+```typescript
+ng g c shared/ui/filter --type=widget
+```
+
+```typescript
+export type SortOrders = "asc" | "desc";
+
+export type Filter = {
+  search: string;
+  orderBy: string;
+  sort: SortOrders;
+};
+
+export const DEFAULT_FILTER: Filter = {
+  search: "",
+  orderBy: "id",
+  sort: "asc",
+};
+```
+
+```html
+<form>
+  <input type="search" name="search" [(ngModel)]="search" placeholder="Search..." />
+  <fieldset class="grid">
+    <select name="orderBy" [(ngModel)]="orderBy" aria-label="Choose field to sort by...">
+      <option value="id">Sort by ID</option>
+      <option value="name">Sort by Name</option>
+      <option value="date">Sort by Date</option>
+      <option value="price">Sort by Price</option>
+    </select>
+    <fieldset>
+      <legend>Sort order:</legend>
+      <input type="radio" name="sort" id="asc" value="asc" [(ngModel)]="sort" />
+      <label for="asc">Ascending</label>
+      <input type="radio" name="sort" id="desc" value="desc" [(ngModel)]="sort" />
+      <label for="desc">Descending</label>
+    </fieldset>
+  </fieldset>
+</form>
+```
+
+```typescript
+export class FilterWidget {
+  search: WritableSignal<string> = signal<string>(DEFAULT_FILTER.search);
+  orderBy: WritableSignal<string> = signal<string>(DEFAULT_FILTER.orderBy);
+  sort: WritableSignal<SortOrders> = signal<SortOrders>(DEFAULT_FILTER.sort);
+
+  #filter = computed(() => ({ search: this.search(), orderBy: this.orderBy(), sort: this.sort() }));
+
+  constructor() {
+    effect(() => console.log("Current filter", this.filter()));
+  }
+}
+```
+
+### 7.2.2 Query Params
+
+- Escribir en los parámetros en `filter.widget`
+
+```typescript
+export class FilterWidget {
+  search: WritableSignal<string> = signal<string>(DEFAULT_FILTER.search);
+  orderBy: WritableSignal<string> = signal<string>(DEFAULT_FILTER.orderBy);
+  sort: WritableSignal<SortOrders> = signal<SortOrders>(DEFAULT_FILTER.sort);
+
+  #filter = computed(() => ({ search: this.search(), orderBy: this.orderBy(), sort: this.sort() }));
+
+  constructor() {
+    const router = inject(Router);
+    effect(() => router.navigate([], { queryParams: this.#filter() }));
+  }
+}
+```
+
+- Recoger los valores en `home.page`
+
+```typescript
+export default class HomePage {
+  search: InputSignal<string | undefined> = input<string>();
+  orderBy: InputSignal<string | undefined> = input<string>();
+  sort: InputSignal<SortOrders | undefined> = input<SortOrders>();
+}
+```
+
+```html
+<footer>
+  <small>
+    <span>
+      Filtering by
+      <mark>{{ search() }}</mark>
+    </span>
+    <span>
+      Order by
+      <mark>{{ orderBy() }} {{ sort() }}</mark>
+    </span>
+    <span>
+      Got
+      <mark>{{ activities().length }}</mark>
+      activities.
+    </span>
+    <span>
+      You have selected
+      <mark>{{ favorites.length }}</mark>
+      favorites.
+    </span>
+  </small>
+</footer>
+```
+
+### 7.2.3 Query params observables a señales
+
+```typescript
+  #activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  #filterParams$: Observable<Params> = this.#activatedRoute.queryParams;
+  #defaultFilter: Signal<Params | Filter> = toSignal(this.#filterParams$, { initialValue: DEFAULT_FILTER });
+
+  search: WritableSignal<string> = signal<string>(this.#defaultFilter().search);
+  orderBy: WritableSignal<string> = signal<string>(this.#defaultFilter().orderBy);
+  sort: WritableSignal<SortOrders> = signal<SortOrders>(this.#defaultFilter().sort);
+```
+
 ---
 
-- 2 Flujo de datos unidireccional (buscador)
 - 3 Operadores avanzados de RxJs (buscador)
