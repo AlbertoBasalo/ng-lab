@@ -142,7 +142,7 @@ en el `activity.component`
   (click)="toggleFavorite(activity().slug)" />
 ```
 
-## 7.2 Flujo de datos unidireccional
+## 7.2 Usando el router como almacén
 
 ### 7.2.1 Filter widget
 
