@@ -144,7 +144,10 @@ en el `activity.component`
 
 ## 7.2 Usando el router como almacén
 
-### 7.2.1 Filter widget
+### 7.2.1 Un widget con señales
+
+viernes, 9 de febrero de 2024
+11:27
 
 ```typescript
 ng g c shared/ui/filter --type=widget
@@ -201,7 +204,7 @@ export class FilterWidget {
 }
 ```
 
-### 7.2.2 Query Params
+### 7.2.2 Señales desde Query Params
 
 - Escribir en los parámetros en `filter.widget`
 
@@ -255,7 +258,7 @@ export default class HomePage {
 </footer>
 ```
 
-### 7.2.3 Query params observables a señales
+### 7.2.3 Query params observables
 
 ```typescript
   #activatedRoute: ActivatedRoute = inject(ActivatedRoute);
