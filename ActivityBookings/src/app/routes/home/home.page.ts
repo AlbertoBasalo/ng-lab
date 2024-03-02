@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, InputSignal, Signal, inject, input } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, InputSignal, Signal, computed, inject, input } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Activity } from '@domain/activity.type';
-import { SortOrders } from '@domain/filter.type';
+import { DEFAULT_FILTER, SortOrders } from '@domain/filter.type';
 import { FavoritesStore } from '@state/favorites.store';
 import { FilterWidget } from '@ui/filter.widget';
+import { switchMap } from 'rxjs';
 import { ActivityComponent } from './activity.component';
 import { HomeService } from './home.service';
 
@@ -46,7 +47,7 @@ export default class HomePage {
   // * Injected services division
 
   // The service to get the activities
-  #service = inject(HomeService);
+  service = inject(HomeService);
 
   // ? This may must go to the service facade
   // Signal based store of the favorites
@@ -55,16 +56,25 @@ export default class HomePage {
   // * Input signals division
 
   // The search input signal coming from the route query params
-  search: InputSignal<string | undefined> = input<string>();
+  search: InputSignal<string> = input<string>(DEFAULT_FILTER.search);
   // The order by input signal coming from the route query params
-  orderBy: InputSignal<string | undefined> = input<string>();
+  orderBy: InputSignal<string> = input<string>(DEFAULT_FILTER.orderBy);
   // The sort input signal coming from the route query params
-  sort: InputSignal<SortOrders | undefined> = input<SortOrders>();
+  sort: InputSignal<SortOrders> = input<SortOrders>(DEFAULT_FILTER.sort);
 
   // * Signals division
 
   /** The list of activities to be presented */
-  activities: Signal<Activity[]> = toSignal(this.#service.getActivities$(), { initialValue: [] });
+
+  // computed filter
+  filter = computed(() => ({ search: this.search(), orderBy: this.orderBy(), sort: this.sort() }));
+
+  //activities: Signal<Activity[]> = toSignal(this.service.getActivitiesByFilter$(this.filter()), { initialValue: [] });
+
+  activities: Signal<Activity[]> = toSignal(
+    toObservable(this.filter).pipe(switchMap((filter) => this.service.getActivitiesByFilter$(filter))),
+    { initialValue: [] },
+  );
 
   // * Properties division
 

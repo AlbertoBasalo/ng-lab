@@ -8,7 +8,7 @@ import {
   model,
   viewChild,
 } from '@angular/core';
-import { debounceTime, distinctUntilChanged, filter, fromEvent, map, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, fromEvent, map, tap } from 'rxjs';
 
 @Component({
   selector: 'lab-search',
@@ -41,7 +41,8 @@ export class SearchComponent {
           tap((event: Event) => console.log('💫 input event', event)),
           map((event: Event) => (event.target as HTMLInputElement).value),
           tap((value) => console.log('💫 input value', value)),
-          filter((value) => value.length > 2),
+          // filter((value) => value.length > 2),
+          map((value) => (value.length > 2 ? value : '')),
           tap((filteredValue) => console.log('💫 input value after filter', filteredValue)),
           debounceTime(300),
           tap((debouncedValue) => console.log('💫 input value after debounce', debouncedValue)),

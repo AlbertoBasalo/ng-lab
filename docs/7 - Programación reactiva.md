@@ -274,7 +274,7 @@ export default class HomePage {
 
 ## 7_3 Operadores avanzados de RxJs
 
-### 7_3_1 Search component
+### 7_3_1 Observando y operando con eventos de usuario
 
 `ng g c shared/ui/search`
 
@@ -349,6 +349,6 @@ export class SearchComponent {
 </form>
 ```
 
-### 7_3_2 Operaciones con eventos de usuario
+### 7_3_2 Operadores observables de primer orden
 
-### 7_3_3 Operadores observables de primer orden
+### 7_3_3 To Do...
