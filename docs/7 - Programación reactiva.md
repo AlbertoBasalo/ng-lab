@@ -351,4 +351,54 @@ export class SearchComponent {
 
 ### 7_3_2 Operadores observables de primer orden
 
+`activities.repository.ts`
+
+```typescript
+ /**
+   * Get all activities from the API based on a filter
+   * @param filter The filter to be applied
+   * @returns An observable with the activities
+   */
+  getActivitiesByFilter$(filter: Filter) {
+    const url = `${this.#apiUrl}?q=${filter.search}&_sort=${filter.orderBy}&_order=${filter.sort}`;
+    return this.#http.get<Activity[]>(url);
+  }
+```
+
+`home.service.ts`
+
+```typescript
+  /**
+   * Get all activities from the API based on a filter
+   * @param partialFilter The partial filter to be applied
+   * @returns An observable with the activities
+   */
+  getActivitiesByFilter$(partialFilter: Partial<Filter>): Observable<Activity[]> {
+    const filter: Filter = {
+      search: partialFilter.search || DEFAULT_FILTER.search,
+      orderBy: partialFilter.orderBy || DEFAULT_FILTER.orderBy,
+      sort: partialFilter.sort || DEFAULT_FILTER.sort,
+    };
+    return this.activitiesRepository.getActivitiesByFilter$(filter);
+  }
+```
+
+`home.page.ts`
+
+```typescript
+  /** The list of activities to be presented */
+  //activities: Signal<Activity[]> = toSignal(this.#service.getActivities$(), { initialValue: [] });
+
+  /** Computed filter from the search, orderBy and sort signals */
+  #filter: Signal<Filter> = computed(() => ({ search: this.search(), orderBy: this.orderBy(), sort: this.sort() }));
+  /** The filter signal as an observable */
+  #filter$: Observable<Filter> = toObservable(this.#filter);
+  /** A function that returns the observable of activities based on the filter */
+  #getActivitiesByFilter$ = (filter: Filter) => this.#service.getActivitiesByFilter$(filter);
+  /** Pipeline to get the activities observable based on the filter observable */
+  #filter$SwitchMapApi$: Observable<Activity[]> = this.#filter$.pipe(switchMap(this.#getActivitiesByFilter$));
+  /** The activities signal based on the filter observable */
+  activities: Signal<Activity[]> = toSignal(this.#filter$SwitchMapApi$, { initialValue: [] });
+```
+
 ### 7_3_3 To Do...

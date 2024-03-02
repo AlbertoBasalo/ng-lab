@@ -50,9 +50,12 @@ export class ActivitiesRepository {
     );
   }
 
+  /**
+   * Get all activities from the API based on a filter
+   * @param filter The filter to be applied
+   * @returns An observable with the activities
+   */
   getActivitiesByFilter$(filter: Filter) {
-    // const filter = { ...partialFilter, DEFAULT_FILTER };
-    // if (!filter.search) return this.getActivities$();
     const url = `${this.#apiUrl}?q=${filter.search}&_sort=${filter.orderBy}&_order=${filter.sort}`;
     return this.#http.get<Activity[]>(url);
   }

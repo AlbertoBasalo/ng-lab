@@ -21,7 +21,6 @@ import { SearchComponent } from './search.component';
   imports: [FormsModule, SearchComponent],
   template: `
     <form>
-      <!-- <input type="search" name="search" [(ngModel)]="search" placeholder="Search..." /> -->
       <lab-search [(searchTerm)]="search" />
       <fieldset class="grid">
         <select name="orderBy" [(ngModel)]="orderBy" aria-label="Choose field to sort by...">

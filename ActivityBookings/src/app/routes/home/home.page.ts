@@ -47,7 +47,7 @@ export default class HomePage {
   // * Injected services division
 
   // The service to get the activities
-  service = inject(HomeService);
+  #service = inject(HomeService);
 
   // ? This may must go to the service facade
   // Signal based store of the favorites
@@ -71,7 +71,7 @@ export default class HomePage {
   /** The filter signal as an observable */
   #filter$: Observable<Filter> = toObservable(this.#filter);
   /** A function that returns the observable of activities based on the filter */
-  #getActivitiesByFilter$ = (filter: Filter) => this.service.getActivitiesByFilter$(filter);
+  #getActivitiesByFilter$ = (filter: Filter) => this.#service.getActivitiesByFilter$(filter);
   /** Pipeline to get the activities observable based on the filter observable */
   #filter$SwitchMapApi$: Observable<Activity[]> = this.#filter$.pipe(switchMap(this.#getActivitiesByFilter$));
   /** The activities signal based on the filter observable */
