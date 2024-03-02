@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, InputSignal, Signal, computed, inject, input } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Activity } from '@domain/activity.type';
-import { DEFAULT_FILTER, SortOrders } from '@domain/filter.type';
+import { DEFAULT_FILTER, Filter, SortOrders } from '@domain/filter.type';
 import { FavoritesStore } from '@state/favorites.store';
 import { FilterWidget } from '@ui/filter.widget';
-import { switchMap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { ActivityComponent } from './activity.component';
 import { HomeService } from './home.service';
 
@@ -66,15 +66,16 @@ export default class HomePage {
 
   /** The list of activities to be presented */
 
-  // computed filter
-  filter = computed(() => ({ search: this.search(), orderBy: this.orderBy(), sort: this.sort() }));
-
-  //activities: Signal<Activity[]> = toSignal(this.service.getActivitiesByFilter$(this.filter()), { initialValue: [] });
-
-  activities: Signal<Activity[]> = toSignal(
-    toObservable(this.filter).pipe(switchMap((filter) => this.service.getActivitiesByFilter$(filter))),
-    { initialValue: [] },
-  );
+  /** Computed filter from the search, orderBy and sort signals */
+  #filter: Signal<Filter> = computed(() => ({ search: this.search(), orderBy: this.orderBy(), sort: this.sort() }));
+  /** The filter signal as an observable */
+  #filter$: Observable<Filter> = toObservable(this.#filter);
+  /** A function that returns the observable of activities based on the filter */
+  #getActivitiesByFilter$ = (filter: Filter) => this.service.getActivitiesByFilter$(filter);
+  /** Pipeline to get the activities observable based on the filter observable */
+  #filter$SwitchMapApi$: Observable<Activity[]> = this.#filter$.pipe(switchMap(this.#getActivitiesByFilter$));
+  /** The activities signal based on the filter observable */
+  activities: Signal<Activity[]> = toSignal(this.#filter$SwitchMapApi$, { initialValue: [] });
 
   // * Properties division
 
