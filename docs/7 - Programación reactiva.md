@@ -272,4 +272,12 @@ export default class HomePage {
 
 ---
 
-- 3 Operadores avanzados de RxJs (buscador)
+## 7_3 Operadores avanzados de RxJs
+
+### 7_3_1 Search component
+
+`ng g c shared/ui/search`
+
+### 7_3_2 Operaciones con eventos de usuario
+
+### 7_3_3 Operadores observables de primer orden

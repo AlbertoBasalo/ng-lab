@@ -13,14 +13,16 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DEFAULT_FILTER, Filter, SortOrders } from '@domain/filter.type';
 import { Observable } from 'rxjs';
+import { SearchComponent } from './search.component';
 
 @Component({
   selector: 'lab-filter',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, SearchComponent],
   template: `
     <form>
-      <input type="search" name="search" [(ngModel)]="search" placeholder="Search..." />
+      <!-- <input type="search" name="search" [(ngModel)]="search" placeholder="Search..." /> -->
+      <lab-search [(searchTerm)]="search" />
       <fieldset class="grid">
         <select name="orderBy" [(ngModel)]="orderBy" aria-label="Choose field to sort by...">
           <option value="id">Sort by ID</option>
