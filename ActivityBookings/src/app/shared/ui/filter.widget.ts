@@ -59,11 +59,11 @@ export class FilterWidget {
   // * Writable signals division
 
   /** The search text model */
-  search: WritableSignal<string> = signal<string>(this.#defaultFilter().search);
+  search: WritableSignal<string> = signal<string>(this.#defaultFilter().search || DEFAULT_FILTER.search);
   /** The order by field model */
-  orderBy: WritableSignal<string> = signal<string>(this.#defaultFilter().orderBy);
-  /** The sort model */
-  sort: WritableSignal<SortOrders> = signal<SortOrders>(this.#defaultFilter().sort);
+  orderBy: WritableSignal<string> = signal<string>(this.#defaultFilter().orderBy || DEFAULT_FILTER.orderBy);
+  /** The sort order model */
+  sort: WritableSignal<SortOrders> = signal<SortOrders>(this.#defaultFilter().sort || DEFAULT_FILTER.sort);
 
   // * Computed signals division
 

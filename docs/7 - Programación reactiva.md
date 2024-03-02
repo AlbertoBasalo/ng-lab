@@ -278,6 +278,77 @@ export default class HomePage {
 
 `ng g c shared/ui/search`
 
+```typescript
+@Component({
+  selector: "lab-search",
+  standalone: true,
+  imports: [],
+  template: `
+    <input #searchInput type="search" [value]="searchTerm()" placeholder="Search..." />
+  `,
+  styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class SearchComponent {
+  // * View Signals division
+
+  // The search input element reference signal
+  #searchInputEl: Signal<ElementRef | undefined> = viewChild("searchInput", { read: ElementRef });
+
+  // * Model Signals division
+
+  /** The search term model (i/o) signal */
+  searchTerm: ModelSignal<string> = model<string>("");
+
+  constructor() {
+    effect(() => {
+      const inputEl = this.#searchInputEl();
+      if (!inputEl) return;
+      // Observable from search events,
+      // pipeline to clean up the input value,
+      // and subscription emitting the search term signal
+      fromEvent<Event>(inputEl.nativeElement, "input")
+        .pipe(
+          tap((event: Event) => console.log("💫 input event", event)),
+          map((event: Event) => (event.target as HTMLInputElement).value),
+          tap((value) => console.log("💫 input value", value)),
+          filter((value) => value.length > 2),
+          tap((filteredValue) => console.log("💫 input value after filter", filteredValue)),
+          debounceTime(300),
+          tap((debouncedValue) => console.log("💫 input value after debounce", debouncedValue)),
+          distinctUntilChanged(),
+          tap((distinctValue) => console.log("💫 input value after distinctUntilChanged", distinctValue))
+        )
+        .subscribe((searchTerm) => this.searchTerm.set(searchTerm));
+    });
+  }
+}
+```
+
+`filter.widget`
+
+```html
+<form>
+  <!-- <input type="search" name="search" [(ngModel)]="search" placeholder="Search..." /> -->
+  <lab-search [(searchTerm)]="search" />
+  <fieldset class="grid">
+    <select name="orderBy" [(ngModel)]="orderBy" aria-label="Choose field to sort by...">
+      <option value="id">Sort by ID</option>
+      <option value="name">Sort by Name</option>
+      <option value="date">Sort by Date</option>
+      <option value="price">Sort by Price</option>
+    </select>
+    <fieldset>
+      <legend>Sort order:</legend>
+      <input type="radio" name="sort" id="asc" value="asc" [(ngModel)]="sort" />
+      <label for="asc">Ascending</label>
+      <input type="radio" name="sort" id="desc" value="desc" [(ngModel)]="sort" />
+      <label for="desc">Descending</label>
+    </fieldset>
+  </fieldset>
+</form>
+```
+
 ### 7_3_2 Operaciones con eventos de usuario
 
 ### 7_3_3 Operadores observables de primer orden
