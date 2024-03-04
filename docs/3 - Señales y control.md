@@ -150,7 +150,7 @@ constructor() {
 <input type="number" [ngModel]="newBookings()" (ngModelChange)="onNewBookings($event)" min="0" [max]="maxBookings()" />
 } @else {
 <div>
-  <button class="secondary oututline" (click)="onNewParticipantsChange(0)">Reset</button>
+  <button class="secondary outline" (click)="onNewParticipantsChange(0)">Reset</button>
   <span>No more places available</span>
 </div>
 }
