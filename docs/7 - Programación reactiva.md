@@ -402,3 +402,11 @@ export class SearchComponent {
 ```
 
 ### 7_3_3 To Do...
+
+// peticiones paralelas en página favoritos
+
+// To Do: Peticiones ordenadas para saber sus bookings...
+
+// revisar subscripciones y mecanismo destroy...
+
+// analogía restaurante o programador
