@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { ActivitiesRepository } from '@api/activities.repository';
 import { Activity } from '@domain/activity.type';
 import { FavoritesStore } from '@state/favorites.store';
-import { forkJoin } from 'rxjs';
+import { Observable, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'lab-favorites',
@@ -28,23 +28,33 @@ export default class FavoritesPage {
   // * Injected services division
 
   // Store for the favorites data
-  #favorites: FavoritesStore = inject(FavoritesStore);
+  #favoritesStore: FavoritesStore = inject(FavoritesStore);
 
+  // Repository to acces activity data on the API
   #activitiesRepository: ActivitiesRepository = inject(ActivitiesRepository);
 
   // * Properties division
 
-  // /** The signal list of favorites */
-  // favorites: Signal<string[]> = this.#favorites.state;
-
   // Load the favorites data from the API
 
+  /** The original signal list of favorites */
+  // activities: Signal<string[]> = this.#favorites.state;
+
+  /** A simple array with the of slugs of favorite activities*/
+  #favoriteSlugs: string[] = this.#favoritesStore.state();
+
+  /** A function that gets an observable of an activity based on its slug*/
+  #getActivityBySlug$ = (favoriteSlug: string) => this.#activitiesRepository.getActivityBySlug$(favoriteSlug);
+
+  /** Maps each element of the array of favorite slugs to an array of activity observable */
+  #mapActivitiesFromSlugs$: Observable<Activity>[] = this.#favoriteSlugs.map(this.#getActivityBySlug$);
+
+  /** Forks in parallel, and joins the results in an only one observable of an array of favorite activities*/
+  #activities$: Observable<Activity[]> = forkJoin(this.#mapActivitiesFromSlugs$);
+
   /**
-   * The list of activities that are favorites
-   * @returns The list of activities that are favorites
+   * The signal list of activities that are favorites
+   * @returns The signal to use in the interface
    */
-  activities: Signal<Activity[]> = toSignal(
-    forkJoin(this.#favorites.state().map((favorite) => this.#activitiesRepository.getActivityBySlug$(favorite))),
-    { initialValue: [] },
-  );
+  activities: Signal<Activity[]> = toSignal(this.#activities$, { initialValue: [] });
 }
