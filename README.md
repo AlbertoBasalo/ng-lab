@@ -3,7 +3,7 @@
 Laboratorio para [cursos y talleres de Angular](./docs/0%20-%20Angular%20Moderno%20V17.md) impartidos en Español por [Alberto Basalo](https://albertobasalo.dev)
 
 > [!NOTE]
-> Angular sample Activity Bookings is at [ActivityBookings](./ActivityBookings) folder
+> Angular sample _Activity Bookings_ application is at [ActivityBookings](./ActivityBookings) folder
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.1.
 
