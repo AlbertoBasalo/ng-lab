@@ -124,7 +124,7 @@ readonly canNotBook = computed(
 
 ### 3.2.2 Efectos colaterales
 
-```tsx
+```typescript
 constructor() {
  effect(() => {
     const totalParticipants = this.totalParticipants();

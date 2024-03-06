@@ -401,9 +401,7 @@ export class SearchComponent {
   activities: Signal<Activity[]> = toSignal(this.#filter$SwitchMapApi$, { initialValue: [] });
 ```
 
-### 7_3_3 To Do...
-
-// peticiones paralelas en página favoritos
+### 7_3_3 Peticiones paralelas
 
 ```typescript
 export default class FavoritesPage {
@@ -427,7 +425,7 @@ export default class FavoritesPage {
 ```html
 @for (activity of activities(); track activity) {
 <div>
-  <a [routerLink]="['/bookings', activity.slug]">{{ activity.name }}</a>
+  <span><a [routerLink]="['/bookings', activity.slug]">{{ activity.name }}</a>
   <span>at {{ activity.location }} on {{ activity.date }}</span>
 </div>
 <hr />
