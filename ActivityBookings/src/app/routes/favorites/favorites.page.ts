@@ -13,7 +13,9 @@ import { Observable, forkJoin } from 'rxjs';
   template: `
     @for (activity of activities(); track activity) {
       <div>
-        <a [routerLink]="['/bookings', activity.slug]">{{ activity.name }}</a>
+        <span>
+          <a [routerLink]="['/bookings', activity.slug]">{{ activity.name }}</a>
+        </span>
         <span>at {{ activity.location }} on {{ activity.date }}</span>
       </div>
       <hr />
