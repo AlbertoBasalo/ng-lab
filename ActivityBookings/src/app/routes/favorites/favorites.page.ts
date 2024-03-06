@@ -13,8 +13,8 @@ import { Observable, forkJoin } from 'rxjs';
   template: `
     @for (activity of activities(); track activity) {
       <div>
-        <a [routerLink]="['/bookings', activity.slug]">{{ activity.name }}</a> at {{ activity.location }} on
-        {{ activity.date }}
+        <a [routerLink]="['/bookings', activity.slug]">{{ activity.name }}</a>
+        <span>at {{ activity.location }} on {{ activity.date }}</span>
       </div>
       <hr />
     } @empty {
@@ -37,7 +37,7 @@ export default class FavoritesPage {
 
   // Load the favorites data from the API
 
-  /** The original signal list of favorites */
+  /** The original signal list of favorites*/
   // activities: Signal<string[]> = this.#favorites.state;
 
   /** A simple array with the of slugs of favorite activities*/
@@ -46,15 +46,12 @@ export default class FavoritesPage {
   /** A function that gets an observable of an activity based on its slug*/
   #getActivityBySlug$ = (favoriteSlug: string) => this.#activitiesRepository.getActivityBySlug$(favoriteSlug);
 
-  /** Maps each element of the array of favorite slugs to an array of activity observable */
+  /** Maps each element of the array of favorite slugs to an array of activity observable*/
   #mapActivitiesFromSlugs$: Observable<Activity>[] = this.#favoriteSlugs.map(this.#getActivityBySlug$);
 
   /** Forks in parallel, and joins the results in an only one observable of an array of favorite activities*/
   #activities$: Observable<Activity[]> = forkJoin(this.#mapActivitiesFromSlugs$);
 
-  /**
-   * The signal list of activities that are favorites
-   * @returns The signal to use in the interface
-   */
+  /** The signal list of activities that are favorites to use in the interface*/
   activities: Signal<Activity[]> = toSignal(this.#activities$, { initialValue: [] });
 }

@@ -405,8 +405,33 @@ export class SearchComponent {
 
 // peticiones paralelas en página favoritos
 
-// To Do: Peticiones ordenadas para saber sus bookings...
+```typescript
+export default class FavoritesPage {
+  #favoritesStore: FavoritesStore = inject(FavoritesStore);
 
-// revisar subscripciones y mecanismo destroy...
+  #activitiesRepository: ActivitiesRepository = inject(ActivitiesRepository);
+  // activities: Signal<string[]> = this.#favorites.state;
 
-// analogía restaurante o programador
+  #favoriteSlugs: string[] = this.#favoritesStore.state();
+
+  #getActivityBySlug$ = (favoriteSlug: string) => this.#activitiesRepository.getActivityBySlug$(favoriteSlug);
+
+  #mapActivitiesFromSlugs$: Observable<Activity>[] = this.#favoriteSlugs.map(this.#getActivityBySlug$);
+
+  #activities$: Observable<Activity[]> = forkJoin(this.#mapActivitiesFromSlugs$);
+
+  activities: Signal<Activity[]> = toSignal(this.#activities$, { initialValue: [] });
+}
+```
+
+```html
+@for (activity of activities(); track activity) {
+<div>
+  <a [routerLink]="['/bookings', activity.slug]">{{ activity.name }}</a>
+  <span>at {{ activity.location }} on {{ activity.date }}</span>
+</div>
+<hr />
+} @empty {
+<div>No activities yet</div>
+}
+```
