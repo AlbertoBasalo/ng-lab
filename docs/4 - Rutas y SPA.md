@@ -41,12 +41,10 @@ export class AppComponent {}
 
 ```css
 main {
-	margin-top: 2rem;
-	margin-bottom: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 ```
-
-
 
 ### 4.1.2 Router link
 
@@ -73,13 +71,11 @@ export class HeaderComponent {
 }
 ```
 
-
-
 ```html
 <header>
   <nav>
     <a [routerLink]="['/']">
-      <strong> {{ title }} </strong>
+      <strong>{{ title }}</strong>
     </a>
     <a [routerLink]="['/auth', 'login']">Login</a>
   </nav>
@@ -95,12 +91,16 @@ export class HeaderComponent {
 @Component({
   standalone: true,
   imports: [],
-  template: ` <p>register works!</p> `,
+  template: `
+    <p>register works!</p>
+  `,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class RegisterPage {}
+```
 
+```json
 // .eslintrc.json
 "rules": {
     "prettier/prettier": "warn",
@@ -115,18 +115,20 @@ export default class RegisterPage {}
   path: 'auth/register',
   loadComponent: () => import('./auth/register.page'),
 },
+```
 
+```typescript
 // login.component.ts
 
 @Component({
-  selector: 'lab-login',
+  selector: "lab-login",
   standalone: true,
   imports: [RouterLink],
-  template: ` `,
+  template: ``,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent {}
+export default class LoginComponent {}
 ```
 
 ```html
@@ -153,14 +155,11 @@ export class LoginComponent {}
 </article>
 ```
 
-
-
 ```typescript
-
 @Component({
   standalone: true,
   imports: [RouterLink],
-  template: `  `,
+  template: ``,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -203,8 +202,6 @@ export default class RegisterPage {}
 </article>
 ```
 
-
-
 ## 4.2 Parámetros en las rutas, señales en los componentes.
 
 ### 4.2.1 Configuración y envío
@@ -234,17 +231,16 @@ export const ACTIVITIES: Activity[] = [
 ```typescript
 // config with routed params
 export const routes: Routes = [
-    {
-      path: '',
-      loadComponent: () => import('./routes/home.page'),
-    },
-    {
-      path: 'bookings/:slug',
-      loadComponent: () => import('./routes/bookings/bookings.page'),
-    },
-]
+  {
+    path: "",
+    loadComponent: () => import("./routes/home.page"),
+  },
+  {
+    path: "bookings/:slug",
+    loadComponent: () => import("./routes/bookings/bookings.page"),
+  },
+];
 ```
-
 
 ```typescript
 // homePage activity list
@@ -280,24 +276,18 @@ export default class HomePage {
 </article>
 ```
 
-
-
 ### 4.2.2 Recepción reactiva de parámetros como señales
 
-```tsx
-
-provideRouter(routes, withComponentInputBinding())
+```typescript
+provideRouter(routes, withComponentInputBinding());
 
 // slug input en BookingsPage
 slug = input<string>();
 
-activity = computed(
-	() => ACTIVITIES.find((a) => a.slug === this.slug()) || NULL_ACTIVITY,
-);
-
+activity = computed(() => ACTIVITIES.find((a) => a.slug === this.slug()) || NULL_ACTIVITY);
 ```
 
-```tsx
+```typescript
 // full reactive signal based component
 export default class BookingsPage {
   slug = input<string>();
@@ -367,61 +357,58 @@ export default class BookingsPage {
 
 ```html
 @if (activity(); as activity) {
-  <article>
-    <header>
-      <h2>{{ activity.name }}</h2>
-      <div [class]="activity.status">
-        <span>{{ activity.location }}</span>
-        <span>{{ activity.price | currency }}</span>
-        <span>{{ activity.date | date: 'dd-MMM-yyyy' }}</span>
-        <span>{{ activity.status | uppercase }}</span>
-      </div>
-    </header>
-    <main>
-      <h4>Participants</h4>
-      <div>Already Participants: {{ alreadyParticipants() }}</div>
-      <div>Max Participants: {{ activity.maxParticipants }}</div>
-      <ul>
-        <li>New Participants: {{ newParticipants() }}</li>
-        <li>Remaining places: {{ remainingPlaces() }}</li>
-        <li>Total participants: {{ totalParticipants() }}</li>
-      </ul>
-      <div>
-        @for (participant of participants(); track participant.id) {
-          <span [attr.data-tooltip]="participant.id">🏃</span>
-        } @empty {
-          <span>🕸️</span>
-        }
-      </div>
-    </main>
-    <footer>
-      @if (isBookable()) {
-        <h4>New Bookings</h4>
-        @if (remainingPlaces() > 0) {
-          <label for="newParticipants">How many participants want to book?</label>
-          <input
-            type="number"
-            name="newParticipants"
-            [ngModel]="newParticipants()"
-            (ngModelChange)="onNewParticipantsChange($event)"
-            min="0"
-            [max]="maxNewParticipants()"
-          />
-        } @else {
-          <div>
-            <button class="secondary outline" (click)="onNewParticipantsChange(0)">
-              Reset
-            </button>
-            <span>No more places available</span>
-          </div>
-        }
-        <button [disabled]="booked() || newParticipants() === 0" (click)="onBookClick()">
-          Book {{ newParticipants() }} places now for {{ bookingAmount() | currency }}!
-        </button>
-        <div>{{ bookedMessage() }}</div>
+<article>
+  <header>
+    <h2>{{ activity.name }}</h2>
+    <div [class]="activity.status">
+      <span>{{ activity.location }}</span>
+      <span>{{ activity.price | currency }}</span>
+      <span>{{ activity.date | date: 'dd-MMM-yyyy' }}</span>
+      <span>{{ activity.status | uppercase }}</span>
+    </div>
+  </header>
+  <main>
+    <h4>Participants</h4>
+    <div>Already Participants: {{ alreadyParticipants() }}</div>
+    <div>Max Participants: {{ activity.maxParticipants }}</div>
+    <ul>
+      <li>New Participants: {{ newParticipants() }}</li>
+      <li>Remaining places: {{ remainingPlaces() }}</li>
+      <li>Total participants: {{ totalParticipants() }}</li>
+    </ul>
+    <div>
+      @for (participant of participants(); track participant.id) {
+      <span [attr.data-tooltip]="participant.id">🏃</span>
+      } @empty {
+      <span>🕸️</span>
       }
-    </footer>
-  </article>
+    </div>
+  </main>
+  <footer>
+    @if (isBookable()) {
+    <h4>New Bookings</h4>
+    @if (remainingPlaces() > 0) {
+    <label for="newParticipants">How many participants want to book?</label>
+    <input
+      type="number"
+      name="newParticipants"
+      [ngModel]="newParticipants()"
+      (ngModelChange)="onNewParticipantsChange($event)"
+      min="0"
+      [max]="maxNewParticipants()" />
+    } @else {
+    <div>
+      <button class="secondary outline" (click)="onNewParticipantsChange(0)">Reset</button>
+      <span>No more places available</span>
+    </div>
+    }
+    <button [disabled]="booked() || newParticipants() === 0" (click)="onBookClick()">
+      Book {{ newParticipants() }} places now for {{ bookingAmount() | currency }}!
+    </button>
+    <div>{{ bookedMessage() }}</div>
+    }
+  </footer>
+</article>
 }
 ```
 
@@ -437,8 +424,6 @@ npm start
 // primero server, después browser
 ```
 
-
-
 ### 4.3.2 Indexación de contenido SSR
 
 ```bash
@@ -450,4 +435,3 @@ npm run serve:ssr:ActivityBookings
 npm run serve
 
 ```
-

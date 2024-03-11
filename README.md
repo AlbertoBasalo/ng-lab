@@ -1,11 +1,11 @@
 # NgLab
 
-Laboratorio para [cursos y talleres de Angular](./docs/0%20-%20Angular%20Moderno%20V17.md) impartidos en Español por [Alberto Basalo](https://albertobasalo.dev)
+> [Laboratorio de ejemplo](https://github.com/albertobasalo/ng-lab) para cursos y talleres de[Angular Basics](https://www.notion.so/albertobasalo/Angular-Moderno-V17-8d69354edacb41cbaa921a9fbb8a17d0) impartidos en Español por [Alberto Basalo](https://albertobasalo.dev)
+
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.1.
 
 > [!NOTE]
 > Angular sample _Activity Bookings_ application is at [ActivityBookings](./ActivityBookings) folder
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.1.
 
 ```bash
 # clone lab from github
