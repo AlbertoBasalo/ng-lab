@@ -9,10 +9,10 @@ Envío, recepción y manejo de datos asínconos
 ```bash
 npm i -D json-server json-server-auth
 npm i -D copyfiles
-#scripts
-"api": "json-server-auth ./db/prod/d.json -r ./db/r.json",
-"api:reset": "copyfiles -f ./db/reset/d.json ./db/prod && npm run api",
-"api:seed": "copyfiles -f ./db/seed/d.json ./db/prod && npm run api"
+# package.json scripts
+"api": "json-server-auth ../db/prod/d.json -r ../db/r.json",
+"api:reset": "copyfiles -f ../db/reset/d.json ../db/prod && npm run api",
+"api:seed": "copyfiles -f ../db/seed/d.json ../db/prod && npm run api",
 npm run api
 ```
 

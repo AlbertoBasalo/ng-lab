@@ -49,7 +49,10 @@ export default class HomePage {
 
   // The service to get the activities
   #service = inject(HomeService);
+
+  // The title service to update the title
   #title = inject(Title);
+  // The meta service to update the meta tags
   #meta = inject(Meta);
 
   // ? This may must go to the service facade

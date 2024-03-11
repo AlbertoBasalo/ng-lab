@@ -57,9 +57,12 @@ import { ParticipantsComponent } from './participants.component';
 export default class BookingsPage {
   // * Injected services division
 
+  // The service to activities and bookings api
   #service = inject(BookingsService);
 
+  // The title service to update the title
   #title = inject(Title);
+  // The meta service to update the meta tags
   #meta = inject(Meta);
 
   // * Input signals division
