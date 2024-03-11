@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, InputSignal, Signal, computed, inject, input } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { Meta, Title } from '@angular/platform-browser';
 import { Activity } from '@domain/activity.type';
 import { DEFAULT_FILTER, Filter, SortOrders } from '@domain/filter.type';
 import { FavoritesStore } from '@state/favorites.store';
@@ -48,6 +49,8 @@ export default class HomePage {
 
   // The service to get the activities
   #service = inject(HomeService);
+  #title = inject(Title);
+  #meta = inject(Meta);
 
   // ? This may must go to the service facade
   // Signal based store of the favorites
@@ -81,6 +84,11 @@ export default class HomePage {
 
   /** The list of favorites */
   favorites: string[] = this.#favorites.state();
+
+  constructor() {
+    this.#title.setTitle('Activities to book');
+    this.#meta.updateTag({ name: 'description', content: 'Activities to book' });
+  }
 
   // * Event handlers division
 

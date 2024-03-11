@@ -426,12 +426,54 @@ npm start
 
 ### 4.3.2 Indexación de contenido SSR
 
-```bash
+```json
+{
+  "server": "src/main.server.ts",
+  "prerender": true,
+  "ssr": {
+    "entry": "server.ts"
+  }
+}
+```
 
+```bash
 # build and node serve
 npm run build
 npm run serve:ssr:ActivityBookings
 # full
 npm run serve
 
+```
+
+### 4.3.3 SEO y metadatos
+
+```typescript
+export default class BookingsPage {
+  #title = inject(Title);
+
+  constructor() {
+    effect(() => {
+      const activity = this.activity();
+      this.#title.setTitle(activity.name);
+      const description = `${activity.name} in ${activity.location} on ${activity.date} for ${activity.price}`;
+      this.#meta.updateTag({ name: "description", content: description });
+    });
+  }
+}
+```
+
+```typescript
+export default class HomePage {
+  // * Injected services division
+
+  // The service to get the activities
+  #service = inject(HomeService);
+  #title = inject(Title);
+  #meta = inject(Meta);
+
+  constructor() {
+    this.#title.setTitle("Activities to book");
+    this.#meta.updateTag({ name: "description", content: "Activities to book" });
+  }
+}
 ```
