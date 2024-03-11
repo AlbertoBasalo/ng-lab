@@ -1,6 +1,6 @@
 # 5 Comunicaciones HTTP
 
-Envío, recepción y manejo de datos asínconos
+Envío, recepción y manejo de datos asíncronos
 
 ## 5.1 Consumo de un API.
 

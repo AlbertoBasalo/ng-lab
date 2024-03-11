@@ -1,10 +1,12 @@
-Desinstalar Karma y Jasmine
+# Test with Jest
+
+## Desinstalar Karma y Jasmine
 
 ```bash
 npm uninstall karma karma-chrome-launcher karma-coverage karma-jasmine karma-jasmine-html-reporter @types/jasmine jasmine-core
 ```
 
-Instalar Jest
+## Instalar Jest
 
 ```bash
 npm install -D jest @types/jest
@@ -24,7 +26,7 @@ Asignar Jest en el archivo angular.json
 }
 ```
 
-Incluir tipos Jest en tsconfig.spec.json
+## Incluir tipos Jest en `tsconfig.spec.json`
 
 ```json
 {
