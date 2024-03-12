@@ -7,7 +7,7 @@ Envío, recepción y manejo de datos asíncronos
 ### 5.1.1 Lectura asíncrona de datos
 
 ```bash
-npm i -D json-server json-server-auth
+npm i -D json-server@0.17.4 json-server-auth
 npm i -D copyfiles
 # package.json scripts
 "api": "json-server-auth ../db/prod/d.json -r ../db/r.json",
