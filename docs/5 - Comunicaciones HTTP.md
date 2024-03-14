@@ -145,6 +145,8 @@ export default class BookingsPage {
 
 ### 5.3.2 Interoperabilidad de señales y observables
 
+> TODO: refactor and record again again
+
 ```typescript
 export default class HomePage {
   #title = inject(Title);
@@ -169,11 +171,13 @@ export default class HomePage {
   // 3 - unsubscribe from observable
   // 4 - signal read-only no mutable
 
-  activitiesNullable: Signal<Activity[] | undefined> = toSignal(
-    this.#http.get<Activity[]>("http://localhost:3000/activities")
+  /** Signal with the array of activities set from an observable*/
+  activities: Signal<Activity[]> = toSignal(
+    this.#http.get<Activity[]>("http://localhost:3000/activities").pipe(catchError(() => of([]))),
+    {
+      initialValue: [],
+    }
   );
-
-  activities: Signal<Activity[]> = computed(() => this.activitiesNullable() || []);
 
   constructor() {
     this.#title.setTitle("🏡 - Home");

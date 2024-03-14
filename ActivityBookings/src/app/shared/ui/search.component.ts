@@ -21,7 +21,7 @@ import { debounceTime, distinctUntilChanged, filter, fromEvent, map, tap } from 
 export class SearchComponent {
   // * View Signals division
 
-  // The search input element reference signal
+  // A signal with the ElementRef of the search input element
   searchInputEl: Signal<ElementRef | undefined> = viewChild('searchInput', { read: ElementRef });
 
   // * Model Signals division
@@ -30,6 +30,7 @@ export class SearchComponent {
   searchTerm: ModelSignal<string> = model<string>('');
 
   constructor() {
+    // Resister an effect for any change on the search element, clean it, and set the search term signal
     effect(() => {
       const inputEl = this.searchInputEl();
       if (!inputEl) return;
@@ -38,17 +39,17 @@ export class SearchComponent {
       // and subscription emitting the search term signal
       fromEvent<Event>(inputEl.nativeElement, 'input')
         .pipe(
-          tap((event: Event) => console.log('💫 input event', event)),
+          tap((event: Event) => console.log('💫 input event from html element', event)),
           map((event: Event) => (event.target as HTMLInputElement).value),
-          tap((value) => console.log('💫 input value', value)),
-          filter((value) => value.length > 2 || value.length === 0),
-          tap((filteredValue) => console.log('💫 input value after filter', filteredValue)),
+          tap((value: string) => console.log('💫 input value', value)),
+          filter((value: string) => value.length > 2 || value.length === 0),
+          tap((filteredValue: string) => console.log('💫 input value after filter', filteredValue)),
           debounceTime(300),
-          tap((debouncedValue) => console.log('💫 input value after debounce', debouncedValue)),
+          tap((debouncedValue: string) => console.log('💫 input value after debounce', debouncedValue)),
           distinctUntilChanged(),
-          tap((distinctValue) => console.log('💫 input value after distinctUntilChanged', distinctValue)),
+          tap((distinctValue: string) => console.log('💫 input value after distinctUntilChanged', distinctValue)),
         )
-        .subscribe((searchTerm) => this.searchTerm.set(searchTerm));
+        .subscribe((cleanSearchTerm: string) => this.searchTerm.set(cleanSearchTerm));
     });
   }
 }

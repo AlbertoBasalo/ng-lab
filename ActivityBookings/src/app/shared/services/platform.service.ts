@@ -12,17 +12,17 @@ export class PlatformService {
   // * Private injection division
 
   // Id of the platform used to determine if the app is running on the server or the browser
-  #platformId = inject(PLATFORM_ID);
+  #platformId: Object = inject(PLATFORM_ID);
 
   // * Public properties division
 
   /** True when the app si running on the server */
-  get isServer() {
+  get isServer(): boolean {
     return isPlatformServer(this.#platformId);
   }
 
   /** True when the app is running on the browser */
-  get isBrowser() {
+  get isBrowser(): boolean {
     return !this.isServer;
   }
 

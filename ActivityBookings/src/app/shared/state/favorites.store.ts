@@ -26,8 +26,8 @@ export class FavoritesStore {
   state: Signal<string[]> = this.#state.asReadonly();
 
   constructor() {
-    this.setState(this.#localRepository.load('favorites', []));
-    effect(() => this.#localRepository.save('favorites', this.#state()));
+    this.#initializeFavorites();
+    this.#saveFavoritesEffect();
   }
 
   // * Public methods division
@@ -38,5 +38,16 @@ export class FavoritesStore {
    */
   setState(favorites: string[]): void {
     this.#state.set(favorites);
+  }
+
+  /** Loads favorites from localstorage if any, and initializes the state */
+  #initializeFavorites() {
+    const currentSavedFavorites = this.#localRepository.load('favorites', []);
+    this.setState(currentSavedFavorites);
+  }
+
+  /** Register an effect for favorites changes to save them to local storage */
+  #saveFavoritesEffect(): void {
+    effect(() => this.#localRepository.save('favorites', this.#state()));
   }
 }
