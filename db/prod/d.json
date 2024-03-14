@@ -227,11 +227,11 @@
       "id": 1,
       "userId": 0,
       "activityId": 16,
-      "date": "2024-03-14T09:19:08.742Z",
-      "participants": 2,
+      "date": "2024-03-14T09:28:44.759Z",
+      "participants": 3,
       "payment": {
         "method": "creditCard",
-        "amount": 100,
+        "amount": 150,
         "status": "pending"
       }
     },
@@ -239,11 +239,11 @@
       "id": 2,
       "userId": 0,
       "activityId": 16,
-      "date": "2024-03-14T09:19:42.034Z",
-      "participants": 4,
+      "date": "2024-03-14T09:28:59.123Z",
+      "participants": 3,
       "payment": {
         "method": "creditCard",
-        "amount": 200,
+        "amount": 150,
         "status": "pending"
       }
     }

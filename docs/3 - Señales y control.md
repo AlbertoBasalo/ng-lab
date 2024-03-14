@@ -167,11 +167,11 @@ onNewParticipantsChange(newParticipants: number) {
   }
   this.newParticipants.set(newParticipants);
   this.participants.update((participants) => {
-    participants = participants.slice(0, this.alreadyParticipants);
+    const updatedParticipants = participants.slice(0, this.alreadyParticipants);
     for (let i = 0; i < newParticipants; i++) {
-      participants.push({ id: participants.length + 1 });
+      updatedParticipants.push({ id: participants.length + 1 });
     }
-    return participants;
+    return updatedParticipants;
   });
 }
 ```
