@@ -65,6 +65,7 @@ export class BookingFormComponent {
         status: 'pending',
       },
     };
+    // ToDo: use new output event
     this.saveBooking.set(newBooking);
   }
 }

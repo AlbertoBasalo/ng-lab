@@ -13,6 +13,7 @@ import { Meta, Title } from '@angular/platform-browser';
 import { getNextActivityStatus } from '@domain/activity.functions';
 import { Activity, ActivityStatus, NULL_ACTIVITY } from '@domain/activity.type';
 import { Booking } from '@domain/booking.type';
+import { catchError, switchMap } from 'rxjs';
 import { toSignalMap } from 'src/app/shared/api/signal.functions';
 import { ActivityHeaderComponent } from './activity-header.component';
 import { BookingFormComponent } from './booking-form.component';
@@ -44,7 +45,7 @@ import { ParticipantsComponent } from './participants.component';
             <lab-booking-form
               [activity]="activity"
               [(newParticipants)]="newParticipants"
-              (saveBookingChange)="postBooking($event)"
+              (saveBookingChange)="onSaveBooking($event)"
               [alreadyParticipants]="alreadyParticipants()"
               [remainingPlaces]="remainingPlaces()"
               [bookingSaved]="bookingSaved()" />
@@ -117,14 +118,22 @@ export default class BookingsPage {
   // * Methods division
 
   /** Post a new booking to the API and update the activity status if it is necessary */
-  postBooking(newBooking: Booking | undefined) {
+  onSaveBooking(newBooking: Booking | undefined) {
     if (newBooking === undefined) return;
-    this.#service.postBooking$(newBooking).subscribe({
-      next: () => {
-        this.bookingSaved.set(true);
-        this.#service.updateActivityStatus$(this.activity(), this.activityStatus()).subscribe();
-      },
-      error: (error) => console.error('Error creating booking', error),
-    });
+    // ToDo: use a declarative approach
+    this.#service
+      .postBooking$(newBooking)
+      .pipe(
+        catchError((error) => {
+          console.error('Error creating booking', error);
+          throw error;
+        }),
+        switchMap(() => this.#service.updateActivityStatus$(this.activity(), this.activityStatus())),
+        catchError((error) => {
+          console.error('Error updating activity', error);
+          throw error;
+        }),
+      )
+      .subscribe(() => this.bookingSaved.set(true));
   }
 }

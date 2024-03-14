@@ -12,7 +12,10 @@ export type ApiTarget$<T, K> = (sourceValue: T) => Observable<K>;
  * @returns A signal with the result of the API target observable
  */
 export function toSignalMap<T, K>(source: Signal<T>, apiTarget$: ApiTarget$<T, K>, initialValue: K): Signal<K> {
+  // 1 -> Convert source signal to an observable
   const source$ = toObservable(source);
+  // 2 -> RxJs operators do the heavy work with other async calls and transformations
   const apiResult$ = source$.pipe(switchMap(apiTarget$));
+  // 3 - > Convert back the observable into a signal usable from the template
   return toSignal(apiResult$, { initialValue });
 }

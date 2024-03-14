@@ -205,7 +205,7 @@
       "date": "2024-07-14",
       "maxParticipants": 12,
       "minParticipants": 6,
-      "status": "published",
+      "status": "confirmed",
       "userId": 1
     },
     {
@@ -222,7 +222,32 @@
       "userId": 2
     }
   ],
-  "bookings": [],
+  "bookings": [
+    {
+      "id": 1,
+      "userId": 0,
+      "activityId": 16,
+      "date": "2024-03-14T09:19:08.742Z",
+      "participants": 2,
+      "payment": {
+        "method": "creditCard",
+        "amount": 100,
+        "status": "pending"
+      }
+    },
+    {
+      "id": 2,
+      "userId": 0,
+      "activityId": 16,
+      "date": "2024-03-14T09:19:42.034Z",
+      "participants": 4,
+      "payment": {
+        "method": "creditCard",
+        "amount": 200,
+        "status": "pending"
+      }
+    }
+  ],
   "users": [
     {
       "email": "richard@virg.in",

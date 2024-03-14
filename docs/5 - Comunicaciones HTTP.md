@@ -146,31 +146,87 @@ export default class BookingsPage {
 ### 5.3.2 Interoperabilidad de señales y observables
 
 ```typescript
+export default class HomePage {
+  #title = inject(Title);
+  #meta = inject(Meta);
+  #http = inject(HttpClient);
+
+  //activities: WritableSignal<Activity[]> = signal([]);
+
+  // activities: Signal<Activity[]> = toSignal(
+  //   this.#http.get<Activity[]>('http://localhost:3000/activities').pipe(
+  //     catchError((error) => {
+  //       console.log(error);
+  //       return of([]);
+  //     }),
+  //   ),
+  //   { initialValue: [] },
+  // );
+
+  // What toSignal() do for us?
+  // 1 - subscribe
+  // 2 - signal.set(result)
+  // 3 - unsubscribe from observable
+  // 4 - signal read-only no mutable
+
+  activitiesNullable: Signal<Activity[] | undefined> = toSignal(
+    this.#http.get<Activity[]>("http://localhost:3000/activities")
+  );
+
+  activities: Signal<Activity[]> = computed(() => this.activitiesNullable() || []);
+
+  constructor() {
+    this.#title.setTitle("🏡 - Home");
+    this.#meta.updateTag({ name: "description", content: "Home page" });
+
+    // this.#http.get<Activity[]>('http://localhost:3000/activities').subscribe({
+    //   next: (result: Activity[]) => this.activities.set(result),
+    //   error: () => this.activities.set([]),
+    // });
+  }
+}
+```
+
+```typescript
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 
-simpleSignal: Signal<string> = toSignal(of("Angular"), { initialValue: "" });
-simpleObs: Observable<string> = toObservable(this.simpleSignal);
-complexSignal: Signal<string> = toSignal(of(this.slug), { initialValue: "" });
+/** The slug of the activity that comes from the router */
+slug: InputSignal<string> = input.required<string>();
 
-// Original implementation
-// activity = signal<Activity>(NULL_ACTIVITY);
-// With effect
-// constructor() {
-//     const ALLOW_WRITE = { allowSignalWrites: true };
-//     effect(() => this.#getActivityOnSlug(), ALLOW_WRITE);
-// }
+// 0 -> If computation could be synchronous
 
-// Alternative implementation using toSignal and toObservable and switchMap
+// activityOld: Signal<Activity> = computed(
+//   () => ACTIVITIES.find((a) => a.slug === this.slug()) || NULL_ACTIVITY,
+// );
 
-activity: Signal<Activity> = toSignal(
-  toObservable(this.slug).pipe(
-    switchMap((slug) =>
-      this.#http$.get<Activity[]>(`${this.#activitiesUrl}?slug=${slug}`).pipe(
-        map((activities) => activities[0] || NULL_ACTIVITY),
-        catchError(() => of(NULL_ACTIVITY))
-      )
-    )
-  ),
-  { initialValue: NULL_ACTIVITY }
+// 1 -> Convert source signal to an observable
+slug$: Observable<string> = toObservable(this.slug);
+// 2 -> RxJs operators do the heavy work with other async calls and transformations
+activity$: Observable<Activity> = this.slug$.pipe(
+  switchMap((slug: string) => {
+    const apiUrl = "http://localhost:3000/activities";
+    const url = `${apiUrl}?slug=${slug}`;
+    return this.#http.get<Activity[]>(url);
+  }),
+  map((activities: Activity[]) => {
+    return activities[0];
+  })
 );
+// 3 - > Convert back the observable into a signal usable from the template
+activity: Signal<Activity> = toSignal(this.activity$, { initialValue: NULL_ACTIVITY });
+
+// 4 - > Do it all at once
+// activity: Signal<Activity> = toSignal(
+//   toObservable(this.slug).pipe(
+//     switchMap((slug: string) => {
+//       const apiUrl = 'http://localhost:3000/activities';
+//       const url = `${apiUrl}?slug=${slug}`;
+//       return this.#http.get<Activity[]>(url);
+//     }),
+//     map((activities: Activity[]) => {
+//       return activities[0];
+//     }),
+//   ),
+//   { initialValue: NULL_ACTIVITY },
+// );
 ```
