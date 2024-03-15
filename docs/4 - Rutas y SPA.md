@@ -448,6 +448,18 @@ npm run serve
 ### 4.3.3 SEO y metadatos
 
 ```typescript
+export default class HomePage {
+  #title = inject(Title);
+  #meta = inject(Meta);
+
+  constructor() {
+    this.#title.setTitle("Activities to book");
+    this.#meta.updateTag({ name: "description", content: "Activities to book" });
+  }
+}
+```
+
+```typescript
 export default class BookingsPage {
   #title = inject(Title);
   #meta = inject(Meta);
@@ -459,19 +471,6 @@ export default class BookingsPage {
       const description = `${activity.name} in ${activity.location} on ${activity.date} for ${activity.price}`;
       this.#meta.updateTag({ name: "description", content: description });
     });
-  }
-}
-```
-
-```typescript
-export default class HomePage {
-  #service = inject(HomeService);
-  #title = inject(Title);
-  #meta = inject(Meta);
-
-  constructor() {
-    this.#title.setTitle("Activities to book");
-    this.#meta.updateTag({ name: "description", content: "Activities to book" });
   }
 }
 ```
