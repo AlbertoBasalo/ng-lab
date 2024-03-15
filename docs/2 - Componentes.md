@@ -165,7 +165,39 @@ export class BookingsComponent {
 </article>
 ```
 
-### 2.3.2 Estilos
+### 2.3.2 Custom pipes
+
+```json
+"@schematics/angular:pipe": {
+    "skipTests": true
+},
+```
+
+`ng g pipe bookings/activityTitle`
+
+```typescript
+@Pipe({
+  name: "activityTitle",
+})
+export class ActivityTitlePipe implements PipeTransform {
+  transform(activity: Activity, ...args: unknown[]): string {
+    return `${activity.name} at ${activity.location}`;
+  }
+}
+```
+
+```html
+<header>
+  <h2>{{ activity | activityTitle }}</h2>
+  <div [class]="activity.status">
+    <span>{{ activity.price | currency }}</span>
+    <span>{{ activity.date | date }}</span>
+    <span>{{ activity.status | uppercase }}</span>
+  </div>
+</header>
+```
+
+### 2.3.3 Estilos
 
 `npm install @picocss/pico`
 
