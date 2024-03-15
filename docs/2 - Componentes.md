@@ -8,14 +8,14 @@ Los bloques de construcción de Angular.
 
 ```json
 {
-	"schematics": {
-	    "@schematics/angular:component": {
-	      "changeDetection": "OnPush",
-	      "flat": true,
-	      "inlineTemplate": true,
-	      "inlineStyle": true,
-	      "skipTests": true
-	    }
+  "schematics": {
+    "@schematics/angular:component": {
+      "changeDetection": "OnPush",
+      "flat": true,
+      "inlineTemplate": true,
+      "inlineStyle": true,
+      "skipTests": true
+    }
   }
 }
 ```
@@ -25,13 +25,13 @@ ng g c core/header
 ng g c core/footer
 ```
 
-
-
 ## 2.2 Anatomía de un componente: plantillas y lógica.
+
+> **Contexto** explícito en el imports de cada componente standalone.
 
 ```typescript
 @Component({
-  selector: 'lab-root',
+  selector: "lab-root",
   standalone: true,
   imports: [HeaderComponent, FooterComponent],
   template: `
@@ -53,16 +53,15 @@ export class AppComponent {}
 <router-outlet></router-outlet>
 <lab-footer />
 
-
 <header>
   <nav>
-    <a href=""> Activity Bookings </a>
+    <a href="">Activity Bookings</a>
   </nav>
 </header>
 
 <footer>
   <nav>
-    <a [href]="" target="_blank"> © 2024 Alberto Basalo </a>
+    <a [href]="" target="_blank">© 2024 Alberto Basalo</a>
     <button>Accept Cookies</button>
   </nav>
 </footer>
@@ -73,33 +72,36 @@ export class AppComponent {}
 ```html
 <header>
   <nav>
-    <a href=""> {{ title }} </a>
+    <a href="">{{ title }}</a>
   </nav>
 </header>
 ```
+
 ```typescript
 export class HeaderComponent {
-  title = 'Activity Bookings';
+  title = "Activity Bookings";
 }
 ```
+
 ```typescript
 export class FooterComponent {
   author = {
-    name: 'Alberto Basalo',
-    homepage: '<https://albertobasalo.dev>',
+    name: "Alberto Basalo",
+    homepage: "<https://albertobasalo.dev>",
   };
 
   year = new Date().getFullYear();
 
   onAcceptClick() {
-    console.log('Cookies accepted!');
+    console.log("Cookies accepted!");
   }
 }
 ```
+
 ```html
 <footer>
   <nav>
-    <a [href]="author.homepage"> © {{ year }} {{ author.name }} </a>
+    <a [href]="author.homepage">© {{ year }} {{ author.name }}</a>
     <button (click)="onAcceptClick()">Accept Cookies</button>
   </nav>
 </footer>
@@ -113,28 +115,28 @@ export class FooterComponent {
 ng g c bookings/bookings
 ```
 
-`Domain` folder for DTO…
+Carpeta `Domain` para los modelos
 
 ```tsx
 @Component({
-  selector: 'lab-bookings',
+  selector: "lab-bookings",
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: ``,
   imports: [CurrencyPipe, DatePipe, UpperCasePipe],
-  template: `  `,
+  template: ``,
 })
 export class BookingsComponent {
   activity: Activity = {
-    name: 'Paddle surf',
-    location: 'Lake Leman at Lausanne',
+    name: "Paddle surf",
+    location: "Lake Leman at Lausanne",
     price: 100,
     date: new Date(2025, 7, 15),
     minParticipants: 4,
     maxParticipants: 10,
-    status: 'published',
+    status: "published",
     id: 1,
-    slug: 'paddle-surf',
+    slug: "paddle-surf",
     duration: 2,
     userId: 1,
   };
@@ -150,7 +152,7 @@ export class BookingsComponent {
       <span>{{ activity.location }}</span>
       <span>{{ activity.price | currency }}</span>
       <span>{{ activity.date | date }}</span>
-      <span>{{ activity.status | uppercase }} </span>
+      <span>{{ activity.status | uppercase }}</span>
     </div>
   </header>
   <main>
@@ -162,8 +164,6 @@ export class BookingsComponent {
   </footer>
 </article>
 ```
-
-
 
 ### 2.3.2 Estilos
 

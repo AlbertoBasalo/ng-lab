@@ -51,7 +51,7 @@ Desde el `header.component.ts`
 export class HeaderComponent {
   #favorites = inject(FavoritesStore);
 
-  readonly title = "Activity Bookings";
+  title = "Activity Bookings";
 
   favCount = this.#favorites.count;
 }
@@ -146,12 +146,7 @@ en el `activity.component`
 
 ### 7.2.1 Un widget con señales
 
-viernes, 9 de febrero de 2024
-11:27
-
-```typescript
-ng g c shared/ui/filter --type=widget
-```
+`ng g c shared/ui/filter --type=widget`
 
 ```typescript
 export type SortOrders = "asc" | "desc";
@@ -261,6 +256,7 @@ export default class HomePage {
 ### 7.2.3 Query params observables
 
 ```typescript
+export class FilterWidget {
   #activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   #filterParams$: Observable<Params> = this.#activatedRoute.queryParams;
   #defaultFilter: Signal<Params | Filter> = toSignal(this.#filterParams$, { initialValue: DEFAULT_FILTER });
@@ -268,6 +264,7 @@ export default class HomePage {
   search: WritableSignal<string> = signal<string>(this.#defaultFilter().search);
   orderBy: WritableSignal<string> = signal<string>(this.#defaultFilter().orderBy);
   sort: WritableSignal<SortOrders> = signal<SortOrders>(this.#defaultFilter().sort);
+}
 ```
 
 ---
@@ -354,20 +351,23 @@ export class SearchComponent {
 `activities.repository.ts`
 
 ```typescript
- /**
+export class ActivitiesRepository {
+  /**
    * Get all activities from the API based on a filter
    * @param filter The filter to be applied
    * @returns An observable with the activities
    */
-  getActivitiesByFilter$(filter: Filter) {
+  getActivitiesByFilter$(filter: Filter): Observable<Activity[]> {
     const url = `${this.#apiUrl}?q=${filter.search}&_sort=${filter.orderBy}&_order=${filter.sort}`;
     return this.#http.get<Activity[]>(url);
   }
+}
 ```
 
 `home.service.ts`
 
 ```typescript
+export class HomeService {
   /**
    * Get all activities from the API based on a filter
    * @param partialFilter The partial filter to be applied
@@ -381,6 +381,7 @@ export class SearchComponent {
     };
     return this.activitiesRepository.getActivitiesByFilter$(filter);
   }
+}
 ```
 
 `home.page.ts`

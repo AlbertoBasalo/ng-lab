@@ -18,7 +18,7 @@ ng g c routes/home/activity
 ```html
 <div>
   <span>
-    <a [routerLink]="['/bookings', activity().slug]">{{ activity().name }}</a>
+    <a [routerLink]="['/','bookings', activity().slug]">{{ activity().name }}</a>
   </span>
   <span>{{ activity().location }}</span>
   <span>{{ activity().price | currency }}</span>
@@ -26,7 +26,7 @@ ng g c routes/home/activity
 </div>
 ```
 
-- move imports and declare input
+- Move imports and declare input
 
 ```typescript
 {
@@ -87,6 +87,7 @@ imports: [ActivityComponent],
 ```
 
 ```typescript
+export class HomePage {
   // * Injected services division
 
   #service = inject(HomeService);
@@ -105,8 +106,9 @@ imports: [ActivityComponent],
 
   /** Handles the change of the favorites list */
   onFavoritesChange(favorites: string[]): void {
-    console.log('Favorites changed', favorites);
+    console.log("Favorites changed", favorites);
   }
+}
 ```
 
 y `routes/home/activity.component`
@@ -117,7 +119,7 @@ y `routes/home/activity.component`
     <input type="checkbox" name="" class="secondary outline" (click)="toggleFavorite(activity().slug)" />
   </span>
   <span>
-    <a [routerLink]="['/bookings', activity().slug]">{{ activity().name }}</a>
+    <a [routerLink]="['/','bookings', activity().slug]">{{ activity().name }}</a>
   </span>
   <span>{{ activity().location }}</span>
   <span>{{ activity().price | currency }}</span>
@@ -127,6 +129,7 @@ y `routes/home/activity.component`
 ```
 
 ```typescript
+export class ActivityComponent {
   // * Input signals division
 
   /** The current Activity to be presented*/
@@ -148,16 +151,17 @@ y `routes/home/activity.component`
       return favorites.concat(slug);
     });
   }
+}
 ```
 
-## 6.2 Servicios e inyección de dependencias 
+## 6.2 Servicios e inyección de dependencias
 
 ### 6.2.1 Extraer lógica y datos a un servicio fachada
 
-`routes/home/home.service` 
+`routes/home/home.service`
 
-```bash 
-# Create home service 
+```bash
+# Create home service
 ng g s routes/home/home
 ```
 
@@ -343,7 +347,6 @@ usarlo en `bookings.page`
 ```typescript
   #changeStatusOnTotalParticipants() {
     const totalParticipants = this.totalParticipants();
-    const totalParticipants = this.totalParticipants();
     changeActivityStatus(this.activity(), totalParticipants);
     this.participants.update((participants) => {
       participants.splice(0, participants.length);
@@ -405,10 +408,8 @@ ng g c shared/ui/activity-status
 ```
 
 ```typescript
-{
-  export class ActivityStatusComponent {
-    status = input.required<ActivityStatus>();
-  }
+export class ActivityStatusComponent {
+  status = input.required<ActivityStatus>();
 }
 ```
 
@@ -424,4 +425,3 @@ import { ActivityStatusComponent } from "@ui/activity-status";
 ```html
 <lab-activity-status [status]="activity.status" />
 ```
-

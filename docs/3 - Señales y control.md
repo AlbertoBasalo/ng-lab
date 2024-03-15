@@ -66,25 +66,16 @@ export class BookingsComponent {
 ### 3.2.1 Computación derivada
 
 ```typescript
-readonly maxNewParticipants
-  = this.activity.maxParticipants - this.alreadyParticipants;
-readonly totalParticipants = computed(
-  () => this.alreadyParticipants + this.newParticipants()
-);
-readonly remainingPlaces = computed(
-  () => this.activity.maxParticipants - this.totalParticipants(),
-);
-readonly bookingAmount = computed(
-  () => this.newParticipants() * this.activity.price
-);
-readonly canNotBook = computed(
-  () => this.booked() || this.newParticipants() === 0
-);
+maxNewParticipants = this.activity.maxParticipants - this.alreadyParticipants;
+totalParticipants = computed(() => this.alreadyParticipants + this.newParticipants());
+remainingPlaces = computed(() => this.activity.maxParticipants - this.totalParticipants());
+bookingAmount = computed(() => this.newParticipants() * this.activity.price);
+canNotBook = computed(() => this.booked() || this.newParticipants() === 0);
 ```
 
 ```html
 <article>
-	<header>
+  <header>
     <h2>{{ activity.name }}</h2>
     <div [class]="activity.status">
       <span>{{ activity.location }}</span>
@@ -95,12 +86,12 @@ readonly canNotBook = computed(
   </header>
   <main>
     <h4>Participants</h4>
-	    <div>Already Participants: {{ alreadyParticipants }}</
-      <ul>
-	      <li>New Participants: {{ newParticipants() }}</li>
-	      <li>Total participants: {{ totalParticipants() }}</li>
-	      <li>Remaining places: {{ remainingPlaces() }}</li>
-	    </ul>
+    <div>Already Participants: {{ alreadyParticipants }}</div>
+    <ul>
+      <li>New Participants: {{ newParticipants() }}</li>
+      <li>Total participants: {{ totalParticipants() }}</li>
+      <li>Remaining places: {{ remainingPlaces() }}</li>
+    </ul>
   </main>
   <footer>
     <label for="newParticipants">How many participants want to book?</label>
@@ -110,13 +101,8 @@ readonly canNotBook = computed(
       [ngModel]="newParticipants()"
       (ngModelChange)="onNewParticipantsChange($event)"
       min="0"
-      [max]="maxNewParticipants"
-    />
-    <button
-				[disabled]="canNotBook()"
-				(click)="onBookClick()">
-				Book now for {{ bookingAmount() | currency }}!
-		</button>
+      [max]="maxNewParticipants" />
+    <button [disabled]="canNotBook()" (click)="onBookClick()">Book now for {{ bookingAmount() | currency }}!</button>
     <button>Cancel</button>
   </footer>
 </article>
@@ -159,20 +145,22 @@ constructor() {
 ## 3.3.2 Repetitivas
 
 ```typescript
-readonly participants = signal<{ id: number }[]>([{ id: 1 }, { id: 2 }, { id: 3 }]);
+class CookingComponent {
+  participants = signal<{ id: number }[]>([{ id: 1 }, { id: 2 }, { id: 3 }]);
 
-onNewParticipantsChange(newParticipants: number) {
-  if (newParticipants > this.maxNewParticipants) {
-    newParticipants = this.maxNewParticipants;
-  }
-  this.newParticipants.set(newParticipants);
-  this.participants.update((participants) => {
-    const updatedParticipants = participants.slice(0, this.alreadyParticipants);
-    for (let i = 0; i < newParticipants; i++) {
-      updatedParticipants.push({ id: participants.length + 1 });
+  onNewParticipantsChange(newParticipants: number) {
+    if (newParticipants > this.maxNewParticipants) {
+      newParticipants = this.maxNewParticipants;
     }
-    return updatedParticipants;
-  });
+    this.newParticipants.set(newParticipants);
+    this.participants.update((participants) => {
+      const updatedParticipants = participants.slice(0, this.alreadyParticipants);
+      for (let i = 0; i < newParticipants; i++) {
+        updatedParticipants.push({ id: participants.length + 1 });
+      }
+      return updatedParticipants;
+    });
+  }
 }
 ```
 

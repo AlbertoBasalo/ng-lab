@@ -77,7 +77,7 @@ export class HeaderComponent {
     <a [routerLink]="['/']">
       <strong>{{ title }}</strong>
     </a>
-    <a [routerLink]="['/auth', 'login']">Login</a>
+    <a [routerLink]="['/','auth', 'login']">Login</a>
   </nav>
 </header>
 ```
@@ -110,7 +110,11 @@ export default class RegisterPage {}
         "suffixes": ["Component", "Page", "Template", "Widget"]
       }
     ],
-// app.routes.es
+}
+```
+
+```typescript
+// app.routes.ts
 {
   path: 'auth/register',
   loadComponent: () => import('./auth/register.page'),
@@ -119,7 +123,6 @@ export default class RegisterPage {}
 
 ```typescript
 // login.component.ts
-
 @Component({
   selector: "lab-login",
   standalone: true,
@@ -265,7 +268,7 @@ export default class HomePage {
     @for (activity of activities; track activity.id) {
     <div>
       <span>
-        <a [routerLink]="['/bookings', activity.slug]">{{ activity.name }}</a>
+        <a [routerLink]="['/','bookings', activity.slug]">{{ activity.name }}</a>
       </span>
       <span>{{ activity.location }}</span>
       <span>{{ activity.price | currency }}</span>
@@ -304,20 +307,17 @@ export default class BookingsPage {
   remainingPlaces = computed(() => this.activity().maxParticipants - this.totalParticipants());
   bookingAmount = computed(() => this.newParticipants() * this.activity().price);
 
-  bookedMessage = computed(() => {
-    if (this.booked()) return `Booked USD ${this.bookingAmount()}`;
-    return "";
-  });
+  bookedMessage = computed(() => (this.booked() ? `Booked USD ${this.bookingAmount()}` : ""));
 
   constructor() {
     effect(
       () => {
         this.participants.update((participants) => {
-          participants.splice(0, participants.length);
+          const updatedParticipants = participants.splice(0, participants.length);
           for (let i = 0; i < this.totalParticipants(); i++) {
-            participants.push({ id: participants.length + 1 });
+            updatedParticipants.push({ id: updatedParticipants.length + 1 });
           }
-          return participants;
+          return updatedParticipants;
         });
       },
       {
@@ -450,6 +450,7 @@ npm run serve
 ```typescript
 export default class BookingsPage {
   #title = inject(Title);
+  #meta = inject(Meta);
 
   constructor() {
     effect(() => {
@@ -464,9 +465,6 @@ export default class BookingsPage {
 
 ```typescript
 export default class HomePage {
-  // * Injected services division
-
-  // The service to get the activities
   #service = inject(HomeService);
   #title = inject(Title);
   #meta = inject(Meta);
