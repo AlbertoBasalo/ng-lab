@@ -49,6 +49,8 @@ ng new UnProyectoNuevo --minimal
 └── tsconfig.spec.json
 ```
 
+
+
 ## 1.2 Comandos básicos para depurar y ejecutar aplicaciones.
 
 ### 1.2.1 Compilar y servir en modo producción
@@ -74,6 +76,8 @@ ng server --open --force-esbuild
    -auto-open-devtools-for-tabs <http://localhost:4200>",
 "start": "npm run chrome && ng serve --force-esbuild",
 ```
+
+
 
 ## 1.3 Configuración del espacio de trabajo, editor y herramientas recomendadas.
 
