@@ -153,7 +153,7 @@ export class ActivityComponent {
 
 ```html
 @if (canBook()) {
-<button class="primary" (click)="onBooking.emit()">Book now</button>
+<button class="primary" (click)="saveBooking.emit()">Book now</button>
 } @else {
 <p>You cant book right now</p>
 }
@@ -162,7 +162,7 @@ export class ActivityComponent {
 ```typescript
 export class BookingConfirmComponent {
   canBook = input.required<boolean>();
-  onBooking = output<void>();
+  saveBooking = output<void>();
 }
 ```
 
@@ -170,7 +170,7 @@ On `bookings.page`
 
 ```html
 <footer>
-  <lab-booking-confirm [canBook]="canBook()" (onBooking)="onBooking()" />
+  <lab-booking-confirm [canBook]="canBook()" (saveBooking)="onSaveBooking()" />
 </footer>
 ```
 

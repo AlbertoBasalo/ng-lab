@@ -1,5 +1,5 @@
 import { CurrencyPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Signal, computed, effect, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, computed, effect, input, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Activity } from '@domain/activity.type';
 import { Booking } from '@domain/booking.type';
@@ -38,7 +38,7 @@ export class BookingFormComponent {
   // * Model (input/output) signals division
 
   newParticipants = model<number>(0);
-  saveBooking = model<Booking | undefined>();
+  saveBooking = output<Booking>();
 
   // * Computed signals division
 
@@ -65,7 +65,6 @@ export class BookingFormComponent {
         status: 'pending',
       },
     };
-    // ToDo: use new output event
-    this.saveBooking.set(newBooking);
+    this.saveBooking.emit(newBooking);
   }
 }

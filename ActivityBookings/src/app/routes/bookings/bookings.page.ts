@@ -45,7 +45,7 @@ import { ParticipantsComponent } from './participants.component';
             <lab-booking-form
               [activity]="activity"
               [(newParticipants)]="newParticipants"
-              (saveBookingChange)="onSaveBooking($event)"
+              (saveBooking)="onSaveBooking($event)"
               [alreadyParticipants]="alreadyParticipants()"
               [remainingPlaces]="remainingPlaces()"
               [bookingSaved]="bookingSaved()" />
