@@ -1,4 +1,15 @@
-import { ChangeDetectionStrategy, Component, InputSignal, Signal, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  InputSignal,
+  Signal,
+  WritableSignal,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Meta, Title } from '@angular/platform-browser';
 import { Activity } from '@domain/activity.type';
@@ -20,7 +31,7 @@ import { HomeService } from './home.service';
       </header>
       <main>
         @for (activity of activities(); track activity.id) {
-          <lab-activity [activity]="activity" [(favorites)]="favorites" (favoritesChange)="onFavoritesChange($event)" />
+          <lab-activity [activity]="activity" [(favorites)]="favorites" />
         }
       </main>
       <footer>
@@ -35,7 +46,7 @@ import { HomeService } from './home.service';
             Got <mark>{{ activities().length }}</mark> activities.
           </span>
           <span>
-            You have selected <mark>{{ favorites.length }}</mark> favorites.
+            You have selected <mark>{{ favorites().length }}</mark> favorites.
           </span>
         </small>
       </footer>
@@ -83,22 +94,20 @@ export default class HomePage {
   /** The activities signal based on the filter observable */
   activities: Signal<Activity[]> = toSignal(this.#filter$SwitchMapApi$, { initialValue: [] });
 
-  // * Properties division
-
-  /** The list of favorites */
-  favorites: string[] = this.#favorites.state();
+  favorites: WritableSignal<string[]> = signal([]);
 
   constructor() {
     this.#title.setTitle('Activities to book');
     this.#meta.updateTag({ name: 'description', content: 'Activities to book' });
+    effect(() => this.#onFavoritesChange(this.favorites()), { allowSignalWrites: true });
   }
 
-  // * Event handlers division
+  // * Effect handlers division
 
-  /** Handles the change of the favorites list
+  /** Handles the change of the favorites list signal
    * @param favorites The new list of favorites
    */
-  onFavoritesChange(favorites: string[]): void {
+  #onFavoritesChange(favorites: string[]): void {
     console.log('Favorites changed', favorites);
     this.#favorites.setState(favorites);
   }

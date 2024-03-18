@@ -81,7 +81,7 @@ export default class BookingsPage {
   /** The activity that comes from the API based on the slug signal */
   activity: Signal<Activity> = toSignalMap(this.slug, (slug) => this.#service.getActivityBySlug$(slug), NULL_ACTIVITY);
   /** The bookings of the activity that comes from the API based on the activity signal */
-  activityBookings: Signal<Booking[]> = toSignalMap(
+  #activityBookings: Signal<Booking[]> = toSignalMap(
     this.activity,
     (activity) => this.#service.getBookingsByActivityId$(activity.id),
     [],
@@ -89,7 +89,7 @@ export default class BookingsPage {
 
   /** The sum of participants of the bookings of the activity */
   alreadyParticipants: Signal<number> = computed(() =>
-    this.activityBookings().reduce((acc, booking) => acc + booking.participants, 0),
+    this.#activityBookings().reduce((acc, booking) => acc + booking.participants, 0),
   );
 
   /** Already booked plus new participants */
@@ -107,6 +107,7 @@ export default class BookingsPage {
   remainingPlaces: Signal<number> = computed(() => this.activity().maxParticipants - this.totalParticipants());
 
   constructor() {
+    // Change the title and meta tags based on the activity signal changes
     effect(() => {
       const activity = this.activity();
       this.#title.setTitle(activity.name);

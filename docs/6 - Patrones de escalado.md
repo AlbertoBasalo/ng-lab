@@ -71,7 +71,7 @@ imports: [ActivityComponent],
   </header>
   <main>
     @for (activity of activities(); track activity.id) {
-    <lab-activity [activity]="activity" [(favorites)]="favorites" (favoritesChange)="onFavoritesChange($event)" />
+    <lab-activity [activity]="activity" [(favorites)]="favorites" />
     }
   </main>
   <footer>
@@ -79,7 +79,7 @@ imports: [ActivityComponent],
       Showing
       <mark>{{ activities().length }}</mark>
       activities, you have selected
-      <mark>{{ favorites.length }}</mark>
+      <mark>{{ favorites().length }}</mark>
       favorites.
     </small>
   </footer>
@@ -100,14 +100,7 @@ export class HomePage {
   // * Properties division
 
   /** The list of favorites */
-  favorites: string[] = [];
-
-  // * Methods division
-
-  /** Handles the change of the favorites list */
-  onFavoritesChange(favorites: string[]): void {
-    console.log("Favorites changed", favorites);
-  }
+  favorites: WritableSignal<string[]> = signal([]);
 }
 ```
 
@@ -152,6 +145,33 @@ export class ActivityComponent {
     });
   }
 }
+```
+
+### 6.1.4 Comunicación de eventos desde el presentador al contenedor
+
+`ng g c routes/bookings/booking-confirm`
+
+```html
+@if (canBook()) {
+<button class="primary" (click)="onBooking.emit()">Book now</button>
+} @else {
+<p>You cant book right now</p>
+}
+```
+
+```typescript
+export class BookingConfirmComponent {
+  canBook = input.required<boolean>();
+  onBooking = output<void>();
+}
+```
+
+On `bookings.page`
+
+```html
+<footer>
+  <lab-booking-confirm [canBook]="canBook()" (onBooking)="onBooking()" />
+</footer>
 ```
 
 ## 6.2 Servicios e inyección de dependencias
@@ -425,3 +445,5 @@ import { ActivityStatusComponent } from "@ui/activity-status";
 ```html
 <lab-activity-status [status]="activity.status" />
 ```
+
+> To Do: Move ActivityTitlePipe to shared/ui folder
