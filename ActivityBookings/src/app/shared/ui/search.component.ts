@@ -10,13 +10,15 @@ import {
 } from '@angular/core';
 import { debounceTime, distinctUntilChanged, filter, fromEvent, map, tap } from 'rxjs';
 
+/**
+ * The search component (dumb component) communicates its state to parent via a model signal.
+ * @description Uses an Angular reference to get the native input element. Then, it creates an observable from the input events, and emits the search term as a model signal.
+ */
 @Component({
   selector: 'lab-search',
   standalone: true,
-  imports: [],
-  template: ` <input #searchInput type="search" [value]="searchTerm()" placeholder="Search..." /> `,
-  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  template: ` <input #searchInput type="search" [value]="searchTerm()" placeholder="Search..." /> `,
 })
 export class SearchComponent {
   // * View Signals division
@@ -34,9 +36,9 @@ export class SearchComponent {
     effect(() => {
       const inputEl = this.searchInputEl();
       if (!inputEl) return;
-      // Observable from search events,
+      // Observable from html input events,
       // pipeline to clean up the input value,
-      // and subscription emitting the search term signal
+      // and subscription emitting the search term as a model signal
       fromEvent<Event>(inputEl.nativeElement, 'input')
         .pipe(
           tap((event: Event) => console.log('💫 input event from html element', event)),

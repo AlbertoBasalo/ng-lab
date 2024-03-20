@@ -12,9 +12,16 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DEFAULT_FILTER, Filter, SortOrders } from '@domain/filter.type';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { SearchComponent } from './search.component';
 
+/**
+ * The widget (smart component) to filter the activities.
+ * Is a form to filter the activities by search term, orderBy and sort order
+ * @description Sends changes to the query params via an effect
+ * Imports the FormsModule to use the NgModel directive
+ * Imports the SearchComponent to use the search term as a model
+ */
 @Component({
   selector: 'lab-filter',
   standalone: true,
@@ -45,24 +52,28 @@ import { SearchComponent } from './search.component';
 export class FilterWidget {
   // * Injected services division
 
-  // The activated route to get the query params
+  /** The activated route to get the query params*/
   #activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+
+  #router: Router = inject(Router);
 
   // * Input signals division
 
-  // The query params as an observable
-  #filterParams$: Observable<Params> = this.#activatedRoute.queryParams;
-  // The default filter signal based on the query params or the default filter
-  #defaultFilter: Signal<Params | Filter> = toSignal(this.#filterParams$, { initialValue: DEFAULT_FILTER });
+  /** The query params as an observable of filter filled with default values*/
+  #filterParams$: Observable<Filter> = this.#activatedRoute.queryParams.pipe(
+    map((params: Params) => ({ ...DEFAULT_FILTER, ...params })),
+  );
+  /** The default filter signal based on the query params or the default filter*/
+  #defaultFilter: Signal<Filter> = toSignal(this.#filterParams$, { initialValue: DEFAULT_FILTER });
 
   // * Writable signals division
 
-  /** The search text model */
-  search: WritableSignal<string> = signal<string>(this.#defaultFilter().search || DEFAULT_FILTER.search);
-  /** The order by field model */
-  orderBy: WritableSignal<string> = signal<string>(this.#defaultFilter().orderBy || DEFAULT_FILTER.orderBy);
-  /** The sort order model */
-  sort: WritableSignal<SortOrders> = signal<SortOrders>(this.#defaultFilter().sort || DEFAULT_FILTER.sort);
+  /** The search text signal */
+  search: WritableSignal<string> = signal<string>(this.#defaultFilter().search);
+  /** The order by field signal */
+  orderBy: WritableSignal<string> = signal<string>(this.#defaultFilter().orderBy);
+  /** The sort order signal */
+  sort: WritableSignal<SortOrders> = signal<SortOrders>(this.#defaultFilter().sort);
 
   // * Computed signals division
 
@@ -70,8 +81,14 @@ export class FilterWidget {
   #filter = computed(() => ({ search: this.search(), orderBy: this.orderBy(), sort: this.sort() }));
 
   constructor() {
-    const router = inject(Router);
-    // Update the query params when the filter changes
-    effect(() => router.navigate([], { queryParams: this.#filter() }));
+    effect(() => this.#onFilterChange(this.#filter()));
+  }
+
+  /**
+   * Update the query params when the filter changes
+   * @param filter The filter to update the query params
+   */
+  #onFilterChange(filter: Filter) {
+    this.#router.navigate([], { queryParams: filter });
   }
 }
