@@ -3,9 +3,9 @@
 > [Laboratorio de ejemplo](https://github.com/albertobasalo/ng-lab) para cursos y talleres de [Angular Basics](https://albertobasalo.notion.site/Angular-Moderno-V17-8d69354edacb41cbaa921a9fbb8a17d0) impartidos en Español por [Alberto Basalo](https://albertobasalo.dev)
 
 > [!NOTE]
-> This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.1.
-> Updated to Angular 17.3.0
-> Sample project is at ActivityBookings folder
+> This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version _17.1.1._
+> Updated to Angular **17.3.0.**
+> Sample project is at `ActivityBookings` folder
 
 ```bash
 # clone lab from github
@@ -19,9 +19,8 @@ npm start
 npm run api:seed
 ```
 
-## Documentation
-
-Find detailed journal of instructions in [docs folder](./docs/)
+> [!TIP] > **Documentation**
+> Find detailed journal of instructions in [docs folder](./docs/)
 
 ### Folder structure
 
