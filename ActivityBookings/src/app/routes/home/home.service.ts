@@ -12,7 +12,9 @@ import { Observable } from 'rxjs';
 })
 export class HomeService {
   // * Injected services division
-  #activitiesRepository = inject(ActivitiesRepository);
+
+  /** The repository used to get activities data from the API*/
+  #activitiesRepository: ActivitiesRepository = inject(ActivitiesRepository);
 
   // * Public methods division
 

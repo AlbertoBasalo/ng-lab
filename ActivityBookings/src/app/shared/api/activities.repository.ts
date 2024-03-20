@@ -13,15 +13,15 @@ import { Observable, catchError, map, of, throwError } from 'rxjs';
 export class ActivitiesRepository {
   // * Private properties division
 
+  /** The API URL for the activities
+   * @todo Replace with an environment injected variable
+   */
   #apiUrl = 'http://localhost:3000/activities';
 
   // * Injected services division
 
+  /** The HTTP client to make requests to the API */
   #http = inject(HttpClient);
-
-  constructor() {
-    console.log('ActivitiesRepository created');
-  }
 
   // * Public methods division
 

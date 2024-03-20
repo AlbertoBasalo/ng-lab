@@ -4,6 +4,11 @@ import { RouterLink } from '@angular/router';
 import { Activity } from '@domain/activity.type';
 import { ActivityStatusComponent } from '@ui/activity-status.component';
 
+/**
+ * A presentational component for an activity and marks it as a favorite
+ * @argument activity The activity to be presented
+ * @argument favorites The list of current favorites
+ */
 @Component({
   selector: 'lab-activity',
   standalone: true,
@@ -38,12 +43,14 @@ export class ActivityComponent {
 
   // * Model signals division
 
-  /** The list of favorites */
+  /** The list of favorite slugs as a model signal
+   * @description Changes are propagated to the parent component
+   */
   favorites: ModelSignal<string[]> = model.required<string[]>();
 
   // * Methods division
 
-  /** Toggles the favorite status of the given activity */
+  /** Toggles the favorite status of the given slug, propagating it to the parent */
   toggleFavorite(slug: string): void {
     this.favorites.update((favorites) => {
       if (favorites.includes(slug)) {
