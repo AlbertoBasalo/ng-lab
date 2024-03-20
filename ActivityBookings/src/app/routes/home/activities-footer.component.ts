@@ -11,9 +11,9 @@ import { SortOrders } from '@domain/filter.type';
  * @description This component is a presentational component that shows the current filter, order by, sort, activities count and favorites count
  */
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'lab-activities-footer',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <footer>
       <small>

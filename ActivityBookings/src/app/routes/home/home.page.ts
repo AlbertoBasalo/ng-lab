@@ -27,9 +27,9 @@ import { HomeService } from './home.service';
  * Uses the HomeService as facade to get the activities
  */
 @Component({
+  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ActivityComponent, FilterWidget, ActivitiesFooterComponent],
-  standalone: true,
   template: `
     <article>
       <header>

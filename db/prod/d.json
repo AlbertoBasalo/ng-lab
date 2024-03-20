@@ -222,7 +222,104 @@
       "userId": 2
     }
   ],
-  "bookings": [],
+  "bookings": [
+    {
+      "id": 1,
+      "userId": 0,
+      "activityId": 16,
+      "date": "2024-03-20T11:45:12.203Z",
+      "participants": 3,
+      "payment": {
+        "method": "creditCard",
+        "amount": 150,
+        "status": "pending"
+      }
+    },
+    {
+      "id": 2,
+      "activityId": 0,
+      "userId": 0,
+      "date": "2024-03-20T11:50:45.619Z",
+      "participants": 0,
+      "payment": {
+        "method": "none",
+        "amount": 0,
+        "status": "none"
+      }
+    },
+    {
+      "id": 3,
+      "activityId": 0,
+      "userId": 0,
+      "date": "2024-03-20T11:50:45.847Z",
+      "participants": 0,
+      "payment": {
+        "method": "none",
+        "amount": 0,
+        "status": "none"
+      }
+    },
+    {
+      "id": 4,
+      "activityId": 0,
+      "userId": 0,
+      "date": "2024-03-20T11:51:50.653Z",
+      "participants": 0,
+      "payment": {
+        "method": "none",
+        "amount": 0,
+        "status": "none"
+      }
+    },
+    {
+      "id": 5,
+      "activityId": 0,
+      "userId": 0,
+      "date": "2024-03-20T11:51:50.865Z",
+      "participants": 0,
+      "payment": {
+        "method": "none",
+        "amount": 0,
+        "status": "none"
+      }
+    },
+    {
+      "id": 6,
+      "activityId": 0,
+      "userId": 0,
+      "date": "2024-03-20T11:51:50.653Z",
+      "participants": 0,
+      "payment": {
+        "method": "none",
+        "amount": 0,
+        "status": "none"
+      }
+    },
+    {
+      "id": 7,
+      "activityId": 0,
+      "userId": 0,
+      "date": "2024-03-20T11:51:53.533Z",
+      "participants": 0,
+      "payment": {
+        "method": "none",
+        "amount": 0,
+        "status": "none"
+      }
+    },
+    {
+      "id": 8,
+      "activityId": 0,
+      "userId": 0,
+      "date": "2024-03-20T11:51:53.533Z",
+      "participants": 0,
+      "payment": {
+        "method": "none",
+        "amount": 0,
+        "status": "none"
+      }
+    }
+  ],
   "users": [
     {
       "email": "richard@virg.in",

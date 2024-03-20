@@ -2,9 +2,14 @@ import { UpperCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, InputSignal, input } from '@angular/core';
 import { ActivityStatus } from '@domain/activity.type';
 
+/**
+ * Component for presenting the status of an activity
+ * Encapsulates the style and presentation internals of the status
+ */
 @Component({
   selector: 'lab-activity-status',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [UpperCasePipe],
   template: `<span [class]="status()">{{ status() | uppercase }}</span>`,
   styles: `
@@ -31,7 +36,6 @@ import { ActivityStatus } from '@domain/activity.type';
       font-style: italic;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityStatusComponent {
   // * Input signals division

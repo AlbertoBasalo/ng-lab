@@ -20,11 +20,14 @@ import { BookingFormComponent } from './booking-form.component';
 import { BookingsService } from './bookings.service';
 import { ParticipantsComponent } from './participants.component';
 
+/**
+ * Routed component for the Bookings page
+ * Uses the ActivityHeaderComponent, ParticipantsComponent and BookingFormComponent for the presentation
+ * Uses the BookingsService as facade to get the activities and bookings
+ */
 @Component({
-  selector: 'lab-bookings',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: ``,
   imports: [ActivityHeaderComponent, ParticipantsComponent, BookingFormComponent],
   template: `
     @if (activity(); as activity) {
@@ -47,9 +50,9 @@ import { ParticipantsComponent } from './participants.component';
               [(newParticipants)]="newParticipants"
               (saveBooking)="onSaveBooking($event)"
               [alreadyParticipants]="alreadyParticipants()"
-              [remainingPlaces]="remainingPlaces()"
-              [bookingSaved]="bookingSaved()" />
+              [remainingPlaces]="remainingPlaces()" />
           }
+          <div>{{ bookingSaved() }}</div>
         </footer>
       </article>
     }
@@ -58,12 +61,12 @@ import { ParticipantsComponent } from './participants.component';
 export default class BookingsPage {
   // * Injected services division
 
-  // The service to activities and bookings api
+  /** The service to access the activities and bookings api*/
   #service = inject(BookingsService);
 
-  // The title service to update the title
+  /** The title service to update the title*/
   #title = inject(Title);
-  // The meta service to update the meta tags
+  /** The meta service to update the meta tags*/
   #meta = inject(Meta);
 
   // * Input signals division
@@ -73,8 +76,10 @@ export default class BookingsPage {
 
   // * Signals division
 
-  bookingSaved: WritableSignal<boolean> = signal(false);
+  /** A signal with the new participants count sync with the form model*/
   newParticipants: WritableSignal<number> = signal(0);
+  /** A signal message changed when a new booking is successfully saved */
+  bookingSaved: WritableSignal<string> = signal('');
 
   // * Computed signals division
 
@@ -135,6 +140,6 @@ export default class BookingsPage {
           throw error;
         }),
       )
-      .subscribe(() => this.bookingSaved.set(true));
+      .subscribe(() => this.bookingSaved.set('Booking saved!'));
   }
 }

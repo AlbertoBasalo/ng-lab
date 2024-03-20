@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component, Signal, computed, input } from '@angular/core';
-
+/**
+ * Component for presenting the participants of an activity
+ */
 @Component({
   selector: 'lab-participants',
   standalone: true,
-  imports: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h4>Participants</h4>
     <div>Already Participants: {{ alreadyParticipants() }}</div>
@@ -21,8 +23,6 @@ import { ChangeDetectionStrategy, Component, Signal, computed, input } from '@an
       }
     </div>
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ParticipantsComponent {
   // * Input signals division
@@ -41,7 +41,7 @@ export class ParticipantsComponent {
   // * Computed division
 
   /** The participants (a fake array at the moment) to be presented */
-  participants: Signal<any[]> = computed(() => {
+  participants: Signal<{ id: number }[]> = computed(() => {
     const length = this.totalParticipants();
     const fakeParticipants = [];
     for (let i = 0; i < length; i++) {

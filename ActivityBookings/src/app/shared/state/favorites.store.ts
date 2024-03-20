@@ -43,6 +43,8 @@ export class FavoritesStore {
     this.#state.set(favorites);
   }
 
+  // * Private methods division
+
   /** Loads favorites from local storage if any, and initializes the state */
   #initializeFavorites(): void {
     const currentSavedFavorites = this.#localRepository.load('favorites', []);

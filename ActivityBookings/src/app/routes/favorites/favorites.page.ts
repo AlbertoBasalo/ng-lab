@@ -6,9 +6,15 @@ import { Activity } from '@domain/activity.type';
 import { FavoritesStore } from '@state/favorites.store';
 import { Observable, forkJoin } from 'rxjs';
 
+/**
+ * Routed component for the Favorites page
+ * Uses the RouterLink to navigate to the activity details
+ * Uses the FavoritesStore to get the favorites
+ * Uses the ActivitiesRepository to get the activities details
+ */
 @Component({
-  selector: 'lab-favorites',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
   template: `
     @for (activity of activities(); track activity) {
@@ -23,24 +29,17 @@ import { Observable, forkJoin } from 'rxjs';
       <div>No activities yet</div>
     }
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class FavoritesPage {
   // * Injected services division
 
-  // Store for the favorites data
+  /** Store for the favorites data*/
   #favoritesStore: FavoritesStore = inject(FavoritesStore);
 
-  // Repository to acces activity data on the API
+  /** Repository to access activity data on the API*/
   #activitiesRepository: ActivitiesRepository = inject(ActivitiesRepository);
 
   // * Properties division
-
-  // Load the favorites data from the API
-
-  /** The original signal list of favorites*/
-  // activities: Signal<string[]> = this.#favorites.state;
 
   /** A simple array with the of slugs of favorite activities*/
   #favoriteSlugs: string[] = this.#favoritesStore.state();
@@ -54,6 +53,8 @@ export default class FavoritesPage {
   /** Forks in parallel, and joins the results in an only one observable of an array of favorite activities*/
   #activities$: Observable<Activity[]> = forkJoin(this.#mapActivitiesFromSlugs$);
 
-  /** The signal list of activities that are favorites to use in the interface*/
+  // * Signals division
+
+  /** The signal (from the observable) list of activities that are favorites to use in the interface*/
   activities: Signal<Activity[]> = toSignal(this.#activities$, { initialValue: [] });
 }
