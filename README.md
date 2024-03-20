@@ -19,7 +19,8 @@ npm start
 npm run api:seed
 ```
 
-> [!TIP] > **Documentation**
+> [!TIP]
+> **Documentation**
 > Find detailed journal of instructions in [docs folder](./docs/)
 
 ### Folder structure
