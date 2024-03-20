@@ -6,6 +6,11 @@
     "name": "Alberto Basalo",
     "url": "https://albertobasalo.dev"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlbertoBasalo/ng-lab.git"
+  },
+  "homepage": "(https://albertobasalo.notion.site/Angular-Moderno-V17-8d69354edacb41cbaa921a9fbb8a17d0",
   "scripts": {
     "ng": "ng",
     "chrome": "start chrome -incognito -auto-open-devtools-for-tabs http://localhost:4200",
