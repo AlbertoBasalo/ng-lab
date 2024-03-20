@@ -142,39 +142,38 @@ export default class BookingsPage {
 }
 ```
 
-### 5.3.2 Interoperabilidad de señales y observables
+### 5.3.2 Interoperabilidad básica de señales y observables
+
+```typescript
+export default class HomePage {
+  #httpClient$: HttpClient = inject(HttpClient);
+  #apiUrl = "http://localhost:3000/activities";
+  activities: WritableSignal<Activity[]> = signal<Activity[]>([]);
+
+  constructor() {
+    this.#httpClient$.get<Activity[]>(this.#apiUrl).subscribe((result) => this.activities.set(result));
+  }
+}
+```
 
 ```typescript
 import { toSignal } from "@angular/core/rxjs-interop";
 export default class HomePage {
-  #title = inject(Title);
-  #meta = inject(Meta);
-  #http = inject(HttpClient);
-  #url = "http://localhost:3000/activities";
-
+  #httpClient$: HttpClient = inject(HttpClient);
+  #apiUrl = "http://localhost:3000/activities";
   // What toSignal() do for us?
   // 1 - subscribe
   // 2 - signal.set(result)
   // 3 - unsubscribe from observable
-  // 4 - signal read-only no mutable
-
-  /** Signal with the array of activities set from an observable*/
-  activities: Signal<Activity[]> = toSignal(this.#http.get<Activity[]>(this.#url).pipe(catchError(() => of([]))), {
-    initialValue: [],
-  });
-
-  // activities: WritableSignal<Activity[]> = signal([]);
-  constructor() {
-    this.#title.setTitle("🏡 - Home");
-    this.#meta.updateTag({ name: "description", content: "Home page" });
-
-    // this.#http.get<Activity[]>('http://localhost:3000/activities').subscribe({
-    //   next: (result: Activity[]) => this.activities.set(result),
-    //   error: () => this.activities.set([]),
-    // });
-  }
+  // 4 - returned signal is read-only, no mutable elsewhere
+  activities: Signal<Activity[]> = toSignal<Activity[]>(
+    this.#httpClient$.get<Activity[]>(this.#apiUrl).pipe(catchError(() => of([]))),
+    { initialValue: [] }
+  );
 }
 ```
+
+### 5.3.3 Usos avanzados de rxjs-interop
 
 ```typescript
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
@@ -183,12 +182,6 @@ export default class BookingPage {
 
   /** The slug of the activity that comes from the router */
   slug: InputSignal<string> = input.required<string>();
-
-  // 0 -> If computation could be synchronous
-
-  // activityOld: Signal<Activity> = computed(
-  //   () => ACTIVITIES.find((a) => a.slug === this.slug()) || NULL_ACTIVITY,
-  // );
 
   // 1 -> Convert source signal to an observable
   slug$: Observable<string> = toObservable(this.slug);
@@ -203,16 +196,6 @@ export default class BookingPage {
   // 3 - > Convert back the observable into a signal usable from the template
   activity: Signal<Activity> = toSignal(this.activity$, { initialValue: NULL_ACTIVITY });
 
-  // 4 - > Do it all at once
-  // activity: Signal<Activity> = toSignal(
-  //   toObservable(this.slug).pipe(
-  //     switchMap((slug: string) => {
-  //       const url = `${this.#apiUrl}?slug=${slug}`;
-  //       return this.#http.get<Activity[]>(url);
-  //     }),
-  //     map((activities: Activity[]) => activities[0])
-  //   ),
-  //   { initialValue: NULL_ACTIVITY },
-  // );
+  // 4 - > Remove effects!
 }
 ```
