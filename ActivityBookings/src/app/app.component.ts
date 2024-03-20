@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from './core/footer.component';
 import { HeaderWidget } from './core/header.widget';
-
+/**
+ * Root component of the application with the main layout
+ */
 @Component({
   selector: 'lab-root',
   standalone: true,
@@ -16,13 +18,5 @@ import { HeaderWidget } from './core/header.widget';
       <lab-footer />
     </div>
   `,
-  styles: [
-    `
-      main {
-        margin-top: 2rem;
-        margin-bottom: 2rem;
-      }
-    `,
-  ],
 })
 export class AppComponent {}

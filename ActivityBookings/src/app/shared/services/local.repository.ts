@@ -1,13 +1,17 @@
 import { Injectable, inject } from '@angular/core';
 import { PlatformService } from './platform.service';
 
+/**
+ * Service to access the local storage
+ * It uses the platform service to determine if the app is running on the server or the browser
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class LocalRepository {
   // * Injected services division
 
-  // Service to access the platform used to determine if the app is running on the server or the browser
+  /**  Service to access the platform used to determine if the app is running on the server or the browser*/
   #platformService = inject(PlatformService);
 
   /**
@@ -22,7 +26,8 @@ export class LocalRepository {
   }
 
   /**
-   * Loads a value from the local storage
+   * Loads a generic value from the local storage
+   * @typeParam T The concrete type of the value to load
    * @param key The key to load the value from
    * @param defaultValue The default value to return if the key is not found
    * @returns The value found or the default value

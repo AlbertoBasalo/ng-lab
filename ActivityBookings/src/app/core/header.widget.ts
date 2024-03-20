@@ -1,7 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FavoritesStore } from '@state/favorites.store';
-
+/**
+ * Header widget with the main navigation
+ * Reads the favorites count from the store
+ * @todo Gets auth info from the store
+ */
 @Component({
   selector: 'lab-header',
   standalone: true,
@@ -39,15 +43,16 @@ import { FavoritesStore } from '@state/favorites.store';
 export class HeaderWidget {
   // * Injected services division
 
-  #favorites = inject(FavoritesStore);
+  /**  Store for the favorites data*/
+  #favorites: FavoritesStore = inject(FavoritesStore);
 
   // * Properties division
 
   /** Application title */
-  title = 'Activity Bookings';
+  title: string = 'Activity Bookings';
 
   // * Computed properties division
 
-  /** The number of favorites */
-  favCount = this.#favorites.count;
+  /** The number of favorites in a read only signal */
+  favCount: Signal<number> = this.#favorites.count;
 }
