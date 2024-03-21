@@ -28,15 +28,15 @@ export class ParticipantsComponent {
   // * Input signals division
 
   /** The activity to be presented */
-  activity = input.required<{ maxParticipants: number }>();
+  activity: Signal<{ maxParticipants: number }> = input.required<{ maxParticipants: number }>();
   /** The number of already booked participants */
-  alreadyParticipants = input.required<number>();
+  alreadyParticipants: Signal<number> = input.required<number>();
   /** The number of new participants */
-  newParticipants = input.required<number>();
+  newParticipants: Signal<number> = input.required<number>();
   /** The number of remaining places */
-  remainingPlaces = input.required<number>();
+  remainingPlaces: Signal<number> = input.required<number>();
   /** The total number of participants */
-  totalParticipants = input.required<number>();
+  totalParticipants: Signal<number> = input.required<number>();
 
   // * Computed division
 

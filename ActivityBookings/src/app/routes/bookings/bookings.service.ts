@@ -14,8 +14,8 @@ import { BookingsRepository } from 'src/app/shared/api/bookings.repository';
 export class BookingsService {
   // * Injected services division
 
-  #activitiesRepository = inject(ActivitiesRepository);
-  #bookingsRepository = inject(BookingsRepository);
+  #activitiesRepository: ActivitiesRepository = inject(ActivitiesRepository);
+  #bookingsRepository: BookingsRepository = inject(BookingsRepository);
 
   // * Public methods division
 

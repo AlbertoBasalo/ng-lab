@@ -1,5 +1,16 @@
 import { CurrencyPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Signal, computed, input, model, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  InputSignal,
+  ModelSignal,
+  OutputEmitterRef,
+  Signal,
+  computed,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Activity } from '@domain/activity.type';
 import { Booking } from '@domain/booking.type';
@@ -37,21 +48,21 @@ export class BookingFormComponent {
   // * Input signals division
 
   /** The activity being booked*/
-  activity = input.required<Activity>();
+  activity: InputSignal<Activity> = input.required<Activity>();
   /** Number of participants already booked to limit the new ones*/
-  alreadyParticipants = input.required<number>();
+  alreadyParticipants: InputSignal<number> = input.required<number>();
   /** Number of remaining places to hide the form when cero*/
-  remainingPlaces = input.required<number>();
+  remainingPlaces: InputSignal<number> = input.required<number>();
 
   // * Model (input/output) signals division
 
   /** Number of participants sync with parent and with input element*/
-  newParticipants = model<number>(0);
+  newParticipants: ModelSignal<number> = model<number>(0);
 
   // * Output signals division
 
   /** Emits when the user wants to save the booking*/
-  saveBooking = output<Booking>();
+  saveBooking: OutputEmitterRef<Booking> = output<Booking>();
 
   // * Computed signals division
 
@@ -66,7 +77,7 @@ export class BookingFormComponent {
    * When the user clicks on the book button
    * Creates a new booking and emits the saveBooking event
    */
-  onBookParticipantsClick() {
+  onBookParticipantsClick(): void {
     const newBooking: Booking = {
       id: 0,
       userId: 0,

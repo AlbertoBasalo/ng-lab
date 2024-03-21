@@ -62,12 +62,12 @@ export default class BookingsPage {
   // * Injected services division
 
   /** The service to access the activities and bookings api*/
-  #service = inject(BookingsService);
+  #service: BookingsService = inject(BookingsService);
 
   /** The title service to update the title*/
-  #title = inject(Title);
+  #title: Title = inject(Title);
   /** The meta service to update the meta tags*/
-  #meta = inject(Meta);
+  #meta: Meta = inject(Meta);
 
   // * Input signals division
 
@@ -124,7 +124,7 @@ export default class BookingsPage {
   // * Methods division
 
   /** Post a new booking to the API and update the activity status if it is necessary */
-  onSaveBooking(newBooking: Booking | undefined) {
+  onSaveBooking(newBooking: Booking | undefined): void {
     if (newBooking === undefined) return;
     // ToDo: use a declarative approach
     this.#service

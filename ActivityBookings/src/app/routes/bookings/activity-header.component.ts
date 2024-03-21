@@ -1,5 +1,5 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, input } from '@angular/core';
 import { Activity, ActivityStatus } from '@domain/activity.type';
 import { ActivityStatusComponent } from '@ui/activity-status.component';
 import { ActivityTitlePipe } from '@ui/activity-title.pipe';
@@ -30,7 +30,7 @@ export class ActivityHeaderComponent {
   // * input division
 
   /** The activity to be presented */
-  activity = input.required<Activity>();
+  activity: Signal<Activity> = input.required<Activity>();
   /** The status of the activity */
-  activityStatus = input<ActivityStatus>();
+  activityStatus: Signal<ActivityStatus | undefined> = input<ActivityStatus>();
 }
