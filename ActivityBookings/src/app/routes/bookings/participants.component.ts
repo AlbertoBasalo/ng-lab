@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Signal, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, InputSignal, Signal, computed, input } from '@angular/core';
 /**
  * Component for presenting the participants of an activity
  */
@@ -28,15 +28,15 @@ export class ParticipantsComponent {
   // * Input signals division
 
   /** The activity to be presented */
-  activity: Signal<{ maxParticipants: number }> = input.required<{ maxParticipants: number }>();
+  activity: InputSignal<{ maxParticipants: number }> = input.required<{ maxParticipants: number }>();
   /** The number of already booked participants */
-  alreadyParticipants: Signal<number> = input.required<number>();
+  alreadyParticipants: InputSignal<number> = input.required<number>();
   /** The number of new participants */
-  newParticipants: Signal<number> = input.required<number>();
+  newParticipants: InputSignal<number> = input.required<number>();
   /** The number of remaining places */
-  remainingPlaces: Signal<number> = input.required<number>();
+  remainingPlaces: InputSignal<number> = input.required<number>();
   /** The total number of participants */
-  totalParticipants: Signal<number> = input.required<number>();
+  totalParticipants: InputSignal<number> = input.required<number>();
 
   // * Computed division
 
