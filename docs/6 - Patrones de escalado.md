@@ -149,29 +149,77 @@ export class ActivityComponent {
 
 ### 6.1.4 Comunicación de eventos desde el presentador al contenedor
 
-`ng g c routes/bookings/booking-confirm`
+`ng g c core/cookies`
 
 ```html
-@if (canBook()) {
-<button class="primary" (click)="saveBooking.emit()">Book now</button>
-} @else {
-<p>You cant book right now</p>
-}
+<dialog open>
+  <article>
+    <header>
+      <h2>We use cookies</h2>
+      <p>To ensure you get the best experience on our website.</p>
+    </header>
+    <section>
+      <p>To be compliant with the EU GDPR law, we need your consent to set the cookies.</p>
+    </section>
+    <footer>
+      <button class="contrast outline" (click)="cancel.emit()">Cancel</button>
+      <button class="secondary outline" (click)="accept.emit('essentials')">Accept only essentials</button>
+      <button class="primary outline" (click)="accept.emit('all')">Accept all</button>
+    </footer>
+  </article>
+</dialog>
 ```
 
 ```typescript
-export class BookingConfirmComponent {
-  canBook = input.required<boolean>();
-  saveBooking = output<void>();
+type Acceptance = "essentials" | "all";
+export class CookiesComponent {
+  cancel: OutputEmitterRef<void> = output();
+  accept: OutputEmitterRef<Acceptance> = output<Acceptance>();
 }
 ```
 
-On `bookings.page`
+On `footer.component`
 
 ```html
 <footer>
-  <lab-booking-confirm [canBook]="canBook()" (saveBooking)="onSaveBooking()" />
+  <nav>
+    <span>
+      <a [href]="author.homepage" target="_blank">© {{ getYear() }} {{ author.name }}</a>
+    </span>
+    <span>
+      @switch (cookiesStatus()) { @case ('pending') {
+      <lab-cookies (cancel)="cookiesStatus.set('rejected')" (accept)="cookiesStatus.set($event)" />
+      } @case ('rejected') {
+      <small>🍪 ❌</small>
+      } @case ('essentials') {
+      <small>🍪 ✅</small>
+      } @case ('all') {
+      <small>🍪 ✅ ✅</small>
+      } }
+    </span>
+  </nav>
 </footer>
+```
+
+```typescript
+export class FooterWidget {
+  localRepository: LocalRepository = inject(LocalRepository);
+
+  author: { name: string; homepage: string } = {
+    name: "Alberto Basalo",
+    homepage: "https://albertobasalo.dev",
+  };
+
+  cookiesStatus: WritableSignal<CookiesStatus> = signal<CookiesStatus>(
+    this.localRepository.load("cookies", { status: "pending" }).status as CookiesStatus
+  );
+
+  onCookiesAccepted = effect(() => this.localRepository.save("cookies", { status: this.cookiesStatus() }));
+
+  getYear(): number {
+    return new Date().getFullYear();
+  }
+}
 ```
 
 ## 6.2 Servicios e inyección de dependencias

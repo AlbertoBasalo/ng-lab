@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FooterComponent } from './core/footer.component';
+import { FooterWidget } from './core/footer.widget';
 import { HeaderWidget } from './core/header.widget';
 /**
  * Root component of the application with the main layout
@@ -8,7 +8,7 @@ import { HeaderWidget } from './core/header.widget';
 @Component({
   selector: 'lab-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderWidget, FooterComponent],
+  imports: [RouterOutlet, HeaderWidget, FooterWidget],
   template: `
     <div class="container-fluid">
       <lab-header />

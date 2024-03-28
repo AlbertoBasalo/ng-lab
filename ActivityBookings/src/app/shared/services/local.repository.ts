@@ -19,7 +19,7 @@ export class LocalRepository {
    * @param key The key to save the value with
    * @param value The serializable value to save
    */
-  save(key: string, value: any): void {
+  save<T>(key: string, value: T): void {
     if (this.#platformService.isServer) return;
     const serialized = JSON.stringify(value);
     localStorage.setItem(key, serialized);
