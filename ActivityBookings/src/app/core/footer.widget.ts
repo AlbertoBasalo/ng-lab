@@ -19,10 +19,9 @@ type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
           <a [href]="author.homepage" target="_blank"> © {{ getYear() }} {{ author.name }} </a>
         </span>
         <span>
+          <lab-cookies (cancel)="cookiesStatus.set('rejected')" (accept)="cookiesStatus.set($event)" />
           @switch (cookiesStatus()) {
-            @case ('pending') {
-              <lab-cookies (cancel)="cookiesStatus.set('rejected')" (accept)="cookiesStatus.set($event)" />
-            }
+            @case ('pending') {}
             @case ('rejected') {
               <small>🍪 ❌</small>
             }
@@ -58,7 +57,8 @@ export class FooterWidget {
     this.localRepository.load('cookies', { status: 'pending' }).status as CookiesStatus,
   );
 
-  onCookiesAccepted = effect(() => this.localRepository.save('cookies', { status: this.cookiesStatus() }));
+  /** Effect registered as a property, to save the signal state on changes*/
+  onCookiesStatusChanged = effect(() => this.localRepository.save('cookies', { status: this.cookiesStatus() }));
 
   // * Public methods division
 
