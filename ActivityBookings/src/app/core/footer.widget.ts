@@ -19,9 +19,10 @@ type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
           <a [href]="author.homepage" target="_blank"> © {{ getYear() }} {{ author.name }} </a>
         </span>
         <span>
-          <lab-cookies (cancel)="cookiesStatus.set('rejected')" (accept)="cookiesStatus.set($event)" />
           @switch (cookiesStatus()) {
-            @case ('pending') {}
+            @case ('pending') {
+              <lab-cookies (cancel)="cookiesStatus.set('rejected')" (accept)="cookiesStatus.set($event)" />
+            }
             @case ('rejected') {
               <small>🍪 ❌</small>
             }

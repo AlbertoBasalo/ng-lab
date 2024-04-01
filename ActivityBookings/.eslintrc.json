@@ -22,7 +22,7 @@
         "@angular-eslint/component-class-suffix": [
           "error",
           {
-            "suffixes": ["Component", "Page", "Template", "Widget"]
+            "suffixes": ["Component", "Form", "Page", "Template", "Widget"]
           }
         ],
         "@angular-eslint/component-selector": [
