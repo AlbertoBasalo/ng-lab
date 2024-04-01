@@ -159,7 +159,7 @@ export class AuthStore {
 }
 ```
 
-## 8.2. Guardias y resolvers
+## 8.2. Interceptores de comunicaciones y guardias de navegación
 
 `ng g g core/auth --implements=CanActivate`
 
@@ -205,22 +205,21 @@ export default class BookingsPage {
 }
 ```
 
-## 8.3. Interceptores
-
 `ng g interceptor core/auth`
 
 ```typescript
-export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const accessToken: string = inject(AuthStore).accessToken();
+export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
+  const authStore = inject(AuthStore);
+  const accessToken: string = authStore.accessToken();
   req = req.clone({
     setHeaders: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: accessToken ? `Bearer ${accessToken}` : "",
     },
   });
   return next(req).pipe(
     catchError((error) => {
       if (error.status === 401) {
-        inject(AuthStore).setState(NULL_USER_ACCESS_TOKEN);
+        authStore.setState(NULL_USER_ACCESS_TOKEN);
       }
       return throwError(() => error);
     })
@@ -237,3 +236,15 @@ export const appConfig: ApplicationConfig = {
   ],
 };
 ```
+
+## 8.3. Presentación condicional y diferida de feedback al usuario
+
+> To do: Generalizar presentación de validadores
+
+> To do: Centralizar gestión de errores http
+
+> To do: Carga diferida de componentes (bookings de una actividad)
+
+`ng g c routes/activity/activity --type=page`
+`ng g c routes/activity/activity --type=form`
+`ng g s routes/activity/activity `

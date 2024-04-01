@@ -27,6 +27,7 @@ import { FavoritesStore } from '@state/favorites.store';
               </span>
             </a>
           </li>
+          <li><a [routerLink]="['/activity']">New Activity</a></li>
           <li><a [routerLink]="['/auth', 'login']">Login</a></li>
         </ul>
       </nav>

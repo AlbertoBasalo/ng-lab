@@ -61,6 +61,15 @@ export class ActivitiesRepository {
   }
 
   /**
+   * Posts a new activity to the API
+   * @param newActivity The new activity to be posted
+   * @returns An observable with the new activity
+   */
+  postActivity$(newActivity: Activity) {
+    return this.#http.post<Activity>(this.#apiUrl, newActivity);
+  }
+
+  /**
    * Updates an activity in the API
    * @param activity The activity to be updated
    * @returns An observable with the updated activity

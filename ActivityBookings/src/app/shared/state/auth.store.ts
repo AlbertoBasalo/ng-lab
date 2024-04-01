@@ -35,7 +35,7 @@ export class AuthStore {
   /** Signal true is user is anonymous */
   isAnonymous: Signal<boolean> = computed(() => this.#state().accessToken === '');
   /** Signal with the current user id */
-  userId: Signal<string> = computed(() => this.#state().user.id);
+  userId: Signal<number> = computed(() => this.#state().user.id);
   /** Signal with the current user access token */
   accessToken: Signal<string> = computed(() => this.#state().accessToken);
 

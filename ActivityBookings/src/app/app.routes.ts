@@ -8,6 +8,10 @@ export const routes: Routes = [
     loadComponent: () => import('./routes/home/home.page'),
   },
   {
+    path: 'activity',
+    loadComponent: () => import('./routes/activity/activity.page'),
+  },
+  {
     path: 'auth/login',
     loadComponent: () => import('./routes/auth/login.page'),
   },

@@ -220,6 +220,17 @@
       "minParticipants": 4,
       "status": "draft",
       "userId": 2
+    },
+    {
+      "name": "A",
+      "price": "0",
+      "date": "2024-04-01T14:43:06.939Z",
+      "location": "D",
+      "minParticipants": "0",
+      "maxParticipants": "10",
+      "userId": 4,
+      "slug": "a-d",
+      "id": 18
     }
   ],
   "bookings": [],
@@ -244,7 +255,7 @@
     },
     {
       "email": "a@b.c",
-      "password": "$2a$10$MvPp9vfYMOqh/IzGkGwNHOi7nx.JnIHvaz/Q.miFQ/Y/kBAMg5YWS",
+      "password": "$2a$10$Y0G/OqiAPfSfYUlPDkMUUOLRCRoFlhedU3AysFVQDDeerhzoEd6Xe",
       "username": "A",
       "terms": true,
       "id": 4

@@ -11,7 +11,7 @@ export type UserAccessToken = {
 /** Null object pattern for the UserAccessToken type */
 export const NULL_USER_ACCESS_TOKEN: UserAccessToken = {
   user: {
-    id: '',
+    id: 0,
     username: '',
     email: '',
     terms: false,

@@ -11,19 +11,20 @@ import { catchError, throwError } from 'rxjs';
  * @returns The observable of HttpEvents to be passed to the next handler
  */
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
+  const authStore = inject(AuthStore);
   /** Get access token from AuthStore */
-  const accessToken: string = inject(AuthStore).accessToken();
+  const accessToken: string = authStore.accessToken();
   /** Add the Authorization header to the request */
   req = req.clone({
     setHeaders: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: accessToken ? `Bearer ${accessToken}` : '',
     },
   });
   /** Use the cloned request and detect auth errors */
   return next(req).pipe(
     catchError((error) => {
       if (error.status === 401) {
-        inject(AuthStore).setState(NULL_USER_ACCESS_TOKEN);
+        authStore.setState(NULL_USER_ACCESS_TOKEN);
       }
       return throwError(() => error);
     }),
