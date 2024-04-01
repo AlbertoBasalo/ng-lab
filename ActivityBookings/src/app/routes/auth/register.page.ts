@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthRepository } from '@api/auth.repository';
 import { Register } from '@domain/register.type';
 import { RegisterForm } from './register.form';
 
@@ -22,7 +23,11 @@ import { RegisterForm } from './register.form';
   `,
 })
 export default class RegisterPage {
+  authRepository: AuthRepository = inject(AuthRepository);
+
   onRegister(register: Register) {
-    console.log('Register', register);
+    this.authRepository.postRegister$(register).subscribe((userAccessToken) => {
+      console.log('UserAccessToken', userAccessToken);
+    });
   }
 }

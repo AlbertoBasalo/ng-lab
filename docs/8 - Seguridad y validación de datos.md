@@ -117,3 +117,14 @@ export default class RegisterPage {
   }
 }
 ```
+
+`ng g s shared/api/auth-repository`
+
+```typescript
+@Injectable({
+  providedIn: "root",
+})
+export class AuthRepository {
+  constructor() {}
+}
+```

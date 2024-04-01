@@ -1,34 +1,32 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthRepository } from '@api/auth.repository';
+import { Login } from '@domain/login.type';
+import { LoginForm } from './login.form';
 
 @Component({
-  selector: 'lab-login',
   standalone: true,
-  imports: [RouterLink],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, LoginForm],
   template: `
     <article>
       <header>
         <h2>Login</h2>
       </header>
       <main>
-        <form>
-          <label for="email">
-            <span>Email</span>
-            <input id="email" type="email" />
-          </label>
-          <label for="password">
-            <span>Password</span>
-            <input id="password" type="password" />
-          </label>
-          <button type="submit">Login</button>
-        </form>
+        <lab-login (login)="onLogin($event)" />
       </main>
       <footer>
         <a [routerLink]="['/auth', 'register']">Register if don't have an account</a>
       </footer>
     </article>
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class LoginPage {}
+export default class LoginPage {
+  authRepository: AuthRepository = inject(AuthRepository);
+  onLogin(login: Login) {
+    this.authRepository.postLogin$(login).subscribe((userAccessToken) => {
+      console.log('UserAccessToken', userAccessToken);
+    });
+  }
+}

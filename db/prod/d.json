@@ -222,20 +222,7 @@
       "userId": 2
     }
   ],
-  "bookings": [
-    {
-      "id": 1,
-      "userId": 0,
-      "activityId": 16,
-      "date": "2024-03-27T17:28:41.062Z",
-      "participants": 3,
-      "payment": {
-        "method": "creditCard",
-        "amount": 150,
-        "status": "pending"
-      }
-    }
-  ],
+  "bookings": [],
   "users": [
     {
       "email": "richard@virg.in",
@@ -254,6 +241,13 @@
       "password": "$2a$10$iWYOu1X3MG3QulrPGKUhNODAAZq8NId7O69nLymfPhTqL8z3SFyMO",
       "username": "Bill Windows",
       "id": 3
+    },
+    {
+      "email": "a@b.c",
+      "password": "$2a$10$MvPp9vfYMOqh/IzGkGwNHOi7nx.JnIHvaz/Q.miFQ/Y/kBAMg5YWS",
+      "username": "A",
+      "terms": true,
+      "id": 4
     }
   ]
 }
