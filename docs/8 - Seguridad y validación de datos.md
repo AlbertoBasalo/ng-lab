@@ -246,5 +246,178 @@ export const appConfig: ApplicationConfig = {
 > To do: Carga diferida de componentes (bookings de una actividad)
 
 `ng g c routes/activity/activity --type=page`
+
+```typescript
+@Component({
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ActivityForm],
+  template: `
+    <lab-activity (save)="onSave($event)" />
+  `,
+})
+export default class ActivityPage {
+  #activityService = inject(ActivityService);
+
+  onSave(activity: Activity) {
+    this.#activityService.postActivity$(activity).subscribe();
+  }
+}
+```
+
 `ng g c routes/activity/activity --type=form`
+
+```typescript
+@Component({
+  selector: "lab-activity",
+  standalone: true,
+  imports: [ReactiveFormsModule, JsonPipe],
+  template: `
+    <form [formGroup]="form" (submit)="onSubmit()">
+      <label for="name">
+        <span>Name</span>
+        <small>{{ form.controls["name"].errors | json }}</small>
+        <input id="name" type="text" formControlName="name" [attr.aria-invalid]="form.controls['name'].invalid" />
+      </label>
+      <label for="price">
+        <span>Price</span>
+        <small>{{ form.controls["price"].errors | json }}</small>
+        <input id="price" type="number" formControlName="price" [attr.aria-invalid]="form.controls['price'].invalid" />
+      </label>
+      <label for="date">
+        <span>Date</span>
+        <small>{{ form.controls["date"].errors | json }}</small>
+        <input id="date" type="date" formControlName="date" [attr.aria-invalid]="form.controls['date'].invalid" />
+      </label>
+      <label for="location">
+        <span>Location</span>
+        <small>{{ form.controls["location"].errors | json }}</small>
+        <input
+          id="location"
+          type="text"
+          formControlName="location"
+          [attr.aria-invalid]="form.controls['location'].invalid" />
+      </label>
+      <label for="minParticipants">
+        <span>Min participants</span>
+        <small>{{ form.controls["minParticipants"].errors | json }}</small>
+        <input
+          id="minParticipants"
+          type="number"
+          formControlName="minParticipants"
+          [attr.aria-invalid]="form.controls['minParticipants'].invalid" />
+      </label>
+      <label for="maxParticipants">
+        <span>Max participants</span>
+        <small>{{ form.controls["maxParticipants"].errors | json }}</small>
+        <input
+          id="maxParticipants"
+          type="number"
+          formControlName="maxParticipants"
+          [attr.aria-invalid]="form.controls['maxParticipants'].invalid" />
+      </label>
+      <button type="submit" [disabled]="form.invalid">Submit</button>
+    </form>
+  `,
+  styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class ActivityForm {
+  save = output<Activity>();
+  form: FormGroup = new FormGroup({
+    name: new FormControl("A", Validators.required),
+    price: new FormControl("0", Validators.required),
+    date: new FormControl(new Date(), Validators.required),
+    location: new FormControl("D", Validators.required),
+    minParticipants: new FormControl("0", Validators.required),
+    maxParticipants: new FormControl("10", Validators.required),
+  });
+
+  onSubmit() {
+    this.save.emit(this.form.value);
+  }
+}
+```
+
+`ng g c shared/ui/lab-control`
+
+```typescript
+export class ControlComponent {
+  /** The form control name to bind to */
+  controlName = input.required<string>();
+  /** The label to display */
+  labelDisplay = input.required<string>();
+  /** The errors to display if any */
+  errors = input<unknown>();
+}
+```
+
+```html
+<label [for]="controlName()">
+  <span>{{ labelDisplay() }}</span>
+  @if (errors()) {
+  <small>{{ errors() | json }}</small>
+  }
+  <ng-content />
+</label>
+```
+
+```html
+<form [formGroup]="form" (submit)="onSubmit()">
+  <lab-control controlName="name" labelDisplay="Activity Name" [errors]="form.controls['name'].errors">
+    <input formControlName="name" [attr.aria-invalid]="form.controls['name'].invalid" />
+  </lab-control>
+  <lab-control controlName="location" labelDisplay="Location" [errors]="form.controls['location'].errors">
+    <input
+      id="location"
+      type="text"
+      formControlName="location"
+      [attr.aria-invalid]="form.controls['location'].invalid" />
+  </lab-control>
+  <lab-control controlName="price" labelDisplay="Price" [errors]="form.controls['price'].errors">
+    <input id="price" type="number" formControlName="price" [attr.aria-invalid]="form.controls['price'].invalid" />
+  </lab-control>
+  <lab-control controlName="date" labelDisplay="Date" [errors]="form.controls['date'].errors">
+    <input id="date" type="date" formControlName="date" [attr.aria-invalid]="form.controls['date'].invalid" />
+  </lab-control>
+  <lab-control
+    controlName="minParticipants"
+    labelDisplay="Minimum Participants"
+    [errors]="form.controls['minParticipants'].errors">
+    <input
+      id="minParticipants"
+      type="number"
+      formControlName="minParticipants"
+      [attr.aria-invalid]="form.controls['minParticipants'].invalid" />
+  </lab-control>
+  <lab-control
+    controlName="maxParticipants"
+    labelDisplay="Maximum Participants"
+    [errors]="form.controls['maxParticipants'].errors">
+    <input
+      id="maxParticipants"
+      type="number"
+      formControlName="maxParticipants"
+      [attr.aria-invalid]="form.controls['maxParticipants'].invalid" />
+  </lab-control>
+  <button type="submit" [disabled]="form.invalid">Submit</button>
+</form>
+```
+
 `ng g s routes/activity/activity `
+
+```typescript
+@Injectable({
+  providedIn: "root",
+})
+export class ActivityService {
+  #activitiesRepository = inject(ActivitiesRepository);
+  #authStore = inject(AuthStore);
+
+  postActivity$(newActivity: Activity) {
+    newActivity.userId = this.#authStore.userId();
+    newActivity.slug = (newActivity.name + "-" + newActivity.location).toLowerCase().replace(/ /g, "_");
+    return this.#activitiesRepository.postActivity$(newActivity);
+  }
+}
+```

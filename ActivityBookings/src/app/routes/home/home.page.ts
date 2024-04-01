@@ -36,17 +36,21 @@ import { HomeService } from './home.service';
         <h2>Activities</h2>
         <lab-filter />
       </header>
-      <main>
-        @for (activity of activities(); track activity.id) {
-          <lab-activity [activity]="activity" [(favorites)]="favorites" />
-        }
-      </main>
-      <lab-activities-footer
-        [activitiesCount]="activities().length"
-        [favoritesCount]="favorites().length"
-        [search]="search()"
-        [orderBy]="orderBy()"
-        [sort]="sort()" />
+      @defer {
+        <main>
+          @for (activity of activities(); track activity.id) {
+            <lab-activity [activity]="activity" [(favorites)]="favorites" />
+          }
+        </main>
+        <lab-activities-footer
+          [activitiesCount]="activities().length"
+          [favoritesCount]="favorites().length"
+          [search]="search()"
+          [orderBy]="orderBy()"
+          [sort]="sort()" />
+      } @loading (minimum 500ms) {
+        <p aria-busy="true">Loading activities</p>
+      }
     </article>
   `,
 })

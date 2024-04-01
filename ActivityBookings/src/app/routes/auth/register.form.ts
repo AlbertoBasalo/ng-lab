@@ -1,44 +1,40 @@
-import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Register } from '@domain/register.type';
+import { ControlComponent } from '@ui/control.component';
 import { matchValidator } from '@ui/form.functions';
 
 @Component({
   selector: 'lab-register',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, JsonPipe],
+  imports: [ReactiveFormsModule, ControlComponent],
   template: `
     <form [formGroup]="form" (submit)="onSubmit()">
-      <label for="username">
-        <span>Username</span><small>{{ form.controls['username'].errors | json }}</small>
+      <lab-control controlName="username" labelDisplay="Username" [errors]="form.controls['username'].errors">
         <input
           id="username"
           type="text"
           formControlName="username"
           [attr.aria-invalid]="form.controls['username'].invalid" />
-      </label>
-      <label for="email">
-        <span>Email</span><small>{{ form.controls['email'].errors | json }}</small>
+      </lab-control>
+      <lab-control controlName="email" labelDisplay="Email" [errors]="form.controls['email'].errors">
         <input id="email" type="email" formControlName="email" [attr.aria-invalid]="form.controls['email'].invalid" />
-      </label>
-      <label for="password">
-        <span>Password</span><small>{{ form.controls['password'].errors | json }}</small>
+      </lab-control>
+      <lab-control controlName="password" labelDisplay="Password" [errors]="form.controls['password'].errors">
         <input
           id="password"
           type="password"
           formControlName="password"
           [attr.aria-invalid]="form.controls['password'].invalid" />
-      </label>
-      <label for="confirm">
-        <span>Confirm password</span><small>{{ form.controls['confirm'].errors | json }}</small>
+      </lab-control>
+      <lab-control controlName="confirm" labelDisplay="Confirm Password" [errors]="form.controls['confirm'].errors">
         <input
           id="confirm"
           type="password"
           formControlName="confirm"
           [attr.aria-invalid]="form.controls['confirm'].invalid" />
-      </label>
+      </lab-control>
       <label for="terms">
         <span>Accept the terms and conditions</span>
         <input

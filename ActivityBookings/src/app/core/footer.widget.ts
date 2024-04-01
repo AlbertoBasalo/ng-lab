@@ -18,19 +18,20 @@ type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
         <span>
           <a [href]="author.homepage" target="_blank"> © {{ getYear() }} {{ author.name }} </a>
         </span>
+        <span data-tooltip="To Do: show error messages">🔥</span>
         <span>
           @switch (cookiesStatus()) {
             @case ('pending') {
               <lab-cookies (cancel)="cookiesStatus.set('rejected')" (accept)="cookiesStatus.set($event)" />
             }
             @case ('rejected') {
-              <small>🍪 ❌</small>
+              <small data-tooltip="No cookies applied">🍪 ❌</small>
             }
             @case ('essentials') {
-              <small>🍪 ✅</small>
+              <small data-tooltip="Essential cookies applied">🍪 ✅</small>
             }
             @case ('all') {
-              <small>🍪 ✅ ✅</small>
+              <small data-tooltip="All cookies applied">🍪 ✅ ✅</small>
             }
           }
         </span>
