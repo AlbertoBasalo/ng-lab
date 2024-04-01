@@ -204,3 +204,36 @@ export default class BookingsPage {
   activity: Signal<Activity> = signal(this.#resolvedActivity);
 }
 ```
+
+## 8.3. Interceptores
+
+`ng g interceptor core/auth`
+
+```typescript
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const accessToken: string = inject(AuthStore).accessToken();
+  req = req.clone({
+    setHeaders: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  return next(req).pipe(
+    catchError((error) => {
+      if (error.status === 401) {
+        inject(AuthStore).setState(NULL_USER_ACCESS_TOKEN);
+      }
+      return throwError(() => error);
+    })
+  );
+};
+```
+
+```typescript
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideClientHydration(),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    provideRouter(routes, withComponentInputBinding()),
+  ],
+};
+```
