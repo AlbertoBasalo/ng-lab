@@ -3,7 +3,8 @@ import { Injectable, inject } from '@angular/core';
 import { Login } from '@domain/login.type';
 import { Register } from '@domain/register.type';
 import { UserAccessToken } from '@domain/userAccesToken.type';
-import { Observable } from 'rxjs';
+import { AuthStore } from '@state/auth.store';
+import { Observable, tap } from 'rxjs';
 /**
  * Repository service for accessing the authentication data from the API
  */
@@ -23,6 +24,8 @@ export class AuthRepository {
   /** The HTTP client to make requests to the API */
   #http = inject(HttpClient);
 
+  #authStore = inject(AuthStore);
+
   // * Public methods division
 
   /** Post a new user register Data
@@ -30,7 +33,9 @@ export class AuthRepository {
    * @returns An observable with the user access token
    */
   postRegister$(register: Register): Observable<UserAccessToken> {
-    return this.#http.post<UserAccessToken>(`${this.#apiUrl}/register`, register);
+    return this.#http
+      .post<UserAccessToken>(`${this.#apiUrl}/register`, register)
+      .pipe(tap((userAccessToken) => this.#authStore.setState(userAccessToken)));
   }
 
   /** Post a new user login Data
@@ -38,6 +43,8 @@ export class AuthRepository {
    * @returns An observable with the user access token
    */
   postLogin$(login: Login): Observable<UserAccessToken> {
-    return this.#http.post<UserAccessToken>(`${this.#apiUrl}/login`, login);
+    return this.#http
+      .post<UserAccessToken>(`${this.#apiUrl}/login`, login)
+      .pipe(tap((userAccessToken) => this.#authStore.setState(userAccessToken)));
   }
 }

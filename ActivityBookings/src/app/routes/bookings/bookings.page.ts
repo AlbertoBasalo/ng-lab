@@ -10,8 +10,9 @@ import {
   signal,
 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { getNextActivityStatus } from '@domain/activity.functions';
-import { Activity, ActivityStatus, NULL_ACTIVITY } from '@domain/activity.type';
+import { Activity, ActivityStatus } from '@domain/activity.type';
 import { Booking } from '@domain/booking.type';
 import { catchError, switchMap } from 'rxjs';
 import { toSignalMap } from 'src/app/shared/api/signal.functions';
@@ -64,6 +65,9 @@ export default class BookingsPage {
   /** The service to access the activities and bookings api*/
   #service: BookingsService = inject(BookingsService);
 
+  /** The activated route with current activity */
+  #route = inject(ActivatedRoute);
+
   /** The title service to update the title*/
   #title: Title = inject(Title);
   /** The meta service to update the meta tags*/
@@ -71,7 +75,9 @@ export default class BookingsPage {
 
   // * Input signals division
 
-  /** The slug of the activity that comes from the router */
+  /** The slug of the activity that comes from the router
+   * @deprecated Use the activity signal resolved instead
+   */
   slug: Signal<string | undefined> = input<string>();
 
   // * Signals division
@@ -81,10 +87,13 @@ export default class BookingsPage {
   /** A signal message changed when a new booking is successfully saved */
   bookingSaved: WritableSignal<string> = signal('');
 
+  /** The pre resolved activity based on the slug  */
+  #resolvedActivity: Activity = this.#route.snapshot.data['activity'];
+  /** The Activity signal */
+  activity: Signal<Activity> = signal(this.#resolvedActivity);
+
   // * Computed signals division
 
-  /** The activity that comes from the API based on the slug signal */
-  activity: Signal<Activity> = toSignalMap(this.slug, (slug) => this.#service.getActivityBySlug$(slug), NULL_ACTIVITY);
   /** The bookings of the activity that comes from the API based on the activity signal */
   #activityBookings: Signal<Booking[]> = toSignalMap(
     this.activity,

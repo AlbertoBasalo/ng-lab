@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/auth.guard';
+import { activityResolver } from './routes/bookings/activity.resolver';
 
 export const routes: Routes = [
   {
@@ -16,6 +18,10 @@ export const routes: Routes = [
   {
     path: 'bookings/:slug',
     loadComponent: () => import('./routes/bookings/bookings.page'),
+    canActivate: [authGuard],
+    resolve: {
+      activity: activityResolver,
+    },
   },
   {
     path: 'favorites',

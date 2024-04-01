@@ -125,6 +125,82 @@ export default class RegisterPage {
   providedIn: "root",
 })
 export class AuthRepository {
-  constructor() {}
+  #apiUrl = "http://localhost:3000";
+  #http = inject(HttpClient);
+  #authStore = inject(AuthStore);
+  postRegister$(register: Register): Observable<UserAccessToken> {
+    return this.#http
+      .post<UserAccessToken>(`${this.#apiUrl}/register`, register)
+      .pipe(tap((userAccessToken) => this.#authStore.setState(userAccessToken)));
+  }
+  postLogin$(login: Login): Observable<UserAccessToken> {
+    return this.#http
+      .post<UserAccessToken>(`${this.#apiUrl}/login`, login)
+      .pipe(tap((userAccessToken) => this.#authStore.setState(userAccessToken)));
+  }
+}
+```
+
+`ng g s shared/state/auth-store`
+
+```typescript
+@Injectable({
+  providedIn: "root",
+})
+export class AuthStore {
+  #localRepository: LocalRepository = inject(LocalRepository);
+  #state: WritableSignal<UserAccessToken> = signal<UserAccessToken>(NULL_USER_ACCESS_TOKEN);
+  isAuthenticated: Signal<boolean> = computed(() => this.#state().accessToken !== "");
+  isAnonymous: Signal<boolean> = computed(() => this.#state().accessToken === "");
+  userId: Signal<string> = computed(() => this.#state().user.id);
+  setState(userAccessToken: UserAccessToken): void {
+    this.#state.set(userAccessToken);
+  }
+}
+```
+
+## 8.2. Guardias y resolvers
+
+`ng g g core/auth --implements=CanActivate`
+
+```typescript
+export const authGuard: CanActivateFn = () => {
+  const authStore = inject(AuthStore);
+  if (authStore.isAuthenticated()) {
+    return true;
+  }
+  const router = inject(Router);
+  return router.createUrlTree(["/auth", "login"]);
+};
+```
+
+```typescript
+export const routes: Routes = [
+  {
+    path: "bookings/:slug",
+    loadComponent: () => import("./routes/bookings/bookings.page"),
+    canActivate: [authGuard],
+    resolve: {
+      activity: activityResolver,
+    },
+  },
+];
+```
+
+`ng g r routes/bookings/activity`
+
+```typescript
+export const activityResolver: ResolveFn<Activity> = (route: ActivatedRouteSnapshot) => {
+  const slug: string = route.paramMap.get("slug") || "";
+  const bookingsService = inject(BookingsService);
+  return bookingsService.getActivityBySlug$(slug);
+};
+```
+
+```typescript
+export default class BookingsPage {
+  #route = inject(ActivatedRoute);
+  #resolvedActivity: Activity = this.#route.snapshot.data["activity"];
+  activity: Signal<Activity> = signal(this.#resolvedActivity);
 }
 ```
