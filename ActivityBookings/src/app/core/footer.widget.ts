@@ -69,4 +69,6 @@ export class FooterWidget {
     // ! Do not abuse (they are called on every change detection cycle)
     return new Date().getFullYear();
   }
+
+  // ToDo: Add a method to show error messages
 }

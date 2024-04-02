@@ -4,6 +4,11 @@ import { Register } from '@domain/register.type';
 import { ControlComponent } from '@ui/control.component';
 import { matchValidator } from '@ui/form.functions';
 
+/**
+ * Form component for registering a user
+ * Emits the Register when the form is submitted
+ * Validates the username, email, password, confirm, and terms
+ */
 @Component({
   selector: 'lab-register',
   standalone: true,
@@ -48,8 +53,14 @@ import { matchValidator } from '@ui/form.functions';
   `,
 })
 export class RegisterForm {
+  // * Outputs division
+
+  /** Emits the Register when the form is submitted */
   register = output<Register>();
 
+  // * Properties division
+
+  /** The form to register a user */
   form: FormGroup = new FormGroup(
     {
       username: new FormControl('A', Validators.required),
@@ -63,6 +74,12 @@ export class RegisterForm {
     },
   );
 
+  // * Event handlers division
+
+  /**
+   * Handles the submit event from the form
+   * Emits the Register if the form is valid
+   */
   onSubmit() {
     if (this.form.valid) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

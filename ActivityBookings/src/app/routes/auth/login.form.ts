@@ -3,6 +3,10 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Login } from '@domain/login.type';
 import { ControlComponent } from '@ui/control.component';
 
+/**
+ * Form component for logging in
+ * Emits the Login when the form is submitted
+ */
 @Component({
   selector: 'lab-login',
   standalone: true,
@@ -26,13 +30,24 @@ import { ControlComponent } from '@ui/control.component';
   `,
 })
 export class LoginForm {
+  // * Outputs division
+
+  /** Emits the Login when the form is submitted */
   login = output<Login>();
 
+  // * Properties division
+
+  /** The form to login */
   form: FormGroup = new FormGroup({
     email: new FormControl('a@b.c', [Validators.required, Validators.email]),
     password: new FormControl('123456', Validators.required),
   });
 
+  // * Event handlers division
+
+  /**
+   * Handles the form submission
+   */
   onSubmit() {
     if (this.form.valid) {
       this.login.emit(this.form.value);

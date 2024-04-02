@@ -1,5 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+
 /**
  * A wrapper around a form control.
  * @param {string} controlName The name of the control.
@@ -22,6 +23,8 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   `,
 })
 export class ControlComponent {
+  // * Inputs division
+
   /** The form control name to bind to */
   controlName = input.required<string>();
   /** The label to display */

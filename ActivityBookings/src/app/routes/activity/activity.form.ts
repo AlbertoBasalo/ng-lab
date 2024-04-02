@@ -3,6 +3,10 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Activity } from '@domain/activity.type';
 import { ControlComponent } from '@ui/control.component';
 
+/**
+ * Form component for an Activity
+ * Emits the Activity when the form is submitted
+ */
 @Component({
   selector: 'lab-activity',
   standalone: true,
@@ -51,7 +55,14 @@ import { ControlComponent } from '@ui/control.component';
   `,
 })
 export class ActivityForm {
+  // * Outputs division
+
+  /** Emits the Activity when the form is submitted */
   save = output<Activity>();
+
+  // * Properties division
+
+  /** The form to create a new Activity */
   form: FormGroup = new FormGroup({
     name: new FormControl('A', Validators.required),
     location: new FormControl('D', Validators.required),
@@ -61,6 +72,9 @@ export class ActivityForm {
     maxParticipants: new FormControl('10', Validators.required),
   });
 
+  // * Event handlers division
+
+  /** Handles the form submission */
   onSubmit() {
     this.save.emit(this.form.value);
   }

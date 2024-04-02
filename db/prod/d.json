@@ -220,28 +220,6 @@
       "minParticipants": 4,
       "status": "draft",
       "userId": 2
-    },
-    {
-      "name": "Mountain Bike",
-      "location": "Ribeira Sacra",
-      "price": "0",
-      "date": "2024-04-01T16:20:16.904Z",
-      "minParticipants": "0",
-      "maxParticipants": "10",
-      "userId": 4,
-      "slug": "mountain_bike-ribeira_sacra",
-      "id": 18
-    },
-    {
-      "name": "Paddle Surf",
-      "location": "A Coruña",
-      "price": "0",
-      "date": "2024-04-01T16:24:46.982Z",
-      "minParticipants": "0",
-      "maxParticipants": "10",
-      "userId": 4,
-      "slug": "paddle_surf-a_coruña",
-      "id": 19
     }
   ],
   "bookings": [],
@@ -263,13 +241,6 @@
       "password": "$2a$10$iWYOu1X3MG3QulrPGKUhNODAAZq8NId7O69nLymfPhTqL8z3SFyMO",
       "username": "Bill Windows",
       "id": 3
-    },
-    {
-      "email": "a@b.c",
-      "password": "$2a$10$LNh2KPatl4ULq1ZRTNgme.AflDOm9LAtNWBCp6jg0fOvklPNB2oIG",
-      "username": "A",
-      "terms": true,
-      "id": 4
     }
   ]
 }

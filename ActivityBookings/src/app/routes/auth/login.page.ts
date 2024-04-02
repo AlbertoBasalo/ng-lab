@@ -4,6 +4,11 @@ import { AuthRepository } from '@api/auth.repository';
 import { Login } from '@domain/login.type';
 import { LoginForm } from './login.form';
 
+/**
+ * Routed component for the Login page
+ * Presents the LoginForm to login
+ * Uses the AuthRepository to post the login
+ */
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -23,10 +28,19 @@ import { LoginForm } from './login.form';
   `,
 })
 export default class LoginPage {
-  authRepository: AuthRepository = inject(AuthRepository);
+  // * Injected services division
+
+  /** The repository to post the login */
+  #authRepository: AuthRepository = inject(AuthRepository);
+
+  // * Event handlers division
+
+  /**
+   * Handles the login event from the LoginForm
+   * @param {Login} login The login data to post
+   */
   onLogin(login: Login) {
-    this.authRepository.postLogin$(login).subscribe((userAccessToken) => {
-      console.log('UserAccessToken', userAccessToken);
-    });
+    // ToDo: Give feedback to the user
+    this.#authRepository.postLogin$(login).subscribe();
   }
 }
