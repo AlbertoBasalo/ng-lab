@@ -6,6 +6,9 @@
     "ActivityBookings": {
       "projectType": "application",
       "schematics": {
+        "@schematics/angular:class": {
+          "skipTests": true
+        },
         "@schematics/angular:component": {
           "changeDetection": "OnPush",
           "flat": true,

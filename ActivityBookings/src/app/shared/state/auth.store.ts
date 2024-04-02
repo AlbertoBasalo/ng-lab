@@ -1,5 +1,5 @@
 import { Injectable, Signal, WritableSignal, computed, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+
 import { NULL_USER_ACCESS_TOKEN, UserAccessToken } from '@domain/userAccesToken.type';
 import { LocalRepository } from '@services/local.repository';
 
@@ -16,8 +16,6 @@ export class AuthStore {
 
   /** To save and load the Authentication State from the local storage*/
   #localRepository: LocalRepository = inject(LocalRepository);
-
-  #router: Router = inject(Router);
 
   // * Private properties division
 
@@ -49,8 +47,5 @@ export class AuthStore {
   setState(userAccessToken: UserAccessToken): void {
     this.#state.set(userAccessToken);
     this.#localRepository.save('userAccessToken', userAccessToken);
-    if (userAccessToken.accessToken === '') {
-      this.#router.navigate(['/auth', 'login']);
-    }
   }
 }

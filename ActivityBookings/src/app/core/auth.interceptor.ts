@@ -1,9 +1,10 @@
 import { HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { NULL_USER_ACCESS_TOKEN } from '@domain/userAccesToken.type';
 import { AuthStore } from '@state/auth.store';
+import { NotificationsStore } from '@state/notifications.store';
 import { catchError, throwError } from 'rxjs';
-
 /**
  * Interceptor function to add the Authorization header to the request and handle 401 errors
  * @param req The request to be intercepted
@@ -12,6 +13,9 @@ import { catchError, throwError } from 'rxjs';
  */
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   const authStore = inject(AuthStore);
+  const notificationsStore = inject(NotificationsStore);
+  const router: Router = inject(Router);
+
   /** Get access token from AuthStore */
   const accessToken: string = authStore.accessToken();
   /** Add the Authorization header to the request */
@@ -25,7 +29,9 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
     catchError((error) => {
       if (error.status === 401) {
         authStore.setState(NULL_USER_ACCESS_TOKEN);
+        router.navigate(['/auth', 'login']);
       }
+      notificationsStore.addNotification({ message: error.message, type: 'error' });
       return throwError(() => error);
     }),
   );

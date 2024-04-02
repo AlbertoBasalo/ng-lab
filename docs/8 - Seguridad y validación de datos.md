@@ -421,3 +421,42 @@ export class ActivityService {
   }
 }
 ```
+
+`ng g c shared/ui/feedback`
+
+```typescript
+export class FeedbackComponent {
+  // * Inputs division
+
+  /** Feedback status and user message */
+  feedback: InputSignal<Feedback> = input<Feedback>({ status: "idle", message: "" });
+
+  // * Computed properties division
+
+  /** The status of the feedback */
+  status: Signal<FeedbackStatus> = computed(() => this.feedback().status);
+  /** The message of the feedback */
+  message: Signal<string> = computed(() => this.feedback().message);
+}
+```
+
+```html
+<div>
+  @switch (status()) { @case ('busy') {
+  <fieldset role="group">
+    <input disabled [value]="message() || 'Busy'" />
+    <button disabled aria-busy="true" class="outline">.</button>
+  </fieldset>
+  } @case ('success') {
+  <input disabled aria-invalid="false" [value]="message() || 'Success'" />
+  } @case ('error') {
+  <input disabled aria-invalid="true" [value]="message() || 'Error'" />
+  } }
+</div>
+```
+
+`ng g s shared/state/notifications-store`
+
+`ng g class core/error.service`
+
+`ng g c shared/ui/notifications`
