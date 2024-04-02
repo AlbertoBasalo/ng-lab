@@ -118,6 +118,31 @@ export default class RegisterPage {
 }
 ```
 
+`ng g c shared/ui/control`
+
+```typescript
+export class ControlComponent {
+  /** The form control name to bind to */
+  controlName = input.required<string>();
+  /** The label to display */
+  labelDisplay = input.required<string>();
+  /** The errors to display if any */
+  errors = input<unknown>();
+}
+```
+
+```html
+<label [for]="controlName()">
+  <span>{{ labelDisplay() }}</span>
+  @if (errors()) {
+  <small>{{ errors() | json }}</small>
+  }
+  <ng-content />
+</label>
+```
+
+## 8.2. Interceptores de comunicaciones y guardias de navegación
+
 `ng g s shared/api/auth-repository`
 
 ```typescript
@@ -131,8 +156,8 @@ export class AuthRepository {
   postRegister$(register: Register): Observable<UserAccessToken> {
     return this.#http
       .post<UserAccessToken>(`${this.#apiUrl}/register`, register)
-      .pipe(tap((userAccessToken) => this.#authStore.setState(userAccessToken)));
   }
+      .pipe(tap((userAccessToken) => this.#authStore.setState(userAccessToken)));
   postLogin$(login: Login): Observable<UserAccessToken> {
     return this.#http
       .post<UserAccessToken>(`${this.#apiUrl}/login`, login)
@@ -158,8 +183,6 @@ export class AuthStore {
   }
 }
 ```
-
-## 8.2. Interceptores de comunicaciones y guardias de navegación
 
 `ng g g core/auth --implements=CanActivate`
 
@@ -266,42 +289,24 @@ export default class ActivityPage {
 ```typescript
 export class ActivityForm {
   save = output<Activity>();
-  form: FormGroup = new FormGroup({
-    name: new FormControl("A", Validators.required),
-    price: new FormControl("0", Validators.required),
-    date: new FormControl(new Date(), Validators.required),
-    location: new FormControl("D", Validators.required),
-    minParticipants: new FormControl("0", Validators.required),
-    maxParticipants: new FormControl("10", Validators.required),
-  });
+  form: FormGroup = new FormGroup(
+    {
+      name: new FormControl("A", Validators.required),
+      price: new FormControl("0", Validators.required),
+      date: new FormControl(new Date(), Validators.required),
+      location: new FormControl("D", Validators.required),
+      minParticipants: new FormControl("0", Validators.required),
+      maxParticipants: new FormControl("10", Validators.required),
+    },
+    {
+      validators: [rangeValidator("minParticipants", "maxParticipants")],
+    }
+  );
 
   onSubmit() {
     this.save.emit(this.form.value);
   }
 }
-```
-
-`ng g c shared/ui/lab-control`
-
-```typescript
-export class ControlComponent {
-  /** The form control name to bind to */
-  controlName = input.required<string>();
-  /** The label to display */
-  labelDisplay = input.required<string>();
-  /** The errors to display if any */
-  errors = input<unknown>();
-}
-```
-
-```html
-<label [for]="controlName()">
-  <span>{{ labelDisplay() }}</span>
-  @if (errors()) {
-  <small>{{ errors() | json }}</small>
-  }
-  <ng-content />
-</label>
 ```
 
 ```html

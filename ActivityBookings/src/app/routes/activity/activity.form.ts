@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Activity } from '@domain/activity.type';
 import { ControlComponent } from '@ui/control.component';
+import { rangeValidator } from '@ui/form.functions';
 
 /**
  * Form component for an Activity
@@ -63,14 +64,19 @@ export class ActivityForm {
   // * Properties division
 
   /** The form to create a new Activity */
-  form: FormGroup = new FormGroup({
-    name: new FormControl('A', Validators.required),
-    location: new FormControl('D', Validators.required),
-    price: new FormControl('0', Validators.required),
-    date: new FormControl(new Date(), Validators.required),
-    minParticipants: new FormControl('0', Validators.required),
-    maxParticipants: new FormControl('10', Validators.required),
-  });
+  form: FormGroup = new FormGroup(
+    {
+      name: new FormControl('A', Validators.required),
+      location: new FormControl('D', Validators.required),
+      price: new FormControl('0', Validators.required),
+      date: new FormControl(new Date(), Validators.required),
+      minParticipants: new FormControl('0', Validators.required),
+      maxParticipants: new FormControl('10', Validators.required),
+    },
+    {
+      validators: [rangeValidator('minParticipants', 'maxParticipants')],
+    },
+  );
 
   // * Event handlers division
 
