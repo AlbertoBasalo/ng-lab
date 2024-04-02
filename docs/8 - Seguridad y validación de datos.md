@@ -211,6 +211,7 @@ export default class BookingsPage {
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   const authStore = inject(AuthStore);
   const accessToken: string = authStore.accessToken();
+  const router: Router = inject(Router);
   req = req.clone({
     setHeaders: {
       Authorization: accessToken ? `Bearer ${accessToken}` : "",
@@ -220,6 +221,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
     catchError((error) => {
       if (error.status === 401) {
         authStore.setState(NULL_USER_ACCESS_TOKEN);
+        router.navigate(["/auth", "login"]);
       }
       return throwError(() => error);
     })
@@ -238,12 +240,6 @@ export const appConfig: ApplicationConfig = {
 ```
 
 ## 8.3. Presentación condicional y diferida de feedback al usuario
-
-> To do: Generalizar presentación de validadores
-
-> To do: Centralizar gestión de errores http
-
-> To do: Carga diferida de componentes (bookings de una actividad)
 
 `ng g c routes/activity/activity --type=page`
 
@@ -268,60 +264,6 @@ export default class ActivityPage {
 `ng g c routes/activity/activity --type=form`
 
 ```typescript
-@Component({
-  selector: "lab-activity",
-  standalone: true,
-  imports: [ReactiveFormsModule, JsonPipe],
-  template: `
-    <form [formGroup]="form" (submit)="onSubmit()">
-      <label for="name">
-        <span>Name</span>
-        <small>{{ form.controls["name"].errors | json }}</small>
-        <input id="name" type="text" formControlName="name" [attr.aria-invalid]="form.controls['name'].invalid" />
-      </label>
-      <label for="price">
-        <span>Price</span>
-        <small>{{ form.controls["price"].errors | json }}</small>
-        <input id="price" type="number" formControlName="price" [attr.aria-invalid]="form.controls['price'].invalid" />
-      </label>
-      <label for="date">
-        <span>Date</span>
-        <small>{{ form.controls["date"].errors | json }}</small>
-        <input id="date" type="date" formControlName="date" [attr.aria-invalid]="form.controls['date'].invalid" />
-      </label>
-      <label for="location">
-        <span>Location</span>
-        <small>{{ form.controls["location"].errors | json }}</small>
-        <input
-          id="location"
-          type="text"
-          formControlName="location"
-          [attr.aria-invalid]="form.controls['location'].invalid" />
-      </label>
-      <label for="minParticipants">
-        <span>Min participants</span>
-        <small>{{ form.controls["minParticipants"].errors | json }}</small>
-        <input
-          id="minParticipants"
-          type="number"
-          formControlName="minParticipants"
-          [attr.aria-invalid]="form.controls['minParticipants'].invalid" />
-      </label>
-      <label for="maxParticipants">
-        <span>Max participants</span>
-        <small>{{ form.controls["maxParticipants"].errors | json }}</small>
-        <input
-          id="maxParticipants"
-          type="number"
-          formControlName="maxParticipants"
-          [attr.aria-invalid]="form.controls['maxParticipants'].invalid" />
-      </label>
-      <button type="submit" [disabled]="form.invalid">Submit</button>
-    </form>
-  `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
 export class ActivityForm {
   save = output<Activity>();
   form: FormGroup = new FormGroup({
@@ -426,16 +368,8 @@ export class ActivityService {
 
 ```typescript
 export class FeedbackComponent {
-  // * Inputs division
-
-  /** Feedback status and user message */
   feedback: InputSignal<Feedback> = input<Feedback>({ status: "idle", message: "" });
-
-  // * Computed properties division
-
-  /** The status of the feedback */
   status: Signal<FeedbackStatus> = computed(() => this.feedback().status);
-  /** The message of the feedback */
   message: Signal<string> = computed(() => this.feedback().message);
 }
 ```
@@ -455,8 +389,142 @@ export class FeedbackComponent {
 </div>
 ```
 
+```typescript
+export default class ActivityPage {
+  #activityService = inject(ActivityService);
+  feedback: WritableSignal<Feedback> = signal<Feedback>({ status: "idle", message: "" });
+  onSave(activity: Activity) {
+    this.feedback.set({ status: "busy", message: "Saving activity" });
+    this.#activityService.postActivity$(activity).subscribe({
+      next: () => this.feedback.set({ status: "success", message: "Activity saved" }),
+      error: () => this.feedback.set({ status: "error", message: "Failed to save activity" }),
+    });
+  }
+}
+```
+
+```html
+<lab-activity (save)="onSave($event)" />
+<lab-feedback [feedback]="feedback()" />
+```
+
 `ng g s shared/state/notifications-store`
+
+```typescript
+export type Notification = { message: string; type: "info" | "error" };
+@Injectable({
+  providedIn: "root",
+})
+export class NotificationsStore {
+  #state: WritableSignal<Notification[]> = signal<Notification[]>([]);
+
+  notifications: Signal<Notification[]> = this.#state.asReadonly();
+  count: Signal<number> = computed(() => this.#state().length);
+
+  addNotification(notification: Notification): void {
+    this.#state.update((current) => [...current, notification]);
+  }
+  clearNotifications(): void {
+    this.#state.set([]);
+  }
+}
+```
 
 `ng g class core/error.service`
 
+```typescript
+export class ErrorService implements ErrorHandler {
+  #notificationsStore: NotificationsStore = inject(NotificationsStore);
+  handleError(error: any): void {
+    const notification: Notification = { message: "An error occurred", type: "error" };
+    if (error instanceof HttpErrorResponse) {
+      notification.message = error.message;
+    } else {
+      notification.message = error.toString();
+    }
+    this.#notificationsStore.addNotification(notification);
+  }
+}
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideClientHydration(),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    provideRouter(routes, withComponentInputBinding()),
+    { provide: ErrorHandler, useClass: ErrorService },
+  ],
+};
+```
+
 `ng g c shared/ui/notifications`
+
+```typescript
+export class NotificationsComponent {
+  notifications: InputSignal<Notification[]> = input<Notification[]>([]);
+  close = output();
+}
+```
+
+```html
+<dialog open>
+  <article>
+    <header>
+      <h2>Notifications</h2>
+    </header>
+    @for (notification of notifications(); track notification) { @if (notification.type === 'error') {
+    <input disabled aria-invalid="true" [value]="notification.message" />
+    } @else {
+    <input disabled aria-invalid="false" [value]="notification.message" />
+    } }
+    <footer>
+      <button (click)="close.emit()">Close</button>
+    </footer>
+  </article>
+</dialog>
+```
+
+```typescript
+export class FooterWidget {
+  #notificationsStore: NotificationsStore = inject(NotificationsStore);
+
+  showNotification: WritableSignal<boolean> = signal<boolean>(false);
+
+  notifications: Signal<Notification[]> = this.#notificationsStore.notifications;
+  notificationsCount: Signal<number> = this.#notificationsStore.count;
+  hasNotifications: Signal<boolean> = computed(() => this.notificationsCount() > 0);
+
+  toggleNotifications(): void {
+    this.showNotification.update((current) => !current);
+  }
+  onNotificationsClose(): void {
+    this.showNotification.set(false);
+    this.#notificationsStore.clearNotifications();
+  }
+}
+```
+
+```html
+<footer>
+  <nav>
+    <span>
+      <a [href]="author.homepage" target="_blank">© {{ getYear() }} {{ author.name }}</a>
+    </span>
+    @if (hasNotifications()) {
+    <button [attr.data-tooltip]="notificationsCount()" (click)="toggleNotifications()" class="outline">🔥</button>
+    }
+    <span>
+      @switch (cookiesStatus()) { @case ('pending') {
+      <lab-cookies (cancel)="cookiesStatus.set('rejected')" (accept)="cookiesStatus.set($event)" />
+      } @case ('rejected') {
+      <small data-tooltip="No cookies applied">🍪 ❌</small>
+      } @case ('essentials') {
+      <small data-tooltip="Essential cookies applied">🍪 ✅</small>
+      } @case ('all') {
+      <small data-tooltip="All cookies applied">🍪 ✅ ✅</small>
+      } }
+    </span>
+  </nav>
+</footer>
+@if (showNotification()) {
+<lab-notifications [notifications]="notifications()" (close)="onNotificationsClose()" />
+}
+```

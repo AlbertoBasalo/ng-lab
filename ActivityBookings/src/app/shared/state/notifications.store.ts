@@ -1,23 +1,43 @@
 import { Injectable, Signal, WritableSignal, computed, signal } from '@angular/core';
 
+/** A notification for the user */
 export type Notification = { message: string; type: 'info' | 'error' };
 
+/**
+ * Store for managing notifications
+ * @property {Signal<Notification[]>} notifications The list of notifications
+ * @property {Signal<number>} count The number of notifications
+ * @property {Signal<boolean>} hasNotifications Whether there are notifications
+ * @method addNotification Adds a notification to the list
+ * @method clearNotifications Clears all notifications
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationsStore {
+  // * Signal division
+
   #state: WritableSignal<Notification[]> = signal<Notification[]>([]);
 
-  notifications: Signal<Notification[]> = this.#state.asReadonly();
+  // * Computed properties division
 
+  /** The list of notifications */
+  notifications: Signal<Notification[]> = this.#state.asReadonly();
+  /** The number of notifications */
   count: Signal<number> = computed(() => this.#state().length);
 
-  hasNotifications: Signal<boolean> = computed(() => this.count() > 0);
+  // * Methods division
 
+  /**
+   * Adds a notification to the list
+   * @param notification The notification to add
+   */
   addNotification(notification: Notification): void {
     this.#state.update((current) => [...current, notification]);
   }
-
+  /**
+   * Clears all notifications
+   */
   clearNotifications(): void {
     this.#state.set([]);
   }

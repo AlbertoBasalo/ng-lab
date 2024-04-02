@@ -1,6 +1,15 @@
-import { ChangeDetectionStrategy, Component, WritableSignal, effect, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Signal,
+  WritableSignal,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { LocalRepository } from '@services/local.repository';
-import { NotificationsStore } from '@state/notifications.store';
+import { Notification, NotificationsStore } from '@state/notifications.store';
 import { NotificationsComponent } from '@ui/notifications.component';
 import { CookiesComponent } from './cookies.component';
 
@@ -42,7 +51,7 @@ type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
       </nav>
     </footer>
     @if (showNotification()) {
-      <lab-notifications [notifications]="notifications()" (close)="onClose()" />
+      <lab-notifications [notifications]="notifications()" (close)="onNotificationsClose()" />
     }
   `,
   styles: ``,
@@ -53,7 +62,7 @@ export class FooterWidget {
 
   /** To save and load the Authentication State from the local storage*/
   #localRepository: LocalRepository = inject(LocalRepository);
-
+  /** Store for managing notifications state */
   #notificationsStore: NotificationsStore = inject(NotificationsStore);
 
   // * Properties division
@@ -73,11 +82,14 @@ export class FooterWidget {
     this.#localRepository.load('cookies', { status: 'pending' }).status as CookiesStatus,
   );
 
-  notifications = this.#notificationsStore.notifications;
+  // * Computed properties division
 
-  hasNotifications = this.#notificationsStore.hasNotifications;
-
-  notificationsCount = this.#notificationsStore.count;
+  /** The list of notifications */
+  notifications: Signal<Notification[]> = this.#notificationsStore.notifications;
+  /** The number of notifications */
+  notificationsCount: Signal<number> = this.#notificationsStore.count;
+  /** Whether there are notifications */
+  hasNotifications: Signal<boolean> = computed(() => this.notificationsCount() > 0);
 
   /** Effect registered as a property, to save the signal state on changes*/
   onCookiesStatusChanged = effect(() => this.#localRepository.save('cookies', { status: this.cookiesStatus() }));
@@ -90,12 +102,12 @@ export class FooterWidget {
     return new Date().getFullYear();
   }
 
-  /** Function called from the template to show the notifications */
+  /** Toggle the show notifications signal */
   toggleNotifications(): void {
     this.showNotification.update((current) => !current);
   }
-
-  onClose(): void {
+  /** On close Hide and clear notifications */
+  onNotificationsClose(): void {
     this.showNotification.set(false);
     this.#notificationsStore.clearNotifications();
   }

@@ -12,8 +12,10 @@ import { catchError, throwError } from 'rxjs';
  * @returns The observable of HttpEvents to be passed to the next handler
  */
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
-  const authStore = inject(AuthStore);
-  const notificationsStore = inject(NotificationsStore);
+  // * Injects division
+
+  const authStore: AuthStore = inject(AuthStore);
+  const notificationsStore: NotificationsStore = inject(NotificationsStore);
   const router: Router = inject(Router);
 
   /** Get access token from AuthStore */
