@@ -8,8 +8,9 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { Notification } from '@domain/notification.type';
 import { LocalRepository } from '@services/local.repository';
-import { Notification, NotificationsStore } from '@state/notifications.store';
+import { NotificationsStore } from '@state/notifications.store';
 import { NotificationsComponent } from '@ui/notifications.component';
 import { CookiesComponent } from './cookies.component';
 

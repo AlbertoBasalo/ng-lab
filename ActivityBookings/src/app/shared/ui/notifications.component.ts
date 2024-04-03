@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, InputSignal, input, output } from '@angular/core';
-import { Notification } from '@state/notifications.store';
+import { Notification } from '@domain/notification.type';
 /**
  * Component to show notifications to the user
  * @param {Notification[]} notifications The list of notifications to show

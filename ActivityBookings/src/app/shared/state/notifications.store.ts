@@ -1,7 +1,5 @@
 import { Injectable, Signal, WritableSignal, computed, signal } from '@angular/core';
-
-/** A notification for the user */
-export type Notification = { message: string; type: 'info' | 'error' };
+import { Notification } from '@domain/notification.type';
 
 /**
  * Store for managing notifications

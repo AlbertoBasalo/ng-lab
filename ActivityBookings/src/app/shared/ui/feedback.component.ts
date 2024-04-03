@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component, InputSignal, Signal, computed, input } from '@angular/core';
-
-/** The enumerated status of the feedback  */
-export type FeedbackStatus = 'idle' | 'busy' | 'success' | 'error';
-
-/** The feedback object */
-export type Feedback = { status: FeedbackStatus; message: string };
+import { Feedback, FeedbackStatus } from '@domain/feedback.type';
 
 /**
  * Component to give feedback to the user

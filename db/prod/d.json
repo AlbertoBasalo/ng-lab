@@ -241,6 +241,13 @@
       "password": "$2a$10$iWYOu1X3MG3QulrPGKUhNODAAZq8NId7O69nLymfPhTqL8z3SFyMO",
       "username": "Bill Windows",
       "id": 3
+    },
+    {
+      "email": "a@b.c",
+      "password": "$2a$10$MNGnvi7suk09SFNlb4UfQettleT//s77gEWKqIrbnV5W5onx8Um/i",
+      "username": "A",
+      "terms": true,
+      "id": 4
     }
   ]
 }

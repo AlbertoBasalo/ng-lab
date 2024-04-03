@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, inject } from '@angular/core';
-import { Notification, NotificationsStore } from '@state/notifications.store';
+import { Notification } from '@domain/notification.type';
+import { NotificationsStore } from '@state/notifications.store';
 /**
  * Service to handle errors and show notifications
  * @description Must be provided as the ErrorHandler in the app config

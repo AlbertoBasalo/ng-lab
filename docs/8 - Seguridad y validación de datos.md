@@ -284,111 +284,13 @@ export default class BookingsPage {
 }
 ```
 
-## 8.3. Presentación condicional y diferida de feedback al usuario
+## 8.3. Presentación de feedback al usuario
 
-`ng g c routes/activity/activity --type=page`
-
-```typescript
-@Component({
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ActivityForm],
-  template: `
-    <lab-activity (save)="onSave($event)" />
-  `,
-})
-export default class ActivityPage {
-  #activityService = inject(ActivityService);
-
-  onSave(activity: Activity) {
-    this.#activityService.postActivity$(activity).subscribe();
-  }
-}
-```
-
-`ng g c routes/activity/activity --type=form`
+### 8.3.1 Feedback de operaciones
 
 ```typescript
-export class ActivityForm {
-  save = output<Activity>();
-  form: FormGroup = new FormGroup(
-    {
-      name: new FormControl("A", Validators.required),
-      price: new FormControl("0", Validators.required),
-      date: new FormControl(new Date(), Validators.required),
-      location: new FormControl("D", Validators.required),
-      minParticipants: new FormControl("0", Validators.required),
-      maxParticipants: new FormControl("10", Validators.required),
-    },
-    {
-      validators: [rangeValidator("minParticipants", "maxParticipants")],
-    }
-  );
-
-  onSubmit() {
-    this.save.emit(this.form.value);
-  }
-}
-```
-
-```html
-<form [formGroup]="form" (submit)="onSubmit()">
-  <lab-control controlName="name" labelDisplay="Activity Name" [errors]="form.controls['name'].errors">
-    <input formControlName="name" [attr.aria-invalid]="form.controls['name'].invalid" />
-  </lab-control>
-  <lab-control controlName="location" labelDisplay="Location" [errors]="form.controls['location'].errors">
-    <input
-      id="location"
-      type="text"
-      formControlName="location"
-      [attr.aria-invalid]="form.controls['location'].invalid" />
-  </lab-control>
-  <lab-control controlName="price" labelDisplay="Price" [errors]="form.controls['price'].errors">
-    <input id="price" type="number" formControlName="price" [attr.aria-invalid]="form.controls['price'].invalid" />
-  </lab-control>
-  <lab-control controlName="date" labelDisplay="Date" [errors]="form.controls['date'].errors">
-    <input id="date" type="date" formControlName="date" [attr.aria-invalid]="form.controls['date'].invalid" />
-  </lab-control>
-  <lab-control
-    controlName="minParticipants"
-    labelDisplay="Minimum Participants"
-    [errors]="form.controls['minParticipants'].errors">
-    <input
-      id="minParticipants"
-      type="number"
-      formControlName="minParticipants"
-      [attr.aria-invalid]="form.controls['minParticipants'].invalid" />
-  </lab-control>
-  <lab-control
-    controlName="maxParticipants"
-    labelDisplay="Maximum Participants"
-    [errors]="form.controls['maxParticipants'].errors">
-    <input
-      id="maxParticipants"
-      type="number"
-      formControlName="maxParticipants"
-      [attr.aria-invalid]="form.controls['maxParticipants'].invalid" />
-  </lab-control>
-  <button type="submit" [disabled]="form.invalid">Submit</button>
-</form>
-```
-
-`ng g s routes/activity/activity `
-
-```typescript
-@Injectable({
-  providedIn: "root",
-})
-export class ActivityService {
-  #activitiesRepository = inject(ActivitiesRepository);
-  #authStore = inject(AuthStore);
-
-  postActivity$(newActivity: Activity) {
-    newActivity.userId = this.#authStore.userId();
-    newActivity.slug = (newActivity.name + "-" + newActivity.location).toLowerCase().replace(/ /g, "_");
-    return this.#activitiesRepository.postActivity$(newActivity);
-  }
-}
+export type FeedbackStatus = "idle" | "busy" | "success" | "error";
+export type Feedback = { status: FeedbackStatus; message: string };
 ```
 
 `ng g c shared/ui/feedback`
@@ -417,23 +319,25 @@ export class FeedbackComponent {
 ```
 
 ```typescript
-export default class ActivityPage {
+export default class RegisterPage {
   #activityService = inject(ActivityService);
   feedback: WritableSignal<Feedback> = signal<Feedback>({ status: "idle", message: "" });
-  onSave(activity: Activity) {
-    this.feedback.set({ status: "busy", message: "Saving activity" });
-    this.#activityService.postActivity$(activity).subscribe({
-      next: () => this.feedback.set({ status: "success", message: "Activity saved" }),
-      error: () => this.feedback.set({ status: "error", message: "Failed to save activity" }),
+  onRegister(register: Register) {
+    this.feedback.set({ status: "busy", message: "Registering..." });
+    this.authRepository.postRegister$(register).subscribe({
+      next: () => this.feedback.set({ status: "success", message: "Register ok, thanks for join." }),
+      error: () => this.feedback.set({ status: "error", message: "Failed to register. Review your data." }),
     });
   }
 }
 ```
 
 ```html
-<lab-activity (save)="onSave($event)" />
+<lab-register (register)="onRegister($event)" />
 <lab-feedback [feedback]="feedback()" />
 ```
+
+### 8.3.2 Notificaciones de errores
 
 `ng g s shared/state/notifications-store`
 

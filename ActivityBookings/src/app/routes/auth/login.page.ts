@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, WritableSignal, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthRepository } from '@api/auth.repository';
+import { Feedback } from '@domain/feedback.type';
 import { Login } from '@domain/login.type';
+import { FeedbackComponent } from '@ui/feedback.component';
 import { LoginForm } from './login.form';
 
 /**
@@ -12,7 +14,7 @@ import { LoginForm } from './login.form';
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, LoginForm],
+  imports: [RouterLink, LoginForm, FeedbackComponent],
   template: `
     <article>
       <header>
@@ -20,6 +22,7 @@ import { LoginForm } from './login.form';
       </header>
       <main>
         <lab-login (login)="onLogin($event)" />
+        <lab-feedback [feedback]="feedback()" />
       </main>
       <footer>
         <a [routerLink]="['/auth', 'register']">Register if don't have an account</a>
@@ -33,6 +36,11 @@ export default class LoginPage {
   /** The repository to post the login */
   #authRepository: AuthRepository = inject(AuthRepository);
 
+  // * Public signals division
+
+  /** The feedback signal to show messages and status to the user */
+  feedback: WritableSignal<Feedback> = signal<Feedback>({ status: 'idle', message: '' });
+
   // * Event handlers division
 
   /**
@@ -40,6 +48,10 @@ export default class LoginPage {
    * @param {Login} login The login data to post
    */
   onLogin(login: Login) {
-    this.#authRepository.postLogin$(login).subscribe();
+    this.feedback.set({ status: 'busy', message: 'Login sent...' });
+    this.#authRepository.postLogin$(login).subscribe({
+      next: () => this.feedback.set({ status: 'success', message: 'Login ok, enjoy.' }),
+      error: () => this.feedback.set({ status: 'error', message: 'Failed to login. Review your data.' }),
+    });
   }
 }

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, WritableSignal, inject, signal } from '@angular/core';
 import { Activity } from '@domain/activity.type';
-import { Feedback, FeedbackComponent } from '@ui/feedback.component';
+import { Feedback } from '@domain/feedback.type';
+import { FeedbackComponent } from '@ui/feedback.component';
 import { ActivityForm } from './activity.form';
 import { ActivityService } from './activity.service';
 /**
@@ -24,6 +25,9 @@ export default class ActivityPage {
   /** The service to post the activity */
   #activityService = inject(ActivityService);
 
+  // * Public signals division
+
+  /** The feedback signal to show messages and status to the user */
   feedback: WritableSignal<Feedback> = signal<Feedback>({ status: 'idle', message: '' });
 
   // * Event handlers division
