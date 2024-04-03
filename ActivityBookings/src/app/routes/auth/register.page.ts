@@ -23,11 +23,18 @@ import { RegisterForm } from './register.form';
   `,
 })
 export default class RegisterPage {
+  // * Injected services division
+
+  /** The repository to post the login */
   authRepository: AuthRepository = inject(AuthRepository);
 
+  // * Event handlers division
+
+  /**
+   * Handles the register event from the RegisterForm
+   * @param {Register} register The register data to post
+   */
   onRegister(register: Register) {
-    this.authRepository.postRegister$(register).subscribe((userAccessToken) => {
-      console.log('UserAccessToken', userAccessToken);
-    });
+    this.authRepository.postRegister$(register).subscribe();
   }
 }

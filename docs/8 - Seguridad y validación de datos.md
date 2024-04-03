@@ -166,6 +166,16 @@ export class AuthRepository {
 }
 ```
 
+```typescript
+export default class RegisterPage {
+  authRepository: AuthRepository = inject(AuthRepository);
+
+  onRegister(register: Register) {
+    this.authRepository.postRegister$(register).subscribe();
+  }
+}
+```
+
 `ng g s shared/state/auth-store`
 
 ```typescript

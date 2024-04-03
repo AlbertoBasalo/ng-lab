@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Login } from '@domain/login.type';
 import { Register } from '@domain/register.type';
-import { UserAccessToken } from '@domain/userAccesToken.type';
+import { UserAccessToken } from '@domain/userAccessToken.type';
 import { AuthStore } from '@state/auth.store';
 import { Observable, tap } from 'rxjs';
 /**
@@ -23,7 +23,7 @@ export class AuthRepository {
 
   /** The HTTP client to make requests to the API */
   #http = inject(HttpClient);
-
+  /** The Store to save the API response with the JWT */
   #authStore = inject(AuthStore);
 
   // * Public methods division

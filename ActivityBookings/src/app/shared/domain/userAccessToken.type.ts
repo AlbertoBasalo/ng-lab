@@ -1,4 +1,4 @@
-import { User } from './user.type';
+import { NULL_USER, User } from './user.type';
 
 /** User access token type definition
  * @description This is a DTO for the user access token entity with user and accessToken fields
@@ -10,11 +10,6 @@ export type UserAccessToken = {
 
 /** Null object pattern for the UserAccessToken type */
 export const NULL_USER_ACCESS_TOKEN: UserAccessToken = {
-  user: {
-    id: 0,
-    username: '',
-    email: '',
-    terms: false,
-  },
+  user: NULL_USER,
   accessToken: '',
 };

@@ -40,7 +40,6 @@ export default class LoginPage {
    * @param {Login} login The login data to post
    */
   onLogin(login: Login) {
-    // ToDo: Give feedback to the user
     this.#authRepository.postLogin$(login).subscribe();
   }
 }

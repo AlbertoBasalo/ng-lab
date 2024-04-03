@@ -1,6 +1,6 @@
 import { Injectable, Signal, WritableSignal, computed, inject, signal } from '@angular/core';
 
-import { NULL_USER_ACCESS_TOKEN, UserAccessToken } from '@domain/userAccesToken.type';
+import { NULL_USER_ACCESS_TOKEN, UserAccessToken } from '@domain/userAccessToken.type';
 import { LocalRepository } from '@services/local.repository';
 
 /**
