@@ -2,6 +2,8 @@
 
 ## 8.1. Formularios para recogida segura de datos
 
+### 8.1.1 Formularios reactivos
+
 `ng g c routes/auth/register --type=form`
 
 ```html
@@ -73,6 +75,8 @@ export class RegisterForm {
 }
 ```
 
+### 8.1.2 Validaciones personalizadas
+
 ```typescript
 /** Match validator
  * @param controlName The first form control
@@ -118,6 +122,8 @@ export default class RegisterPage {
 }
 ```
 
+### 8.1.3 Control de presentación
+
 `ng g c shared/ui/control`
 
 ```typescript
@@ -142,6 +148,8 @@ export class ControlComponent {
 ```
 
 ## 8.2. Interceptores de comunicaciones y guardias de navegación
+
+### 8.2.1 Envío de credenciales y almacenaje de Token
 
 `ng g s shared/api/auth-repository`
 
@@ -194,6 +202,44 @@ export class AuthStore {
 }
 ```
 
+### 8.2.2 Interceptores de comunicaciones
+
+`ng g interceptor core/auth`
+
+```typescript
+export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
+  const authStore = inject(AuthStore);
+  const accessToken: string = authStore.accessToken();
+  const router: Router = inject(Router);
+  req = req.clone({
+    setHeaders: {
+      Authorization: accessToken ? `Bearer ${accessToken}` : "",
+    },
+  });
+  return next(req).pipe(
+    catchError((error) => {
+      if (error.status === 401) {
+        authStore.setState(NULL_USER_ACCESS_TOKEN);
+        router.navigate(["/auth", "login"]);
+      }
+      return throwError(() => error);
+    })
+  );
+};
+```
+
+```typescript
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideClientHydration(),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    provideRouter(routes, withComponentInputBinding()),
+  ],
+};
+```
+
+### 8.2.3 Guardias de navegación
+
 `ng g g core/auth --implements=CanActivate`
 
 ```typescript
@@ -236,40 +282,6 @@ export default class BookingsPage {
   #resolvedActivity: Activity = this.#route.snapshot.data["activity"];
   activity: Signal<Activity> = signal(this.#resolvedActivity);
 }
-```
-
-`ng g interceptor core/auth`
-
-```typescript
-export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
-  const authStore = inject(AuthStore);
-  const accessToken: string = authStore.accessToken();
-  const router: Router = inject(Router);
-  req = req.clone({
-    setHeaders: {
-      Authorization: accessToken ? `Bearer ${accessToken}` : "",
-    },
-  });
-  return next(req).pipe(
-    catchError((error) => {
-      if (error.status === 401) {
-        authStore.setState(NULL_USER_ACCESS_TOKEN);
-        router.navigate(["/auth", "login"]);
-      }
-      return throwError(() => error);
-    })
-  );
-};
-```
-
-```typescript
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideClientHydration(),
-    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
-    provideRouter(routes, withComponentInputBinding()),
-  ],
-};
 ```
 
 ## 8.3. Presentación condicional y diferida de feedback al usuario
