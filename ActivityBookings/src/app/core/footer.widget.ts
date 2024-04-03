@@ -19,6 +19,8 @@ type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
 
 /**
  * Footer component with the author info and cookies acceptance
+ * Uses the cookies component to manage the cookies status
+ * Uses the notifications component to show the notifications
  */
 @Component({
   selector: 'lab-footer',
@@ -76,6 +78,7 @@ export class FooterWidget {
 
   // * Mutable signals division
 
+  /** Signal to show the notifications component */
   showNotification: WritableSignal<boolean> = signal<boolean>(false);
 
   /** Signal with cookies status, initially loaded from local storage*/
@@ -92,7 +95,7 @@ export class FooterWidget {
   /** Whether there are notifications */
   hasNotifications: Signal<boolean> = computed(() => this.notificationsCount() > 0);
 
-  /** Effect registered as a property, to save the signal state on changes*/
+  /** Effect registered as a property, to save the cookies signal state on changes*/
   onCookiesStatusChanged = effect(() => this.#localRepository.save('cookies', { status: this.cookiesStatus() }));
 
   // * Public methods division
@@ -107,7 +110,7 @@ export class FooterWidget {
   toggleNotifications(): void {
     this.showNotification.update((current) => !current);
   }
-  /** On close Hide and clear notifications */
+  /** On close the notifications modal, hide it and clear notifications */
   onNotificationsClose(): void {
     this.showNotification.set(false);
     this.#notificationsStore.clearNotifications();

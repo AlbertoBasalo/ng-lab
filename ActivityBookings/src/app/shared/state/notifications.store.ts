@@ -5,7 +5,6 @@ import { Notification } from '@domain/notification.type';
  * Store for managing notifications
  * @property {Signal<Notification[]>} notifications The list of notifications
  * @property {Signal<number>} count The number of notifications
- * @property {Signal<boolean>} hasNotifications Whether there are notifications
  * @method addNotification Adds a notification to the list
  * @method clearNotifications Clears all notifications
  */

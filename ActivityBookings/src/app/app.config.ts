@@ -9,6 +9,10 @@ import { ErrorService } from './core/error.service';
 
 /**
  * The configuration of the application
+ * It provides client hydration for server-side rendering
+ * It provides the HTTP client with fetch and an auth interceptor
+ * It provides the router with the routes and component input binding
+ * It provides the error handler for the application
  */
 export const appConfig: ApplicationConfig = {
   providers: [

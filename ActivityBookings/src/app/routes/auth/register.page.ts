@@ -1,11 +1,16 @@
 import { ChangeDetectionStrategy, Component, WritableSignal, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthRepository } from '@api/auth.repository';
-import { Feedback } from '@domain/feedback.type';
+import { Feedback, NULL_FEEDBACK } from '@domain/feedback.type';
 import { Register } from '@domain/register.type';
 import { FeedbackComponent } from '@ui/feedback.component';
 import { RegisterForm } from './register.form';
-
+/**
+ * Routed component for the Register page
+ * Presents the RegisterForm to create a new account
+ * Presents the FeedbackComponent to give feedback to the user
+ * Uses the AuthRepository to post the register
+ */
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,7 +39,7 @@ export default class RegisterPage {
   // * Public signals division
 
   /** The feedback signal to show messages and status to the user */
-  feedback: WritableSignal<Feedback> = signal<Feedback>({ status: 'idle', message: '' });
+  feedback: WritableSignal<Feedback> = signal<Feedback>(NULL_FEEDBACK);
 
   // * Event handlers division
 

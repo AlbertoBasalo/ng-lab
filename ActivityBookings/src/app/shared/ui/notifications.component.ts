@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, InputSignal, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, InputSignal, OutputEmitterRef, input, output } from '@angular/core';
 import { Notification } from '@domain/notification.type';
 /**
  * Component to show notifications to the user
@@ -39,5 +39,5 @@ export class NotificationsComponent {
   // * Outputs division
 
   /** The event to close the notifications */
-  close = output();
+  close: OutputEmitterRef<void> = output();
 }
