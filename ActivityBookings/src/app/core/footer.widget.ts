@@ -33,7 +33,9 @@ type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
           <a [href]="author.homepage" target="_blank"> © {{ getYear() }} {{ author.name }} </a>
         </span>
         @if (hasNotifications()) {
-          <button [attr.data-tooltip]="notificationsCount()" (click)="toggleNotifications()" class="outline">🔥</button>
+          <button [attr.data-tooltip]="notificationsCount()" (click)="showNotification.set(true)" class="outline">
+            🔥
+          </button>
         }
         <span>
           @switch (cookiesStatus()) {
@@ -78,7 +80,7 @@ export class FooterWidget {
 
   // * Mutable signals division
 
-  /** Signal to show the notifications component */
+  /** Signal to indicate if the notifications component should be displayed*/
   showNotification: WritableSignal<boolean> = signal<boolean>(false);
 
   /** Signal with cookies status, initially loaded from local storage*/
@@ -92,7 +94,7 @@ export class FooterWidget {
   notifications: Signal<Notification[]> = this.#notificationsStore.notifications;
   /** The number of notifications */
   notificationsCount: Signal<number> = this.#notificationsStore.count;
-  /** Whether there are notifications */
+  /** Whether there are notifications or not */
   hasNotifications: Signal<boolean> = computed(() => this.notificationsCount() > 0);
 
   /** Effect registered as a property, to save the cookies signal state on changes*/
@@ -106,10 +108,6 @@ export class FooterWidget {
     return new Date().getFullYear();
   }
 
-  /** Toggle the show notifications signal */
-  toggleNotifications(): void {
-    this.showNotification.update((current) => !current);
-  }
   /** On close the notifications modal, hide it and clear notifications */
   onNotificationsClose(): void {
     this.showNotification.set(false);

@@ -14,19 +14,23 @@ import { catchError, throwError } from 'rxjs';
 export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn) => {
   // * Injects division
 
+  /** The Auth Store to get the access token */
   const authStore: AuthStore = inject(AuthStore);
+  /** The Notifications Store to add error notifications */
   const notificationsStore: NotificationsStore = inject(NotificationsStore);
+  /** The Router to navigate to the login page */
   const router: Router = inject(Router);
 
   /** Get access token from AuthStore */
   const accessToken: string = authStore.accessToken();
-  /** Add the Authorization header to the request */
+  /** Create and Add the Authorization header to the request */
+  const authorizationHeader: string = accessToken ? `Bearer ${accessToken}` : '';
   req = req.clone({
     setHeaders: {
-      Authorization: accessToken ? `Bearer ${accessToken}` : '',
+      Authorization: authorizationHeader,
     },
   });
-  /** Use the cloned request and detect auth errors */
+  /** Send the cloned request and get into the pipeline of events to catch errors */
   return next(req).pipe(
     catchError((error) => {
       if (error.status === 401) {

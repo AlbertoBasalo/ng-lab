@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthStore } from '@state/auth.store';
 import { FavoritesStore } from '@state/favorites.store';
 /**
  * Header widget with the main navigation
  * Reads the favorites count from the store
- * @todo Gets auth info from the store
+ * Shows the link to the new activity page if the user is authenticated
+ * Shows the link to the login page if the user is anonymous
  */
 @Component({
   selector: 'lab-header',
@@ -27,8 +29,12 @@ import { FavoritesStore } from '@state/favorites.store';
               </span>
             </a>
           </li>
-          <li><a [routerLink]="['/activity']">New Activity</a></li>
-          <li><a [routerLink]="['/auth', 'login']">Login</a></li>
+          @if (isAuthenticated()) {
+            <li><a [routerLink]="['/activity']">New Activity</a></li>
+          }
+          @if (isAnonymous()) {
+            <li><a [routerLink]="['/auth', 'login']">Login</a></li>
+          }
         </ul>
       </nav>
     </header>
@@ -47,6 +53,9 @@ export class HeaderWidget {
   /**  Store for the favorites data*/
   #favorites: FavoritesStore = inject(FavoritesStore);
 
+  /** The Auth Store to know if user is authenticated */
+  #authStore: AuthStore = inject(AuthStore);
+
   // * Properties division
 
   /** Application title */
@@ -56,4 +65,9 @@ export class HeaderWidget {
 
   /** The number of favorites in a read only signal */
   favCount: Signal<number> = this.#favorites.count;
+
+  /** The user is authenticated */
+  isAuthenticated: Signal<boolean> = this.#authStore.isAuthenticated;
+  /** The user is anonymous */
+  isAnonymous: Signal<boolean> = this.#authStore.isAnonymous;
 }
