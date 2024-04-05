@@ -8,6 +8,8 @@ import { NotificationsStore } from '@state/notifications.store';
  * @implements ErrorHandler
  */
 export class ErrorService implements ErrorHandler {
+  // ! fix error notification not showing
+
   // * Injected services division
 
   /** The store to add notifications */

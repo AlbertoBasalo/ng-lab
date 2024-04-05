@@ -55,6 +55,8 @@ import { HomeService } from './home.service';
   `,
 })
 export default class HomePage {
+  // ! fix initial double api call
+
   // * Injected services division
 
   /** The service to get the activities*/
