@@ -366,6 +366,7 @@ export class NotificationsStore {
 ```typescript
 export class ErrorService implements ErrorHandler {
   #notificationsStore: NotificationsStore = inject(NotificationsStore);
+  #zone = inject(NgZone);
   handleError(error: any): void {
     const notification: Notification = { message: "An error occurred", type: "error" };
     if (error instanceof HttpErrorResponse) {
@@ -373,7 +374,9 @@ export class ErrorService implements ErrorHandler {
     } else {
       notification.message = error.toString();
     }
-    this.#notificationsStore.addNotification(notification);
+    this.#zone.run(() => {
+      this.#notificationsStore.addNotification(notification);
+    });
   }
 }
 export const appConfig: ApplicationConfig = {
@@ -386,13 +389,30 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
+> Alternative modern functional provider syntax
+
+```typescript
+export function provideErrorHandler(): EnvironmentProviders {
+  return makeEnvironmentProviders([{ provide: ErrorHandler, useClass: ErrorService }]);
+}
+```
+
 `ng g c shared/ui/notifications`
 
 ```typescript
-export class NotificationsComponent {
-  notifications: InputSignal<Notification[]> = input<Notification[]>([]);
-  close = output();
+// At error.service.ts
+export function provideErrorHandler(): EnvironmentProviders {
+  return makeEnvironmentProviders([{ provide: ErrorHandler, useClass: ErrorService }]);
 }
+// At app.config.ts
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideClientHydration(),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
+    provideRouter(routes, withComponentInputBinding()),
+    provideErrorHandler(),
+  ],
+};
 ```
 
 ```html
