@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Booking } from '@domain/booking.type';
+import { environment } from '@env/environment';
 import { Observable } from 'rxjs';
 
 /**
@@ -12,7 +13,7 @@ import { Observable } from 'rxjs';
 export class BookingsRepository {
   // * Private properties division
 
-  #bookingsUrl = 'http://localhost:3000/bookings';
+  #bookingsUrl = `${environment.apiUrl}/bookings`;
 
   // * Injected services division
 

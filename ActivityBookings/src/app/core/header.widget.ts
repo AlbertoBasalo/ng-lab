@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { environment } from '@env/environment';
 import { AuthStore } from '@state/auth.store';
 import { FavoritesStore } from '@state/favorites.store';
+
 /**
  * Header widget with the main navigation
  * Reads the favorites count from the store
@@ -59,7 +61,7 @@ export class HeaderWidget {
   // * Properties division
 
   /** Application title */
-  title: string = 'Activity Bookings';
+  title: string = environment.appName;
 
   // * Computed properties division
 

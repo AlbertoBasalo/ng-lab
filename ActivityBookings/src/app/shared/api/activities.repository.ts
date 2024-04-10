@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Activity, NULL_ACTIVITY } from '@domain/activity.type';
 import { Filter } from '@domain/filter.type';
+import { environment } from '@env/environment';
 import { Observable, catchError, map, of, throwError } from 'rxjs';
 
 /**
@@ -16,7 +17,7 @@ export class ActivitiesRepository {
   /** The API URL for the activities
    * @todo Replace with an environment injected variable
    */
-  #apiUrl = 'http://localhost:3000/activities';
+  #apiUrl = `${environment.apiUrl}/activities`;
 
   // * Injected services division
 

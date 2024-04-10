@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Login } from '@domain/login.type';
 import { Register } from '@domain/register.type';
 import { UserAccessToken } from '@domain/userAccessToken.type';
+import { environment } from '@env/environment';
 import { AuthStore } from '@state/auth.store';
 import { Observable, tap } from 'rxjs';
 /**
@@ -17,7 +18,7 @@ export class AuthRepository {
   /** The API URL for the users
    * @todo Replace with an environment injected variable
    */
-  #apiUrl = 'http://localhost:3000';
+  #apiUrl = `${environment.apiUrl}`;
 
   // * Injected services division
 

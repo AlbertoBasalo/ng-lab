@@ -14,7 +14,7 @@
   "scripts": {
     "ng": "ng",
     "chrome": "start chrome -incognito -auto-open-devtools-for-tabs http://localhost:4200",
-    "start": " ng serve",
+    "start": "npm run chrome &&  ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test ",
