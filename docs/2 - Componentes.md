@@ -21,6 +21,7 @@ Los bloques de construcción de Angular.
 ```
 
 ```bash
+ng g environments
 ng g c core/header
 ng g c core/footer
 ```
