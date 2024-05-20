@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, InputSignal, Signal, computed, inpu
 import { Feedback, FeedbackStatus } from '@domain/feedback.type';
 
 /**
- * Component to give feedback to the user
+ * Component to give feedback to the user of an async operation.
  * @param {Feedback} feedback Feedback status and user message
  */
 @Component({
@@ -29,7 +29,7 @@ import { Feedback, FeedbackStatus } from '@domain/feedback.type';
 export class FeedbackComponent {
   // * Inputs division
 
-  /** Feedback status and user message */
+  /** Feedback with status and user message */
   feedback: InputSignal<Feedback> = input.required<Feedback>();
 
   // * Computed properties division

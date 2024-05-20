@@ -30,7 +30,7 @@ import { SearchComponent } from './search.component';
     <form>
       <lab-search [(searchTerm)]="search" />
       <fieldset class="grid">
-        <select name="orderBy" [(ngModel)]="orderBy" aria-label="Choose field to sort by...">
+        <select name="sortBy" [(ngModel)]="sortBy" aria-label="Choose field to sort by...">
           <option value="id">Sort by ID</option>
           <option value="name">Sort by Name</option>
           <option value="date">Sort by Date</option>
@@ -38,9 +38,9 @@ import { SearchComponent } from './search.component';
         </select>
         <fieldset>
           <legend>Sort order:</legend>
-          <input type="radio" name="sort" id="asc" value="asc" [(ngModel)]="sort" />
+          <input type="radio" name="order" id="asc" value="asc" [(ngModel)]="order" />
           <label for="asc">Ascending</label>
-          <input type="radio" name="sort" id="desc" value="desc" [(ngModel)]="sort" />
+          <input type="radio" name="order" id="desc" value="desc" [(ngModel)]="order" />
           <label for="desc">Descending</label>
         </fieldset>
       </fieldset>
@@ -70,17 +70,18 @@ export class FilterWidget {
 
   /** The search text signal */
   search: WritableSignal<string> = signal<string>(this.#defaultFilter().search);
-  /** The order by field signal */
-  orderBy: WritableSignal<string> = signal<string>(this.#defaultFilter().orderBy);
+  /** The sort_by field signal */
+  sortBy: WritableSignal<string> = signal<string>(this.#defaultFilter().sortBy);
   /** The sort order signal */
-  sort: WritableSignal<SortOrders> = signal<SortOrders>(this.#defaultFilter().sort);
+  order: WritableSignal<SortOrders> = signal<SortOrders>(this.#defaultFilter().order);
 
   // * Computed signals division
 
-  // The filter signal based on the search, orderBy and sort models
-  #filter = computed(() => ({ search: this.search(), orderBy: this.orderBy(), sort: this.sort() }));
+  // The filter signal based on the search, sortBy and order models
+  #filter: Signal<Filter> = computed(() => ({ search: this.search(), sortBy: this.sortBy(), order: this.order() }));
 
   constructor() {
+    // could be a property
     effect(() => this.#onFilterChange(this.#filter()));
   }
 

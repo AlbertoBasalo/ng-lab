@@ -14,9 +14,7 @@ import { Observable, catchError, map, of, throwError } from 'rxjs';
 export class ActivitiesRepository {
   // * Private properties division
 
-  /** The API URL for the activities
-   * @todo Replace with an environment injected variable
-   */
+  /** The API URL for the activities  */
   #apiUrl = `${environment.apiUrl}/activities`;
 
   // * Injected services division
@@ -57,7 +55,7 @@ export class ActivitiesRepository {
    * @returns An observable with the activities
    */
   getActivitiesByFilter$(filter: Filter): Observable<Activity[]> {
-    const url = `${this.#apiUrl}?q=${filter.search}&_sort=${filter.orderBy}&_order=${filter.sort}`;
+    const url = `${this.#apiUrl}?q=${filter.search}&_sort=${filter.sortBy}&_order=${filter.order}`;
     return this.#http.get<Activity[]>(url);
   }
 

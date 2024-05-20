@@ -2,8 +2,9 @@ import { Injectable, inject } from '@angular/core';
 import { PlatformService } from './platform.service';
 
 /**
- * Service to access the local storage
- * It uses the platform service to determine if the app is running on the server or the browser
+ * Utility service to access the local storage.
+ * - Avoid accessing the local storage when running on the server.
+ * - To do so, uses the platform service to determine where the app is running.
  */
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ import { PlatformService } from './platform.service';
 export class LocalRepository {
   // * Injected services division
 
-  /**  Service to access the platform used to determine if the app is running on the server or the browser*/
+  /**  Service to access the current platform to determine if the app is running on the server or the browser*/
   #platformService = inject(PlatformService);
 
   /**

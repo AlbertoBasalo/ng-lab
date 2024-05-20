@@ -34,8 +34,8 @@ export class HomeService {
   getActivitiesByFilter$(partialFilter: Partial<Filter>): Observable<Activity[]> {
     const filter: Filter = {
       search: partialFilter.search || DEFAULT_FILTER.search,
-      orderBy: partialFilter.orderBy || DEFAULT_FILTER.orderBy,
-      sort: partialFilter.sort || DEFAULT_FILTER.sort,
+      sortBy: partialFilter.sortBy || DEFAULT_FILTER.sortBy,
+      order: partialFilter.order || DEFAULT_FILTER.order,
     };
     return this.#activitiesRepository.getActivitiesByFilter$(filter);
   }

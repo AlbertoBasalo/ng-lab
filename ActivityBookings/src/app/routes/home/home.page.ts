@@ -22,9 +22,9 @@ import { ActivityComponent } from './activity.component';
 import { HomeService } from './home.service';
 
 /**
- * Routed component for the Home page
- * Uses the ActivityComponent and ActivitiesFooterComponent for the presentation
- * Uses the HomeService as facade to get the activities
+ * Routed component for the Home page.
+ * - Uses the ActivityComponent and ActivitiesFooterComponent for the presentation
+ * - Uses the HomeService as facade to get the activities
  */
 @Component({
   standalone: true,
@@ -46,8 +46,8 @@ import { HomeService } from './home.service';
           [activitiesCount]="activities().length"
           [favoritesCount]="favorites().length"
           [search]="search()"
-          [orderBy]="orderBy()"
-          [sort]="sort()" />
+          [sortBy]="sortBy()"
+          [order]="order()" />
       } @loading (minimum 500ms) {
         <p aria-busy="true">Loading activities</p>
       }
@@ -73,14 +73,14 @@ export default class HomePage {
   /** The search input signal coming from the route query params*/
   search: InputSignal<string> = input<string>(DEFAULT_FILTER.search);
   /** The order by input signal coming from the route query params*/
-  orderBy: InputSignal<string> = input<string>(DEFAULT_FILTER.orderBy);
+  sortBy: InputSignal<string> = input<string>(DEFAULT_FILTER.sortBy);
   /** The sort input signal coming from the route query params*/
-  sort: InputSignal<SortOrders> = input<SortOrders>(DEFAULT_FILTER.sort);
+  order: InputSignal<SortOrders> = input<SortOrders>(DEFAULT_FILTER.order);
 
   // * Computed signals and interop division
 
   /** Computed filter from the search, orderBy and sort signals */
-  #filter: Signal<Filter> = computed(() => ({ search: this.search(), orderBy: this.orderBy(), sort: this.sort() }));
+  #filter: Signal<Filter> = computed(() => ({ search: this.search(), sortBy: this.sortBy(), order: this.order() }));
   /** The filter signal interop as an observable */
   #filter$: Observable<Filter> = toObservable(this.#filter);
   /** A function that returns the observable of activities based on the filter */

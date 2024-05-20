@@ -6,6 +6,7 @@ import { UserAccessToken } from '@domain/userAccessToken.type';
 import { environment } from '@env/environment';
 import { AuthStore } from '@state/auth.store';
 import { Observable, tap } from 'rxjs';
+
 /**
  * Repository service for accessing the authentication data from the API
  */
@@ -15,9 +16,7 @@ import { Observable, tap } from 'rxjs';
 export class AuthRepository {
   // * Private properties division
 
-  /** The API URL for the users
-   * @todo Replace with an environment injected variable
-   */
+  /** The API URL for the users  */
   #apiUrl = `${environment.apiUrl}`;
 
   // * Injected services division

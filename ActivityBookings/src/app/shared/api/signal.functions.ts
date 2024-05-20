@@ -2,6 +2,11 @@ import { Signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Observable, switchMap } from 'rxjs';
 
+/**
+ * The type for the API target observable function
+ * @param T The type of the parameter
+ * @param K The type of the returned observable value
+ */
 export type ApiTarget$<T, K> = (sourceValue: T) => Observable<K>;
 
 /**
@@ -12,10 +17,10 @@ export type ApiTarget$<T, K> = (sourceValue: T) => Observable<K>;
  * @returns A signal with the result of the API target observable or the initial value
  */
 export function toSignalMap<T, K>(source: Signal<T>, apiTarget$: ApiTarget$<T, K>, initialValue: K): Signal<K> {
-  // 1 -> Convert source signal to an observable
+  // * 1 -> Convert source signal to an observable
   const source$ = toObservable(source);
-  // 2 -> RxJs operators do the heavy work calling the API target observable
+  // * 2 -> RxJs operators do the heavy work calling the API target observable
   const apiResult$ = source$.pipe(switchMap(apiTarget$));
-  // 3 - > Convert back the observable into a signal usable from the template
+  // * 3 - > Convert back the observable into a signal usable from the template
   return toSignal(apiResult$, { initialValue });
 }

@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 export class BookingsRepository {
   // * Private properties division
 
+  /** The API URL for the bookings  */
   #bookingsUrl = `${environment.apiUrl}/bookings`;
 
   // * Injected services division

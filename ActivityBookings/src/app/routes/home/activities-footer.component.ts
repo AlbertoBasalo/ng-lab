@@ -4,8 +4,8 @@ import { SortOrders } from '@domain/filter.type';
 /**
  * A presentational component for the footer of the activities page
  * @argument search The search input signal coming from the route query params
- * @argument orderBy The order by input signal coming from the route query params
- * @argument sort The sort input signal coming from the route query params
+ * @argument sortBy The sort_by input signal coming from the route query params
+ * @argument order The order input signal coming from the route query params
  * @argument activitiesCount The activities count input signal
  * @argument favoritesCount The favorites count input signal
  * @description This component is a presentational component that shows the current filter, order by, sort, activities count and favorites count
@@ -22,7 +22,7 @@ import { SortOrders } from '@domain/filter.type';
           >.
         </span>
         <span>
-          Order by <mark>{{ orderBy() }} {{ sort() }}</mark
+          Order by <mark>{{ sortBy() }} {{ order() }}</mark
           >.
         </span>
         <span>
@@ -41,9 +41,9 @@ export class ActivitiesFooterComponent {
   /** The search input signal coming from the route query params*/
   search: InputSignal<string> = input.required<string>();
   /** The order by input signal coming from the route query params*/
-  orderBy: InputSignal<string> = input.required<string>();
+  sortBy: InputSignal<string> = input.required<string>();
   /** The sort input signal coming from the route query params*/
-  sort: InputSignal<SortOrders> = input.required<SortOrders>();
+  order: InputSignal<SortOrders> = input.required<SortOrders>();
   /** The activities count input signal*/
   activitiesCount: InputSignal<number> = input.required<number>();
   /** The favorites count input signal*/

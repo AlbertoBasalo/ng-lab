@@ -3,8 +3,8 @@ import { ChangeDetectionStrategy, Component, InputSignal, input } from '@angular
 import { ActivityStatus } from '@domain/activity.type';
 
 /**
- * Component for presenting the status of an activity
- * Encapsulates the style and presentation internals of the status
+ * Component for presenting the status of an activity.
+ * - Encapsulates the style and presentation internals of the status
  */
 @Component({
   selector: 'lab-activity-status',
