@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, OutputEmitterRef, output } from '@a
 type Acceptance = 'essentials' | 'all';
 
 /**
- * Component to display a dialog to accept or cancel cookies
+ * Component to display a dialog to accept or cancel cookies.
  * Outputs the rejection or acceptance kind of cookies
  */
 @Component({

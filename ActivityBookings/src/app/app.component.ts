@@ -3,9 +3,9 @@ import { RouterOutlet } from '@angular/router';
 import { FooterWidget } from './core/footer.widget';
 import { HeaderWidget } from './core/header.widget';
 /**
- * Root component of the application with the main layout
- * Contains the header, the main content and the footer
- * Uses the router outlet to display the different pages
+ * Root component of the application with the main layout.
+ * - Contains the header, the main content and the footer.
+ * - Uses the router outlet to display the different pages.
  */
 @Component({
   selector: 'lab-root',

@@ -5,8 +5,11 @@ import { NULL_USER_ACCESS_TOKEN } from '@domain/userAccessToken.type';
 import { AuthStore } from '@state/auth.store';
 import { NotificationsStore } from '@state/notifications.store';
 import { catchError, throwError } from 'rxjs';
+
+const AUTH_ERROR_CODE = 401;
+
 /**
- * Interceptor function to add the Authorization header to the request and handle 401 errors
+ * Interceptor function to add the Authorization header to the request and handle 401 errors.
  * @param req The request to be intercepted
  * @param next The next handler in the chain
  * @returns The observable of HttpEvents to be passed to the next handler
@@ -21,6 +24,8 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
   /** The Router to navigate to the login page */
   const router: Router = inject(Router);
 
+  // * Function division
+
   /** Get access token from AuthStore */
   const accessToken: string = authStore.accessToken();
   /** Create and Add the Authorization header to the request */
@@ -33,7 +38,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
   /** Send the cloned request and get into the pipeline of events to catch errors */
   return next(req).pipe(
     catchError((error) => {
-      if (error.status === 401) {
+      if (error.status === AUTH_ERROR_CODE) {
         authStore.setState(NULL_USER_ACCESS_TOKEN);
         router.navigate(['/auth', 'login']);
       }

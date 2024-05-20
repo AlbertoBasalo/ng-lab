@@ -2,7 +2,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { appConfig } from './app/app.config';
 
-/** Starting point
+/** Starting point for the application
  * @param {AppComponent} AppComponent - The root component of the application
  * @param {appConfig} appConfig - The configuration of the application
  */

@@ -19,8 +19,8 @@ type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
 
 /**
  * Footer component with the author info and cookies acceptance
- * Uses the cookies component to manage the cookies status
- * Uses the notifications component to show the notifications
+ * - Uses the cookies component to manage the cookies status
+ * - Uses the notifications component to show the notifications
  */
 @Component({
   selector: 'lab-footer',
@@ -33,7 +33,7 @@ type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
           <a [href]="author.homepage" target="_blank"> © {{ getYear() }} {{ author.name }} </a>
         </span>
         @if (hasNotifications()) {
-          <button [attr.data-tooltip]="notificationsCount()" (click)="showNotification.set(true)" class="outline">
+          <button [attr.data-tooltip]="notificationsCount()" (click)="mustShowNotification.set(true)" class="outline">
             🔥
           </button>
         }
@@ -55,7 +55,7 @@ type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
         </span>
       </nav>
     </footer>
-    @if (showNotification()) {
+    @if (mustShowNotification()) {
       <lab-notifications [notifications]="notifications()" (close)="onNotificationsClose()" />
     }
   `,
@@ -65,7 +65,7 @@ type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
 export class FooterWidget {
   // * Injected services division
 
-  /** To save and load the Authentication State from the local storage*/
+  /** To save and load the Cookies State from the local storage*/
   #localRepository: LocalRepository = inject(LocalRepository);
   /** Store for managing notifications state */
   #notificationsStore: NotificationsStore = inject(NotificationsStore);
@@ -80,13 +80,15 @@ export class FooterWidget {
 
   // * Mutable signals division
 
-  /** Signal to indicate if the notifications component should be displayed*/
-  showNotification: WritableSignal<boolean> = signal<boolean>(false);
+  /** Signal to indicate if the notifications component must be displayed*/
+  mustShowNotification: WritableSignal<boolean> = signal<boolean>(false);
 
   /** Signal with cookies status, initially loaded from local storage*/
-  cookiesStatus: WritableSignal<CookiesStatus> = signal<CookiesStatus>(
-    this.#localRepository.load('cookies', { status: 'pending' }).status as CookiesStatus,
-  );
+  #localStorageCookiesStatus = this.#localRepository.load('cookies', { status: 'pending' });
+  #initialCookiesStatus: CookiesStatus = this.#localStorageCookiesStatus.status as CookiesStatus;
+  cookiesStatus: WritableSignal<CookiesStatus> = signal<CookiesStatus>(this.#initialCookiesStatus);
+  /** Effect registered as a property, to save the cookies signal state on changes*/
+  onCookiesStatusChanged = effect(() => this.#localRepository.save('cookies', { status: this.cookiesStatus() }));
 
   // * Computed properties division
 
@@ -96,9 +98,6 @@ export class FooterWidget {
   notificationsCount: Signal<number> = this.#notificationsStore.count;
   /** Whether there are notifications or not */
   hasNotifications: Signal<boolean> = computed(() => this.notificationsCount() > 0);
-
-  /** Effect registered as a property, to save the cookies signal state on changes*/
-  onCookiesStatusChanged = effect(() => this.#localRepository.save('cookies', { status: this.cookiesStatus() }));
 
   // * Public methods division
 
@@ -110,7 +109,7 @@ export class FooterWidget {
 
   /** On close the notifications modal, hide it and clear notifications */
   onNotificationsClose(): void {
-    this.showNotification.set(false);
+    this.mustShowNotification.set(false);
     this.#notificationsStore.clearNotifications();
   }
 }

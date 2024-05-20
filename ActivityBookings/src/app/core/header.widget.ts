@@ -6,9 +6,9 @@ import { FavoritesStore } from '@state/favorites.store';
 
 /**
  * Header widget with the main navigation
- * Reads the favorites count from the store
- * Shows the link to the new activity page if the user is authenticated
- * Shows the link to the login page if the user is anonymous
+ * - Reads the favorites count from the store
+ * - Shows the link to the new activity page if the user is authenticated
+ * - Shows the link to the login page if the user is anonymous
  */
 @Component({
   selector: 'lab-header',
