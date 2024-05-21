@@ -23,8 +23,8 @@ import { ParticipantsComponent } from './participants.component';
 
 /**
  * Routed component for the Bookings page
- * Uses the ActivityHeaderComponent, ParticipantsComponent and BookingFormComponent for the presentation
- * Uses the BookingsService as facade to get the activities and bookings
+ * - Uses the ActivityHeaderComponent, ParticipantsComponent and BookingFormComponent for the presentation
+ * - Uses the BookingsService as facade to get the activities and bookings
  */
 @Component({
   standalone: true,

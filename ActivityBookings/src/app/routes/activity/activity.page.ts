@@ -4,11 +4,12 @@ import { Feedback } from '@domain/feedback.type';
 import { FeedbackComponent } from '@ui/feedback.component';
 import { ActivityForm } from './activity.form';
 import { ActivityService } from './activity.service';
+
 /**
- * Routed component for the Activity page
- * Presents the ActivityForm to create a new activity
- * Presents the FeedbackComponent to give feedback to the user
- * Uses the ActivityService to post the activity
+ * Routed component for the Activity page.
+ * - Presents the ActivityForm to create a new activity.
+ * - Presents the FeedbackComponent to give feedback to the user.
+ * - Uses the ActivityService to post the activity.
  */
 @Component({
   standalone: true,

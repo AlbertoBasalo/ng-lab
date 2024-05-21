@@ -5,8 +5,8 @@ import { ControlComponent } from '@ui/control.component';
 import { rangeValidator } from '@ui/form.functions';
 
 /**
- * Form component for an Activity
- * Emits the Activity when the form is submitted
+ * Form component for an Activity.
+ * - Emits the Activity when the form is submitted.
  */
 @Component({
   selector: 'lab-activity',

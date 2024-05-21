@@ -5,9 +5,9 @@ import { AuthStore } from '@state/auth.store';
 import { Observable } from 'rxjs';
 
 /**
- * Service to help the ActivityPage to post activities
- * Uses the ActivitiesRepository to post the activity
- * Uses the AuthStore to get the current user id
+ * Service to help the ActivityPage to post activities.
+ * - Uses the ActivitiesRepository to post the activity.
+ * - Uses the AuthStore to get the current user id.
  */
 @Injectable({
   providedIn: 'root',
