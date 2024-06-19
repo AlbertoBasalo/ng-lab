@@ -21,7 +21,8 @@ npm start
 > Start a fake API server
 > Clone and follow instructions from https://github.com/AlbertoBasalo/api_bun
 
-> [!TIP] > **Documentation**
+> [!TIP]
+> Documentation
 > Find detailed journal of instructions in [docs folder](./docs/)
 
 ### Folder structure
