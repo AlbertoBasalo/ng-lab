@@ -16,39 +16,45 @@ import { matchValidator } from '@ui/form.functions';
   imports: [ReactiveFormsModule, ControlComponent],
   template: `
     <form [formGroup]="form" (submit)="onSubmit()">
-      <lab-control controlName="username" labelDisplay="Username" [errors]="form.controls['username'].errors">
-        <input
-          id="username"
-          type="text"
-          formControlName="username"
-          [attr.aria-invalid]="form.controls['username'].invalid" />
-      </lab-control>
-      <lab-control controlName="email" labelDisplay="Email" [errors]="form.controls['email'].errors">
-        <input id="email" type="email" formControlName="email" [attr.aria-invalid]="form.controls['email'].invalid" />
-      </lab-control>
-      <lab-control controlName="password" labelDisplay="Password" [errors]="form.controls['password'].errors">
-        <input
-          id="password"
-          type="password"
-          formControlName="password"
-          [attr.aria-invalid]="form.controls['password'].invalid" />
-      </lab-control>
-      <lab-control controlName="confirm" labelDisplay="Confirm Password" [errors]="form.controls['confirm'].errors">
-        <input
-          id="confirm"
-          type="password"
-          formControlName="confirm"
-          [attr.aria-invalid]="form.controls['confirm'].invalid" />
-      </lab-control>
-      <label for="terms">
-        <span>Accept the terms and conditions</span>
-        <input
-          id="terms"
-          type="checkbox"
-          formControlName="terms"
-          [attr.aria-invalid]="form.controls['terms'].invalid" />
-      </label>
-      <button type="submit" [disabled]="form.invalid">Register</button>
+      <fieldset>
+        <lab-control controlName="username" labelDisplay="Username" [errors]="form.controls['username'].errors">
+          <input
+            id="username"
+            type="text"
+            formControlName="username"
+            [attr.aria-invalid]="form.controls['username'].invalid" />
+        </lab-control>
+        <lab-control controlName="email" labelDisplay="Email" [errors]="form.controls['email'].errors">
+          <input id="email" type="email" formControlName="email" [attr.aria-invalid]="form.controls['email'].invalid" />
+        </lab-control>
+        <lab-control controlName="password" labelDisplay="Password" [errors]="form.controls['password'].errors">
+          <input
+            id="password"
+            type="password"
+            name="password"
+            formControlName="password"
+            [attr.aria-invalid]="form.controls['password'].invalid" />
+        </lab-control>
+        <lab-control controlName="confirm" labelDisplay="Confirm Password" [errors]="form.controls['confirm'].errors">
+          <input
+            id="confirm"
+            type="password"
+            formControlName="confirm"
+            [attr.aria-invalid]="form.controls['confirm'].invalid" />
+        </lab-control>
+        <label for="terms">
+          <span>Accept the terms and conditions</span>
+          <input
+            id="terms"
+            type="checkbox"
+            formControlName="terms"
+            [attr.aria-invalid]="form.controls['terms'].invalid" />
+        </label>
+      </fieldset>
+      <div>
+        <span><button type="submit" [disabled]="form.invalid">Register</button></span>
+        <span><button type="reset" (click)="onResetClick()">Reset</button></span>
+      </div>
     </form>
   `,
 })
@@ -63,10 +69,10 @@ export class RegisterForm {
   /** The form to register a user */
   form: FormGroup = new FormGroup(
     {
-      username: new FormControl('A', Validators.required),
-      email: new FormControl('a@b.c', [Validators.required, Validators.email]),
-      password: new FormControl('1234', [Validators.required, Validators.minLength(4)]),
-      confirm: new FormControl('123', [Validators.required, Validators.minLength(4)]),
+      username: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required, Validators.minLength(4)]),
+      confirm: new FormControl('', [Validators.required, Validators.minLength(4)]),
       terms: new FormControl(false, Validators.requiredTrue),
     },
     {
@@ -86,5 +92,13 @@ export class RegisterForm {
       const { confirm, ...register } = this.form.value;
       this.register.emit(register);
     }
+  }
+
+  /**
+   * Handles the reset event from the form
+   * Resets the form to its initial state
+   */
+  onResetClick() {
+    this.form.reset({ username: '', email: '', password: '', confirm: '', terms: false });
   }
 }

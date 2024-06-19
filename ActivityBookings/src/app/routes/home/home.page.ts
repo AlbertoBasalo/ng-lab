@@ -37,7 +37,7 @@ import { HomeService } from './home.service';
         <lab-filter />
       </header>
       @defer {
-        <main>
+        <main id="activities-list">
           @for (activity of activities(); track activity.id) {
             <lab-activity [activity]="activity" [(favorites)]="favorites" />
           }
