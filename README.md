@@ -4,7 +4,7 @@
 
 > [!NOTE]
 > This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version _17.1.1._
-> Updated to Angular **17.3.0.**
+> Updated to Angular **18.0.4.**
 > Sample project is at `ActivityBookings` folder
 
 ```bash
@@ -15,12 +15,12 @@ cd ng-lab/ActivityBookings
 npm install
 # start Angular server
 npm start
-# start a fake API server
-npm run api:seed
 ```
 
-> [!TIP]
-> **Documentation**
+> start a fake API server
+> clone and follow instructions from https://github.com/AlbertoBasalo/api_bun
+
+> [!TIP] > **Documentation**
 > Find detailed journal of instructions in [docs folder](./docs/)
 
 ### Folder structure
