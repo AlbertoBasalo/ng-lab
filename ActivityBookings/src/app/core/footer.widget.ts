@@ -31,6 +31,9 @@ type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
     <footer>
       <nav>
         <span>
+          <a href="https://github.com/AlbertoBasalo/ng-lab" class="secondary" target="_blank"><i>Lab sample</i></a>
+        </span>
+        <span>
           <a [href]="author.homepage" target="_blank"> © {{ getYear() }} {{ author.name }} </a>
         </span>
         @if (hasNotifications()) {
