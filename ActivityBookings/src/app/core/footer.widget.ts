@@ -9,6 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { Notification } from '@domain/notification.type';
+import { environment } from '@env/environment';
 import { LocalRepository } from '@services/local.repository';
 import { NotificationsStore } from '@state/notifications.store';
 import { NotificationsComponent } from '@ui/notifications.component';
@@ -84,7 +85,7 @@ export class FooterWidget {
   mustShowNotification: WritableSignal<boolean> = signal<boolean>(false);
 
   /** Signal with cookies status, initially loaded from local storage*/
-  #localStorageCookiesStatus = this.#localRepository.load('cookies', { status: 'pending' });
+  #localStorageCookiesStatus = this.#localRepository.load('cookies', { status: environment.cookies });
   #initialCookiesStatus: CookiesStatus = this.#localStorageCookiesStatus.status as CookiesStatus;
   cookiesStatus: WritableSignal<CookiesStatus> = signal<CookiesStatus>(this.#initialCookiesStatus);
   /** Effect registered as a property, to save the cookies signal state on changes*/
