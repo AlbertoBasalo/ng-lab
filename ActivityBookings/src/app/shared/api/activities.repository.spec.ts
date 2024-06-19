@@ -1,7 +1,8 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Activity, NULL_ACTIVITY } from '@domain/activity.type';
 import { ActivitiesRepository } from './activities.repository';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 const baseUrl = 'http://localhost:3000/activities';
 const activities: Activity[] = [
@@ -14,9 +15,9 @@ describe('The ActivitiesRepository service', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [ActivitiesRepository],
-    });
+    imports: [],
+    providers: [ActivitiesRepository, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
+});
     repository = TestBed.inject(ActivitiesRepository);
     httpMock = TestBed.inject(HttpTestingController);
   });
