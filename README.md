@@ -17,10 +17,11 @@ npm install
 npm start
 ```
 
-> start a fake API server
-> clone and follow instructions from https://github.com/AlbertoBasalo/api_bun
+> [!NOTE]
+> Start a fake API server
+> Clone and follow instructions from https://github.com/AlbertoBasalo/api_bun
 
-> [!TIP] > **Documentation**
+> **Documentation**
 > Find detailed journal of instructions in [docs folder](./docs/)
 
 ### Folder structure
