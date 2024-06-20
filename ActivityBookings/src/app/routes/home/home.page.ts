@@ -36,10 +36,12 @@ import { HomeService } from './home.service';
         <h2>Activities</h2>
         <lab-filter />
       </header>
-      @defer {
+      @defer (when hasData()) {
         <main id="activities-list">
           @for (activity of activities(); track activity.id) {
             <lab-activity [activity]="activity" [(favorites)]="favorites" />
+          } @empty {
+            <p>No activities found</p>
           }
         </main>
         <lab-activities-footer
@@ -48,6 +50,10 @@ import { HomeService } from './home.service';
           [search]="search()"
           [sortBy]="sortBy()"
           [order]="order()" />
+      } @placeholder {
+        <p>
+          <input disabled aria-invalid="true" value="Sorry, something went wrong" />
+        </p>
       } @loading (minimum 500ms) {
         <p aria-busy="true">Loading activities</p>
       }
@@ -89,6 +95,8 @@ export default class HomePage {
   #filter$SwitchMapApi$: Observable<Activity[]> = this.#filter$.pipe(switchMap(this.#getActivitiesByFilter$));
   /** The activities signal based on the filter observable */
   activities: Signal<Activity[]> = toSignal(this.#filter$SwitchMapApi$, { initialValue: [] });
+  /** Signal of the presence of activities */
+  hasData: Signal<boolean> = computed(() => this.activities().length > 0);
 
   // * Signals division
 

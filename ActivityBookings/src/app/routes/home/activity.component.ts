@@ -14,7 +14,7 @@ import { ActivityStatusComponent } from '@ui/activity-status.component';
   standalone: true,
   imports: [CurrencyPipe, DatePipe, RouterLink, ActivityStatusComponent],
   template: `
-    <div>
+    <div [id]="'activity-id-' + activity().id">
       <span>
         <input
           type="checkbox"
@@ -23,12 +23,12 @@ import { ActivityStatusComponent } from '@ui/activity-status.component';
           [checked]="favorites().includes(activity().slug)"
           (click)="toggleFavorite(activity().slug)" />
       </span>
-      <span>
+      <span itemprop="name">
         <a [routerLink]="['/bookings', activity().slug]">{{ activity().name }}</a>
       </span>
-      <span>{{ activity().location }}</span>
-      <span>{{ activity().price | currency }}</span>
-      <span>{{ activity().date | date: 'dd-MMM-yyyy' }}</span>
+      <span itemprop="location">{{ activity().location }}</span>
+      <span itemprop="price">{{ activity().price | currency }}</span>
+      <span itemprop="date">{{ activity().date | date: 'dd-MMM-yyyy' }}</span>
       <lab-activity-status [status]="activity().status" />
     </div>
   `,

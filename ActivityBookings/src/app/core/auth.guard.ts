@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { environment } from '@env/environment';
 import { AuthStore } from '@state/auth.store';
 
 /**
@@ -7,6 +8,7 @@ import { AuthStore } from '@state/auth.store';
  * @returns True if the user is authenticated. Otherwise the URL tree to redirect to the login page.
  */
 export const authGuard: CanActivateFn = () => {
+  if (environment.securityOpen) return true;
   const authStore = inject(AuthStore);
   if (authStore.isAuthenticated()) return true;
   const router = inject(Router);

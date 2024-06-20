@@ -26,7 +26,7 @@ import { SortOrders } from '@domain/filter.type';
           >.
         </span>
         <span>
-          Got <mark>{{ activitiesCount() }}</mark> activities.
+          Got <mark id="activities-count">{{ activitiesCount() }}</mark> activities.
         </span>
         <span>
           You have selected <mark>{{ favoritesCount() }}</mark> favorites.
