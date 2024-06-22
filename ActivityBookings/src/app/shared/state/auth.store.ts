@@ -28,9 +28,9 @@ export class AuthStore {
 
   // * Computed properties division
 
-  /** Signal true is user is authenticated */
+  /** Signal true if user is authenticated */
   isAuthenticated: Signal<boolean> = computed(() => this.#state().accessToken !== '');
-  /** Signal true is user is anonymous */
+  /** Signal true if user is anonymous */
   isAnonymous: Signal<boolean> = computed(() => this.#state().accessToken === '');
   /** Signal with the current user id */
   userId: Signal<number> = computed(() => this.#state().user.id);

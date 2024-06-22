@@ -39,8 +39,8 @@ export class LoginForm {
 
   /** The form to login */
   form: FormGroup = new FormGroup({
-    email: new FormControl('a@b.c', [Validators.required, Validators.email]),
-    password: new FormControl('123456', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', Validators.required),
   });
 
   // * Event handlers division
