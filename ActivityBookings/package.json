@@ -17,6 +17,7 @@
     "serve": "npm run chrome &&  ng serve",
     "start": "ng serve",
     "build": "ng build",
+    "start:pro": "npm run build && npx http-server -p 8080 -c-1 dist/activity-bookings/browser",
     "watch": "ng build --watch --configuration development",
     "test": "ng test ",
     "serve:ssr:ActivityBookings": "node dist/activity-bookings/server/server.mjs",
