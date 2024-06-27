@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { User } from '@domain/user.type';
 import { environment } from '@env/environment';
 import { AuthStore } from '@state/auth.store';
 import { FavoritesStore } from '@state/favorites.store';
@@ -33,6 +34,7 @@ import { FavoritesStore } from '@state/favorites.store';
           </li>
           @if (isAuthenticated()) {
             <li><a [routerLink]="['/activity']">New Activity</a></li>
+            <li id="user">{{ user().email }}</li>
           }
           @if (isAnonymous()) {
             <li><a [routerLink]="['/auth', 'login']">Login</a></li>
@@ -72,4 +74,6 @@ export class HeaderWidget {
   isAuthenticated: Signal<boolean> = this.#authStore.isAuthenticated;
   /** The user is anonymous */
   isAnonymous: Signal<boolean> = this.#authStore.isAnonymous;
+
+  user: Signal<User> = this.#authStore.user;
 }

@@ -1,4 +1,5 @@
 import { Injectable, Signal, WritableSignal, computed, inject, signal } from '@angular/core';
+import { User } from '@domain/user.type';
 
 import { NULL_USER_ACCESS_TOKEN, UserAccessToken } from '@domain/userAccessToken.type';
 import { LocalRepository } from '@services/local.repository';
@@ -28,14 +29,16 @@ export class AuthStore {
 
   // * Computed properties division
 
-  /** Signal true if user is authenticated */
-  isAuthenticated: Signal<boolean> = computed(() => this.#state().accessToken !== '');
-  /** Signal true if user is anonymous */
-  isAnonymous: Signal<boolean> = computed(() => this.#state().accessToken === '');
   /** Signal with the current user id */
   userId: Signal<number> = computed(() => this.#state().user.id);
+  /** Signal with the current user id */
+  user: Signal<User> = computed(() => this.#state().user);
   /** Signal with the current user access token */
   accessToken: Signal<string> = computed(() => this.#state().accessToken);
+  /** Signal true if user is authenticated */
+  isAuthenticated: Signal<boolean> = computed(() => this.accessToken() !== '');
+  /** Signal true if user is anonymous */
+  isAnonymous: Signal<boolean> = computed(() => this.accessToken() === '');
 
   // * Public method division
 
