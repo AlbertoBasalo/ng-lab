@@ -11,7 +11,7 @@ import {
 import { Notification } from '@domain/notification.type';
 import { environment } from '@env/environment';
 import { LocalRepository } from '@services/local.repository';
-import { NotificationsStore } from '@state/notifications.store';
+import { NotificationsStore } from '@services/state/notifications.store';
 import { NotificationsComponent } from '@ui/notifications.component';
 import { CookiesComponent } from './cookies.component';
 

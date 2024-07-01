@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/providers/auth.guard';
-import { activityResolver } from './routes/bookings/activity.resolver';
+import { activityResolver } from './routes/activity/bookings/activity.resolver';
 
 /**
  * Routes configuration for the application
@@ -19,20 +19,20 @@ export const routes: Routes = [
     loadComponent: () => import('./routes/activity/activity.page'),
   },
   {
-    path: 'auth/login',
-    loadComponent: () => import('./routes/auth/login.page'),
-  },
-  {
-    path: 'auth/register',
-    loadComponent: () => import('./routes/auth/register.page'),
-  },
-  {
-    path: 'bookings/:slug',
-    loadComponent: () => import('./routes/bookings/bookings.page'),
+    path: 'activity/bookings/:slug',
+    loadComponent: () => import('./routes/activity/bookings/bookings.page'),
     canActivate: [authGuard],
     resolve: {
       activity: activityResolver,
     },
+  },
+  {
+    path: 'auth/login',
+    loadComponent: () => import('./routes/auth/login/login.page'),
+  },
+  {
+    path: 'auth/register',
+    loadComponent: () => import('./routes/auth/register/register.page'),
   },
   {
     path: 'favorites',

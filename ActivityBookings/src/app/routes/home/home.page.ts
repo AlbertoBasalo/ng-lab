@@ -14,7 +14,7 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Meta, Title } from '@angular/platform-browser';
 import { Activity } from '@domain/activity.type';
 import { DEFAULT_FILTER, Filter, SortOrders } from '@domain/filter.type';
-import { FavoritesStore } from '@state/favorites.store';
+import { FavoritesStore } from '@services/state/favorites.store';
 import { FilterWidget } from '@ui/filter.widget';
 import { Observable, switchMap } from 'rxjs';
 import { ActivitiesFooterComponent } from './activities-footer.component';

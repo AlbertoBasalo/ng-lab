@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { EnvironmentProviders, ErrorHandler, NgZone, inject, makeEnvironmentProviders } from '@angular/core';
 import { Notification } from '@domain/notification.type';
-import { NotificationsStore } from '@state/notifications.store';
+import { NotificationsStore } from '@services/state/notifications.store';
 
 /**
  * Service to handle errors and show notifications.

@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { environment } from '@env/environment';
-import { AuthStore } from '@state/auth.store';
+import { AuthStore } from '@services/state/auth.store';
 
 /**
  * Guard function to check if the user is authenticated.

@@ -4,7 +4,7 @@ import { Login } from '@domain/login.type';
 import { Register } from '@domain/register.type';
 import { UserAccessToken } from '@domain/userAccessToken.type';
 import { environment } from '@env/environment';
-import { AuthStore } from '@state/auth.store';
+import { AuthStore } from '@services/state/auth.store';
 import { Observable, tap } from 'rxjs';
 
 /**

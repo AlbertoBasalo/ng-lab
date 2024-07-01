@@ -24,7 +24,7 @@ import { ActivityStatusComponent } from '@ui/activity-status.component';
           (click)="toggleFavorite(activity().slug)" />
       </span>
       <span itemprop="name">
-        <a [routerLink]="['/bookings', activity().slug]">{{ activity().name }}</a>
+        <a [routerLink]="['/', 'activity', 'bookings', activity().slug]">{{ activity().name }}</a>
       </span>
       <span itemprop="location">{{ activity().location }}</span>
       <span itemprop="price">{{ activity().price | currency }}</span>

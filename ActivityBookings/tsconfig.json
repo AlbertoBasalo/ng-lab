@@ -23,7 +23,7 @@
     "paths": {
       "@ui/*": ["src/app/shared/ui/*"],
       "@domain/*": ["src/app/shared/domain/*"],
-      "@state/*": ["src/app/shared/state/*"],
+      "@state/*": ["src/app/shared/services/state/*"],
       "@services/*": ["src/app/shared/services/*"],
       "@api/*": ["src/app/shared/services/api/*"],
       "@env/*": ["src/environments/*"]

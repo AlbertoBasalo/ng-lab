@@ -2,8 +2,8 @@ import { HttpHandlerFn, HttpInterceptorFn, HttpRequest } from '@angular/common/h
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { NULL_USER_ACCESS_TOKEN } from '@domain/userAccessToken.type';
-import { AuthStore } from '@state/auth.store';
-import { NotificationsStore } from '@state/notifications.store';
+import { AuthStore } from '@services/state/auth.store';
+import { NotificationsStore } from '@services/state/notifications.store';
 import { catchError, throwError } from 'rxjs';
 
 const AUTH_ERROR_CODE = 401;

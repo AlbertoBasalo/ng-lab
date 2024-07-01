@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/cor
 import { RouterLink } from '@angular/router';
 import { User } from '@domain/user.type';
 import { environment } from '@env/environment';
-import { AuthStore } from '@state/auth.store';
-import { FavoritesStore } from '@state/favorites.store';
+import { AuthStore } from '@services/state/auth.store';
+import { FavoritesStore } from '@services/state/favorites.store';
 
 /**
  * Header widget with the main navigation
