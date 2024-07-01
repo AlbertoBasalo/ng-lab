@@ -15,16 +15,16 @@ export const routes: Routes = [
     loadComponent: () => import('./routes/home/home.page'),
   },
   {
-    path: 'activity',
-    loadComponent: () => import('./routes/activity/activity.page'),
-  },
-  {
     path: 'activity/bookings/:slug',
     loadComponent: () => import('./routes/activity/bookings/bookings.page'),
     canActivate: [authGuard],
     resolve: {
       activity: activityResolver,
     },
+  },
+  {
+    path: 'activity/new',
+    loadComponent: () => import('./routes/activity/new/activity.page'),
   },
   {
     path: 'auth/login',

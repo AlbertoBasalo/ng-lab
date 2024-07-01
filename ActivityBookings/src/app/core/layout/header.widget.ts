@@ -33,7 +33,7 @@ import { FavoritesStore } from '@services/state/favorites.store';
             </a>
           </li>
           @if (isAuthenticated()) {
-            <li><a [routerLink]="['/activity']">New Activity</a></li>
+            <li><a [routerLink]="['/', 'activity', 'new']">New Activity</a></li>
             <li id="user">{{ user().email }}</li>
           }
           @if (isAnonymous()) {
