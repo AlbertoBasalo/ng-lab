@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { ActivitiesRepository } from '@api/activities.repository';
 import { Activity } from '@domain/activity.type';
+import { ActivitiesRepository } from '@services/api/activities.repository';
 import { AuthStore } from '@state/auth.store';
 import { Observable } from 'rxjs';
 

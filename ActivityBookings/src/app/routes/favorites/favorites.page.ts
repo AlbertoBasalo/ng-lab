@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { ActivitiesRepository } from '@api/activities.repository';
 import { Activity } from '@domain/activity.type';
+import { ActivitiesRepository } from '@services/api/activities.repository';
 import { FavoritesStore } from '@state/favorites.store';
 import { Observable, forkJoin } from 'rxjs';
 

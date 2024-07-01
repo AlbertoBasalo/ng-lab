@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { ActivitiesRepository } from '@api/activities.repository';
 import { Activity } from '@domain/activity.type';
 import { DEFAULT_FILTER, Filter } from '@domain/filter.type';
+import { ActivitiesRepository } from '@services/api/activities.repository';
 import { Observable } from 'rxjs';
 
 /**

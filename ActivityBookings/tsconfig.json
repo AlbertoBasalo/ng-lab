@@ -25,7 +25,7 @@
       "@domain/*": ["src/app/shared/domain/*"],
       "@state/*": ["src/app/shared/state/*"],
       "@services/*": ["src/app/shared/services/*"],
-      "@api/*": ["src/app/shared/api/*"],
+      "@api/*": ["src/app/shared/services/api/*"],
       "@env/*": ["src/environments/*"]
     }
   },

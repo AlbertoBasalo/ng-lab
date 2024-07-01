@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, WritableSignal, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AuthRepository } from '@api/auth.repository';
 import { Feedback } from '@domain/feedback.type';
 import { Login } from '@domain/login.type';
+import { AuthRepository } from '@services/api/auth.repository';
 import { FeedbackComponent } from '@ui/feedback.component';
 import { LoginForm } from './login.form';
 
