@@ -4,8 +4,8 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { provideClientHydration } from '@angular/platform-browser';
 import { routes } from './app.routes';
-import { authInterceptor } from './core/auth.interceptor';
-import { provideErrorHandler } from './core/error.service';
+import { provideErrorHandler } from './core/layout/error.service';
+import { authInterceptor } from './core/providers/auth.interceptor';
 
 /**
  * The configuration of the application. It provides:

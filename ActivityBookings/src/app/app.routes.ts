@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/auth.guard';
+import { authGuard } from './core/providers/auth.guard';
 import { activityResolver } from './routes/bookings/activity.resolver';
 
 /**
