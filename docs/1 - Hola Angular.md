@@ -16,16 +16,16 @@ node -v
 npm i -g @angular/cli
 
 # Modern app generation
-ng new ActivityBookings
+ng new ApplicationName
   --inline-style --inline-template --prefix=lab
   --ssr --style=css
 
 # Or run with npx and options with aliases (- instead of --)
-npx ng new ActivityBookings -s -t -p=lab --ssr --style=css
+npx ng new ApplicationName -s -t -p=lab --ssr --style=css
 # Default mode with interactive prompts
-ng new UnProyectoNuevo
+ng new ApplicationName
 # Minimalistic option
-ng new UnProyectoNuevo --minimal
+ng new ApplicationName --minimal
 ```
 
 ### 1.1.2 Árbol de ficheros y carpetas
@@ -48,8 +48,6 @@ ng new UnProyectoNuevo --minimal
 ├── tsconfig.json
 └── tsconfig.spec.json
 ```
-
-
 
 ## 1.2 Comandos básicos para depurar y ejecutar aplicaciones.
 
@@ -76,8 +74,6 @@ ng server --open --force-esbuild
    -auto-open-devtools-for-tabs <http://localhost:4200>",
 "start": "npm run chrome && ng serve --force-esbuild",
 ```
-
-
 
 ## 1.3 Configuración del espacio de trabajo, editor y herramientas recomendadas.
 
@@ -142,7 +138,10 @@ EsLint config
     },
     {
       "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended", "plugin:@angular-eslint/template/accessibility"],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended",
+        "plugin:@angular-eslint/template/accessibility"
+      ],
       "rules": {}
     }
   ]

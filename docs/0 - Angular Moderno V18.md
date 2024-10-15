@@ -1,8 +1,8 @@
-# Angular Moderno V17
+# Angular Moderno V18
 
-# 📔 Desarrollo de aplicaciones web con Angular 17
+# 📔 Desarrollo de aplicaciones web con Angular 18
 
-Curso de **introducción** al desarrollo de aplicaciones web con Angular v17. Tanto si ya conoces Angular, como partiendo de cero, aprenderás las nuevas técnicas y herramientas que integran el _framework_ más usado por bancos, administraciones y grandes organizaciones.
+Curso de **introducción** al desarrollo de aplicaciones web con Angular v18. Tanto si ya conoces Angular, como partiendo de cero, aprenderás las nuevas técnicas y herramientas que integran el _framework_ más usado por bancos, administraciones y grandes organizaciones.
 
 Angular ha **renacido** en las últimas versiones con un montón de novedades. Cambios en la sintaxis y en la arquitectura, que lo preparan para seguir siendo el líder en el desarrollo de grandes soluciones empresariales.
 

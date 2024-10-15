@@ -81,7 +81,7 @@ export class AppComponent {}
 
 ```typescript
 export class HeaderComponent {
-  title = "Astro Bookings";
+  title = "Activity Bookings";
 }
 ```
 
@@ -129,31 +129,36 @@ Carpeta `Domain` para los modelos
   template: ``,
 })
 export class BookingsComponent {
-  launch: Launch = {
-    id: "lnch_1",
-    mission: "Artemis I",
-    destination: "Moon",
-    price: 28000000,
+  activity: Activity = {
+    name: "Paddle surf",
+    location: "Lake Leman at Lausanne",
+    price: 100,
     date: new Date(2025, 7, 15),
-    status: "scheduled",
+    minParticipants: 4,
+    maxParticipants: 10,
+    status: "published",
+    id: 1,
+    slug: "paddle-surf",
+    duration: 2,
+    userId: 1,
   };
-  currentTravelers = 3;
+  currentParticipants = 3;
 }
 ```
 
 ```html
 <article>
   <header>
-    <h2>{{ launch.mission }}</h2>
-    <div [class]="launch.status">
-      <span>{{ launch.destination }}</span>
-      <span>{{ launch.price | currency }}</span>
-      <span>{{ launch.date | date }}</span>
-      <span>{{ launch.status | uppercase }}</span>
+    <h2>{{ activity.name }}</h2>
+    <div [class]="activity.status">
+      <span>{{ activity.location }}</span>
+      <span>{{ activity.price | currency }}</span>
+      <span>{{ activity.date | date }}</span>
+      <span>{{ activity.status | uppercase }}</span>
     </div>
   </header>
   <main>
-    <p>Travelers: {{ currentTravelers }}</p>
+    <p>Participants: {{ currentParticipants }}</p>
   </main>
   <footer>
     <button>Book now!</button>
@@ -170,26 +175,26 @@ export class BookingsComponent {
 },
 ```
 
-`ng g pipe bookings/launchTitle`
+`ng g pipe bookings/activityTitle`
 
 ```typescript
 @Pipe({
-  name: "launchTitle",
+  name: "activityTitle",
 })
-export class LaunchTitlePipe implements PipeTransform {
-  transform(launch: Launch, ...args: unknown[]): string {
-    return `${launch.mission} to ${launch.destination}`;
+export class ActivityTitlePipe implements PipeTransform {
+  transform(activity: Activity, ...args: unknown[]): string {
+    return `${activity.name} at ${activity.location}`;
   }
 }
 ```
 
 ```html
 <header>
-  <h2>{{ launch | launchTitle }}</h2>
-  <div [class]="launch.status">
-    <span>{{ launch.price | currency }}</span>
-    <span>{{ launch.date | date }}</span>
-    <span>{{ launch.status | uppercase }}</span>
+  <h2>{{ activity | activityTitle }}</h2>
+  <div [class]="activity.status">
+    <span>{{ activity.price | currency }}</span>
+    <span>{{ activity.date | date }}</span>
+    <span>{{ activity.status | uppercase }}</span>
   </div>
 </header>
 ```
@@ -200,25 +205,26 @@ export class LaunchTitlePipe implements PipeTransform {
 
 `"styles": ["node_modules/@picocss/pico/css/pico.min.css", "src/styles.css"],`
 
-// 'scheduled', 'confirmed', 'launched', 'delayed', 'aborted'
-
 ```css
-.scheduled {
+.draft {
   color: violet;
   font-style: italic;
+}
+.published {
+  color: limegreen;
 }
 .confirmed {
   color: green;
 }
-.delayed {
-  color: limegreen;
+.sold-out {
+  color: green;
   font-style: italic;
 }
-.launched {
+.done {
   color: orange;
   font-style: italic;
 }
-.aborted {
+.cancelled {
   color: red;
   font-style: italic;
 }
