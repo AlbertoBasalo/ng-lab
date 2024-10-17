@@ -38,6 +38,7 @@ ng g c core/layout/footer
   imports: [HeaderComponent, FooterComponent],
   template: `
     <lab-header />
+    <router-outlet />
     <lab-footer />
   `,
   styles: [],

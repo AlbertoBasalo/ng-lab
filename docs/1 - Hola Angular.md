@@ -90,12 +90,13 @@ Prettier config
 
 ```json
 {
+  "bracketSameLine": true,
   "endOfLine": "auto",
-  "trailingComma": "all",
-  "tabWidth": 2,
+  "printWidth": 100,
   "semi": true,
   "singleQuote": true,
-  "printWidth": 120
+  "tabWidth": 2,
+  "trailingComma": "all"
 }
 ```
 
