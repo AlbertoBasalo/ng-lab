@@ -25,7 +25,27 @@ import { LaunchTitlePipe } from './launch-title.pipe';
       </footer>
     </article>
   `,
-  styles: ``,
+  styles: `
+    .scheduled {
+      color: violet;
+      font-style: italic;
+    }
+    .confirmed {
+      color: green;
+    }
+    .delayed {
+      color: limegreen;
+      font-style: italic;
+    }
+    .launched {
+      color: orange;
+      font-style: italic;
+    }
+    .aborted {
+      color: red;
+      font-style: italic;
+    }
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookingsComponent {

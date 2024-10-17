@@ -203,6 +203,15 @@ export class LaunchTitlePipe implements PipeTransform {
 
 `"styles": ["node_modules/@picocss/pico/css/pico.min.css", "src/styles.css"],`
 
+```css
+body {
+  padding: 1rem;
+}
+span {
+  margin-right: 0.5rem;
+}
+```
+
 // 'scheduled', 'confirmed', 'launched', 'delayed', 'aborted'
 
 ```css
