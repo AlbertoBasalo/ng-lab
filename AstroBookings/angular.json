@@ -13,6 +13,9 @@
           "inlineStyle": true,
           "skipTests": true,
           "standalone": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
         }
       },
       "root": "",

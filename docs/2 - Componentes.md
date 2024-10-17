@@ -118,7 +118,7 @@ export class FooterComponent {
 ng g c bookings/bookings
 ```
 
-Carpeta `Domain` para los modelos
+Carpeta `Models` para los modelos
 
 ```tsx
 @Component({
@@ -130,12 +130,14 @@ Carpeta `Domain` para los modelos
   template: ``,
 })
 export class BookingsComponent {
-  launch: Launch = {
-    id: "lnch_1",
-    mission: "Artemis I",
+  launch: LaunchDto = {
+    id: "1",
+    agencyId: "1",
+    rocketId: "1",
+    date: new Date(2029, 5, 1),
+    mission: "Moon Landing",
     destination: "Moon",
-    price: 28000000,
-    date: new Date(2025, 7, 15),
+    pricePerSeat: 100,
     status: "scheduled",
   };
   currentTravelers = 3;
@@ -148,8 +150,8 @@ export class BookingsComponent {
     <h2>{{ launch.mission }}</h2>
     <div [class]="launch.status">
       <span>{{ launch.destination }}</span>
-      <span>{{ launch.price | currency }}</span>
-      <span>{{ launch.date | date }}</span>
+      <span>{{ launch.pricePerSeat | currency: 'USD' : 'symbol' : '1.0-0' }}</span>
+      <span>{{ launch.date | date: 'dd/MM/yyyy' }}</span>
       <span>{{ launch.status | uppercase }}</span>
     </div>
   </header>
@@ -178,7 +180,7 @@ export class BookingsComponent {
   name: "launchTitle",
 })
 export class LaunchTitlePipe implements PipeTransform {
-  transform(launch: Launch, ...args: unknown[]): string {
+  transform(launch: LaunchDto, ...args: unknown[]): string {
     return `${launch.mission} to ${launch.destination}`;
   }
 }
