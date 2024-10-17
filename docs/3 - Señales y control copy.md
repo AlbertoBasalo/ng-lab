@@ -8,21 +8,26 @@ Cambios en los datos producen cambios en la presentación
 
 ```typescript
 export class BookingsComponent {
-  readonly launch: Launch = {
-    id: "lnch_1",
-    mission: "Artemis I",
-    destination: "Moon",
-    price: 28000000,
+  readonly activity: Activity = {
+    name: "Paddle surf",
+    location: "Lake Leman at Lausanne",
+    price: 125,
     date: new Date(2025, 7, 15),
-    status: "scheduled",
+    minParticipants: 5,
+    maxParticipants: 9,
+    status: "published",
+    id: 1,
+    slug: "paddle-surf",
+    duration: 2,
+    userId: 1,
   };
-  readonly alreadyPassengers = 3;
+  readonly alreadyParticipants = 3;
 
-  readonly newPassengers = signal(0);
+  readonly newParticipants = signal(0);
   readonly booked = signal(false);
 
-  onNewPassengersChange(newPassengers: number) {
-    this.newPassengers.set(newPassengers);
+  onNewParticipantsChange(newParticipants: number) {
+    this.newParticipants.set(newParticipants);
   }
 
   onBookClick() {
@@ -44,19 +49,14 @@ export class BookingsComponent {
   </header>
   <main>
     <h4>Participants</h4>
-    <div>Already Passengers: {{ alreadyPassengers }}</div>
-    <div>New Passengers: {{ newPassengers() }}</div>
+    <div>Already Participants: {{ alreadyParticipants }}</div>
+    <div>New participants: {{ newParticipants() }}</div>
   </main>
   <footer>
     <h4>New Bookings</h4>
-    <label for="newPassengers">How many Passengers want to book?</label>
-    <input
-      type="number"
-      [ngModel]="newPassengers()"
-      (ngModelChange)="onNewPassengersChange($event)" />
-    <button [disabled]="booked() || newPassengers() === 0" (click)="onBookClick()">
-      Book now!
-    </button>
+    <label for="newParticipants">How many participants want to book?</label>
+    <input type="number" [ngModel]="newParticipants()" (ngModelChange)="onNewParticipantsChange($event)" />
+    <button [disabled]="booked() || newParticipants() === 0" (click)="onBookClick()">Book now!</button>
   </footer>
 </article>
 ```
@@ -66,11 +66,11 @@ export class BookingsComponent {
 ### 3.2.1 Computación derivada
 
 ```typescript
-maxNewPassengers = this.activity.maxPassengers - this.alreadyPassengers;
-totalPassengers = computed(() => this.alreadyPassengers + this.newPassengers());
-remainingPlaces = computed(() => this.activity.maxPassengers - this.totalPassengers());
-bookingAmount = computed(() => this.newPassengers() * this.activity.price);
-canNotBook = computed(() => this.booked() || this.newPassengers() === 0);
+maxNewParticipants = this.activity.maxParticipants - this.alreadyParticipants;
+totalParticipants = computed(() => this.alreadyParticipants + this.newParticipants());
+remainingPlaces = computed(() => this.activity.maxParticipants - this.totalParticipants());
+bookingAmount = computed(() => this.newParticipants() * this.activity.price);
+canNotBook = computed(() => this.booked() || this.newParticipants() === 0);
 ```
 
 ```html
@@ -85,34 +85,30 @@ canNotBook = computed(() => this.booked() || this.newPassengers() === 0);
     </div>
   </header>
   <main>
-    <h4>Passengers</h4>
-    <div>Already Passengers: {{ alreadyPassengers }}</div>
+    <h4>Participants</h4>
+    <div>Already Participants: {{ alreadyParticipants }}</div>
     <ul>
-      <li>New Passengers: {{ newPassengers() }}</li>
-      <li>Total Passengers: {{ totalPassengers() }}</li>
+      <li>New Participants: {{ newParticipants() }}</li>
+      <li>Total participants: {{ totalParticipants() }}</li>
       <li>Remaining places: {{ remainingPlaces() }}</li>
     </ul>
   </main>
   <footer>
-    <label for="newPassengers">How many Passengers want to book?</label>
+    <label for="newParticipants">How many participants want to book?</label>
     <input
       type="number"
-      name="newPassengers"
-      [ngModel]="newPassengers()"
-      (ngModelChange)="onNewPassengersChange($event)"
+      name="newParticipants"
+      [ngModel]="newParticipants()"
+      (ngModelChange)="onNewParticipantsChange($event)"
       min="0"
-      [max]="maxNewPassengers" />
-    <button [disabled]="canNotBook()" (click)="onBookClick()">
-      Book now for {{ bookingAmount() | currency }}!
-    </button>
+      [max]="maxNewParticipants" />
+    <button [disabled]="canNotBook()" (click)="onBookClick()">Book now for {{ bookingAmount() | currency }}!</button>
     <button>Cancel</button>
   </footer>
 </article>
 ```
 
 ### 3.2.2 Efectos colaterales
-
-👽 Do not change state directly, use signals.
 
 ```typescript
 constructor() {
@@ -137,15 +133,10 @@ constructor() {
 ```html
 @if(remainingPlaces() > 0) {
 <label for="newBookings">How many bookings?</label>
-<input
-  type="number"
-  [ngModel]="newBookings()"
-  (ngModelChange)="onNewBookings($event)"
-  min="0"
-  [max]="maxBookings()" />
+<input type="number" [ngModel]="newBookings()" (ngModelChange)="onNewBookings($event)" min="0" [max]="maxBookings()" />
 } @else {
 <div>
-  <button class="secondary outline" (click)="onNewPassengersChange(0)">Reset</button>
+  <button class="secondary outline" (click)="onNewParticipantsChange(0)">Reset</button>
   <span>No more places available</span>
 </div>
 }
@@ -154,20 +145,20 @@ constructor() {
 ## 3.3.2 Repetitivas
 
 ```typescript
-class BookingComponent {
-  passengers = signal<{ id: number }[]>([{ id: 1 }, { id: 2 }, { id: 3 }]);
+class CookingComponent {
+  participants = signal<{ id: number }[]>([{ id: 1 }, { id: 2 }, { id: 3 }]);
 
-  onNewPassengersChange(newPassengers: number) {
-    if (newPassengers > this.maxNewPassengers) {
-      newPassengers = this.maxNewPassengers;
+  onNewParticipantsChange(newParticipants: number) {
+    if (newParticipants > this.maxNewParticipants) {
+      newParticipants = this.maxNewParticipants;
     }
-    this.newPassengers.set(newPassengers);
-    this.passengers.update((passengers) => {
-      const updatedPassengers = passengers.slice(0, this.alreadyPassengers);
-      for (let i = 0; i < newPassengers; i++) {
-        updatedPassengers.push({ id: passengers.length + 1 });
+    this.newParticipants.set(newParticipants);
+    this.participants.update((participants) => {
+      const updatedParticipants = participants.slice(0, this.alreadyParticipants);
+      for (let i = 0; i < newParticipants; i++) {
+        updatedParticipants.push({ id: participants.length + 1 });
       }
-      return updatedPassengers;
+      return updatedParticipants;
     });
   }
 }
@@ -175,10 +166,10 @@ class BookingComponent {
 
 ```html
 <div>
-  @for (passenger of passengers(); track passenger.id) {
-  <span [attr.data-tooltip]="passenger.id">🧑‍🚀</span>
+  @for (participant of participants(); track participant.id) {
+  <span [attr.data-tooltip]="participant.id">🏃</span>
   } @empty {
-  <span>🕳️</span>
+  <span>🕸️</span>
   }
 </div>
 ```
