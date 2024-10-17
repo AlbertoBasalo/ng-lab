@@ -57,7 +57,7 @@ export class AppComponent {}
 
 <header>
   <nav>
-    <a href="">Activity Bookings</a>
+    <a href="">Astro Bookings</a>
   </nav>
 </header>
 

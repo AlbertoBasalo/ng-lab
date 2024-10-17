@@ -67,12 +67,10 @@ ng build
 # npm start
 ng serve
 # Common options
-ng server --open --force-esbuild
+ng server --open
 # Configuring browser
-"chrome":
-	"start chrome -incognito
-   -auto-open-devtools-for-tabs <http://localhost:4200>",
-"start": "npm run chrome && ng serve --force-esbuild",
+"chrome": "start chrome -incognito -auto-open-devtools-for-tabs <http://localhost:4200>",
+"start": "npm run chrome && ng serve",
 ```
 
 ## 1.3 Configuración del espacio de trabajo, editor y herramientas recomendadas.
