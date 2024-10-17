@@ -13,12 +13,11 @@
   "scripts": {
     "ng": "ng",
     "chrome": "start chrome -incognito -auto-open-devtools-for-tabs http://localhost:4200",
-    "serve": "npm run chrome &&  ng serve",
-    "start": "ng serve",
+    "start": "npm run chrome &&  ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "start:pro": "npm run build && npx http-server -p 8080 -c-1 dist/activity-bookings/browser",
+    "start:pro": "npm run build && npx http-server -p 8080 -c-1 dist/astro-bookings/browser",
     "serve:ssr:AstroBookings": "node dist/astro-bookings/server/server.mjs",
     "lint": "ng lint"
   },
