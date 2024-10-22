@@ -1,0 +1,82 @@
+[
+  {
+    "id": "bkg_1",
+    "travelerId": "usr_t1",
+    "launchId": "lnch_1",
+    "numberOfSeats": 1,
+    "totalPrice": 28000000,
+    "status": "confirmed"
+  },
+  {
+    "id": "bkg_2",
+    "travelerId": "usr_t2",
+    "launchId": "lnch_2",
+    "numberOfSeats": 2,
+    "totalPrice": 500000,
+    "status": "confirmed"
+  },
+  {
+    "id": "bkg_3",
+    "travelerId": "usr_t3",
+    "launchId": "lnch_4",
+    "numberOfSeats": 1,
+    "totalPrice": 75000000,
+    "status": "confirmed"
+  },
+  {
+    "id": "bkg_4",
+    "travelerId": "usr_t4",
+    "launchId": "lnch_6",
+    "numberOfSeats": 3,
+    "totalPrice": 300000,
+    "status": "confirmed"
+  },
+  {
+    "id": "bkg_5",
+    "travelerId": "usr_t5",
+    "launchId": "lnch_7",
+    "numberOfSeats": 2,
+    "totalPrice": 1000000,
+    "status": "confirmed"
+  },
+  {
+    "id": "bkg_6",
+    "travelerId": "usr_t6",
+    "launchId": "lnch_9",
+    "numberOfSeats": 1,
+    "totalPrice": 275000,
+    "status": "confirmed"
+  },
+  {
+    "id": "bkg_7",
+    "travelerId": "usr_t7",
+    "launchId": "lnch_10",
+    "numberOfSeats": 2,
+    "totalPrice": 160000000,
+    "status": "confirmed"
+  },
+  {
+    "id": "bkg_8",
+    "travelerId": "usr_t8",
+    "launchId": "lnch_12",
+    "numberOfSeats": 1,
+    "totalPrice": 60000000,
+    "status": "confirmed"
+  },
+  {
+    "id": "bkg_9",
+    "travelerId": "usr_t9",
+    "launchId": "lnch_15",
+    "numberOfSeats": 4,
+    "totalPrice": 2200000,
+    "status": "confirmed"
+  },
+  {
+    "id": "bkg_10",
+    "travelerId": "usr_t10",
+    "launchId": "lnch_17",
+    "numberOfSeats": 2,
+    "totalPrice": 170000000,
+    "status": "confirmed"
+  }
+]

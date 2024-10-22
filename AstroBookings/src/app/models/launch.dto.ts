@@ -4,7 +4,7 @@ export interface LaunchDto {
   id: string;
   agencyId: string;
   rocketId: string;
-  date: Date;
+  date: Date | string;
   mission: string;
   destination: string;
   pricePerSeat: number;
