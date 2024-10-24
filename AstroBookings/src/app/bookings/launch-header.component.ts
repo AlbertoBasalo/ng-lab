@@ -1,12 +1,25 @@
-import { CurrencyPipe, DatePipe, UpperCasePipe } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { CurrencyPipe, DatePipe, DecimalPipe, UpperCasePipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular/core';
 import { LaunchDto } from '../models/launch.dto';
 import { LaunchTitlePipe } from './launch-title.pipe';
 
+/**
+ * Header component for the launch details
+ */
 @Component({
   selector: 'lab-launch-header',
   standalone: true,
-  imports: [CurrencyPipe, DatePipe, UpperCasePipe, LaunchTitlePipe],
+  imports: [UpperCasePipe, CurrencyPipe, DatePipe, DecimalPipe, LaunchTitlePipe],
+  template: `
+    <header>
+      <h2>{{ launch() | launchTitle: ' 🧑‍🚀 ' }}</h2>
+      <div [class]="launch().status">
+        <span>{{ launch().pricePerSeat | currency: 'USD' : 'symbol' : '1.0-0' }}</span>
+        <span>{{ launch().date | date: 'dd MMM yyyy' }}</span>
+        <span>{{ launch().status | uppercase }}</span>
+      </div>
+    </header>
+  `,
   styles: `
     .scheduled {
       color: violet;
@@ -28,15 +41,8 @@ import { LaunchTitlePipe } from './launch-title.pipe';
       font-style: italic;
     }
   `,
-  template: `<header>
-    <h2>{{ launch() | launchTitle }}</h2>
-    <div [class]="launch().status">
-      <span>{{ launch().pricePerSeat | currency: 'USD' : 'symbol' : '1.0-0' }}</span>
-      <span>{{ launch().date | date: 'dd/MMM/yyyy' }}</span>
-      <span>{{ launch().status | uppercase }}</span>
-    </div>
-  </header> `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LaunchHeaderComponent {
-  launch = input.required<LaunchDto>();
+  launch: InputSignal<LaunchDto> = input.required<LaunchDto>();
 }

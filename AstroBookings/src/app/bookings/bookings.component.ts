@@ -11,6 +11,11 @@ import { LaunchDto } from '../models/launch.dto';
 import { RocketDto } from '../models/rocket.dto';
 import { BookFormComponent } from './book-form.component';
 import { LaunchHeaderComponent } from './launch-header.component';
+
+/**
+ * Bookings page componente
+ * Display the launch details and the booking form
+ */
 @Component({
   selector: 'lab-bookings',
   standalone: true,
@@ -20,15 +25,14 @@ import { LaunchHeaderComponent } from './launch-header.component';
     <article>
       <lab-launch-header [launch]="launch" />
       <lab-book-form
-        [currentTravelers]="currentTravelers()"
         [rocket]="rocket"
-        [(newTravelers)]="newTravelers"
-        (book)="bookTravelers($event)" />
+        [currentTravelers]="currentTravelers()"
+        (bookTravel)="onBookTravel($event)" />
     </article>
   `,
 })
 export class BookingsComponent {
-  launch: LaunchDto = {
+  public launch: LaunchDto = {
     id: 'lnch_1',
     agencyId: 'usr_a1',
     rocketId: 'rkt_1',
@@ -38,7 +42,7 @@ export class BookingsComponent {
     pricePerSeat: 28000000,
     status: 'delayed',
   };
-  rocket: RocketDto = {
+  public rocket: RocketDto = {
     id: 'rkt_1',
     agencyId: 'usr_a1',
     name: 'Falcon Heavy',
@@ -46,38 +50,23 @@ export class BookingsComponent {
     range: 'mars',
   };
 
-  currentTravelers: Signal<number> = signal(89);
-  newTravelers: WritableSignal<number> = signal(0);
-  totalTravelers: Signal<number> = computed(() => this.currentTravelers() + this.newTravelers());
-  /*
-  maxNewTravelers: Signal<number> = computed(() => this.rocket.capacity - this.currentTravelers()); */
+  public currentTravelers: Signal<number> = signal(89);
+  private newTravelers: WritableSignal<number> = signal(0);
+  private totalTravelers: Signal<number> = computed(
+    () => this.currentTravelers() + this.newTravelers(),
+  );
 
-  constructor() {
-    effect(() => {
-      if (this.totalTravelers() / this.rocket.capacity > 0.9) {
-        this.launch.status = 'confirmed';
-      } else if (this.totalTravelers() / this.rocket.capacity > 0.5) {
-        this.launch.status = 'delayed';
-      } else {
-        this.launch.status = 'scheduled';
-      }
-    });
-  }
-
-  onNewTravelers(event: Event) {
-    const n = (event.target as HTMLInputElement).valueAsNumber;
-    this.newTravelers.set(n);
-  }
-  bookTravelers(newTravelers: number) {
-    // this.newTravelers.update((current) => current + n);
-    /* if (this.totalTravelers() / this.rocket.capacity > 0.9) {
+  private readonly launchStatusEffect = effect(() => {
+    const occupation = this.totalTravelers() / this.rocket.capacity;
+    if (occupation > 0.9) {
       this.launch.status = 'confirmed';
-    } */
-    console.log(newTravelers);
-    //this.currentTravelers.update((current) => current + newTravelers);
-  }
-  cancelBooking() {
-    this.newTravelers.set(0);
-    //this.currentTravelers.update((current) => current - this.newTravelers());
+    } else {
+      this.launch.status = 'delayed';
+    }
+  });
+
+  public onBookTravel(newTravelers = 0) {
+    console.log('Booked travelers:', newTravelers);
+    this.newTravelers.set(newTravelers);
   }
 }

@@ -1,52 +1,70 @@
-import { Component, computed, input, model, output } from '@angular/core';
+import {
+  Component,
+  computed,
+  input,
+  InputSignal,
+  output,
+  signal,
+  Signal,
+  WritableSignal,
+} from '@angular/core';
 import { RocketDto } from '../models/rocket.dto';
 
+/**
+ * Booking form component
+ * Display the booking form and the total travelers
+ */
 @Component({
   selector: 'lab-book-form',
   standalone: true,
   imports: [],
-  template: `<main>
-      <p>Current travelers: {{ currentTravelers() }}</p>
-      <!--
-        <p>New travelers: {{ newTravelers() }}</p>
-        -->
+  template: `
+    <main>
+      <p>Rocket Capacity: {{ rocket().capacity }}</p>
+      <p>Current Travelers: {{ currentTravelers() }}</p>
+      <label for="newTravelers">New Travelers:</label>
       <input
+        id="newTravelers"
         type="number"
-        [value]="newTravelers()"
-        (change)="onNewTravelers($event)"
         min="0"
-        [max]="maxNewTravelers()" />
+        [max]="maxNewTravelers()"
+        [value]="newTravelers()"
+        (change)="onNewTravelersChange($event)" />
       <p>Total travelers: {{ totalTravelers() }}</p>
     </main>
     <footer>
       <span>
-        <button class="outline" (click)="bookTravelers()">Book now!</button>
+        <button (click)="onBookClick()" class="outline">Book now!</button>
       </span>
       <span>
-        <button class="outline secondary" (click)="cancelBooking()">Cancel</button>
+        <button (click)="onCancelClick()" class="outline secondary">Cancel</button>
       </span>
-    </footer>`,
+    </footer>
+  `,
 })
 export class BookFormComponent {
-  currentTravelers = input.required<number>();
-  rocket = input.required<RocketDto>();
-  newTravelers = model<number>(0);
-  book = output<number>();
-  maxNewTravelers = computed(() => this.rocket().capacity - this.currentTravelers());
-  totalTravelers = computed(() => this.currentTravelers() + this.newTravelers());
-  onNewTravelers(event: Event) {
-    const n = (event.target as HTMLInputElement).valueAsNumber;
-    this.newTravelers.set(n);
+  rocket: InputSignal<RocketDto> = input.required<RocketDto>();
+  currentTravelers: InputSignal<number> = input.required<number>();
+  bookTravel = output<number>();
+
+  newTravelers: WritableSignal<number> = signal(0);
+  totalTravelers: Signal<number> = computed(() => this.currentTravelers() + this.newTravelers());
+  maxNewTravelers: Signal<number> = computed(
+    () => this.rocket().capacity - this.currentTravelers(),
+  );
+
+  onNewTravelersChange(event: Event) {
+    const max = this.maxNewTravelers();
+    const newTravelers = (event.target as HTMLInputElement).valueAsNumber;
+    this.newTravelers.set(Math.min(newTravelers, max));
+    //console.log('New travelers:', this.newTravelers());
   }
-  bookTravelers() {
-    // this.newTravelers.update((current) => current + n);
-    /* if (this.totalTravelers() / this.rocket.capacity > 0.9) {
-      this.launch.status = 'confirmed';
-    } */
-    this.book.emit(this.newTravelers());
+  onBookClick() {
+    console.log('Booked travelers:', this.newTravelers());
+    this.bookTravel.emit(this.newTravelers());
   }
-  cancelBooking() {
+
+  onCancelClick() {
     this.newTravelers.set(0);
-    //this.currentTravelers.update((current) => current - this.newTravelers());
   }
 }
