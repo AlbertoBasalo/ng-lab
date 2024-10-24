@@ -32,7 +32,8 @@ import { LaunchHeaderComponent } from './launch-header.component';
   `,
 })
 export class BookingsComponent {
-  public launch: LaunchDto = {
+  // property data
+  launch: LaunchDto = {
     id: 'lnch_1',
     agencyId: 'usr_a1',
     rocketId: 'rkt_1',
@@ -42,7 +43,7 @@ export class BookingsComponent {
     pricePerSeat: 28000000,
     status: 'delayed',
   };
-  public rocket: RocketDto = {
+  rocket: RocketDto = {
     id: 'rkt_1',
     agencyId: 'usr_a1',
     name: 'Falcon Heavy',
@@ -50,12 +51,16 @@ export class BookingsComponent {
     range: 'mars',
   };
 
-  public currentTravelers: Signal<number> = signal(89);
-  private newTravelers: WritableSignal<number> = signal(0);
-  private totalTravelers: Signal<number> = computed(
-    () => this.currentTravelers() + this.newTravelers(),
-  );
+  // Readonly signals
+  currentTravelers: Signal<number> = signal(89);
 
+  // Writable signals
+  newTravelers: WritableSignal<number> = signal(0);
+
+  // Computed signals
+  totalTravelers: Signal<number> = computed(() => this.currentTravelers() + this.newTravelers());
+
+  // Effects (run on signals changes)
   private readonly launchStatusEffect = effect(() => {
     const occupation = this.totalTravelers() / this.rocket.capacity;
     if (occupation > 0.9) {
@@ -65,7 +70,8 @@ export class BookingsComponent {
     }
   });
 
-  public onBookTravel(newTravelers = 0) {
+  // Methods (event handlers)
+  onBookTravel(newTravelers = 0) {
     console.log('Booked travelers:', newTravelers);
     this.newTravelers.set(newTravelers);
   }

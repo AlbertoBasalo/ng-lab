@@ -44,5 +44,6 @@ import { LaunchTitlePipe } from './launch-title.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LaunchHeaderComponent {
+  // Input signals (sent from parent via [input])
   launch: InputSignal<LaunchDto> = input.required<LaunchDto>();
 }

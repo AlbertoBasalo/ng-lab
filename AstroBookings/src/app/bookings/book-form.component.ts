@@ -4,6 +4,7 @@ import {
   input,
   InputSignal,
   output,
+  OutputEmitterRef,
   signal,
   Signal,
   WritableSignal,
@@ -43,27 +44,29 @@ import { RocketDto } from '../models/rocket.dto';
   `,
 })
 export class BookFormComponent {
+  // Inputs signals (sent from parent via [input])
   rocket: InputSignal<RocketDto> = input.required<RocketDto>();
   currentTravelers: InputSignal<number> = input.required<number>();
-  bookTravel = output<number>();
+  // Outputs emitter (sent to parent via (output))
+  bookTravel: OutputEmitterRef<number> = output<number>();
 
+  // Signals
   newTravelers: WritableSignal<number> = signal(0);
+  // Computed (derived values)
   totalTravelers: Signal<number> = computed(() => this.currentTravelers() + this.newTravelers());
   maxNewTravelers: Signal<number> = computed(
     () => this.rocket().capacity - this.currentTravelers(),
   );
 
+  // Methods (event handlers)
   onNewTravelersChange(event: Event) {
     const max = this.maxNewTravelers();
     const newTravelers = (event.target as HTMLInputElement).valueAsNumber;
     this.newTravelers.set(Math.min(newTravelers, max));
-    //console.log('New travelers:', this.newTravelers());
   }
   onBookClick() {
-    console.log('Booked travelers:', this.newTravelers());
     this.bookTravel.emit(this.newTravelers());
   }
-
   onCancelClick() {
     this.newTravelers.set(0);
   }
