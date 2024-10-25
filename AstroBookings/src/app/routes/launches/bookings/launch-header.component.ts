@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular/core';
-import { LaunchDto } from '../../../shared/models/launch.dto';
-import { LaunchBlock } from '../../../shared/ui/launch.block';
+import { LaunchDto } from '@models/launch.dto';
+import { LaunchBlock } from '@ui/launch.block';
 
 /**
  * Header component for the launch details

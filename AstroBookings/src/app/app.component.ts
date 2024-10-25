@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FooterComponent } from './core/layout/footer.component';
-import { HeaderComponent } from './core/layout/header.component';
+import { FooterComponent } from '@layout/footer.component';
+import { HeaderComponent } from '@layout/header.component';
 
 @Component({
   selector: 'lab-root',
@@ -17,9 +17,3 @@ import { HeaderComponent } from './core/layout/header.component';
 export class AppComponent {
   title = 'AstroBookings';
 }
-
-// ToDo:
-// - Use router outlet and remove the bookings component
-// - Have a home page with a list of launches
-// - Link the launch to the bookings page for the selected launch
-// - Add Registration and Login pages

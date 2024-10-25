@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { LaunchDto } from '../models/launch.dto';
+import { LaunchDto } from '@models/launch.dto';
 
 /**
  * Pipe to format the launch title
