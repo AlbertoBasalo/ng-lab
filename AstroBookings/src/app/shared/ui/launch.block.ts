@@ -17,15 +17,14 @@ import { LaunchTitlePipe } from '@ui/launch-title.pipe';
   `,
   styles: `
     .scheduled {
-      color: violet;
-      font-style: italic;
+      color: teal;
     }
     .confirmed {
       color: green;
+      font-style: bold;
     }
     .delayed {
-      color: limegreen;
-      font-style: italic;
+      color: lime;
     }
     .launched {
       color: orange;

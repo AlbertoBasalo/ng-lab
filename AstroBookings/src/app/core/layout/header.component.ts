@@ -1,28 +1,32 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'lab-header',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   template: `
     <header>
       <nav>
-        <a href="">{{ title }}</a>
+        <a routerLink="">
+          <b>{{ title }}</b>
+        </a>
         <section>
           @for (item of menu; track item.link) {
-            <span>
-              <a [href]="item.link">{{ item.title }}</a>
-            </span>
+            @if (!item.registeredOnly || isAuthenticated) {
+              <span>
+                <a [routerLink]="item.link">{{ item.title }}</a>
+              </span>
+            }
           }
         </section>
       </nav>
     </header>
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-  title = 'Astro Bookings';
+  title = '🚀 Astro Bookings';
+  isAuthenticated = false;
   menu = [
     {
       title: '🌍 Home',
@@ -30,7 +34,8 @@ export class HeaderComponent {
     },
     {
       title: '🎟️ Bookings',
-      link: '/launches/:id/bookings',
+      link: '/bookings',
+      registeredOnly: true,
     },
     {
       title: '📘 About us',

@@ -1,5 +1,12 @@
-import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular/core';
-import { LaunchDto } from '@models/launch.dto';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  InputSignal,
+  Signal,
+} from '@angular/core';
+import { LaunchDto, LaunchStatus } from '@models/launch.dto';
 import { LaunchBlock } from '@ui/launch.block';
 
 /**
@@ -11,7 +18,7 @@ import { LaunchBlock } from '@ui/launch.block';
   imports: [LaunchBlock],
   template: `
     <header>
-      <lab-launch [launch]="launch()"></lab-launch>
+      <lab-launch [launch]="launchWithStatus()"></lab-launch>
     </header>
   `,
 
@@ -20,4 +27,9 @@ import { LaunchBlock } from '@ui/launch.block';
 export class LaunchHeaderComponent {
   // Input signals (sent from parent via [input])
   launch: InputSignal<LaunchDto> = input.required<LaunchDto>();
+  status: InputSignal<LaunchStatus> = input.required<LaunchStatus>();
+  launchWithStatus: Signal<LaunchDto & { status: LaunchStatus }> = computed(() => ({
+    ...this.launch(),
+    status: this.status(),
+  }));
 }

@@ -3,15 +3,17 @@ import {
   Component,
   computed,
   effect,
+  input,
+  InputSignal,
   Signal,
   signal,
   WritableSignal,
 } from '@angular/core';
 
-import { ActivatedRoute } from '@angular/router';
-import LAUNCHES_DB from '@db/launches.json';
-import { LaunchDto } from '@models/launch.dto';
-import { RocketDto } from '@models/rocket.dto';
+import { LAUNCHES_DB } from '@db/launches';
+import { ROCKETS_DB } from '@db/rockets';
+import { LaunchDto, LaunchStatus, NULL_LAUNCH } from '@models/launch.dto';
+import { NULL_ROCKET, RocketDto } from '@models/rocket.dto';
 import { BookFormComponent } from './book-form.component';
 import { LaunchHeaderComponent } from './launch-header.component';
 /**
@@ -25,60 +27,52 @@ import { LaunchHeaderComponent } from './launch-header.component';
   imports: [LaunchHeaderComponent, BookFormComponent],
   template: `
     <article>
-      <lab-launch-header [launch]="launch" />
+      <lab-launch-header [launch]="launch()" [status]="launchStatus()" />
       <lab-book-form
-        [rocket]="rocket"
+        [rocket]="rocket()"
         [currentTravelers]="currentTravelers()"
         (bookTravel)="onBookTravel($event)" />
     </article>
   `,
 })
 export default class BookingsPage {
-  launch: LaunchDto = {
-    id: 'lnch_1',
-    agencyId: 'usr_a1',
-    rocketId: 'rkt_1',
-    date: '2025-07-20T10:00:00Z',
-    mission: 'Artemis I',
-    destination: 'Moon Orbit',
-    pricePerSeat: 28000000,
-    status: 'delayed',
-  };
-  rocket: RocketDto = {
-    id: 'rkt_1',
-    agencyId: 'usr_a1',
-    name: 'Falcon Heavy',
-    capacity: 100,
-    range: 'mars',
-  };
-
-  // Readonly signals
-  currentTravelers: Signal<number> = signal(89);
+  // Input signals
+  id: InputSignal<string> = input.required<string>();
 
   // Writable signals
   newTravelers: WritableSignal<number> = signal(0);
 
   // Computed signals
+  launch: Signal<LaunchDto> = computed(
+    () => LAUNCHES_DB.find((launch) => launch.id === this.id()) || NULL_LAUNCH,
+  );
+  rocket: Signal<RocketDto> = computed(
+    () => ROCKETS_DB.find((rocket) => rocket.id === this.launch().rocketId) || NULL_ROCKET,
+  );
+  currentTravelers: Signal<number> = computed(() =>
+    Math.floor(this.rocket().capacity * Math.random()),
+  );
   totalTravelers: Signal<number> = computed(() => this.currentTravelers() + this.newTravelers());
-
-  constructor(activatedRoute: ActivatedRoute) {
-    const launchId: string = activatedRoute.snapshot.params['id'] || '';
-    this.launch = LAUNCHES_DB.find((launch) => launch.id === launchId) || this.launch;
-  }
-
-  // Effects (run on signals changes)
-  private readonly launchStatusEffect = effect(() => {
-    const occupation = this.totalTravelers() / this.rocket.capacity;
-    const currentStatus = this.launch.status;
-    let newStatus = currentStatus;
+  launchStatus: Signal<LaunchStatus> = computed(() => {
+    const occupation = this.totalTravelers() / this.rocket().capacity;
     if (occupation > 0.9) {
-      newStatus = 'confirmed';
+      return 'confirmed';
     } else {
-      newStatus = 'delayed';
+      return 'delayed';
     }
-    if (newStatus !== currentStatus) {
-      // clone the launch object to trigger change detection
-      this.launch = { ...this.launch, status: newStatus };
+  });
+
+  // Effects
+  saveLaunchEffect = effect(() => {
+    if (this.launchStatus() !== this.launch().status) {
+      const updatedLaunch = {
+        ...this.launch(),
+        status: this.launchStatus(),
+      };
+      const launchIndex = LAUNCHES_DB.findIndex((launch) => launch.id === this.id());
+      if (launchIndex !== -1) {
+        LAUNCHES_DB[launchIndex] = updatedLaunch;
+      }
     }
   });
 

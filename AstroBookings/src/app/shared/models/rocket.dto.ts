@@ -5,3 +5,11 @@ export interface RocketDto {
   capacity: number;
   range: string;
 }
+
+export const NULL_ROCKET: RocketDto = {
+  id: '',
+  agencyId: '',
+  name: '',
+  capacity: 0,
+  range: '',
+};

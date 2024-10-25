@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Signal, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import LAUNCHES_DB from '@db/launches.json';
+import { LAUNCHES_DB } from '@db/launches';
 import { LaunchDto } from '@models/launch.dto';
 import { LaunchBlock } from '@ui/launch.block';
 
@@ -16,11 +16,13 @@ import { LaunchBlock } from '@ui/launch.block';
       @for (launch of launches(); track launch.id) {
         <article>
           <lab-launch [launch]="launch"></lab-launch>
-          <footer>
-            <button class="outline" [routerLink]="['launches', launch.id, 'bookings']">
-              Book now!
-            </button>
-          </footer>
+          @if (['confirmed', 'delayed', 'scheduled'].includes(launch.status)) {
+            <footer>
+              <button class="outline" [routerLink]="['launches', launch.id, 'bookings']">
+                Book now!
+              </button>
+            </footer>
+          }
         </article>
       }
     </section>
