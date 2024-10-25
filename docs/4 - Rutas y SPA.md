@@ -46,6 +46,20 @@ main {
 }
 ```
 
+`ng g c routes/home/home --skip-selector --type=page`
+
+```typescript
+// app.routes.ts
+{
+  path: '',
+loadComponent: () => import('./routes/home/home.page'),
+},
+{
+  path: 'launches/:id/bookings',
+  loadComponent: () => import('./routes/launches/bookings/bookings.component').then((m) => m.BookingsComponent),
+},
+```
+
 ### 4.1.2 Router link
 
 `ng g c routes/auth/login`

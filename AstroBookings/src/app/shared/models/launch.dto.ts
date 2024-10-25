@@ -8,5 +8,16 @@ export interface LaunchDto {
   mission: string;
   destination: string;
   pricePerSeat: number;
-  status: LaunchStatus;
+  status: LaunchStatus | string;
 }
+
+export const NULL_LAUNCH: LaunchDto = {
+  id: '',
+  agencyId: '',
+  rocketId: '',
+  date: '',
+  mission: '',
+  destination: '',
+  pricePerSeat: 0,
+  status: '',
+};

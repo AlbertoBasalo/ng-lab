@@ -9,7 +9,7 @@ import {
   Signal,
   WritableSignal,
 } from '@angular/core';
-import { RocketDto } from '../models/rocket.dto';
+import { RocketDto } from '../../shared/models/rocket.dto';
 
 /**
  * Booking form component
@@ -38,7 +38,7 @@ import { RocketDto } from '../models/rocket.dto';
         <button (click)="onBookClick()" class="outline">Book now!</button>
       </span>
       <span>
-        <button (click)="onCancelClick()" class="outline secondary">Cancel</button>
+        <button (click)="onCleanClick()" class="outline secondary">Clean</button>
       </span>
     </footer>
   `,
@@ -67,7 +67,7 @@ export class BookFormComponent {
   onBookClick() {
     this.bookTravel.emit(this.newTravelers());
   }
-  onCancelClick() {
+  onCleanClick() {
     this.newTravelers.set(0);
   }
 }
