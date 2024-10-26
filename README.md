@@ -1,15 +1,18 @@
-# NgLab
+# NgLab Modern Angular (Standalone, Signals, new template Syntax)
 
 > [Laboratorio de ejemplo](https://github.com/albertobasalo/ng-lab) para cursos y talleres de [Angular Basics](https://albertobasalo.notion.site/Angular-Moderno-V17-8d69354edacb41cbaa921a9fbb8a17d0) impartidos en Español por [Alberto Basalo](https://albertobasalo.dev)
 
-> [!NOTE]
-> The ActivityBookings project was generated with [Angular CLI](https://github.com/angular/angular-cli) version _17.1.1._
-> Updated to Angular **18.0.4.**
-> Sample project is at `ActivityBookings` folder
 
 > [!NOTE]
-> The AstroBookings project was generated with [Angular CLI](https://github.com/angular/angular-cli) version _18.2.8._
+> The **AstroBookings** project was generated with [Angular CLI](https://github.com/angular/angular-cli) version **18.2.8.**
 > Sample project is at `AstroBookings` folder
+> 
+> [!NOTE]
+> The _ActivityBookings_ project was generated with [Angular CLI](https://github.com/angular/angular-cli) version _17.1.1._
+> Updated to Angular _18.0.4._
+> Sample project is at `ActivityBookings` folder
+
+
 
 ```bash
 # clone lab from github
