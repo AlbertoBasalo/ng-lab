@@ -2,17 +2,19 @@
 
 > [Laboratorio de ejemplo](https://github.com/albertobasalo/ng-lab) para cursos y talleres de [Angular Basics](https://albertobasalo.notion.site/Angular-Moderno-V17-8d69354edacb41cbaa921a9fbb8a17d0) impartidos en Español por [Alberto Basalo](https://albertobasalo.dev)
 
+## Sample projects
 
 > [!NOTE]
 > The **AstroBookings** project was generated with [Angular CLI](https://github.com/angular/angular-cli) version **18.2.8.**
 > Sample project is at `AstroBookings` folder
-> 
+
+
 > [!NOTE]
 > The _ActivityBookings_ project was generated with [Angular CLI](https://github.com/angular/angular-cli) version _17.1.1._
 > Updated to Angular _18.0.4._
 > Sample project is at `ActivityBookings` folder
 
-
+## Instructions
 
 ```bash
 # clone lab from github
@@ -28,13 +30,18 @@ npm start
 > Start a fake API server
 > Clone and follow instructions from https://github.com/AlbertoBasalo/api_bun
 
+> [!NOTE]
+> Move to numbered branches to follow the evolution of the project
+
+
+
 > [!TIP]
 > Documentation
-> Find detailed journal of instructions in [docs folder](./docs/)
+> Find a detailed journal of instructions in [docs folder](./docs/)
 
 ### Folder structure
 
-Have an outlook of the project folders structure
+Have an outlook of the project folder structure
 
 ![Folders](./docs/screenshots/folders.png)
 
@@ -47,7 +54,7 @@ Have an outlook of the project folders structure
 
 ## Testing
 
-This project is being _e2e_ tested with **Cypress**. Find the testing code at this repository
+This project is being _e2e_ tested with **Cypress**. Find the testing code at this repository.
 
 - [**cy-lab**](https://github.com/AlbertoBasalo/cy-lab)
 
