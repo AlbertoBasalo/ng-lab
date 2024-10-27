@@ -10,7 +10,15 @@ import { LaunchBlock } from '@ui/launch.block';
  */
 @Component({
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, LaunchBlock],
+  styles: `
+    .list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(512px, 1fr));
+      gap: 1rem;
+    }
+  `,
   template: `
     <section class="list">
       @for (launch of launches(); track launch.id) {
@@ -27,14 +35,6 @@ import { LaunchBlock } from '@ui/launch.block';
       }
     </section>
   `,
-  styles: `
-    .list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(512px, 1fr));
-      gap: 1rem;
-    }
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class HomePage {
   launches: Signal<LaunchDto[]> = signal(LAUNCHES_DB);

@@ -1,5 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
+/**
+ * Footer widget component
+ * - Displays the footer with the author and the year
+ * - It is a smart component that owns its data
+ */
 @Component({
   selector: 'lab-footer',
   standalone: true,
@@ -15,7 +20,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FooterComponent {
+export class FooterWidget {
   author = {
     name: 'Alberto Basalo',
     homepage: 'https://albertobasalo.dev',
@@ -23,6 +28,9 @@ export class FooterComponent {
 
   year = new Date().getFullYear();
 
+  /**
+   * Event handler for the accept cookies button
+   */
   onAcceptClick() {
     console.log('Cookies accepted!');
   }

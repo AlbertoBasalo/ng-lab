@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+/**
+ * Header widget component
+ * - Displays the header with the title and the menu
+ * - It is a smart component that owns its data
+ */
 @Component({
   selector: 'lab-header',
   standalone: true,
@@ -24,7 +29,7 @@ import { RouterLink } from '@angular/router';
     </header>
   `,
 })
-export class HeaderComponent {
+export class HeaderWidget {
   title = '🚀 Astro Bookings';
   isAuthenticated = false;
   menu = [

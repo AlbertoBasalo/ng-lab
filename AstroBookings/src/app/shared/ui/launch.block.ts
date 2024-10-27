@@ -3,6 +3,11 @@ import { ChangeDetectionStrategy, Component, input, InputSignal } from '@angular
 import { LaunchDto } from '@models/launch.dto';
 import { LaunchTitlePipe } from '@ui/launch-title.pipe';
 
+/**
+ * Launch block component
+ * - Displays the launch details
+ * - Styles the launch status
+ */
 @Component({
   selector: 'lab-launch',
   standalone: true,
@@ -38,5 +43,9 @@ import { LaunchTitlePipe } from '@ui/launch-title.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LaunchBlock {
+  // Input signals (sent from parent via [input])
+  /**
+   * Launch object, sent from the parent component
+   */
   launch: InputSignal<LaunchDto> = input.required<LaunchDto>();
 }

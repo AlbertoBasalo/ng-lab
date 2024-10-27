@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   input,
@@ -18,6 +19,7 @@ import { RocketDto } from '@models/rocket.dto';
 @Component({
   selector: 'lab-book-form',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   template: `
     <main>
@@ -56,34 +58,73 @@ import { RocketDto } from '@models/rocket.dto';
 })
 export class BookFormComponent {
   // Inputs signals (sent from parent via [input])
+  /**
+   * Rocket object, sent from the parent component
+   */
   rocket: InputSignal<RocketDto> = input.required<RocketDto>();
+  /**
+   * Current travelers, sent from the parent component
+   */
   currentTravelers: InputSignal<number> = input.required<number>();
   // Outputs emitter (sent to parent via (output))
+  /**
+   * Output emitter for the book-travel event with the number of new travelers
+   */
   bookTravel: OutputEmitterRef<number> = output<number>();
 
-  // Signals
+  // Writable signals (updated from the user input)
+  /**
+   * New travelers, updated from the user input
+   */
   newTravelers: WritableSignal<number> = signal(0);
+  /**
+   * Booked travelers, updated from the user input
+   */
   bookedTravelers: WritableSignal<number> = signal(0);
 
-  // Computed (derived values)
+  // Computed signals (derived values)
+  /**
+   * Total travelers, computed from the current travelers and the new travelers
+   */
   totalTravelers: Signal<number> = computed(() => this.currentTravelers() + this.newTravelers());
+  /**
+   * Max new travelers, computed from the rocket capacity and the current travelers
+   */
   maxNewTravelers: Signal<number> = computed(
     () => this.rocket().capacity - this.currentTravelers(),
   );
-
+  /**
+   * Boolean signal to check if there is nothing to book
+   */
   hasNothingToBook: Signal<boolean> = computed(() => this.newTravelers() === 0);
+  /**
+   * Boolean signal to check if the form can be booked
+   */
   canBeBooked: Signal<boolean> = computed(() => !this.bookedTravelers());
 
   // Methods (event handlers)
+  /**
+   * Event handler for the new travelers change
+   * - Ensures the new travelers value is not greater than the max new travelers
+   * @param event - Event object (pointer to the input element)
+   */
   onNewTravelersChange(event: Event) {
-    const max = this.maxNewTravelers();
     const newTravelers = (event.target as HTMLInputElement).valueAsNumber;
+    const max = this.maxNewTravelers();
     this.newTravelers.set(Math.min(newTravelers, max));
   }
+  /**
+   * Event handler for the book button
+   * - Emits the new travelers value to the parent component
+   */
   onBookClick() {
     this.bookTravel.emit(this.newTravelers());
     this.bookedTravelers.set(this.newTravelers());
   }
+  /**
+   * Event handler for the clean button
+   * - Resets the new travelers value to 0
+   */
   onCleanClick() {
     this.newTravelers.set(0);
   }

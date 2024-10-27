@@ -21,7 +21,6 @@ import { LaunchHeaderComponent } from './launch-header.component';
  * Display the launch details and the booking form
  */
 @Component({
-  selector: 'lab-bookings',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [LaunchHeaderComponent, BookFormComponent],
@@ -37,22 +36,46 @@ import { LaunchHeaderComponent } from './launch-header.component';
 })
 export default class BookingsPage {
   // Input signals
+  /**
+   * Launch id, comes from the route :id param
+   */
   id: InputSignal<string> = input.required<string>();
 
   // Writable signals
+  /**
+   * New travelers, comes from the book form
+   */
   newTravelers: WritableSignal<number> = signal(0);
 
   // Computed signals
+  /**
+   * Launch object, computed from the id
+   * Default to NULL_LAUNCH if not found
+   */
   launch: Signal<LaunchDto> = computed(
     () => LAUNCHES_DB.find((launch) => launch.id === this.id()) || NULL_LAUNCH,
   );
+  /**
+   * Rocket object, computed from the launch
+   * Default to NULL_ROCKET if not found
+   */
   rocket: Signal<RocketDto> = computed(
     () => ROCKETS_DB.find((rocket) => rocket.id === this.launch().rocketId) || NULL_ROCKET,
   );
+  /**
+   * Current travelers, computed from the rocket capacity and a random number
+   */
   currentTravelers: Signal<number> = computed(() =>
     Math.floor(this.rocket().capacity * Math.random()),
   );
+  /**
+   * Total travelers, computed from the current travelers and the new travelers
+   */
   totalTravelers: Signal<number> = computed(() => this.currentTravelers() + this.newTravelers());
+  /**
+   * Launch status, computed from the total travelers and the rocket capacity
+   * It is used as a readonly signal in the launch header component
+   */
   launchStatus: Signal<LaunchStatus> = computed(() => {
     const occupation = this.totalTravelers() / this.rocket().capacity;
     if (occupation > 0.9) {
@@ -63,20 +86,28 @@ export default class BookingsPage {
   });
 
   // Effects
+  /**
+   * Effect to save the launch status to the database
+   * - It is triggered when the launch status changes
+   * - It returns a cloned object to force the template update
+   */
   saveLaunchEffect = effect(() => {
-    if (this.launchStatus() !== this.launch().status) {
-      const updatedLaunch = {
-        ...this.launch(),
-        status: this.launchStatus(),
-      };
-      const launchIndex = LAUNCHES_DB.findIndex((launch) => launch.id === this.id());
-      if (launchIndex !== -1) {
-        LAUNCHES_DB[launchIndex] = updatedLaunch;
-      }
-    }
+    if (this.launch().status === this.launchStatus()) return;
+    const updatedLaunch = {
+      ...this.launch(),
+      status: this.launchStatus(),
+    };
+    const launchIndex = LAUNCHES_DB.findIndex((launch) => launch.id === this.id());
+    if (launchIndex === -1) return;
+    LAUNCHES_DB[launchIndex] = updatedLaunch;
   });
 
   // Methods (event handlers)
+  /**
+   * Event handler for the book form
+   * - Triggers when the user books a new traveler
+   * @param newTravelers - Number of new travelers
+   */
   onBookTravel(newTravelers = 0) {
     console.log('Booked travelers:', newTravelers);
     this.newTravelers.set(newTravelers);
