@@ -14,6 +14,10 @@ export const routes: Routes = [
     loadComponent: () => import('./routes/login/login.page'),
   },
   {
+    path: 'register',
+    loadComponent: () => import('./routes/register/register.page'),
+  },
+  {
     path: 'launches/:id/bookings',
     loadComponent: () => import('./routes/launches/bookings/bookings.page'),
   },
