@@ -93,9 +93,7 @@ export class RegisterComponent {
   readonly acceptedTerms = model<boolean>(false);
   readonly sendRegisterDto = output<RegisterDto>();
 
-  readonly passwordsMatch = computed(
-    () => this.password() !== '' && this.password() === this.repeatedPassword(),
-  );
+  readonly passwordsMatch = computed(() => this.password() === this.repeatedPassword());
 
   readonly registerDto = computed<RegisterDto>(() => ({
     username: this.username(),

@@ -5,7 +5,7 @@ export const ROCKETS_DB: RocketDto[] = [
     id: 'rkt_1',
     agencyId: 'usr_a1',
     name: 'Falcon Heavy',
-    capacity: 100,
+    capacity: 6,
     range: 'mars',
   },
   {
@@ -19,7 +19,7 @@ export const ROCKETS_DB: RocketDto[] = [
     id: 'rkt_3',
     agencyId: 'usr_a1',
     name: 'Starship',
-    capacity: 100,
+    capacity: 10,
     range: 'mars',
   },
   {
@@ -40,14 +40,14 @@ export const ROCKETS_DB: RocketDto[] = [
     id: 'rkt_6',
     agencyId: 'usr_a4',
     name: 'EconoRocket',
-    capacity: 20,
+    capacity: 12,
     range: 'low_earth',
   },
   {
     id: 'rkt_7',
     agencyId: 'usr_a4',
     name: 'BudgetExplorer',
-    capacity: 15,
+    capacity: 5,
     range: 'moon',
   },
 ];

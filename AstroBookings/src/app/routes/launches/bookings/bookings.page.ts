@@ -10,8 +10,10 @@ import {
   WritableSignal,
 } from '@angular/core';
 
+import { BOOKINGS_DB } from '@db/bookings';
 import { LAUNCHES_DB } from '@db/launches';
 import { ROCKETS_DB } from '@db/rockets';
+import { BookingDto } from '@models/booking.dto';
 import { LaunchDto, LaunchStatus, NULL_LAUNCH } from '@models/launch.dto';
 import { NULL_ROCKET, RocketDto } from '@models/rocket.dto';
 import { BookFormComponent } from './book-form.component';
@@ -65,9 +67,12 @@ export default class BookingsPage {
   /**
    * Current travelers, computed from the rocket capacity and a random number
    */
-  currentTravelers: Signal<number> = computed(() =>
-    Math.floor(this.rocket().capacity * Math.random()),
-  );
+  currentTravelers: Signal<number> = computed(() => {
+    // get the bookings for the launch
+    const bookings = BOOKINGS_DB.filter((booking) => booking.launchId === this.id());
+    // return the number of travelers
+    return bookings.reduce((acc, booking) => acc + booking.numberOfSeats, 0);
+  });
   /**
    * Total travelers, computed from the current travelers and the new travelers
    */
@@ -78,7 +83,7 @@ export default class BookingsPage {
    */
   launchStatus: Signal<LaunchStatus> = computed(() => {
     const occupation = this.totalTravelers() / this.rocket().capacity;
-    if (occupation > 0.9) {
+    if (occupation >= 0.8) {
       return 'confirmed';
     } else {
       return 'delayed';
@@ -88,18 +93,30 @@ export default class BookingsPage {
   // Effects
   /**
    * Effect to save the launch status to the database
-   * - It is triggered when the launch status changes
-   * - It returns a cloned object to force the template update
+   * - It is triggered when any signal changes
+   * - It changes the database if the launch status changes
+   * - It creates a new booking if a traveler books a seat
+   * - Both are side effects
    */
   saveLaunchEffect = effect(() => {
-    if (this.launch().status === this.launchStatus()) return;
-    const updatedLaunch = {
-      ...this.launch(),
-      status: this.launchStatus(),
+    const newTravelers = this.newTravelers();
+    const launch = this.launch();
+    const status = this.launchStatus();
+    if (launch.status !== status) {
+      const updatedLaunch = { ...launch, status };
+      const launchIndex = LAUNCHES_DB.findIndex((l) => l.id === launch.id);
+      if (launchIndex === -1) return;
+      LAUNCHES_DB[launchIndex] = updatedLaunch;
+    }
+    const newBooking: BookingDto = {
+      id: `bkg_${BOOKINGS_DB.length + 1}`,
+      travelerId: `usr_t1`,
+      launchId: launch.id,
+      numberOfSeats: newTravelers,
+      totalPrice: launch.pricePerSeat * newTravelers,
+      status: 'pending',
     };
-    const launchIndex = LAUNCHES_DB.findIndex((launch) => launch.id === this.id());
-    if (launchIndex === -1) return;
-    LAUNCHES_DB[launchIndex] = updatedLaunch;
+    BOOKINGS_DB.push(newBooking);
   });
 
   // Methods (event handlers)

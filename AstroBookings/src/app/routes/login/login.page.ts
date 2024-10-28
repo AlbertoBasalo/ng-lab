@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { LoginComponent } from './login.component';
 
 export interface LoginDto {
@@ -9,12 +10,13 @@ export interface LoginDto {
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LoginComponent],
+  imports: [LoginComponent, RouterLink],
   template: `
     <lab-login
       [(username)]="username"
       [(password)]="password"
       (sendLoginDto)="onSendLoginDto()"></lab-login>
+    <a routerLink="/register">Don't have an account? Register</a>
   `,
 })
 export default class LoginPage {
@@ -34,7 +36,7 @@ export default class LoginPage {
   }
 }
 
-// ToDo: Forms, validation, etc.
+// Forms, validation, etc.
 // - Use Template Driven Forms
 // - Use ngModel
 // - Use container/presenter pattern

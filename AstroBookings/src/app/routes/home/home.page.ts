@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, Signal, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { BOOKINGS_DB } from '@db/bookings';
 import { LAUNCHES_DB } from '@db/launches';
+import { BookingDto } from '@models/booking.dto';
 import { LaunchDto } from '@models/launch.dto';
 import { LaunchBlock } from '@ui/launch.block';
 
@@ -26,9 +28,9 @@ import { LaunchBlock } from '@ui/launch.block';
           <lab-launch [launch]="launch"></lab-launch>
           @if (['confirmed', 'delayed', 'scheduled'].includes(launch.status)) {
             <footer>
-              <button class="outline" [routerLink]="['launches', launch.id, 'bookings']">
+              <a role="button" class="outline" [routerLink]="['launches', launch.id, 'bookings']">
                 Book now!
-              </button>
+              </a>
             </footer>
           }
         </article>
@@ -38,4 +40,5 @@ import { LaunchBlock } from '@ui/launch.block';
 })
 export default class HomePage {
   launches: Signal<LaunchDto[]> = signal(LAUNCHES_DB);
+  bookings: Signal<BookingDto[]> = signal(BOOKINGS_DB);
 }

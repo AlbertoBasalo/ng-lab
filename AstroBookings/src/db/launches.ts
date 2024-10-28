@@ -9,7 +9,7 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: 'Artemis I',
     destination: 'Moon Orbit',
     pricePerSeat: 28000000,
-    status: 'delayed',
+    status: 'delayed', // 1 booking for 1 seat out of 6 (not enough for confirmed)
   },
   {
     id: 'lnch_2',
@@ -19,7 +19,7 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: 'Space walk',
     destination: 'Low Earth Orbit',
     pricePerSeat: 250000,
-    status: 'confirmed',
+    status: 'confirmed', // 5 seats booked out of 6
   },
   {
     id: 'lnch_3',
@@ -29,7 +29,7 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: 'Red Planet',
     destination: 'Mars',
     pricePerSeat: 55000000,
-    status: 'confirmed',
+    status: 'scheduled', // No bookings
   },
   {
     id: 'lnch_4',
@@ -39,7 +39,7 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: 'Lunar Christmas',
     destination: 'Moon Orbit',
     pricePerSeat: 75000000,
-    status: 'scheduled',
+    status: 'delayed', // 1 booking for 1 seat out of 8 (not enough for confirmed)
   },
   {
     id: 'lnch_5',
@@ -49,7 +49,7 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: 'Orbital Luxury',
     destination: 'Low Earth Orbit ',
     pricePerSeat: 5000000,
-    status: 'launched',
+    status: 'launched', // Past date
   },
   {
     id: 'lnch_6',
@@ -59,7 +59,7 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: 'Budget Orbit',
     destination: 'Low Earth Orbit',
     pricePerSeat: 100000,
-    status: 'scheduled',
+    status: 'delayed', // 3 seats out of 12 (not enough for confirmed)
   },
   {
     id: 'lnch_7',
@@ -69,7 +69,7 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: 'Lunar Valentine',
     destination: 'Moon Orbit',
     pricePerSeat: 500000,
-    status: 'aborted',
+    status: 'confirmed', // 4 seats booked out of 5
   },
   {
     id: 'lnch_8',
@@ -79,7 +79,7 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: 'Spring Equinox Special',
     destination: 'Moon Landing',
     pricePerSeat: 30000000,
-    status: 'scheduled',
+    status: 'scheduled', // No bookings
   },
   {
     id: 'lnch_9',
@@ -89,7 +89,7 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: 'April Fools Orbit',
     destination: 'Low Earth Orbit',
     pricePerSeat: 275000,
-    status: 'scheduled',
+    status: 'delayed', // 1 seat out of 6 (not enough for confirmed)
   },
   {
     id: 'lnch_10',
@@ -99,7 +99,7 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: 'Lunar Gala',
     destination: 'Moon Orbit',
     pricePerSeat: 80000000,
-    status: 'scheduled',
+    status: 'delayed', // 2 seats out of 8 (not enough for confirmed)
   },
   {
     id: 'lnch_11',
@@ -109,7 +109,7 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: 'Summer Solstice Orbit',
     destination: 'Low Earth Orbit',
     pricePerSeat: 110000,
-    status: 'scheduled',
+    status: 'scheduled', // No bookings
   },
   {
     id: 'lnch_12',
@@ -119,7 +119,7 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: 'Independence Day Mars',
     destination: 'Mars',
     pricePerSeat: 60000000,
-    status: 'launched',
+    status: 'launched', // Past date
   },
   {
     id: 'lnch_13',
@@ -129,7 +129,7 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: 'Lucky Orbit',
     destination: 'Low Earth Orbit',
     pricePerSeat: 5500000,
-    status: 'scheduled',
+    status: 'scheduled', // No bookings
   },
   {
     id: 'lnch_14',
@@ -139,7 +139,7 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: 'Autumn Equinox Adventure',
     destination: 'Low Earth Orbit',
     pricePerSeat: 280000,
-    status: 'scheduled',
+    status: 'scheduled', // No bookings
   },
   {
     id: 'lnch_15',
@@ -149,7 +149,7 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: 'Halloween Moon',
     destination: 'Moon',
     pricePerSeat: 550000,
-    status: 'scheduled',
+    status: 'confirmed', // 4 seats booked out of 5
   },
   {
     id: 'lnch_16',
@@ -159,7 +159,7 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: 'Thanksgiving in Space',
     destination: 'Moon Orbit',
     pricePerSeat: 32000000,
-    status: 'scheduled',
+    status: 'scheduled', // No bookings
   },
   {
     id: 'lnch_17',
@@ -169,6 +169,6 @@ export const LAUNCHES_DB: LaunchDto[] = [
     mission: "New Year's Eve on the Moon",
     destination: 'Moon Landing',
     pricePerSeat: 85000000,
-    status: 'launched',
+    status: 'launched', // Past date
   },
 ];
