@@ -38,18 +38,21 @@ import { LaunchHeaderComponent } from './launch-header.component';
 })
 export default class BookingsPage {
   // Input signals
+
   /**
    * Launch id, comes from the route :id param
    */
   id: InputSignal<string> = input.required<string>();
 
   // Writable signals
+
   /**
    * New travelers, comes from the book form
    */
   newTravelers: WritableSignal<number> = signal(0);
 
   // Computed signals
+
   /**
    * Launch object, computed from the id
    * Default to NULL_LAUNCH if not found
@@ -65,7 +68,7 @@ export default class BookingsPage {
     () => ROCKETS_DB.find((rocket) => rocket.id === this.launch().rocketId) || NULL_ROCKET,
   );
   /**
-   * Current travelers, computed from the rocket capacity and a random number
+   * Current travelers, computed from the number of seats booked for this launch
    */
   currentTravelers: Signal<number> = computed(() => {
     // get the bookings for the launch
@@ -91,6 +94,7 @@ export default class BookingsPage {
   });
 
   // Effects
+
   /**
    * Effect to save the launch status to the database
    * - It is triggered when any signal changes
@@ -99,15 +103,19 @@ export default class BookingsPage {
    * - Both are side effects
    */
   saveLaunchEffect = effect(() => {
+    // signal triggers
     const newTravelers = this.newTravelers();
     const launch = this.launch();
     const status = this.launchStatus();
+    // side effects
+    // update the launch status in the database
     if (launch.status !== status) {
       const updatedLaunch = { ...launch, status };
       const launchIndex = LAUNCHES_DB.findIndex((l) => l.id === launch.id);
       if (launchIndex === -1) return;
       LAUNCHES_DB[launchIndex] = updatedLaunch;
     }
+    // create a new booking in the database
     const newBooking: BookingDto = {
       id: `bkg_${BOOKINGS_DB.length + 1}`,
       travelerId: `usr_t1`,
@@ -120,6 +128,7 @@ export default class BookingsPage {
   });
 
   // Methods (event handlers)
+
   /**
    * Event handler for the book form
    * - Triggers when the user books a new traveler
