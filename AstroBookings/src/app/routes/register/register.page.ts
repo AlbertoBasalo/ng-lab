@@ -1,16 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { RegisterComponent } from './register.component';
-
-/**
- * Register DTO interface
- */
-export interface RegisterDto {
-  username: string;
-  email: string;
-  password: string;
-  acceptedTerms: boolean;
-}
+import { RegisterDto } from './register.dto';
 
 /**
  * Register page component

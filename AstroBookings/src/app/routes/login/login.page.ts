@@ -10,14 +10,6 @@ import { RouterLink } from '@angular/router';
 import { LoginComponent } from './login.component';
 
 /**
- * Login DTO interface
- */
-export interface LoginDto {
-  username: string;
-  password: string;
-}
-
-/**
  * Login page component
  */
 @Component({

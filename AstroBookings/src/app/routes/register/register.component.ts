@@ -1,7 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, computed, model, ModelSignal, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RegisterDto } from './register.page';
+import { RegisterDto } from './register.dto';
 
 /**
  * Register presenter form component
