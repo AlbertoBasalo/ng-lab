@@ -2,6 +2,9 @@ import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { RegisterComponent } from './register.component';
 
+/**
+ * Register DTO interface
+ */
 export interface RegisterDto {
   username: string;
   email: string;
@@ -9,22 +12,26 @@ export interface RegisterDto {
   acceptedTerms: boolean;
 }
 
+/**
+ * Register page component
+ */
 @Component({
   standalone: true,
   imports: [RegisterComponent, JsonPipe],
   template: `
     <h2>Register</h2>
     <lab-register (sendRegisterDto)="onRegister($event)" />
-    @if (lastRegisterDto) {
-      <pre>{{ lastRegisterDto | json }}</pre>
-    }
+    <a routerLink="/login">Already have an account? Login</a>
   `,
 })
 export default class RegisterPage {
-  lastRegisterDto: RegisterDto | null = null;
+  // Event handler
 
+  /**
+   * Register event handler, sent from the presenter
+   * @param registerDto - Register DTO from the presenter form
+   */
   onRegister(registerDto: RegisterDto) {
     console.log('Register submitted', registerDto);
-    this.lastRegisterDto = registerDto;
   }
 }

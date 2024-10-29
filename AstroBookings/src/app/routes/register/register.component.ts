@@ -1,8 +1,11 @@
 import { JsonPipe } from '@angular/common';
-import { Component, computed, model, output } from '@angular/core';
+import { Component, computed, model, ModelSignal, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RegisterDto } from './register.page';
 
+/**
+ * Register presenter form component
+ */
 @Component({
   selector: 'lab-register',
   standalone: true,
@@ -58,8 +61,8 @@ import { RegisterDto } from './register.page';
         [(ngModel)]="repeatedPassword"
         #repeatedPasswordInput="ngModel"
         required
-        [attr.aria-invalid]="!passwordsMatch()" />
-      @if (!passwordsMatch()) {
+        [attr.aria-invalid]="areDifferentPasswords()" />
+      @if (areDifferentPasswords()) {
         <small>Passwords don't match</small>
       }
       <div class="terms">
@@ -78,27 +81,62 @@ import { RegisterDto } from './register.page';
       </div>
       <button
         type="submit"
-        (click)="sendRegisterDto.emit(registerDto())"
-        [disabled]="registerForm.invalid || !passwordsMatch()">
+        (click)="onRegisterClick()"
+        [disabled]="registerForm.invalid || areDifferentPasswords()">
         Register
       </button>
     </form>
   `,
 })
 export class RegisterComponent {
-  readonly username = model<string>('');
-  readonly email = model<string>('');
-  readonly password = model<string>('');
-  readonly repeatedPassword = model<string>('');
-  readonly acceptedTerms = model<boolean>(false);
+  // Model signals (writable input and output)
+
+  /**
+   * Username, model signal
+   */
+  readonly username: ModelSignal<string> = model<string>('');
+  /**
+   * Email, model signal
+   */
+  readonly email: ModelSignal<string> = model<string>('');
+  /**
+   * Password, model signal
+   */
+  readonly password: ModelSignal<string> = model<string>('');
+  /**
+   * Repeated password, model signal
+   */
+  readonly repeatedPassword: ModelSignal<string> = model<string>('');
+  /**
+   * Accepted terms, model signal
+   */
+  readonly acceptedTerms: ModelSignal<boolean> = model<boolean>(false);
+  /**
+   * Send register DTO event, sent to the parent
+   */
   readonly sendRegisterDto = output<RegisterDto>();
 
-  readonly passwordsMatch = computed(() => this.password() === this.repeatedPassword());
+  // Computed signals
 
-  readonly registerDto = computed<RegisterDto>(() => ({
-    username: this.username(),
-    email: this.email(),
-    password: this.password(),
-    acceptedTerms: this.acceptedTerms(),
-  }));
+  /**
+   * Passwords do not match,
+   * - computed signal to validate repeated password
+   */
+  readonly areDifferentPasswords = computed(() => this.password() !== this.repeatedPassword());
+
+  // Event handler
+
+  /**
+   * Register DTO click handler
+   * - Emits the register DTO
+   */
+  onRegisterClick() {
+    const registerDto = {
+      username: this.username(),
+      email: this.email(),
+      password: this.password(),
+      acceptedTerms: this.acceptedTerms(),
+    };
+    this.sendRegisterDto.emit(registerDto);
+  }
 }

@@ -1,12 +1,25 @@
-import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LoginComponent } from './login.component';
 
+/**
+ * Login DTO interface
+ */
 export interface LoginDto {
   username: string;
   password: string;
 }
 
+/**
+ * Login page component
+ */
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,24 +33,43 @@ export interface LoginDto {
   `,
 })
 export default class LoginPage {
-  readonly username = signal<string>('admin');
-  readonly password = signal<string>('secret');
+  // Writable signals
+
+  /**
+   * Username, default to 'admin'
+   */
+  readonly username: WritableSignal<string> = signal('admin');
+  /**
+   * Password, default to 'secret'
+   */
+  readonly password: WritableSignal<string> = signal('secret');
+
+  // Computed signals
+
+  /**
+   * Login DTO, computed from the username and the password
+   */
   private readonly loginDto = computed(() => ({
     username: this.username(),
     password: this.password(),
   }));
 
+  // Effects
+
+  /**
+   * Effect to log the username and the password
+   * - Runs when the username or the password changes
+   */
   private readonly changeEffect = effect(() => {
     console.log(this.username(), this.password());
   });
 
+  // Methods (event handlers)
+
+  /**
+   * Method to send the login DTO to the API
+   */
   onSendLoginDto() {
     console.log('onSendLoginDto', this.loginDto());
   }
 }
-
-// Forms, validation, etc.
-// - Use Template Driven Forms
-// - Use ngModel
-// - Use container/presenter pattern
-// - Use model signal to communicate with the presenter

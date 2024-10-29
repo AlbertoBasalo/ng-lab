@@ -1,7 +1,10 @@
 import { JsonPipe } from '@angular/common';
-import { Component, model, output } from '@angular/core';
+import { Component, model, ModelSignal, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+/**
+ * Presenter form component
+ */
 @Component({
   selector: 'lab-login',
   standalone: true,
@@ -43,7 +46,36 @@ import { FormsModule } from '@angular/forms';
   `,
 })
 export class LoginComponent {
-  readonly username = model<string>('');
-  readonly password = model<string>('');
+  // Model signals (writable input and output)
+
+  /**
+   * Username, model signal
+   * - Comes from the parent
+   * - Bound to the input field
+   * - Sends to the parent
+   */
+  readonly username: ModelSignal<string> = model<string>('');
+  /**
+   * Password, model signal
+   * - Comes from the parent
+   * - Bound to the input field
+   * - Sends to the parent
+   */
+  readonly password: ModelSignal<string> = model<string>('');
+
+  // Output event (sent to parent)
+
+  /**
+   * Send login DTO event, sent to the parent
+   * - Currently send no value
+   * - The value is at the model properties
+   * - Can be rewritten to send a computed DTO
+   */
   readonly sendLoginDto = output<void>();
 }
+
+// Forms, validation, etc.
+// - Use Template Driven Forms
+// - Use ngModel
+// - Use container/presenter pattern
+// - Use model signal to communicate with the presenter
