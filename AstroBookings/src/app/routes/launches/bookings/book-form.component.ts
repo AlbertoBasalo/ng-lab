@@ -40,15 +40,10 @@ import { RocketDto } from '@models/rocket.dto';
     @if (canBeBooked()) {
       <footer>
         <span>
-          <button (click)="onBookClick()" class="outline" [disabled]="hasNothingToBook()">
-            Book now!
-          </button>
+          <button (click)="onBookClick()" class="outline" [disabled]="isClean()">Book now!</button>
         </span>
         <span>
-          <button
-            (click)="onCleanClick()"
-            class="outline secondary"
-            [disabled]="hasNothingToBook()">
+          <button (click)="onCleanClick()" class="outline secondary" [disabled]="isClean()">
             Clean
           </button>
         </span>
@@ -78,7 +73,7 @@ export class BookFormComponent {
    */
   newTravelers: WritableSignal<number> = signal(0);
   /**
-   * Booked travelers, updated from the user input
+   * Booked travelers, updated when the book button is clicked
    */
   bookedTravelers: WritableSignal<number> = signal(0);
 
@@ -94,13 +89,13 @@ export class BookFormComponent {
     () => this.rocket().capacity - this.currentTravelers(),
   );
   /**
-   * Boolean signal to check if there is nothing to book
+   * Boolean signal to check if the form is clean (no travelers booked yet)
    */
-  hasNothingToBook: Signal<boolean> = computed(() => this.newTravelers() === 0);
+  isClean: Signal<boolean> = computed(() => this.newTravelers() === 0);
   /**
-   * Boolean signal to check if the form can be booked
+   * Boolean signal to check if the form can be booked (no travelers booked yet)
    */
-  canBeBooked: Signal<boolean> = computed(() => !this.bookedTravelers());
+  canBeBooked: Signal<boolean> = computed(() => this.bookedTravelers() === 0);
 
   // Methods (event handlers)
   /**
@@ -116,6 +111,7 @@ export class BookFormComponent {
   /**
    * Event handler for the book button
    * - Emits the new travelers value to the parent component
+   * - Updates the booked travelers value
    */
   onBookClick() {
     this.bookTravel.emit(this.newTravelers());
