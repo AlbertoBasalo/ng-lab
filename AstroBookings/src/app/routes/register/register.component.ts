@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, computed, model, ModelSignal, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ValidPasswordDirective } from '@ui/valid-password.directive';
 import { RegisterDto } from './register.dto';
 
 /**
@@ -9,7 +10,7 @@ import { RegisterDto } from './register.dto';
 @Component({
   selector: 'lab-register',
   standalone: true,
-  imports: [FormsModule, JsonPipe],
+  imports: [FormsModule, JsonPipe, ValidPasswordDirective],
   template: `
     <form #registerForm="ngForm">
       <label for="username">Username</label>
@@ -49,6 +50,7 @@ import { RegisterDto } from './register.dto';
         required
         minlength="4"
         maxlength="20"
+        labValidPassword
         [attr.aria-invalid]="passwordInput.invalid" />
       @if (passwordInput.errors) {
         <small>{{ passwordInput.errors | json }}</small>
