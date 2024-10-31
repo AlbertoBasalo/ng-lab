@@ -3,11 +3,13 @@ import {
   Component,
   computed,
   effect,
+  inject,
   signal,
   WritableSignal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LoginComponent } from './login.component';
+import { LoginService } from './login.service';
 
 /**
  * Login page component
@@ -25,6 +27,9 @@ import { LoginComponent } from './login.component';
   `,
 })
 export default class LoginPage {
+  // Injectable services
+  readonly loginService = inject(LoginService);
+
   // Writable signals
 
   /**
@@ -62,6 +67,6 @@ export default class LoginPage {
    * Method to send the login DTO to the API
    */
   onSendLoginDto() {
-    console.log('onSendLoginDto', this.loginDto());
+    this.loginService.login(this.loginDto());
   }
 }

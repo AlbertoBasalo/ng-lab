@@ -1,6 +1,8 @@
 import { JsonPipe } from '@angular/common';
 import { Component, model, ModelSignal, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ControlBlock } from '@ui/control.block';
+import { ValidPasswordDirective } from '@ui/valid-password.directive';
 
 /**
  * Presenter form component
@@ -8,10 +10,10 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'lab-login',
   standalone: true,
-  imports: [FormsModule, JsonPipe],
+  imports: [FormsModule, JsonPipe, ControlBlock, ValidPasswordDirective],
   template: `
     <form #loginForm="ngForm">
-      <label for="username">Username</label>
+      <!--  <label for="username">Username</label>
       <input
         type="text"
         id="username"
@@ -24,8 +26,21 @@ import { FormsModule } from '@angular/forms';
         [attr.aria-invalid]="usernameInput.invalid" />
       @if (usernameInput.errors) {
         <small>{{ usernameInput.errors | json }}</small>
-      }
-      <label for="password">Password</label>
+      } -->
+      <lab-control label="Username" controlName="username" [control]="usernameInput">
+        <input
+          type="text"
+          id="username"
+          name="username"
+          #usernameInput="ngModel"
+          [(ngModel)]="username"
+          required
+          minlength="3"
+          maxlength="20"
+          [attr.aria-invalid]="usernameInput.invalid" />
+      </lab-control>
+
+      <!-- <label for="password">Password</label>
       <input
         type="password"
         id="password"
@@ -39,6 +54,20 @@ import { FormsModule } from '@angular/forms';
       @if (passwordInput.errors) {
         <small>{{ passwordInput.errors | json }}</small>
       }
+        ToDo: use passwordValidator
+        -->
+      <lab-control label="Password" controlName="password" [control]="passwordInput">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          #passwordInput="ngModel"
+          required
+          minlength="4"
+          maxlength="20"
+          [attr.aria-invalid]="passwordInput.invalid" />
+      </lab-control>
       <button type="submit" (click)="sendLoginDto.emit()" [disabled]="loginForm.invalid">
         Login
       </button>
