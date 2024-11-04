@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { RegisterComponent } from './register.component';
 import { RegisterDto } from './register.dto';
@@ -8,7 +7,7 @@ import { RegisterDto } from './register.dto';
  */
 @Component({
   standalone: true,
-  imports: [RegisterComponent, JsonPipe],
+  imports: [RegisterComponent],
   template: `
     <h2>Register</h2>
     <lab-register (sendRegisterDto)="onRegister($event)" />

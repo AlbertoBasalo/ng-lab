@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, computed, model, ModelSignal, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ControlBlock } from '@ui/control.block';
 import { ValidPasswordDirective } from '@ui/valid-password.directive';
 import { RegisterDto } from './register.dto';
 
@@ -10,84 +11,70 @@ import { RegisterDto } from './register.dto';
 @Component({
   selector: 'lab-register',
   standalone: true,
-  imports: [FormsModule, JsonPipe, ValidPasswordDirective],
+  imports: [FormsModule, JsonPipe, ValidPasswordDirective, ControlBlock],
   template: `
-    <form #registerForm="ngForm">
-      <label for="username">Username</label>
-      <input
-        type="text"
-        id="username"
-        name="username"
-        #usernameInput="ngModel"
-        [(ngModel)]="username"
-        required
-        minlength="3"
-        maxlength="20"
-        [attr.aria-invalid]="usernameInput.invalid" />
-      @if (usernameInput.errors) {
-        <small>{{ usernameInput.errors | json }}</small>
-      }
-      <label for="email">Email</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        #emailInput="ngModel"
-        [(ngModel)]="email"
-        required
-        email
-        [attr.aria-invalid]="emailInput.invalid" />
-      @if (emailInput.errors) {
-        <small>{{ emailInput.errors | json }}</small>
-      }
-      <label for="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        [(ngModel)]="password"
-        #passwordInput="ngModel"
-        required
-        minlength="4"
-        maxlength="20"
-        labValidPassword
-        [attr.aria-invalid]="passwordInput.invalid" />
-      @if (passwordInput.errors) {
-        <small>{{ passwordInput.errors | json }}</small>
-      }
-      <label for="repeatedPassword">Repeat Password</label>
-      <input
-        type="password"
-        id="repeatedPassword"
-        name="repeatedPassword"
-        [(ngModel)]="repeatedPassword"
-        #repeatedPasswordInput="ngModel"
-        required
-        [attr.aria-invalid]="areDifferentPasswords()" />
-      @if (areDifferentPasswords()) {
-        <small>Passwords don't match</small>
-      }
-      <div class="terms">
-        <input
-          type="checkbox"
-          id="terms"
-          name="terms"
-          [(ngModel)]="acceptedTerms"
-          #termsInput="ngModel"
-          required
-          [attr.aria-invalid]="termsInput.invalid" />
-        <label for="terms">I accept the terms and conditions</label>
-        @if (termsInput.errors) {
-          <p><small>You must accept the terms</small></p>
-        }
-      </div>
+    <form #form="ngForm">
+      <fieldset>
+        <lab-control label="User name" [control]="usernameInput">
+          <input
+            type="text"
+            id="username"
+            name="username"
+            #usernameInput="ngModel"
+            [(ngModel)]="username"
+            required
+            minlength="3"
+            maxlength="20"
+            [attr.aria-invalid]="usernameInput.invalid" />
+        </lab-control>
+        <lab-control [control]="emailInput">
+          <input
+            type="email"
+            id="email"
+            name="email"
+            #emailInput="ngModel"
+            [(ngModel)]="email"
+            required
+            email
+            minlength="3"
+            maxlength="20"
+            [attr.aria-invalid]="emailInput.invalid" />
+        </lab-control>
+        <lab-control [control]="passwordInput">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="password"
+            #passwordInput="ngModel"
+            required
+            minlength="4"
+            maxlength="20"
+            labValidPassword
+            [attr.aria-invalid]="passwordInput.invalid" />
+        </lab-control>
+        <lab-control label="Repeat Password" [control]="repeatPasswordInput">
+          <input
+            type="password"
+            id="repeatPassword"
+            name="repeatPassword"
+            [(ngModel)]="repeatedPassword"
+            #repeatPasswordInput="ngModel"
+            [attr.aria-invalid]="areDifferentPasswords()" />
+          @if (areDifferentPasswords()) {
+            <small>Passwords are different</small>
+          }
+        </lab-control>
+      </fieldset>
       <button
         type="submit"
         (click)="onRegisterClick()"
-        [disabled]="registerForm.invalid || areDifferentPasswords()">
+        [disabled]="form.invalid || areDifferentPasswords()">
         Register
       </button>
     </form>
+    <pre>{{ form.value | json }}</pre>
+    <pre>Password checked {{ times }} times</pre>
   `,
 })
 export class RegisterComponent {
@@ -120,11 +107,23 @@ export class RegisterComponent {
 
   // Computed signals
 
+  public times = 0;
+
+  // public areDifferentPasswords() {
+  //   this.times++;
+  //   return this.password !== this.repeatPassword;
+  // }
+
   /**
    * Passwords do not match,
    * - computed signal to validate repeated password
    */
-  readonly areDifferentPasswords = computed(() => this.password() !== this.repeatedPassword());
+  public areDifferentPasswords = computed(() => {
+    this.times++;
+    return this.password() !== this.repeatedPassword();
+  });
+
+  // readonly areDifferentPasswords = computed(() => this.password() !== this.repeatedPassword());
 
   // Event handler
 
