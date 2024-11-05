@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, Signal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LAUNCHES_DB } from '@db/launches';
 import { LaunchDto } from '@models/launch.dto';
 import { LaunchBlock } from '@ui/launch.block';
+import { HomeService } from './home.service';
 
 /**
  * Home page with a list of launches
@@ -37,10 +37,13 @@ import { LaunchBlock } from '@ui/launch.block';
   `,
 })
 export default class HomePage {
+  // Injectable services
+  readonly homeService = inject(HomeService);
+
   // Read-only signals
 
   /**
    * List of launches, read-only signal
    */
-  readonly launches: Signal<LaunchDto[]> = signal(LAUNCHES_DB);
+  readonly launches: Signal<LaunchDto[]> = this.homeService.launches;
 }
