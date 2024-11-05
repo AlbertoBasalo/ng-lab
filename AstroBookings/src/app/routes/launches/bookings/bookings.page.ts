@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   effect,
+  inject,
   input,
   InputSignal,
   Signal,
@@ -10,14 +11,13 @@ import {
   WritableSignal,
 } from '@angular/core';
 
-import { BOOKINGS_DB } from '@db/bookings';
-import { LAUNCHES_DB } from '@db/launches';
-import { ROCKETS_DB } from '@db/rockets';
-import { BookingDto } from '@models/booking.dto';
 import { LaunchDto, LaunchStatus, NULL_LAUNCH } from '@models/launch.dto';
 import { NULL_ROCKET, RocketDto } from '@models/rocket.dto';
+import { map, tap } from 'rxjs';
 import { BookFormComponent } from './book-form.component';
+import { BookingsService } from './bookings.service';
 import { LaunchHeaderComponent } from './launch-header.component';
+
 /**
  * Bookings page componente
  * Display the launch details and the booking form
@@ -37,6 +37,12 @@ import { LaunchHeaderComponent } from './launch-header.component';
   `,
 })
 export default class BookingsPage {
+  // Injectable services
+  /**
+   * Facade service for the bookings page
+   */
+  readonly bookingsService = inject(BookingsService);
+
   // Input signals
 
   /**
@@ -53,29 +59,29 @@ export default class BookingsPage {
 
   // Computed signals
 
+  // launch: Signal<LaunchDto> = computed(
+  //   () => LAUNCHES_DB.find((launch) => launch.id === this.id()) || NULL_LAUNCH,
+  // );
+
   /**
-   * Launch object, computed from the id
-   * Default to NULL_LAUNCH if not found
+   * Launch signal, set by the getLaunchEffect
    */
-  launch: Signal<LaunchDto> = computed(
-    () => LAUNCHES_DB.find((launch) => launch.id === this.id()) || NULL_LAUNCH,
-  );
+  launch: WritableSignal<LaunchDto> = signal(NULL_LAUNCH);
+
+  // rocket: Signal<RocketDto> = computed(
+  //   () => ROCKETS_DB.find((rocket) => rocket.id === this.launch().rocketId) || NULL_ROCKET,
+  // );
+
   /**
-   * Rocket object, computed from the launch
-   * Default to NULL_ROCKET if not found
+   * Rocket signal, set by the getRocketEffect
    */
-  rocket: Signal<RocketDto> = computed(
-    () => ROCKETS_DB.find((rocket) => rocket.id === this.launch().rocketId) || NULL_ROCKET,
-  );
+  rocket: WritableSignal<RocketDto> = signal(NULL_ROCKET);
+
   /**
-   * Current travelers, computed from the number of seats booked for this launch
+   * Current travelers, set by the getBookingsEffect
    */
-  currentTravelers: Signal<number> = computed(() => {
-    // get the bookings for the launch
-    const bookings = BOOKINGS_DB.filter((booking) => booking.launchId === this.id());
-    // return the number of travelers
-    return bookings.reduce((acc, booking) => acc + booking.numberOfSeats, 0);
-  });
+  currentTravelers: WritableSignal<number> = signal(0);
+
   /**
    * Total travelers, computed from the current travelers and the new travelers
    */
@@ -96,6 +102,54 @@ export default class BookingsPage {
   // Effects
 
   /**
+   * Effect to get the launch from the API when the id changes
+   */
+  getLaunchEffect = effect(
+    () => {
+      const id = this.id();
+      if (!id) return;
+      this.bookingsService.getLaunch$(id).subscribe((launch) => this.launch.set(launch));
+    },
+    {
+      allowSignalWrites: true,
+    },
+  );
+
+  /**
+   * Effect to get the rocket from the API when the launch changes
+   */
+  getRocketEffect = effect(
+    () => {
+      const rocketId = this.launch().rocketId;
+      if (!rocketId) return;
+      this.bookingsService.getRocket$(rocketId).subscribe((rocket) => this.rocket.set(rocket));
+    },
+    {
+      allowSignalWrites: true,
+    },
+  );
+
+  /**
+   * Effect to get the bookings from the API when the launch changes
+   */
+  getBookingsEffect = effect(
+    () => {
+      const id = this.id();
+      if (!id) return;
+      this.bookingsService
+        .getBookings$(id)
+        .pipe(
+          map((bookings) => bookings.reduce((acc, booking) => acc + booking.numberOfSeats, 0)),
+          tap((reservedSeats) => this.currentTravelers.set(reservedSeats)),
+        )
+        .subscribe();
+    },
+    {
+      allowSignalWrites: true,
+    },
+  );
+
+  /**
    * Effect to save the launch status to the database
    * - It is triggered when any signal changes
    * - It changes the database if the launch status changes
@@ -108,23 +162,8 @@ export default class BookingsPage {
     const launch = this.launch();
     const status = this.launchStatus();
     // side effects
-    // update the launch status in the database
-    if (launch.status !== status) {
-      const updatedLaunch = { ...launch, status };
-      const launchIndex = LAUNCHES_DB.findIndex((l) => l.id === launch.id);
-      if (launchIndex === -1) return;
-      LAUNCHES_DB[launchIndex] = updatedLaunch;
-    }
-    // create a new booking in the database
-    const newBooking: BookingDto = {
-      id: `bkg_${BOOKINGS_DB.length + 1}`,
-      travelerId: `usr_t1`,
-      launchId: launch.id,
-      numberOfSeats: newTravelers,
-      totalPrice: launch.pricePerSeat * newTravelers,
-      status: 'pending',
-    };
-    BOOKINGS_DB.push(newBooking);
+    this.bookingsService.updateLaunchStatus(launch, status).subscribe();
+    this.bookingsService.createBooking(launch, newTravelers).subscribe();
   });
 
   // Methods (event handlers)

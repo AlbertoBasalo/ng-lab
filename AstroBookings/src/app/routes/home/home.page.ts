@@ -38,6 +38,9 @@ import { HomeService } from './home.service';
 })
 export default class HomePage {
   // Injectable services
+  /**
+   * Facade service for the home page
+   */
   readonly homeService = inject(HomeService);
 
   // Read-only signals
