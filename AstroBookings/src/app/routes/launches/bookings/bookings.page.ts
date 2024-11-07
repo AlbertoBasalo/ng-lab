@@ -86,6 +86,7 @@ export default class BookingsPage {
    * Total travelers, computed from the current travelers and the new travelers
    */
   totalTravelers: Signal<number> = computed(() => this.currentTravelers() + this.newTravelers());
+
   /**
    * Launch status, computed from the total travelers and the rocket capacity
    * It is used as a readonly signal in the launch header component
@@ -106,9 +107,11 @@ export default class BookingsPage {
    */
   getLaunchEffect = effect(
     () => {
+      // signal triggers
       const id = this.id();
       if (!id) return;
-      this.bookingsService.getLaunch$(id).subscribe((launch) => this.launch.set(launch));
+      // side effects
+      this.bookingsService.getLaunchById$(id).subscribe((launch) => this.launch.set(launch));
     },
     {
       allowSignalWrites: true,
@@ -120,9 +123,14 @@ export default class BookingsPage {
    */
   getRocketEffect = effect(
     () => {
+      // signal triggers
       const rocketId = this.launch().rocketId;
       if (!rocketId) return;
-      this.bookingsService.getRocket$(rocketId).subscribe((rocket) => this.rocket.set(rocket));
+      // side effects
+      this.bookingsService
+        .getRocketById$(rocketId)
+        .pipe(tap((rocket) => this.rocket.set(rocket)))
+        .subscribe();
     },
     {
       allowSignalWrites: true,
@@ -134,10 +142,12 @@ export default class BookingsPage {
    */
   getBookingsEffect = effect(
     () => {
+      // signal triggers
       const id = this.id();
       if (!id) return;
+      // side effects
       this.bookingsService
-        .getBookings$(id)
+        .getBookingsByLaunchId$(id)
         .pipe(
           map((bookings) => bookings.reduce((acc, booking) => acc + booking.numberOfSeats, 0)),
           tap((reservedSeats) => this.currentTravelers.set(reservedSeats)),
@@ -162,8 +172,8 @@ export default class BookingsPage {
     const launch = this.launch();
     const status = this.launchStatus();
     // side effects
-    this.bookingsService.updateLaunchStatus(launch, status).subscribe();
-    this.bookingsService.createBooking(launch, newTravelers).subscribe();
+    this.bookingsService.updateLaunchStatus$(launch, status).subscribe();
+    this.bookingsService.createBooking$(launch, newTravelers).subscribe();
   });
 
   // Methods (event handlers)
