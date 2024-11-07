@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { BookingDto } from '@models/booking.dto';
 import { LaunchDto, LaunchStatus } from '@models/launch.dto';
 import { RocketDto } from '@models/rocket.dto';
+import { environment } from 'environments/environment';
 import { Observable, of } from 'rxjs';
 
 /**
@@ -13,7 +14,7 @@ import { Observable, of } from 'rxjs';
 })
 export class BookingsService {
   readonly http = inject(HttpClient);
-  readonly URL = 'http://localhost:3000/api';
+  readonly URL = environment.apiUrl;
   readonly launchesUrl = `${this.URL}/launches`;
   readonly bookingsUrl = `${this.URL}/bookings`;
   readonly rocketsUrl = `${this.URL}/rockets`;
@@ -60,7 +61,8 @@ export class BookingsService {
    * @returns An observable of the bookings
    */
   getBookingsByLaunchId$(launchId: string): Observable<BookingDto[]> {
-    const url = `${this.bookingsUrl}?key=launchId&value=${launchId}`;
+    // 👾 512 forced error
+    const url = `${this.bookingsUrl}?key=launchId&value=${launchId}&status=512`;
     return this.http.get<BookingDto[]>(url);
   }
 
