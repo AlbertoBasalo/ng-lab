@@ -57,20 +57,10 @@ export default class BookingsPage {
    */
   newTravelers: WritableSignal<number> = signal(0);
 
-  // Computed signals
-
-  // launch: Signal<LaunchDto> = computed(
-  //   () => LAUNCHES_DB.find((launch) => launch.id === this.id()) || NULL_LAUNCH,
-  // );
-
   /**
    * Launch signal, set by the getLaunchEffect
    */
   launch: WritableSignal<LaunchDto> = signal(NULL_LAUNCH);
-
-  // rocket: Signal<RocketDto> = computed(
-  //   () => ROCKETS_DB.find((rocket) => rocket.id === this.launch().rocketId) || NULL_ROCKET,
-  // );
 
   /**
    * Rocket signal, set by the getRocketEffect
@@ -81,6 +71,8 @@ export default class BookingsPage {
    * Current travelers, set by the getBookingsEffect
    */
   currentTravelers: WritableSignal<number> = signal(0);
+
+  // Computed signals
 
   /**
    * Total travelers, computed from the current travelers and the new travelers
@@ -105,7 +97,7 @@ export default class BookingsPage {
   /**
    * Effect to get the launch from the API when the id changes
    */
-  getLaunchEffect = effect(
+  private getLaunchWhenIdChangesEffect = effect(
     () => {
       // signal triggers
       const id = this.id();
@@ -119,28 +111,9 @@ export default class BookingsPage {
   );
 
   /**
-   * Effect to get the rocket from the API when the launch changes
-   */
-  getRocketEffect = effect(
-    () => {
-      // signal triggers
-      const rocketId = this.launch().rocketId;
-      if (!rocketId) return;
-      // side effects
-      this.bookingsService
-        .getRocketById$(rocketId)
-        .pipe(tap((rocket) => this.rocket.set(rocket)))
-        .subscribe();
-    },
-    {
-      allowSignalWrites: true,
-    },
-  );
-
-  /**
    * Effect to get the bookings from the API when the launch changes
    */
-  getBookingsEffect = effect(
+  private getBookingsWhenLaunchIdChangesEffect = effect(
     () => {
       // signal triggers
       const id = this.id();
@@ -160,13 +133,32 @@ export default class BookingsPage {
   );
 
   /**
+   * Effect to get the rocket from the API when the launch changes
+   */
+  private getRocketWhenLaunchChangesEffect = effect(
+    () => {
+      // signal triggers
+      const rocketId = this.launch().rocketId;
+      if (!rocketId) return;
+      // side effects
+      this.bookingsService
+        .getRocketById$(rocketId)
+        .pipe(tap((rocket) => this.rocket.set(rocket)))
+        .subscribe();
+    },
+    {
+      allowSignalWrites: true,
+    },
+  );
+
+  /**
    * Effect to save the launch status to the database
    * - It is triggered when any signal changes
    * - It changes the database if the launch status changes
    * - It creates a new booking if a traveler books a seat
    * - Both are side effects
    */
-  saveLaunchEffect = effect(() => {
+  private saveLaunchWhenAnySignalChangesEffect = effect(() => {
     // signal triggers
     const newTravelers = this.newTravelers();
     const launch = this.launch();

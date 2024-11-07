@@ -46,7 +46,7 @@ export default class HomePage {
   // Read-only signals
 
   /**
-   * List of launches, read-only signal
+   * List of launches, filled by the getLaunches service method
    */
-  readonly launches: Signal<LaunchDto[]> = this.homeService.launches;
+  readonly launches: Signal<LaunchDto[]> = this.homeService.getLaunches();
 }

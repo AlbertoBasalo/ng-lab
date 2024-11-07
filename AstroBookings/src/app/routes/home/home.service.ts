@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { LaunchDto } from '@models/launch.dto';
+import { environment } from 'environments/environment';
+import { Observable, tap } from 'rxjs';
 
 /**
  * Home service, used to get data from the API
@@ -13,13 +15,16 @@ export class HomeService {
   // Injectable services
   readonly http = inject(HttpClient);
   // Read-only signals
-  // readonly launches: Signal<LaunchDto[]> = signal(LAUNCHES_DB);
-  readonly URL = 'http://localhost:3000/api/launches';
+  readonly URL = `${environment.apiUrl}/launches?delay=1000`;
 
   /**
-   * Launches signal, set by the getLaunchesEffect
+   * Get the list of launches as a signal
+   * - Logs errors as a demo of error handling with tap
    */
-  readonly launches: Signal<LaunchDto[]> = toSignal(this.http.get<LaunchDto[]>(this.URL), {
-    initialValue: [],
-  });
+  getLaunches(): Signal<LaunchDto[]> {
+    const getLaunches$: Observable<LaunchDto[]> = this.http
+      .get<LaunchDto[]>(this.URL)
+      .pipe(tap({ error: (err) => console.error('Error', err) }));
+    return toSignal(getLaunches$, { initialValue: [] });
+  }
 }
